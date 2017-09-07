@@ -1,0 +1,7 @@
+<% layout("../layout/index") -%>
+<% block("title", "Produtos"); -%>
+<h1>Produtos - Index</h1>
+<% for (var i = 0; i < resultados.dados.data.length; i++) { %>
+  <p><%=resultados.dados.data[i].url_title%></p>
+<%}%>  
+   
