@@ -16,6 +16,7 @@ app.engine('ejs', require('ejs-locals'));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set('shopping', 'TESTE');
-var server     =    app.listen(3000,function(){
-    console.log("Servidor ativado na porta 3000");
+var port = process.env.PORT || 3000;
+var server     =    app.listen(port,function(){
+    console.log("Servidor ativado na porta " + port);
 });
