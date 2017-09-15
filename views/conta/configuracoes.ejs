@@ -1,3 +1,353 @@
 <% layout("../layout/index") -%>
-<% block("title", "Configurações"); -%>
-<h1>Configurações</h1>
+<% block("title", "ON STORES |  Configurações"); -%>
+<div class="fach"></div>
+
+   <div class="full">
+
+    	
+
+        <div id="conteudo">
+
+        
+
+        	<%-partial("lateral")%>
+
+            
+
+          <div class="area">
+
+           	<h1>Configurações <img src="/imagens/icon-config.jpg" width="26" height="23"></h1>
+
+           	 
+
+          	<div class="config">
+
+            	<form action="">
+
+                
+
+                  <input type = "radio" id = "tab1" name = "tabs" checked>
+
+                  <label for = "tab1">Dados pessoais</label>
+
+                  
+
+                  <input type = "radio" id = "tab2" name = "tabs">
+
+                  <label for = "tab2">Endereço</label>
+
+                  
+
+                  <input type = "radio" id = "tab3" name = "tabs">
+
+                  <label for = "tab3">Carteira</label>
+
+                  
+
+                  <input type = "radio" id = "tab4" name = "tabs">
+
+                  <label for = "tab4">Senha</label>
+
+
+
+				
+
+                     <!--Dados pessoais-->
+
+                      <div id="conf1">
+
+                       
+
+                       	<div class="campos50">
+
+                        	<input type="text" value="" placeholder="cpf">   
+
+                        </div>
+
+                        
+
+                        <div class="campos50">
+
+                        	<input type="text" value="" placeholder="email">   
+
+                        </div>
+
+                        
+
+                         <div class="campos50">
+
+                        	<input type="text" value="" placeholder="nome">   
+
+                        </div>
+
+                        
+
+                         <div class="campos50">
+
+                        	<input type="text" value="" placeholder="sobrenome">   
+
+                        </div>
+
+                        
+
+                        <div class="campos50">
+
+                        	<input type="text" value="" placeholder="gênero">   
+
+                        </div>
+
+                        
+
+                        <div class="campos50">
+
+                        	<input type="text" value="" placeholder="aniversário">   
+
+                        </div>
+
+                        
+
+                        <button>Salvar</button>
+
+                           
+
+                      </div><!--dados pessoais-->
+
+                 
+
+                 
+
+                     <!--Endereço--> 
+
+                     <div id="conf2">
+
+                       
+
+                       	<div class="campos30">
+
+                        	<input type="text" value="" placeholder="CEP">   
+
+                        </div>
+
+                        
+
+                        <div class="campos70">
+
+                        	<input type="text" value="" placeholder="rua">   
+
+                        </div>
+
+                        
+
+                        <div class="campos30">
+
+                        	<input type="text" value="" placeholder="número">   
+
+                        </div>
+
+                        
+
+                        <div class="campos70">
+
+                        	<input type="text" value="" placeholder="complemento">   
+
+                        </div>
+
+                        
+
+                         <div class="campos20">
+
+                        	<input type="text" value="" placeholder="bairro">   
+
+                        </div>
+
+                        
+
+                         <div class="campos50">
+
+                        	<input type="text" value="" placeholder="cidade">   
+
+                        </div>
+
+                        
+
+                         <div class="campos30">
+
+                        	<input type="text" value="" placeholder="UF">   
+
+                        </div>
+
+                       
+
+                       
+
+                        <button>Salvar</button>
+
+                      </div>
+
+                      
+
+                      <!--Carteira-->              
+
+                      <div id="conf3">
+
+                       
+
+                         
+
+                         <!----MOstrar quando não tiver carteira----->
+
+                         <!--<div class="sorry">
+
+                            <img src="/imagens/sorry.jpg" width="97" height="89"> 
+
+                            <p> Você ainda não tem uma carteira</p>
+
+                         </div>-->
+
+                         
+
+                         <div class="carteira">
+
+                        	<div>
+
+                                <input type="checkbox" id="c1" name="cb">
+
+                                <label for="c1"></label> 
+
+                            </div>
+
+                            <div> 	Nome do Titular do cartão </div>
+
+                            <div>	Número do Cartão  </div>
+
+                            <div> 5548 xxxx xxxx 2953	 </div> 
+
+                            <div><a href="">Excluir</a></div>                        
+
+                         </div><!--carteira-->
+
+                         
+
+                         <div class="carteira">
+
+                        	<div>
+
+                                <input type="checkbox" id="c2" name="cb">
+
+                                <label for="c2"></label> 
+
+                            </div>
+
+                            <div> 	Nome do Titular do cartão </div>
+
+                            <div>	Número do Cartão  </div>
+
+                            <div> 5548 xxxx xxxx 2953	 </div> 
+
+                             <div><a href="">Excluir</a></div>                          
+
+                         </div><!--carteira-->
+
+                         
+
+                         <div class="carteira">
+
+                        	<div>
+
+                                <input type="checkbox" id="c3" name="cb">
+
+                                <label for="c3"></label> 
+
+                            </div>
+
+                            <div> 	Nome do Titular do cartão </div>
+
+                            <div>	Número do Cartão  </div>
+
+                            <div> 5548 xxxx xxxx 2953	 </div> 
+
+                             <div><a href="">Excluir</a></div>                          
+
+                         </div><!--carteira-->
+
+                         
+
+                        
+
+                      </div>
+
+                      
+
+                      <!--Senha-->
+
+                     <div id="conf4">
+
+                     
+
+                         <div class="campos30">
+
+                                <input type="text" value="" placeholder="senha atual">   
+
+                            </div>
+
+                            
+
+                            <div class="campos30">
+
+                                <input type="text" value="" placeholder="nova senha">   
+
+                            </div>
+
+                            
+
+                            <div class="campos30">
+
+                                <input type="text" value="" placeholder="confirmar senha">   
+
+                            </div>
+
+                     	
+
+                       <div class="clear"></div><br>
+
+                       <p>*A senha deve conter no mínimo 6 caracteres, uma letra maiúscula e algum caractere especial.</p>
+
+                       
+
+                       	<button>Alterar senha</button>
+
+                       
+
+                     </div>
+
+				</form>
+
+          
+
+          	</div><!--config-->
+
+            
+
+          </div><!--area-->
+
+        
+
+        
+
+
+
+        
+
+        
+
+     </div><!--conteudo-->
+
+   
+
+   </div><!--produtos--> 
+
+ </div><!--full-->
+
+
+
+<!------------------Fim produtos---------------------->

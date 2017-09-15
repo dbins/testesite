@@ -17,6 +17,13 @@ module.exports = function (app){
 	app.post("/busca", function(req,res){
 		res.render("site/busca");
 	});
+	
+	app.get("/logout", function(req,res){
+		req.session.destroy();
+		res.redirect('/');
+	});
+	 
+	
 	app.get("/", function(req,res){
 		res.render("home/index");
 	});
