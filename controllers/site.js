@@ -18,13 +18,25 @@ module.exports = function (app){
 		res.render("site/busca");
 	});
 	
+	app.get("/newsletter", function(req,res){
+		res.render("site/newsletter");
+	});
+	app.post("/newsletter", function(req,res){
+		res.render("site/newsletter");
+	});
+	
 	app.get("/logout", function(req,res){
 		req.session.destroy();
 		res.redirect('/');
 	});
-	 
+	
+
 	
 	app.get("/", function(req,res){
-		res.render("home/index");
+		console.log('vou apagar o nome do shopping');
+		app.locals.shopping = '';
+		res.redirect('/home');
 	});
+	
+	
 }

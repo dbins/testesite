@@ -1,175 +1,91 @@
 <% layout("../layout/index") -%>
-<% block("title", "ON Market Place | Cinema | Nome do Shopping"); -%>
-<div class="full">
-
+<% block("title", "ON Market Place | Cinema | " + nome_do_shopping_barra_titulo); -%>
+ <div class="full">
     
-
          <div class="banner">
-
            <div class="container">
-
               <div id="owl-demo" class="owl-carousel">
-
                 
-
+				<% 
+				if (resultados.length>0){
+				resultados.forEach(function(resultado) { 
+				%>
                 <div class="item">
-
-                	<img src="/banner/cinema.jpg" title="Nome do banner">
-
+                	<img src="<%=resultado.image_landscape%>" title="<%=resultado.title%>">
                 	<section>
-
                         <span>20 de agosto</span>
-
-                        <span>Mulher<br> Maravilha</span>
-
-                        <span>Shopping Cidade SP</span>
-
+                        <span><%=resultado.title%></span>
+                        <span><%=nome_shopping(resultado.mall)%></span>
                     </section>
-
                 </div>
-
-                <div class="item">
-
-                	<img src="/banner/cinema.jpg" title="Nome do banner">
-
-                	<section>
-
-                        <span>20 de agosto</span>
-
-                        <span>Mulher<br> Maravilha</span>
-
-                        <span>Shopping Cidade SP</span>
-
-                    </section>
-
-                </div>
-
-                 
-
-            
-
+				<%
+				});
+				}
+				%>
+                
               </div><!--owl demo-->
-
            </div><!--container-->    
-
         </div> <!--banner-->
-
    
-
    <div class="filtro fgrey" id="cinefilter">
-
-   	<form action="" class="cinefilter">
-
+   	<form method="POST" action="" class="cinefilter"  autocomplete="off">
     	<div>
-
         	<label>Data</label> 
-
-            <input type="text" value="" placeholder="__/__/____">            
-
+            <input type="text" name="data" id="data" value="" placeholder="__/__/____" maxlength="10">            
         </div>
-
         <div>
-
-        	<label>Nome da Loja</label> 
-
-            <input type="text" value="" placeholder="">            
-
+        	<label>Nome do filme</label> 
+            <input type="text" name="filme" value="" placeholder="" maxlength="50">            
         </div>
-
                  <div>
-
         	<label>Categoria</label>
-
-            <select class="minimal">
-
-            	<option>Todas</option>
-
-                <option>Categoria 1</option>
-
-                <option>Categoria 2</option>
-
-                <option>Categoria 3</option>
-
+            <select name="categoria" class="minimal">
+            	<option value="">Todas</option>
+				<% 
+				if (categorias.length>0){
+				categorias.forEach(function(resultado) { 
+				%>
+                <option value="<%=resultado%>"><%=resultado%></option>
+				<%
+				});
+				}
+				%>
             </select>
-
         </div>
-
         
-
         <div>
-
-       	<button>Perto de você
-
-        <img src="/imagens/location.png" width="25" height="34">
-
+       	<button type="submit">Perto de você
+        <img src="imagens/location.png" width="25" height="34">
         </button>
-
+		<input type="hidden" name="_csrf" value="<%= csrfToken %>">	
       </div>
-
       
-
     </form>
-
    </div>  <!--filtro-->   
-
-<div id="movies">
-
-
-
-     <a href="/cinema/filme/teste" class="filmes">
-
-        <img src="/imagens/filme.jpg"  title="Nome do filme"> 
-
-        <div class="fline"></div>
-
-        <p>Nome do Filme</p>
-
-     </a>
-
-     
-
-      <a href="/cinema/filme/teste" class="filmes">
-
-        <img src="/imagens/filme.jpg"  title="Nome do filme"> 
-
-        <div class="fline"></div>
-
-        <p>Nome do Filme</p>
-
-     </a>
-
-     
-
-      <a href="/cinema/filme/teste" class="filmes">
-
-        <img src="/imagens/filme.jpg"  title="Nome do filme"> 
-
-        <div class="fline"></div>
-
-        <p>Nome do Filme</p>
-
-     </a>
-
-     
-
-      <a href="/cinema/filme/teste" class="filmes">
-
-        <img src="/imagens/filme.jpg"  title="Nome do filme"> 
-
-        <div class="fline"></div>
-
-        <p>Nome do Filme</p>
-
-     </a>
-
-  
-
- </div><!--moveis-->  
-
-
+	<div id="movies">
+		
+		<% 
+		if (resultados.length>0){
+		resultados.forEach(function(resultado) { 
+		%>
+		 <a href="/cinema/filme/<%=resultado.url_title%>" class="filmes">
+			<img src="<%=resultado.image_portrait%>"  title="<%=resultado.title%>" width=200> 
+			<div class="fline"></div>
+			<p><%=resultado.title%></p>
+		</a>
+		<%
+		});
+		}
+		%>
+		
+	 </div><!--moveis-->  
 
  </div><!--full-->
 
-
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#data").mask("99/99/9999");
+});
+</script>
 
 <!------------------Fim produtos---------------------->

@@ -1,3 +1,119 @@
 <% layout("../layout/index") -%>
-<% block("title", "Detalhe do Evento"); -%>
-<h1>Eventos - Detalhe</h1>
+<% block("title", "ON Market Place | Eventos |" + nome_do_shopping_barra_titulo + " | " + resultados.info.title); -%>
+
+
+<div class="full">
+    
+      <aside class="bannerint">
+        	<img src="<%=caminho_imagem(resultados.mall)%><%=resultados.media.images.main%>" width="1366" height="285" title="<%=resultados.info.title%>">
+            <section>Detalhe do evento</section>
+        </aside> <!--banner-->
+   
+  <article id="conteudo" class="pad">
+  	<a href="/eventos" class="back"><span class="seta-esquerda"></span> Voltar para eventos</a>
+    
+    <div class="titevents">
+    	<h1><%=resultados.info.title%></h1>
+    	<p>Início <span><%=moment(resultados.start_at).format( 'DD-MM-YYYY')%> </span> </p> <p> Término <span><%=moment(resultados.end_at).format( 'DD-MM-YYYY')%></span></p>
+    </div>
+    
+    <div class="clear"></div><br><br>
+    
+    <section id="sobrecine">
+   		<h2>Descrição do Eventos</h2>
+        <%=resultados.info.short_description%>
+            
+    </section>
+  
+    <section class="locationevent">
+      <h2> Horários</h2>
+        
+     
+           	<!---------------EVENTOS DOS SHOPPINGS SHOPPING---------> 
+          	<div class="event">
+              <!---	
+              <table border="0" cellpadding="0" cellspacing="0" class="evn">
+              <tr>
+                <th>Dia</th>
+                <th>Data</th>
+                <th>Horário</th>
+              </tr>
+              <tr>
+                <td>Sexta</td>
+                <td>23/08/2017</td>
+                <td>R$ 150,00</td>
+              </tr>
+              <tr>
+                <td>Sexta</td>
+                <td>23/08/2017</td>
+                <td>R$ 150,00</td>
+              </tr>
+              <tr>
+               <td>Sexta</td>
+                <td>23/08/2017</td>
+                <td>R$ 150,00</td>
+              </tr>
+               <tr>
+                <td>Sexta</td>
+                <td>23/08/2017</td>
+                <td>R$ 150,00</td>
+              </tr>
+               <tr>
+                <td>Sexta</td>
+                <td>23/08/2017</td>
+                <td>R$ 150,00</td>
+              </tr>
+			</table>    
+			---!>
+            <%-resultados.info.description%>
+          	</div><!--event-->
+            
+			<div class="clear"></div><br><br><br>
+
+
+        
+    </section>
+  
+  </article> 
+   
+  
+   <div id="more">
+    
+   		<h3 class="titles" style="width:400px">
+       		<span class="twhite" style="left: 12%">Eventos Similares</span>
+        </h3>
+        
+        <div class="clear"></div><br><br>
+        
+		<% 
+		if (outros.length>0){
+		outros.forEach(function(resultado) { 
+		if (resultado.url_title != resultados.url_title){
+		%>
+        <a href="/eventos/evento/<%=resultado.url_title%>" class="eventos">
+
+            <img src="<%=caminho_imagem(resultado.mall)%><%=resultado.media.images.main%>" width="385" height="265" title="<%=resultado.info.title%>"> 
+
+            <div class="eline"></div>
+
+            <p><%=resultado.info.title%><br>
+			
+			
+            R$ ????</p>
+
+        </a>
+		<% 
+		}
+		}); 
+		}
+		%>
+        
+       <div class="clear"></div><br><br>
+       <a href="" class="botao">Carregar mais</a>
+               
+    <div class="clear"></div>
+    </div><!--MORE-->
+  
+  
+    
+ </div><!--full-->

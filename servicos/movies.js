@@ -1,6 +1,6 @@
 const rp = require('request-promise'); 
 
-var dealssAPI = function (shopping_selecionado) {
+var moviesAPI = function (shopping_selecionado) {
 	this.url = "https://concierge-api-v1.herokuapp.com";
 	this.pagina = 1;
 	this.paginas = 0;
@@ -8,7 +8,7 @@ var dealssAPI = function (shopping_selecionado) {
 	this.total_registros = 0;
 	this.posicao = 0;
 	this.config();
-	this.metodo = "deals";
+	this.metodo = "movies";
 	this.api_nome_do_shopping = '';
 	if (shopping_selecionado !== undefined){
 		if (shopping_selecionado != ''){
@@ -18,7 +18,7 @@ var dealssAPI = function (shopping_selecionado) {
 };
 
 
-dealssAPI.prototype.config = function(){
+moviesAPI.prototype.config = function(){
 	var criterio = '';
 	if (typeof this.api_nome_do_shopping !== undefined) {
 		if (this.api_nome_do_shopping != ''){
@@ -38,8 +38,8 @@ dealssAPI.prototype.config = function(){
 }
 
 
-dealssAPI.prototype.paginasAPI = function(){
-	console.log('*A*');
+moviesAPI.prototype.paginasAPI = function(){
+	//console.log('*A*');
 	if (parseInt(this.total_registros)>0){
 		if (parseInt(this.limite)>0){
 			if (parseInt(this.total_registros) % parseInt(this.limite)==0){
@@ -51,7 +51,7 @@ dealssAPI.prototype.paginasAPI = function(){
 	}
 }
 
-dealssAPI.prototype.list = function(){
+moviesAPI.prototype.list = function(){
 	var resposta = "";
 	return this.paginacao(1).then((data, res) => {
 		resposta = data;	
@@ -65,7 +65,7 @@ dealssAPI.prototype.list = function(){
 	});
 }	
 
-dealssAPI.prototype.paginacao = function(pagina){
+moviesAPI.prototype.paginacao = function(pagina){
 	if (parseInt(this.paginas) >= parseInt(pagina)){
 		if (parseInt(pagina) ==1){
 			this.posicao = 0;	
@@ -96,7 +96,7 @@ dealssAPI.prototype.paginacao = function(pagina){
 	});
 }
 
-dealssAPI.prototype.view = function(registro){
+moviesAPI.prototype.view = function(registro){
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -112,5 +112,38 @@ dealssAPI.prototype.view = function(registro){
 }
 
 
-module.exports = dealssAPI;
+moviesAPI.prototype.categorias = function(){
+	var criterio = '';
+	if (typeof this.api_nome_do_shopping !== undefined) {
+		if (this.api_nome_do_shopping != ''){
+			criterio = '&mall=' + this.api_nome_do_shopping;
+		}
+	}
+	var opcoes = {  
+	    method: 'GET',
+		uri: this.url + "/" + this.metodo + "?$limit=10" + criterio
+		
+	}
+	return rp(opcoes).then((resultado, res) => {
+		
+		var categorias = []
+		var tmp = JSON.parse(resultado);
+		tmp.data.forEach(function(obj) {
+			obj.genres.forEach(function(obj2) {
+				if (categorias.indexOf(obj2)<0){
+					categorias.push(obj2);
+				}
+			});			
+		});
+		categorias.sort();
+		resposta = {"resultado":"OK", "categorias":categorias};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 2", "categorias":{}};	
+		return resposta;
+	});
+}
+	
+
+module.exports = moviesAPI;
 

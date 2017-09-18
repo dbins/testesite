@@ -1,5 +1,5 @@
 <% layout("../layout/index") -%>
-<% block("title", "ON STORES | Cinema | Nome do Shopping | Nome do filme"); -%>
+<% block("title", "ON STORES | Cinema | " + nome_do_shopping_barra_titulo + " | " + resultados.title); -%>
 
  <div class="full">
 
@@ -15,15 +15,15 @@
 
                 <div class="item">
 
-                	<img src="/banner/cinema.jpg" title="Nome do banner">
+                	<img src="<%=resultados.image_landscape%>" title="Nome do banner">
 
                 	<section>
 
                         <span>20 de agosto</span>
 
-                        <span>Mulher<br> Maravilha</span>
+                        <span><%=resultados.title%></span>
 
-                        <span>Shopping Cidade SP</span>
+                        <span><%=resultados.mall%></span>
 
                     </section>
 
@@ -35,7 +35,7 @@
 
                 <div class="item">
 
-                    <iframe width="100%" height="600" src="/https://www.youtube.com/embed/I6Gj8Fvukk4?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/<%=resultados.video%>?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
 
                 </div>
 
@@ -51,7 +51,7 @@
 
            
 
-            <div class="thumbcine"><img src="/imagens/filme.jpg" class="img"></div>  
+            <div class="thumbcine"><img src="<%=resultados.image_portrait%>" class="img"></div>  
 
         </div> <!--banner-->
 
@@ -65,9 +65,17 @@
 
     <div class="titcine">
 
-    	<h1>Mulher maravilha</h1>
+    	<h1><%=resultados.title%></h1>
 
-    	<p><span>12 </span> 2017 &bull; Fantasia/Filme de ficção científica &bull; 2h 21m</p>
+    	<p><span>??? </span> 2017 &bull; 
+		<%
+		resultados.genres.forEach(function(item) { 
+		%>
+		<%=item%>
+		<%
+		});
+		%>
+		&bull; ????h ????m</p>
 
     </div>
 
@@ -79,7 +87,7 @@
 
     	 <h2>Sinopse</h2>
 
-            <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos </p>
+            <%=resultados.description%>
 
             
 
@@ -103,49 +111,49 @@
 
                   <input type = "radio" id = "tab1" name = "tabs" checked>
 
-                  <label for = "tab1">Hoje <span>12 de Setembro</span></label>
+                  <label for = "tab1">Hoje <span><%=datas[0].data%></span></label>
 
                   
 
                   <input type = "radio" id = "tab2" name = "tabs">
 
-                  <label for = "tab2"><div>Domingo <span>12 de Setembro</span></div></label>
+                  <label for = "tab2"><div><%=datas[1].dia%><span><%=datas[1].data%></span></div></label>
 
                   
 
                   <input type = "radio" id = "tab3" name = "tabs">
 
-                  <label for = "tab3">Segunda <span>12 de Setembro</span></label>
+                  <label for = "tab3"><%=datas[2].dia%><span><%=datas[2].data%></span></label>
 
                   
 
                   <input type = "radio" id = "tab4" name = "tabs">
 
-                  <label for = "tab4">Terça <span>12 de Setembro</span></label>
+                  <label for = "tab4"><%=datas[3].dia%><span><%=datas[3].data%></span></label>
 
                   
 
                   <input type = "radio" id = "tab5" name = "tabs">
 
-                  <label for = "tab5">Quarta <span>12 de Setembro</span></label>
+                  <label for = "tab5"><%=datas[4].dia%><span><%=datas[4].data%></span></label>
 
                   
 
                   <input type = "radio" id = "tab6" name = "tabs">
 
-                  <label for = "tab6">Quinta <span>12 de Setembro</span></label>
+                  <label for = "tab6"><%=datas[5].dia%><span><%=datas[5].data%></span></label>
 
                   
 
                   <input type = "radio" id = "tab7" name = "tabs">
 
-                  <label for = "tab7">Sexta <span>12 de Setembro</span></label>
+                  <label for = "tab7"><%=datas[6].dia%><span><%=datas[6].data%></span></label>
 
                   
 
                   <input type = "radio" id = "tab8" name = "tabs">
 
-                  <label for = "tab8">Sabado <span>12 de Setembro</span></label>
+                  <label for = "tab8"><%=datas[7].dia%><span><%=datas[7].data%></span></label>
 
 
 
@@ -360,54 +368,20 @@
         <div class="clear"></div><br><br>
 
         
-
-        <a href="/cinema/filme/teste" class="filmes">
-
-            <img src="/imagens/filme.jpg"  title="Nome do filme"> 
-
-            <div class="fline"></div>
-
-            <p>Nome do Filme</p>
-
-    	 </a>
-
+		<% 
+		if (em_cartaz.length>0){
+		em_cartaz.forEach(function(resultado) { 
+		%>
+		 <a href="/cinema/filme/<%=resultado.url_title%>" class="filmes">
+			<img src="<%=resultado.image_portrait%>"  title="<%=resultado.title%>" width=200> 
+			<div class="fline"></div>
+			<p><%=resultado.title%></p>
+		</a>
+		<%
+		});
+		}
+		%>
      
-
-      <a href="/cinema/filme/teste" class="filmes">
-
-        <img src="/imagens/filme.jpg"  title="Nome do filme"> 
-
-        <div class="fline"></div>
-
-        <p>Nome do Filme</p>
-
-     </a>
-
-     
-
-      <a href="/cinema/filme/teste" class="filmes">
-
-        <img src="/imagens/filme.jpg"  title="Nome do filme"> 
-
-        <div class="fline"></div>
-
-        <p>Nome do Filme</p>
-
-      </a>
-
-     
-
-      <a href="/cinema/filme/teste" class="filmes">
-
-        <img src="/imagens/filme.jpg"  title="Nome do filme"> 
-
-        <div class="fline"></div>
-
-        <p>Nome do Filme</p>
-
-      </a>         
-
-       
 
        <div class="clear"></div><br><br>
 

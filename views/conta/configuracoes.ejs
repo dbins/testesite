@@ -22,7 +22,7 @@
 
           	<div class="config">
 
-            	<form action="">
+            	
 
                 
 
@@ -56,11 +56,11 @@
 
                       <div id="conf1">
 
-                       
+                       <form method="POST" action="/configuracoes/dados"  onSubmit="return checkform_cadastro(this);" autocomplete="off">
 
                        	<div class="campos50">
 
-                        	<input type="text" value="" placeholder="cpf">   
+                        	<input type="text" value="" name="CPF" maxlength="11" placeholder="CPF"  onKeyPress="return isNumberKey(event);">   
 
                         </div>
 
@@ -68,7 +68,7 @@
 
                         <div class="campos50">
 
-                        	<input type="text" value="" placeholder="email">   
+                        	<input type="text" value="" name="email" placeholder="email">   
 
                         </div>
 
@@ -76,7 +76,7 @@
 
                          <div class="campos50">
 
-                        	<input type="text" value="" placeholder="nome">   
+                        	<input type="text" value="" name="nome" placeholder="nome">   
 
                         </div>
 
@@ -84,7 +84,7 @@
 
                          <div class="campos50">
 
-                        	<input type="text" value="" placeholder="sobrenome">   
+                        	<input type="text" value="" name="sobrenome" placeholder="sobrenome">   
 
                         </div>
 
@@ -92,7 +92,7 @@
 
                         <div class="campos50">
 
-                        	<input type="text" value="" placeholder="gênero">   
+                        	<input type="text" value="" name="genero" placeholder="gênero">   
 
                         </div>
 
@@ -100,15 +100,15 @@
 
                         <div class="campos50">
 
-                        	<input type="text" value="" placeholder="aniversário">   
+                        	<input type="text" value="" id="aniversario" name="aniversario" placeholder="data de nascimento" maxlength="10">   
 
                         </div>
 
                         
 
-                        <button>Salvar</button>
-
-                           
+                        <button type="submit">Salvar</button>
+						<input type="hidden" name="_csrf" value="<%= csrfToken %>">	
+						</form>	
 
                       </div><!--dados pessoais-->
 
@@ -119,12 +119,12 @@
                      <!--Endereço--> 
 
                      <div id="conf2">
-
+						<form method="POST" action="/configuracoes/endereco"  onSubmit="return checkform_endereco(this);" autocomplete="off">
                        
 
                        	<div class="campos30">
 
-                        	<input type="text" value="" placeholder="CEP">   
+                        	<input type="text" name="CEP" value="" maxlength="8" placeholder="CEP" onKeyPress="return isNumberKey(event)">   
 
                         </div>
 
@@ -132,7 +132,7 @@
 
                         <div class="campos70">
 
-                        	<input type="text" value="" placeholder="rua">   
+                        	<input type="text" value="" name="endereco" placeholder="rua">   
 
                         </div>
 
@@ -140,7 +140,7 @@
 
                         <div class="campos30">
 
-                        	<input type="text" value="" placeholder="número">   
+                        	<input type="text" value="" name="numero" placeholder="número">   
 
                         </div>
 
@@ -156,7 +156,7 @@
 
                          <div class="campos20">
 
-                        	<input type="text" value="" placeholder="bairro">   
+                        	<input type="text" value="" name="bairro" placeholder="bairro">   
 
                         </div>
 
@@ -164,7 +164,7 @@
 
                          <div class="campos50">
 
-                        	<input type="text" value="" placeholder="cidade">   
+                        	<input type="text" value="" name="cidade" placeholder="cidade">   
 
                         </div>
 
@@ -172,7 +172,7 @@
 
                          <div class="campos30">
 
-                        	<input type="text" value="" placeholder="UF">   
+                        	<input type="text" value="" name="estado" maxlength="2" placeholder="UF">   
 
                         </div>
 
@@ -180,8 +180,9 @@
 
                        
 
-                        <button>Salvar</button>
-
+                        <button type="submit">Salvar</button>
+						<input type="hidden" name="_csrf" value="<%= csrfToken %>">	
+						</form>	
                       </div>
 
                       
@@ -282,11 +283,11 @@
 
                      <div id="conf4">
 
-                     
+						 <form method="POST" action="/configuracoes/senha"  onSubmit="return checkform_senha(this);" autocomplete="off">
 
                          <div class="campos30">
 
-                                <input type="text" value="" placeholder="senha atual">   
+                                <input type="text" value="" name="senha_atual" placeholder="senha atual">   
 
                             </div>
 
@@ -294,7 +295,7 @@
 
                             <div class="campos30">
 
-                                <input type="text" value="" placeholder="nova senha">   
+                                <input type="text" value="" name="senha" placeholder="nova senha">   
 
                             </div>
 
@@ -302,7 +303,7 @@
 
                             <div class="campos30">
 
-                                <input type="text" value="" placeholder="confirmar senha">   
+                                <input type="text" value="" name="confirmar_senha" placeholder="confirmar senha">   
 
                             </div>
 
@@ -314,9 +315,9 @@
 
                        
 
-                       	<button>Alterar senha</button>
-
-                       
+                       	<button type="submit">Alterar senha</button>
+						<input type="hidden" name="_csrf" value="<%= csrfToken %>">		
+						</form>
 
                      </div>
 
@@ -347,7 +348,9 @@
    </div><!--produtos--> 
 
  </div><!--full-->
-
-
-
+<script type="text/javascript">
+$(document).ready(function(){
+	$("#aniversario").mask("99/99/9999");
+});
+</script>
 <!------------------Fim produtos---------------------->

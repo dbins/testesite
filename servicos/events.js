@@ -1,6 +1,6 @@
 const rp = require('request-promise'); 
 
-var dealssAPI = function (shopping_selecionado) {
+var eventsAPI = function (shopping_selecionado) {
 	this.url = "https://concierge-api-v1.herokuapp.com";
 	this.pagina = 1;
 	this.paginas = 0;
@@ -8,7 +8,7 @@ var dealssAPI = function (shopping_selecionado) {
 	this.total_registros = 0;
 	this.posicao = 0;
 	this.config();
-	this.metodo = "deals";
+	this.metodo = "events";
 	this.api_nome_do_shopping = '';
 	if (shopping_selecionado !== undefined){
 		if (shopping_selecionado != ''){
@@ -18,7 +18,7 @@ var dealssAPI = function (shopping_selecionado) {
 };
 
 
-dealssAPI.prototype.config = function(){
+eventsAPI.prototype.config = function(){
 	var criterio = '';
 	if (typeof this.api_nome_do_shopping !== undefined) {
 		if (this.api_nome_do_shopping != ''){
@@ -38,7 +38,7 @@ dealssAPI.prototype.config = function(){
 }
 
 
-dealssAPI.prototype.paginasAPI = function(){
+eventsAPI.prototype.paginasAPI = function(){
 	console.log('*A*');
 	if (parseInt(this.total_registros)>0){
 		if (parseInt(this.limite)>0){
@@ -51,7 +51,7 @@ dealssAPI.prototype.paginasAPI = function(){
 	}
 }
 
-dealssAPI.prototype.list = function(){
+eventsAPI.prototype.list = function(){
 	var resposta = "";
 	return this.paginacao(1).then((data, res) => {
 		resposta = data;	
@@ -65,7 +65,7 @@ dealssAPI.prototype.list = function(){
 	});
 }	
 
-dealssAPI.prototype.paginacao = function(pagina){
+eventsAPI.prototype.paginacao = function(pagina){
 	if (parseInt(this.paginas) >= parseInt(pagina)){
 		if (parseInt(pagina) ==1){
 			this.posicao = 0;	
@@ -96,7 +96,7 @@ dealssAPI.prototype.paginacao = function(pagina){
 	});
 }
 
-dealssAPI.prototype.view = function(registro){
+eventsAPI.prototype.view = function(registro){
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -112,5 +112,5 @@ dealssAPI.prototype.view = function(registro){
 }
 
 
-module.exports = dealssAPI;
+module.exports = eventsAPI;
 

@@ -4,7 +4,6 @@ var api = new webservice();
 module.exports = function (app){
 	
 	app.get("/produtos/senhas", function(req,res){
-		console.log('estou aqui');
 		var dados_de_login = {
 			"email": "feathers@example.com", 
 			"password": "secret" 
@@ -24,12 +23,13 @@ module.exports = function (app){
 	});
 	
 	app.get("/produtos", function(req,res){
-		console.log(api.url);
+		var marcas = app.get('marcas');
+		var categorias = app.get('categorias');
 		var consulta = api.list().then(function (resultados) {
 			console.log(api.paginas);
-			res.render("produtos/index", {resultados:resultados});
+			res.render("produtos/index", {resultados:resultados, categorias: categorias, marcas: marcas});
 		}).catch(function (erro){
-			res.render("produtos/index", {resultados:{}});
+			res.render("produtos/index", {resultados:{}, categorias:{},marcas:{}});
 		});
 		
 	});
@@ -59,8 +59,6 @@ module.exports = function (app){
 	app.get("/produtos/pagina/:pagina", function(req,res){
 		var pagina = req.params.pagina;
 		var consulta = api.paginacao(pagina).then(function (resultados) {
-			console.log(api.paginas);
-			res.json({resultados:resultados});
 		}).catch(function (erro){
 			res.json({resultados:{}});
 		});

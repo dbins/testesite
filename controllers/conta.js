@@ -15,24 +15,34 @@ module.exports = function (app){
 		res.render("conta/favoritos");
 	});
 	
+	app.get("/favoritos/adicionar/:iddoobjeto", function(req,res){
+		var iddoproduto = req.params.iddoobjeto;
+		res.render("conta/favoritos");
+	});
+	
 	app.get("/configuracoes", function(req,res){
+		res.locals.csrfToken = req.csrfToken();
 		res.render("conta/configuracoes");
 	});
 	
 	app.post("/configuracoes/dados", function(req,res){
-		res.render("conta/configuracoes");
+		//Gravar os dados
+		res.redirect('/configuracoes');
 	});
 	
 	app.post("/configuracoes/endereco", function(req,res){
-		res.render("conta/configuracoes");
+		//Gravar os dados
+		res.redirect('/configuracoes');
 	});
 	
 	app.post("/configuracoes/carteira", function(req,res){
-		res.render("conta/configuracoes");
+		//Gravar os dados
+		res.redirect('/configuracoes');
 	});
 	
 	app.post("/configuracoes/senha", function(req,res){
-		res.render("conta/configuracoes");
+		//Gravar os dados
+		res.redirect('/configuracoes');
 	});
 	
 	
