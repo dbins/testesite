@@ -194,7 +194,10 @@
                        
 
                          
-
+						 <% 
+						if (carteira.length==0){
+			  
+						%>
                          <!----MOstrar quando não tiver carteira----->
 
                          <!--<div class="sorry">
@@ -205,7 +208,10 @@
 
                          </div>-->
 
-                         
+						<%
+						} else {
+						carteira.forEach(function(resultado) { 
+						%>	
 
                          <div class="carteira">
 
@@ -217,63 +223,20 @@
 
                             </div>
 
-                            <div> 	Nome do Titular do cartão </div>
+                            <div> <%=resultado.nome%></div>
 
                             <div>	Número do Cartão  </div>
 
-                            <div> 5548 xxxx xxxx 2953	 </div> 
+                            <div> <%=resultado.comeco%> xxxx xxxx <%=resultado.fim%></div> 
 
                             <div><a href="">Excluir</a></div>                        
 
                          </div><!--carteira-->
 
-                         
-
-                         <div class="carteira">
-
-                        	<div>
-
-                                <input type="checkbox" id="c2" name="cb">
-
-                                <label for="c2"></label> 
-
-                            </div>
-
-                            <div> 	Nome do Titular do cartão </div>
-
-                            <div>	Número do Cartão  </div>
-
-                            <div> 5548 xxxx xxxx 2953	 </div> 
-
-                             <div><a href="">Excluir</a></div>                          
-
-                         </div><!--carteira-->
-
-                         
-
-                         <div class="carteira">
-
-                        	<div>
-
-                                <input type="checkbox" id="c3" name="cb">
-
-                                <label for="c3"></label> 
-
-                            </div>
-
-                            <div> 	Nome do Titular do cartão </div>
-
-                            <div>	Número do Cartão  </div>
-
-                            <div> 5548 xxxx xxxx 2953	 </div> 
-
-                             <div><a href="">Excluir</a></div>                          
-
-                         </div><!--carteira-->
-
-                         
-
-                        
+                        <%
+						});
+						}
+						%>
 
                       </div>
 

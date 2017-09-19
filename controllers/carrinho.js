@@ -3,7 +3,8 @@ module.exports = function (app){
 		res.render("carrinho/index");
 	});
 	app.post("/carrinho", function(req,res){
-		res.render("carrinho/index");
+		//res.render("carrinho/index");
+		res.redirect("/login");
 	});
 	app.post("/carrinho/add", function(req,res){
 		res.render("carrinho/index");

@@ -24,7 +24,7 @@
 		if (resultados.length>0){
 		resultados.forEach(function(resultado) { 
 		%> 
-      	<a href="/promocoes/<%=resultado.url_title%>" class="promo">
+      	<a href="/promocoes/promocao/<%=resultado.url_title%>" class="promo">
          	<div>
             	<span class="purple"></span>
    	     		<img src="<%=caminho_imagem(resultado.mall)%><%=resultado.media.images.main%>" class="img" title="<%=resultado.info.title%>">

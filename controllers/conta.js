@@ -1,6 +1,6 @@
 module.exports = function (app){
 	app.get("/compras", function(req,res){
-		res.render("conta/compras");
+		res.render("conta/compras", {resultados:app.get("pedidos")});
 	});
 	app.get("/compras/detalhes/:iddacompra", function(req,res){
 		var iddoproduto = req.params.iddacompra;
@@ -22,7 +22,7 @@ module.exports = function (app){
 	
 	app.get("/configuracoes", function(req,res){
 		res.locals.csrfToken = req.csrfToken();
-		res.render("conta/configuracoes");
+		res.render("conta/configuracoes", {carteira:app.get("cartoes")});
 	});
 	
 	app.post("/configuracoes/dados", function(req,res){

@@ -1,15 +1,29 @@
-<link rel="stylesheet" type="text/css" href="/source/jquery.fancybox.css" media="screen" />	
+<link rel="stylesheet" type="text/css" href="source/jquery.fancybox.css" media="screen" />	
+
+
 
 	<header>
+
     	<div class="full">
-        	<div id="on"><a href="/"><img src="/imagens/on-stores.png" width="42" height="68" title="ON Stores"></a></div>
-            <div id="ccp"><a href=""><img src="/imagens/CCP.png" width="91" height="25" title="ON Stores"></a></div>
+
+        	<div id="on"><a href="/"><img src="/imagens/on-stores.png" class="img" title="ON Stores"></a></div>
+
+            <div id="ccp"><a href=""><img src="/imagens/CCP.png" class="img" title="CCP - Cirella"></a></div>
+
 			<nav id="menu">
+
                 <ul class="dropdown"> 
-				  <!------- Mostrar na do shopping---->
-                   <!--<li id="shp"><a href=""><img src="imagens/shopping-cidadesp.png" width="90" height="69" title="Shopping Cidade São Paulo"></a></li>-->
-                                     
-                   
+				  
+				    <%
+					if (shopping != ''){
+				    %>				  
+				   <!------- Mostrar na do shopping---->
+
+                   <li id="shp"><a href=""><img src="imagens/shopping-cidadesp.png" width="90" height="69" title="Shopping Cidade São Paulo"></a></li>
+				   <%
+				   }
+				   %>
+
 				   <%
 				   if (shopping == ''){
 				   %>
@@ -30,11 +44,12 @@
 					<%
 					}
 					%>
-					
+
                     <li><a href="/lojas/online">LOJA ON LINE</a></li>
                     <li><a href="/lojas">LOJAS</a></li>
                     <li><a href="/cupons">CUPONS</a> </li>
-                    
+
+                     
 					<%
 					if (shopping != ''){
 				    %>
@@ -73,128 +88,134 @@
                     <%
 					}
 					%>
+
                 </ul>
+
        		
+				<%
+				if(usuario != '') {
+				%>
+                <!--Mostrar logado-->
                 <div class="log">
-                    <a href="" class="lupa" id="lupa"><img src="imagens/lupa.png" width="25" height="25" title="Busca"></a>
+                    <a href="" class="lupa" id="lupa"><img src="/imagens/lupa.png" width="25" height="25" title="Busca"></a>
+
                     <a class="bt fancybox fancybox.iframe" href="/carrinho"><img src="imagens/bag.png" width="20" height="20" title="Meu Carrinho"> 2</a>
-                   
-                    <div class="bt" id="conta">
+				<%
+				} else {
+				%>
+                  <!----mostrar deslogado----->
+                  <a class="bt fancybox fancybox.iframe" id="btn_login" href="/login">Quero entrar </a>
+				<%
+				}
+				%>
                     
-                        <!--mostrar somente logado-->
-                        <div class="icon">BA</div>
-                           Minha conta <span class="seta-baixo2"></span>
-                       
-                    </div><!--conta-->
+
+				<%
+				if(usuario != '') {
+				%>
+                  <!----mostrar logado----->
+
+                  <div class="bt" id="conta">
+
+               		  <div class="icon">BA</div>
+
+                           Minha conta <span class="seta-baixo2"></span>                       
+
+                    </div><!--conta-->                    
+
                     
-                    <!--acrescentar class conta2 quando logar-->
+
                        <div id="conta2" class="conta2">
+
                             <ul class="conta"> 
+
                                 <li><a href="/compras">Minhas Compras</a></li>
                                 <li><a href="/favoritos">Meus Favoritos</a></li>
                                 <li><a href="/configuracoes">Configurações</a></li>
                                 <li><a href="/logout">Sair</a></li>   
+
                             </ul>
+
                         </div>
+
                   
-       			</div><!--log-->                
+
+       			</div><!--log--> 
+				<%
+				} 
+				%>
+                
+
+               
+
+                               
+
           </nav>
+
           
+
       <div id="busca">
+
             <a href="" id="lupa" class="fechar">X</a>
+
                 <form action="" autocomplete="off">
+
                 	<input type="text" value="" placeholder=" buscar aqui">
 					<input type="hidden" name="_csrf" value="<%= csrfToken %>">	
                 </form>
-              
-              <div id="result">
-              
-                
-                   <a href="" class="prods">
-                        <section>
-                            <div class="favs">
-                                <span>30%</span>
-                                <button value="" id=""></button>
-                            </div>
-                            <img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-                            <h2>Arezzo</h2>
-                            <h3>Sapato Oxford Feminino Facinelli</h3>
-                            <div class="valor">
-                                <span>De R$ 35,40</span>
-                                <span>Por 20,00</span>
-                            </div>
-                       </section>  
-                   </a> 
-                   
-                   <a href="" class="prods">
-                        <section>
-                            <div class="favs">
-                                <span>30%</span>
-                                <button value="" id=""></button>
-                            </div>
-                            <img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-                            <h2>Arezzo</h2>
-                            <h3>Sapato Oxford Feminino Facinelli</h3>
-                            <div class="valor">
-                                <span>De R$ 35,40</span>
-                                <span>Por 20,00</span>
-                            </div>
-                       </section>  
-                   </a> 
-                   <a href="" class="prods">
-                        <section>
-                            <div class="favs">
-                                <span>30%</span>
 
-                                <button value="" id=""></button>
-                            </div>
-                            <img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-                            <h2>Arezzo</h2>
-                            <h3>Sapato Oxford Feminino Facinelli</h3>
-                            <div class="valor">
-                                <span>De R$ 35,40</span>
-                                <span>Por 20,00</span>
-                            </div>
-                       </section>  
-                   </a> 
-                   <a href="" class="prods">
-                        <section>
-                            <div class="favs">
-                                <span>30%</span>
-                                <button value="" id=""></button>
-                            </div>
-                            <img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-                            <h2>Arezzo</h2>
-                            <h3>Sapato Oxford Feminino Facinelli</h3>
-                            <div class="valor">
-                                <span>De R$ 35,40</span>
-                                <span>Por 20,00</span>
-                            </div>
-                       </section>  
-                   </a> 
-                   
-                   <a href="" class="prods">
-                        <section>
-                            <div class="favs">
-                                <span>30%</span>
-                                <button value="" id=""></button>
-                            </div>
-                            <img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-                            <h2>Arezzo</h2>
-                            <h3>Sapato Oxford Feminino Facinelli</h3>
-                            <div class="valor">
-                                <span>De R$ 35,40</span>
-                                <span>Por 20,00</span>
-                            </div>
-                       </section>  
-                   </a> 
-                   
-                   
-               <div class="clear"></div>
-               </div>  <!--result-->
+              
+
+              <div id="result">
+
+              
+					<% 
+					if (produtos.length>0){
+					produtos.forEach(function(resultado) { 
+					%>
                 
+                   <a href="" class="prods">
+                        <section>
+                            <div class="favs">
+                                <span><%=resultado.desconto%> %</span>
+                                <button value="" id=""></button>
+                            </div>
+                            <img src="/imagens/<%=resultado.imagem%>" title="<%=resultado.produto%>" class="img">
+
+                            <h2><%=resultado.marca%></h2>
+
+                            <h3><%=resultado.produto%></h3>
+
+                            <div class="valor">
+
+                                <span>De R$ <%=resultado.de%></span>
+
+                                <span>Por <%=resultado.por%></span>
+
+                            </div>
+
+                       </section>  
+
+                   </a> 
+
+                   <%
+					});
+					}
+					%>
+						
+
+               <div class="clear"></div>
+
+               </div>  <!--result-->
+
+                
+
 	</div><!--busca-->
+
           
+
            <div class="clear"></div>
+
           </div><!--full-->	
+	
  </header>

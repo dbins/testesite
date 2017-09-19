@@ -1,3 +1,287 @@
-<% layout("../layout/index") -%>
-<% block("title", "Carrinho"); -%>
-<h1>Carrinho - Index</h1>
+<!doctype html>
+
+<html lang="pt-BR">
+
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<meta http-equiv="X-UA-Compatible" content="IE=5; IE=8; IE=7; IE=9; IE=10; IE=11" >
+
+<title>ON STORES | Carrinho </title>
+
+<meta name="description" content="ON STORES - O Market Place da CCP para você!"/>
+
+<meta name="keywords" content="" />
+
+<link rel="shortcut icon" href="favicon.ico">
+
+<link rel=canonical href="http://www.onstores.com.br/"/>
+
+	
+
+<link href="css/estilo.css" rel="stylesheet" type="text/css" />
+
+
+
+</head>
+
+
+
+<body id="carrinho">
+
+
+
+	<div class="full">
+
+    	
+
+        <header> 
+
+    		<div id="titcar">Minha sacola <img src="imagens/bag.png" width="60" height="35"></div>
+
+    		
+
+            	<nav class="rota">
+
+                    <a href="" class="rts ativo">
+
+                        <span>1</span><br>
+
+                        Minha Sacola
+
+                    </a>
+
+                    <a href="" class="rts ">
+
+                        <span>2</span><br>
+
+                        Identificação
+
+                    </a>
+
+                    <a href="" class="rts">
+
+                        <span>3</span><br>
+
+                        Pagamento
+
+                    </a>
+
+                    <a href="" class="rts">
+
+                        <span>4</span><br>
+
+                        Confirmação
+
+                    </a>            
+
+                </nav>
+
+                
+
+    	</header>
+
+			
+
+            
+
+
+
+<form action="/carrinho" method="POST" autocomplete="off">
+
+	<table class="sacola">
+
+      <tr>
+
+        <th>Produto</th>
+
+        <th>Shopping</th>
+
+        <th>Quantidade</th>
+
+        <th>Valor Unitário</th>
+
+        <th>Total</th>
+
+      </tr>
+
+      <tr>
+
+        <td>
+
+        	
+
+            <img src="/imagens/chapeu2.jpg" width="150" height="104">
+
+        	<div class="carprod">
+
+                <h3>Sapato Oxford Feminino Facinelli</h3>
+
+                <span>Loja</span>
+
+                <div class="valorcar">
+
+                    <span>De R$ 35,40</span>
+
+                    <span>Por 20,00</span>
+
+                </div>
+
+            </div>
+
+        </td>
+
+        <td>
+
+            <img src="/imagens/icon-location.jpg" width="37" height="37">
+
+            Shopping Cidade São Paulo
+
+        </td>
+
+        <td>
+
+            <div class="qtdcar">
+
+                <a href="">-</a>
+
+                <input type="text" value=" 2 " maxlength="2">
+
+                <a href="">+</a>
+
+             </div>
+
+        </td>
+
+        <td>
+
+        	<input type="text" value=" 230,00 ">
+
+        </td>
+
+        <td>
+
+        	<input type="text" value=" 460,00 ">
+
+            <a href=""> x </a>
+
+        </td>
+
+      </tr>
+
+      
+
+       <tr>
+
+        <td>
+
+        	
+
+            <img src="/imagens/chapeu2.jpg" width="150" height="104">
+
+        	<div class="carprod">
+
+                <h3>Sapato Oxford Feminino Facinelli</h3>
+
+                <span>Loja</span>
+
+                <div class="valorcar">
+
+                    <span>De R$ 35,40</span>
+
+                    <span>Por 20,00</span>
+
+                </div>
+
+            </div>
+
+        </td>
+
+        <td>
+
+            <img src="/imagens/icon-location.jpg" width="37" height="37">
+
+            Shopping Cidade São Paulo
+
+        </td>
+
+        <td>
+
+            <div class="qtdcar">
+
+                <a href="">-</a>
+
+                <input type="text" value=" 2 " maxlength="2">
+
+                <a href="">+</a>
+
+             </div>
+
+        </td>
+
+        <td>
+
+        	<input type="text" value=" 230,00 ">
+
+        </td>
+
+        <td>
+
+        	<input type="text" value=" 460,00 ">
+
+            <a href=""> x </a>
+
+        </td>
+
+      </tr>
+
+
+
+	</table>
+
+    <div class="clear"></div>
+
+    
+
+     <section class="avisocar">
+
+        <h3>Importante</h3>
+
+        <p>Lembre-se que após a compra, você deverá retirar os itens adquiridos  diretamente na loja do shopping.  Seu pedido estará disponível  para retirada em 30 minutos  após  a confirmação  de seu pagamento.</p>
+
+        <a href="">Dúvidas</a>
+
+        <a href="">Trocas</a>
+
+        <a href="">Contato</a>      
+
+     </section><!--aviso-->
+
+        
+
+    <div class="total">
+
+    	<label>VALOR TOTAL</label>
+
+        <input type="text" value=" R$ 320,00" readonly disabled >
+
+        
+
+        <input type="submit" value=" Comprar ">    
+		<input type="hidden" name="_csrf" value="<%= csrfToken %>">	
+    </div>
+
+    
+
+</form>
+
+</div>
+
+
+
+
+
+</body>
+
+</html>

@@ -3,7 +3,8 @@ module.exports = function (app){
 		res.render("pagamento/dados");
 	});
 	app.post("/pagamento/dados", function(req,res){
-		res.render("pagamento/dados");
+		//res.render("pagamento/dados");
+		res.redirect("/pagamento/finalizar");
 	});
 	app.post("/pagamento/cep", function(req,res){
 		//Retornar JSON

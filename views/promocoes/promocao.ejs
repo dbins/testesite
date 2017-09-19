@@ -1,3 +1,120 @@
 <% layout("../layout/index") -%>
-<% block("title", "ON Market Place | Promoções | " + nome_do_shopping_barra_titulo); -%>
-<h1>Promoção - Detalhe</h1>
+<% block("title", "ON Market Place | Promoções | " + nome_do_shopping_barra_titulo + " | " + resultados.info.title); -%>
+
+ <div class="full">
+
+    
+
+      <aside class="bannerint">
+
+        	<img src="<%=caminho_imagem(resultados.mall)%><%=resultados.media.images.main%>" width="1366" height="285" title="<%=resultados.info.title%>">
+
+            <!--<section><%=resultados.info.title%></section>-->
+
+        </aside> <!--banner-->
+
+   
+
+  <article id="conteudo" class="pad">
+
+  	<a href="/promocao" class="back"><span class="seta-esquerda"></span> Voltar para promoção</a>
+
+    
+
+    <div class="titevents">
+
+    	<h1><%=resultados.info.title%></h1>
+
+    	<p>Início <span><%=moment(resultados.start_at).format( 'DD-MM-YYYY')%></span> </p> <p> Término <span><%=moment(resultados.end_at).format( 'DD-MM-YYYY')%></span></p>
+
+    </div>
+
+    
+
+    <div class="clear"></div><br><br>
+
+    
+
+    <section id="sobrepromo">
+
+   		<h2>Descrição da Promoção</h2>
+
+        <p><%-resultados.info.description%></p>
+
+        <p>Acesse os <a href="termos.php">termos e condições</a></p>    
+
+    </section>
+
+  
+
+    <section class="fotopromo">
+
+      <!--<h2> Horários</h2>-->
+
+       <img src="imagens/dia-das-maes.jpg" class="img">
+
+		<div class="clear"></div><br><br>
+
+        
+
+    </section>
+
+  
+
+  </article> 
+
+   
+
+  
+
+   <div id="more">
+
+    <div class="full">
+
+   		<h3 class="titles" >
+
+       		<span class="twhite" style="left: 20%">Veja Mais</span>
+
+        </h3>
+
+        
+
+        <div class="clear"></div><br><br>
+
+        <% 
+		if (outros.length>0){
+		outros.forEach(function(resultado) { 
+		%> 
+      	<a href="/promocoes/promocao/<%=resultado.url_title%>" class="promo">
+         	<div>
+            	<span class="purple"></span>
+   	     		<img src="<%=caminho_imagem(resultado.mall)%><%=resultado.media.images.main%>" class="img" title="<%=resultado.info.title%>">
+               <p><%=resultado.info.title%><br>
+       		</div>	
+      	</a>
+        <% 
+		}); 
+		}
+		%>
+
+
+       <div class="clear"></div><br><br>
+
+       <a href="" class="botao">Carregar mais</a>
+
+               
+
+    <div class="clear"></div>
+
+    </div><!--full-->
+
+    </div><!--MORE-->
+
+  
+
+  
+
+    
+
+ </div><!--full-->
+

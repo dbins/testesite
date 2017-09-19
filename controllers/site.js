@@ -26,6 +26,7 @@ module.exports = function (app){
 	});
 	
 	app.get("/logout", function(req,res){
+		app.locals.usuario = "";
 		req.session.destroy();
 		res.redirect('/');
 	});

@@ -24,12 +24,12 @@ module.exports = function (app){
 		res.locals.csrfToken = req.csrfToken();
 		var api = new webservice(app.locals.shopping);
 		var consulta = api.list().then(function (resultados) {
-			var categorias = ListarCategorias(resultados.dados, app.locals.shopping);
-			dados_temporarios = resultados.dados;
+			var categorias = ListarCategorias(resultados.dados.data, app.locals.shopping);
+			dados_temporarios = resultados.dados.data;
 			if (typeof categorias === undefined) {
 				res.status(500).redirect('/erro/500');
 			} else {
-				res.render("lojas/index", {resultados:resultados.dados, categorias: categorias});	
+				res.render("lojas/index", {resultados:resultados.dados.data, categorias: categorias});	
 			}
 			
 		}).catch(function (erro){
@@ -55,9 +55,7 @@ module.exports = function (app){
 		var consulta = api.view(nomedaloja).then(function (resultados) {
 			if (typeof resultados.dados.info.title === undefined) {
 				res.status(500).redirect('/erro/500');
-				console.log('estou aqui 1');
 			} else {
-				console.log('estou aqui 2');
 				res.render("lojas/loja", {resultados:resultados.dados});
 			}
 		}).catch(function (erro){
