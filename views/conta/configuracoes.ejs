@@ -92,7 +92,10 @@
 
                         <div class="campos50">
 
-                        	<input type="text" value="" name="genero" placeholder="gênero">   
+                        	<select class="minimal">
+                                <option>Masculino</option>
+                                <option>Feminino</option>
+                            </select>  
 
                         </div>
 
@@ -119,12 +122,12 @@
                      <!--Endereço--> 
 
                      <div id="conf2">
-						<form method="POST" action="/configuracoes/endereco"  onSubmit="return checkform_endereco(this);" autocomplete="off">
+						<form name="formEnd" method="POST" action="/configuracoes/endereco"  onSubmit="return checkform_endereco(this);" autocomplete="off">
                        
 
                        	<div class="campos30">
 
-                        	<input type="text" name="CEP" value="" maxlength="8" placeholder="CEP" onKeyPress="return isNumberKey(event)">   
+                        	<input type="text" name="CEP" value="" maxlength="8" placeholder="CEP" onKeyPress="return isNumberKey(event)" onblur="validar_cep(this.value);">   
 
                         </div>
 
@@ -132,7 +135,7 @@
 
                         <div class="campos70">
 
-                        	<input type="text" value="" name="endereco" placeholder="rua">   
+                        	<input type="text" value="" name="endereco" placeholder="rua" readonly="true">   
 
                         </div>
 
@@ -156,7 +159,7 @@
 
                          <div class="campos20">
 
-                        	<input type="text" value="" name="bairro" placeholder="bairro">   
+                        	<input type="text" value="" name="bairro" placeholder="bairro" readonly="true">   
 
                         </div>
 
@@ -164,7 +167,7 @@
 
                          <div class="campos50">
 
-                        	<input type="text" value="" name="cidade" placeholder="cidade">   
+                        	<input type="text" value="" name="cidade" placeholder="cidade" readonly="true">   
 
                         </div>
 
@@ -172,7 +175,7 @@
 
                          <div class="campos30">
 
-                        	<input type="text" value="" name="estado" maxlength="2" placeholder="UF">   
+                        	<input type="text" value="" name="estado" maxlength="2" placeholder="UF" readonly="true">   
 
                         </div>
 
@@ -314,6 +317,54 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#aniversario").mask("99/99/9999");
+	
 });
+
+function validar_cep(CEP){
+		$.ajax({
+		  type: 'POST',
+		  url: '/pagamento/cep',
+		  dataType : 'json',
+		  data: { 
+			'cep': CEP, 
+			'_csrf': '<%= csrfToken %>'
+		  },
+		  success: function (response) {
+			var resposta = JSON.parse(response);
+			if (resposta.zipcode == null){
+				alert('O CEP informado não foi localizado');
+				document.formEnd.endereco.readOnly = true;
+				document.formEnd.bairro.readOnly = true;
+				document.formEnd.endereco.value = '';
+				document.formEnd.bairro.value = '';
+				document.formEnd.cidade.value = '';
+				document.formEnd.estado.value = '';
+			} else {
+				if (resposta.street == null){
+					document.formEnd.cidade.value = resposta.city;
+					document.formEnd.estado.value = resposta.state;
+					document.formEnd.endereco.readOnly = false;
+					document.formEnd.bairro.readOnly = false;
+				} else {
+					document.formEnd.endereco.readOnly = true;
+					document.formEnd.bairro.readOnly = true;
+					document.formEnd.endereco.value = resposta.street;
+					document.formEnd.bairro.value = resposta.neighborhood;
+					document.formEnd.cidade.value = resposta.city;
+					document.formEnd.estado.value = resposta.state;
+				}
+			}
+		  },
+		  error: function () {
+			alert("Desculpe, não foi possível pesquisar este CEP");
+			document.formEnd.endereco.readOnly = true;
+			document.formEnd.bairro.readOnly = true;
+			document.formEnd.endereco.value = '';
+			document.formEnd.bairro.value = '';
+			document.formEnd.cidade.value = '';
+			document.formEnd.estado.value = '';
+		  }
+	   });
+	}  
 </script>
 <!------------------Fim produtos---------------------->

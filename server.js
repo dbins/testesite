@@ -35,8 +35,7 @@ app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cookieParser()); 
-app.use(session({secret: 'ssshhhhh', name : 'sessmkId', resave: true, saveUninitialized: true, cookie: {secure: true, sameSite: true, httpOnly: true,  ephemeral: true, expires: expirarCookie}}));
-
+app.use(session({secret: 'ssshhhhh', name : 'sessmkId', resave: false, saveUninitialized: true, cookie: {secure: true, sameSite: true, httpOnly: true,  ephemeral: true, expires: expirarCookie}}));
 
 app.use(csrf({ cookie: true })); //TEM QUE FICAR AQUI 
 

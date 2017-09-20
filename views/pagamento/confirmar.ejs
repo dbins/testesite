@@ -1,0 +1,45 @@
+<% layout("../layout/index") -%>
+ <div class="full"> 
+        <button id="pay-button">Abrir modal de pagamento</button>
+
+        <script>
+            $(document).ready(function() {
+				
+                var button = $('#pay-button');
+
+                button.click(function() {
+                    // INICIAR A INSTÂNCIA DO CHECKOUT
+                    // declarando um callback de sucesso
+                    var checkout = new PagarMeCheckout.Checkout({"encryption_key":"ENCRYPTION KEY", success: function(data) {
+                        console.log(data);
+                        //Tratar aqui as ações de callback do checkout, como exibição de mensagem ou envio de token para captura da transação
+                    }});
+
+                    // DEFINIR AS OPÇÕES
+                    // e abrir o modal
+                    // É necessário passar os valores boolean em "var params" como string
+                    var params = {"customerData":"false", "amount":"", "createToken": "true", "interestRate": 0, "postbackUrl":"", "customerName":"", "customerDocumentNumber":"", "customerEmail":"", "customerAddressStreet":"", "customerAddressStreetNumber":"", "customerAddressComplementary":"", "customerAddressNeighborhood":"", "customerAddressCity":"", "customerAddress-State":"", "customerAddressZipcode":"", "customerPhoneDdd":"", "customerPhoneNumber":"","disableZeroDocumentNumber":"true", "freeInstallments":"0", "defaultInstallment":"1",
+                      
+					  //Texto mostrado no botão de pagamento.
+					  "buttonText":"Pagar",
+                      //Meios de pagamento disponíveis no Checkout.
+					  "paymentMethods":"boleto,credit_card",
+                       //numero de parcelas
+					  "maxInstallments":6,
+                      //Cor primária da interface de Checkout.
+					  "uiColor":"#9429ff",
+					  //Define o texto do cabeçalho.
+                      "headerText":"Insira os dados do seu cartão de crédito",
+					  //bandeiras que vamos aceitar
+					  "card_brands":"elo, amex, diners, hipercard, visa, mastercard"
+
+
+					
+					};
+                    checkout.open(params);
+                });
+				
+            });
+        </script>
+        
+        </div>

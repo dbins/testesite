@@ -13,6 +13,7 @@
 		<script src="/js/jquery.min.js"></script>
 		<script src="/js/ccp.js"></script>
 		<script src="/js/jquery.maskedinput.2015.js"></script>
+		
 	</head>
 <body id="login">
 
@@ -26,8 +27,7 @@
 
    
 
-   	<!---mosrar quando nao estiver comprando--->
-
+   	<!---mosrar quando nao o carrinho tiver vazio --->
     <div id="titcar">Login <img src="/imagens/bag.png" width="60" height="35"></div>
 
     
@@ -81,50 +81,37 @@
 
 
 	<div class="soucliente" id="logar">
-
-        <h1>Sou cliente</h1>
-
-        <form action="/login" method="POST" autocomplete="off"  onSubmit="return checkform_login(this);">
-
-          
+		<!---Quando o carrinho tiver vazio leva-lo para a home logado depois de se logar--->
+		
+        <form action="/login" method="POST" autocomplete="off"  onSubmit="return checkform_login(this);" id="logar">
+			<h1>Sou cliente</h1> 
 
           <div class="campos100">
-
           	<input type="text" value="" placeholder="cpf" name="CPF" maxlength="11" onKeyPress="return isNumberKey(event);">
-
           </div>
 
           <div class="campos100">
-
           	<input type="password" value="" placeholder="senha" name="senha">
-
           </div>
 
           <div class="campos100">
-
           	<a href="" class="buttons1"> Esqueci minha senha</a>
-
           </div>
 
           <div class="campos100">
-
           	<input type="submit" value="Entrar" >
 			<input type="hidden" name="_csrf" value="<%= csrfToken %>">	
           </div>
 
         </form>
+	</div>
 
-    </div><!--sou cliente-->
+	<div class="soucliente" id="esquece">     
+	 <!-------mostrar quando o usuarío recuperar a senha------>
 
-    
+        <form action="/login/lembrarsenha" method="POST" autocomplete="off"  onSubmit="return checkform_lembrar_senha(this);" id="senha">
 
-   <div class="soucliente" id="senha">
-
-        <h1>Esqueci minha senha</h1>
-
-        <form action="/login/lembrarsenha" method="POST" autocomplete="off"  onSubmit="return checkform_lembrar_senha(this);">
-
-          
+          <h1>Esqueci minha senha</h1>
 
           <div class="campos100">
 
@@ -151,7 +138,7 @@
     
 
     
-
+	<!---Quando o carrinho tiver vazio leva-lo para a home logado depois de se cadastrar--->
     <div class="nocliente">
 
     	<h2>Ainda não sou cliente</h2>
@@ -159,51 +146,35 @@
     	<form action="/login/cadastrar" method="POST" autocomplete="off"  onSubmit="return checkform_novo_cadastro(this);">
 
         <div class="campos50">
-
           	<input type="text" value="" placeholder="cpf" name="CPF" maxlength="11" onKeyPress="return isNumberKey(event);">
-
          </div>
 
          <div class="campos50">
-
           	<input type="text" value="" placeholder="E-mail" name="email">
-
          </div>
 
          <div class="campos50">
-
           	<input type="text" value="" placeholder="Nome" name="nome">
-
          </div>
 
          <div class="campos50">
-
           	<input type="text" value="" placeholder="Sobrenome" name="sobrenome">
-
          </div>
 
          <div class="campos50">
-
           	<input type="text" value="" placeholder="Gênero" name="genero">
-
          </div>
-
          <div class="campos50">
 
           	<input type="text" value="" placeholder="Aniversário" id="aniversario" name="aniversario" maxlength="10">
-
          </div>
 
          <div class="campos50">
-
           	<input type="password" value="" placeholder="senha" name="senha">
-
          </div>
 
          <div class="campos50">
-
           	<input type="password" value="" placeholder="confirmar senha" name="novasenha">
-
          </div>
 
     	
@@ -211,68 +182,50 @@
         <div class="campos100">
 
         	<div class="campos50">
-
                 <input type="checkbox" id="c1" name="novidades">
-
                 <label for="c1">Quero receber novidades do ON</label>
-
             </div>
 
             <div class="campos50">
-
                 <input type="checkbox" id="c2" name="aceite">
-
                 <label for="c2"> Aceito os <a href="">Termos e codições</a></label>
-
             </div>        
 
         </div>
 
-        
 
 			<input type="submit" value=" Cadastrar "> 
 			<input type="hidden" name="_csrf" value="<%= csrfToken %>">	
+			
         </form>       
 
     </div><!--nocliente-->
 
-    
-
-    
+ 
 
 </div><!--full-->
 
 
-
-
-
-
-
+<script src="js/jquery.min.js"></script>
 <script>
-
 $(document).ready(function() {
 
-
   $("#aniversario").mask("99/99/9999");	
-  $('#senha').hide();
-
+  $('#esquece').hide();
   $('#logar').show(); 
-
   
 
  $( ".buttons1" ).click(function() {
 
 	  $( "#logar" ).hide( "slow");
-
-	  $( "#senha" ).show( "slow");  
+	  $( "#esquece" ).show( "slow");  
 
   });
 
    $( ".buttons2" ).click(function() {
 
 	  $( "#logar" ).show( "slow");
-
-	  $( "#senha" ).hide( "slow");  
+	  $( "#esquece" ).hide( "slow");  
 
   });
 

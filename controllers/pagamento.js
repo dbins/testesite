@@ -1,3 +1,4 @@
+var webservice = require('./../servicos/cep.js');
 module.exports = function (app){
 	app.get("/pagamento/dados", function(req,res){
 		res.render("pagamento/dados");
@@ -8,6 +9,13 @@ module.exports = function (app){
 	});
 	app.post("/pagamento/cep", function(req,res){
 		//Retornar JSON
+		var consulta = new webservice(req.body.cep).then(function (resultados) {
+			res.json(resultados);
+			console.log(resultados);
+		}).catch(function (erro){
+			console.log('erros');
+			res.json({"zipcode":null,"street":null,"neighborhood":null,"city":null,"state":null});
+		});
 	});
 	
 	app.get("/pagamento/cartoes", function(req,res){

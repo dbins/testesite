@@ -19,7 +19,7 @@
 				    %>				  
 				   <!------- Mostrar na do shopping---->
 
-                   <li id="shp"><a href=""><img src="imagens/shopping-cidadesp.png" width="90" height="69" title="Shopping Cidade São Paulo"></a></li>
+                   <li id="shp"><a href=""><img src="/imagens/shopping-cidadesp.png" width="90" height="69" title="Shopping Cidade São Paulo"></a></li>
 				   <%
 				   }
 				   %>
@@ -84,7 +84,7 @@
 				    if (shopping != ''){
 				    %>
                     <!---MOSTRAR SOMENTE QUANDO TIVER NO SHOPPING ---->
-                    <!--li><a href="/servicos">SERVIÇOS</a> </li>-->
+					<li><a href="/servicos">SERVIÇOS</a> </li>
                     <%
 					}
 					%>
@@ -92,14 +92,15 @@
                 </ul>
 
        		
-				<%
-				if(usuario != '') {
-				%>
-                <!--Mostrar logado-->
+				
+                
                 <div class="log">
                     <a href="" class="lupa" id="lupa"><img src="/imagens/lupa.png" width="25" height="25" title="Busca"></a>
-
-                    <a class="bt fancybox fancybox.iframe" href="/carrinho"><img src="imagens/bag.png" width="20" height="20" title="Meu Carrinho"> 2</a>
+				<%
+				if(usuario != '') {
+				%>                   
+				   <!--Mostrar logado-->
+				   <a class="bt fancybox fancybox.iframe" href="/carrinho"><img src="/imagens/bag.png" width="20" height="20" title="Sacola"> 2</a>
 				<%
 				} else {
 				%>

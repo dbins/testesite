@@ -7,10 +7,19 @@ module.exports = function (app){
 	app.get("/promocoes", function(req,res){
 		var api = new webservice(app.locals.shopping);
 		var consulta = api.list().then(function (resultados) {
-			res.render("promocoes/index", {resultados:resultados.dados.data});
+			
+			var promocoes = [];
+			console.log(resultados.dados);
+			if (JSON.stringify(resultados.dados) === "{}"){
+				//Nao retornou banners
+			} else {
+				promocoes = resultados.dados.data;
+			}
+			
+			
+			res.render("promocoes/index", {resultados:promocoes});
 		}).catch(function (erro){
-			console.log('erro');
-			res.render("promocoes/index", {resultados:{}});
+			res.status(500).redirect('/erro/500');
 		});
 		
 	});

@@ -6,9 +6,15 @@ module.exports = function (app){
 	app.get("/home", function(req,res){
 		var api_banners = new webservice_banners('');
 		var consulta = api_banners.list().then(function (resultados) {
-			res.render("home/index", {banners:resultados.dados.data, shopping:''});
+			var banners = [];
+			if (JSON.stringify(resultados.dados) === "{}"){
+				//Nao retornou banners
+			} else {
+				banners = resultados.dados.data;	
+			}
+			res.render("home/index", {banners:banners, shopping:''});
 		}).catch(function (erro){
-			res.render("home/index", {banners:{}, shopping:''});
+			res.render("home/index", {banners:[], shopping:''});
 		});
 		
 		
@@ -29,9 +35,16 @@ module.exports = function (app){
 			
 			var api_banners = new webservice_banners(nomedoshopping);
 			var consulta = api_banners.list(nomedoshopping).then(function (resultados) {
-				res.render("home/index", {banners:resultados.dados.data, shopping:nomedoshopping});
+				var banners = [];
+				if (JSON.stringify(resultados.dados) === "{}"){
+					//Nao retornou banners
+				} else {
+					banners = resultados.dados.data;	
+				}
+				res.render("home/index", {banners:banners, shopping:nomedoshopping});
+				
 			}).catch(function (erro){
-				res.render("home/index", {banners:{}, shopping:nomedoshopping});
+				res.render("home/index", {banners:[], shopping:nomedoshopping});
 			});
 		}
 	});

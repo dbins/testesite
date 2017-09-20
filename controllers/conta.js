@@ -1,5 +1,12 @@
 module.exports = function (app){
 	app.get("/compras", function(req,res){
+		//if (!req.session.usuario){
+		//	res.redirect("/");
+		//}
+		console.log('recebi isso');
+		console.log(req.session.usuario);
+		console.log('nome');
+		console.log(req.session);
 		res.render("conta/compras", {resultados:app.get("pedidos")});
 	});
 	app.get("/compras/detalhes/:iddacompra", function(req,res){
