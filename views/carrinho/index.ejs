@@ -21,7 +21,15 @@
 	
 
 <link href="css/estilo.css" rel="stylesheet" type="text/css" />
-
+	<script type="text/javascript">
+		function confirmarClique() {
+			if(confirm("Você deseja excluir este produto?")) {
+				return true;
+			} else {
+				return false;
+			}
+		};
+	</script>
 
 
 </head>
@@ -105,6 +113,11 @@
         <th>Total</th>
 
       </tr>
+	  
+	<% 
+	if (resultados.length>0){
+		resultados.forEach(function(resultado) { 
+	%> 
 
       <tr>
 
@@ -112,19 +125,19 @@
 
         	
 
-            <img src="/imagens/chapeu2.jpg" width="150" height="104">
+            <img src="/imagens/<%=resultado.imagem%>" width="150" height="104">
 
         	<div class="carprod">
 
-                <h3>Sapato Oxford Feminino Facinelli</h3>
+                <h3><%=resultado.produto%></h3>
 
                 <span>Loja</span>
 
                 <div class="valorcar">
 
-                    <span>De R$ 35,40</span>
+                    <span>De R$ <%=resultado.de%></span>
 
-                    <span>Por 20,00</span>
+                    <span>Por <%=resultado.por%></span>
 
                 </div>
 
@@ -136,19 +149,23 @@
 
             <img src="/imagens/icon-location.jpg" width="37" height="37">
 
-            Shopping Cidade São Paulo
+            <%=resultado.shopping%>
 
         </td>
 
         <td>
 
             <div class="qtdcar">
+				<%
+				if (resultado.qtde > 1){
+				%>
+                <a href="/carrinho/altera/<%=resultado.id%>/<%=parseInt(resultado.qtde)-1%>">-</a>
+				<%
+				}
+				%>
+                <input type="text" value=" <%=resultado.qtde%> " maxlength="2">
 
-                <a href="">-</a>
-
-                <input type="text" value=" 2 " maxlength="2">
-
-                <a href="">+</a>
+                <a href="/carrinho/altera/<%=resultado.id%>/<%=parseInt(resultado.qtde)+1%>">+</a>
 
              </div>
 
@@ -156,87 +173,24 @@
 
         <td>
 
-        	<input type="text" value=" 230,00 ">
+        	<input type="text" value="<%=resultado.por%>">
 
         </td>
 
         <td>
 
-        	<input type="text" value=" 460,00 ">
+        	<input type="text" value=" <%=resultado.total%>">
 
-            <a href=""> x </a>
+            <a onClick="return confirmarClique();" href="/carrinho/remove/<%=resultado.id%>/"> x </a>
 
         </td>
 
       </tr>
 
-      
-
-       <tr>
-
-        <td>
-
-        	
-
-            <img src="/imagens/chapeu2.jpg" width="150" height="104">
-
-        	<div class="carprod">
-
-                <h3>Sapato Oxford Feminino Facinelli</h3>
-
-                <span>Loja</span>
-
-                <div class="valorcar">
-
-                    <span>De R$ 35,40</span>
-
-                    <span>Por 20,00</span>
-
-                </div>
-
-            </div>
-
-        </td>
-
-        <td>
-
-            <img src="/imagens/icon-location.jpg" width="37" height="37">
-
-            Shopping Cidade São Paulo
-
-        </td>
-
-        <td>
-
-            <div class="qtdcar">
-
-                <a href="">-</a>
-
-                <input type="text" value=" 2 " maxlength="2">
-
-                <a href="">+</a>
-
-             </div>
-
-        </td>
-
-        <td>
-
-        	<input type="text" value=" 230,00 ">
-
-        </td>
-
-        <td>
-
-        	<input type="text" value=" 460,00 ">
-
-            <a href=""> x </a>
-
-        </td>
-
-      </tr>
-
-
+    <% 
+	}); 
+	}
+	%>	
 
 	</table>
 
@@ -264,7 +218,7 @@
 
     	<label>VALOR TOTAL</label>
 
-        <input type="text" value=" R$ 320,00" readonly disabled >
+        <input type="text" value="R$ <%=total%>" readonly disabled >
 
         
 

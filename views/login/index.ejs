@@ -206,7 +206,6 @@
 </div><!--full-->
 
 
-<script src="js/jquery.min.js"></script>
 <script>
 $(document).ready(function() {
 
@@ -215,15 +214,15 @@ $(document).ready(function() {
   $('#logar').show(); 
   
 
- $( ".buttons1" ).click(function() {
-
+ $( ".buttons1" ).click(function(event) {
+	  event.preventDefault();
 	  $( "#logar" ).hide( "slow");
 	  $( "#esquece" ).show( "slow");  
 
   });
 
-   $( ".buttons2" ).click(function() {
-
+   $( ".buttons2" ).click(function(event) {
+	 event.preventDefault();
 	  $( "#logar" ).show( "slow");
 	  $( "#esquece" ).hide( "slow");  
 

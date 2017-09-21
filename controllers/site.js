@@ -14,8 +14,24 @@ module.exports = function (app){
 	app.post("/novidades", function(req,res){
 		res.render("site/novidades");
 	});
+	
+	//Retorna JSON
 	app.post("/busca", function(req,res){
-		res.render("site/busca");
+		var produto = req.body.produto;
+		var resultados = []
+		if (produto != ""){
+			if (app.locals.produtos.length>0){
+				app.locals.produtos.forEach(function(resultado) {
+					var str = resultado.produto.toLowerCase();
+					var n = str.indexOf(produto.toLowerCase());
+					if (n >=0){
+						resultados.push(resultado);
+					}
+				});		
+				
+			}	
+		}
+		res.json(resultados);
 	});
 	
 	app.get("/newsletter", function(req,res){

@@ -38,7 +38,8 @@
 		resultados.forEach(function(resultado) { 
 		%> 
     	<div class="serv">
-            <img src="<%=caminho_imagem(resultado.mall)%><%=resultado.media.images.logo%>" title="<%=resultado.info.title%>"> 
+			<span style="background-color:#000000">
+            <img src="<%=caminho_imagem(resultado.mall)%><%=resultado.media.images.logo%>" title="<%=resultado.info.title%>"></span> 
             <h2>Descrição do serviço</h2>
             <div class="lineserv"></div>
             <span> <img src="imagens/icon-fone.jpg" width="39" height="39"> <%=resultado.contacts.telephone%></span>

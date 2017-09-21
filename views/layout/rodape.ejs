@@ -43,3 +43,57 @@
 <script src="/js/on.js"></script>
 <script src="/js/ccp.js"></script>
 <script src="/js/jquery.maskedinput.2015.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	$('#campobusca').on('keyup', function(e) {
+	 if (e.which !== 32) {
+        var value = $(this).val();
+        var noWhitespaceValue = value.replace(/\s+/g, '');
+        var noWhitespaceCount = noWhitespaceValue.length;
+        if (noWhitespaceCount > 3) {
+	       pesquisar_produto(value);
+        }
+    }
+	});
+	
+	function pesquisar_produto(produto){
+		$.ajax({
+		  type: 'POST',
+		  url: '/busca',
+		  dataType : 'json',
+		  data: { 
+			'produto': produto, 
+			'_csrf': '<%= csrfToken %>'
+		  },
+		  success: function (response) {
+		    var retorno = '';
+			$.each(response, function( index, value ) {
+				var item = value;
+				
+                retorno += '<a href="/produtos/teste" class="prods">';
+                retorno += '        <section>';
+                retorno += '            <div class="favs">';
+                retorno += '                <span>' + item.desconto + ' %</span>';
+                retorno += '                <button value="" id=""></button>';
+                retorno += '            </div>';
+                retorno += '            <img src="/imagens/' + item.imagem + ' " title="' +   item.produto + '" class="img">';
+                retorno += '            <h2>' + item.marca + '</h2>';
+                retorno += '            <h3>' + item.produto + '</h3>';
+                retorno += '            <div class="valor">';
+                retorno += '                <span>De R$ ' + item.de + '</span>';
+                retorno += '                <span>Por ' + item.por + '</span>';
+                retorno += '            </div>';
+                retorno += '       </section>';
+                retorno += '   </a>';
+				
+			});
+			$("#result").html(retorno);
+		  },
+		  error: function () {
+			$("#result").html('');
+		  }
+	   });
+	}  
+
+});	
+</script>

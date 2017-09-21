@@ -131,7 +131,7 @@
 
         <h1>Endereço</h1>
 
-        <form name="formEnd" action="/pagamento/finalizar" method="POST" autocomplete="off"  onSubmit="return checkform_endereco_pagamento(this);">
+        <form name="formEnd" action="/pagamento/dados" method="POST" autocomplete="off"  onSubmit="return checkform_endereco_pagamento(this);">
 
           
 
@@ -217,7 +217,7 @@
 
                 <label>VALOR TOTAL</label>
 
-                <input type="text" value=" R$ 320,00" readonly disabled >
+                <input type="text" value=" R$ <%=total%>" readonly disabled >
 
                 
 

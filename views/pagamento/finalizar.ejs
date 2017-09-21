@@ -123,7 +123,7 @@
 
       	 <h2>Seus produtos estarão disponíveis para serem retirados na loja nos próximos 30 minutos.</h2>
 
-      	<h3>*Uma cópia dos detalhes da sua compra foi enviada para <strong>email@email.com.br</strong>. Você também pode acessá-los através da sua <a href=""> <strong>Área de Cliente</strong></a>.</h3>
+      	<h3>*Uma cópia dos detalhes da sua compra foi enviada para <strong>email@email.com.br</strong>. Você também pode acessá-los através da sua <a href="/compras/detalhes/<%=pedido%>"> <strong>Área de Cliente</strong></a>.</h3>
 
       
 
@@ -131,7 +131,7 @@
 
             <p>
 
-                <span>089.000.000</span>
+                <span><%=pedido%></span>
 
                 Número do pedido        	
 
@@ -167,7 +167,7 @@
 
                 <div class="qrcode">
 
-                    <img src="/imagens/qrcode.jpg" class="img">
+                    <img src="/compras/detalhes/qrcode/<%=pedido%>" class="img">
 
                     <div class="clear"></div>
 
@@ -207,7 +207,7 @@
 
                 	<br>
 
-                  	<strong>#765890 </strong>
+                  	<strong>#<%=pedido%> </strong>
 
                 </th>
 
@@ -215,7 +215,7 @@
 
                 <th colspan="5" rowspan="3" align="center" valign="middle">
 
-                <p align="center"><img src="/imagens/qrcode.jpg" width="155" height="170"></p>
+                <p align="center"><img src="/compras/detalhes/qrcode/<%=pedido%>" width="155" height="170"></p>
 
                 </th>
 
@@ -223,7 +223,7 @@
 
              <tr>
 
-                <td><span>Data</span><br>23/08/2017</td>
+                <td><span>Data</span><br><%=moment().format('DD-MM-YYYY')%></td>
 
                 <td><span>Horario de retirada</span><br> 15:00hs</td>
 
@@ -252,40 +252,15 @@
                 <td colspan="7"><b>Itens comprados</b></td>
 
               </tr>
-
+			<% 
+			if (resultados.length>0){
+			resultados.forEach(function(resultado) { 
+			%> 	
               <tr class="lin">
 
-                <td>Chapéu de inverno preto aveludado</td>
+                <td><%=resultado.produto%></td>
 
-                <td>Shoppig Cidade São Paulo</td>
-
-                <td>FARM</td>
-
-                <td>Cor Azul</td>
-
-                <td>Tamanho P</td>
-
-                <td>01 Unidade(s)</td>
-
-                <td>R$ 150,00</td>
-
-              </tr>
-
-              <tr>
-
-                <td colspan="7">
-
-                <div class="lin"></div>
-
-                </td>               
-
-              </tr>
-
-              <tr>
-
-                <td>Chapéu de inverno preto aveludado</td>
-
-                <td>Shoppig Cidade São Paulo</td>
+                <td> <%=resultado.shopping%></td>
 
                 <td>FARM</td>
 
@@ -293,12 +268,16 @@
 
                 <td>Tamanho P</td>
 
-                <td>01 Unidade(s)</td>
+                <td>0<%=resultado.qtde%> Unidade(s)</td>
 
-                <td>R$ 150,00</td>
+                <td>R$ <%=resultado.total%></td>
 
               </tr>
-
+			<% 
+			}); 
+			}
+			%>	
+            
         </table>
 
         

@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
+
   "author": "BINS",
   "license": "ISC",
   "dependencies": {
@@ -24,6 +25,7 @@
     "helmet": "^3.8.1",
     "moment": "^2.18.1",
     "morgan": "^1.8.2",
+    "nodemailer": "^4.1.0",
     "qr-image": "^3.2.0",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
