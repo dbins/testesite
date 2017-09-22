@@ -582,6 +582,41 @@ function checkform_novo_cadastro (form){
 		} 
 	}
 	
+	if (form.ddd.value == "") {
+		mensagem = mensagem + 'Preencha o DDD do telefone celular\n';
+		form.ddd_celular.style.backgroundColor='#FFFF99';
+		continuar = false;
+	} else {
+		if (form.ddd.value.length == 1){
+			mensagem = mensagem + 'O DDD do telefone celular foi preenchido de forma incorreta\n';
+			form.ddd.style.backgroundColor='#CCCCCC';
+			continuar = false;
+		}
+	}
+	
+	
+	if (form.telefone.value == "") {
+		mensagem = mensagem + 'Preencha o numero do telefone celular\n';
+		form.telefone.style.backgroundColor='#FFFF99';
+		continuar = false;
+	} else {
+		if (form.telefone.value.length < 8){
+			mensagem = mensagem + 'O telefone celular informado não possui a quantidade de números correta\n';
+			form.telefone.style.backgroundColor='#CCCCCC';
+			continuar = false;
+		} else {
+			var str = form.telefone.value;
+			var digito = str.charAt(0);
+			if (digito == "6" || digito == "7" || digito == "8" || digito == "9"){
+				//Nao faz nada
+			} else {
+				mensagem = mensagem + 'O telefone celular informado está incorreto\n';
+				form.telefone.style.backgroundColor='#CCCCCC';
+				continuar = false;
+			}
+		}
+	}
+	
 	if (form.aceite.checked==false) {
 		mensagem = mensagem + 'Voce precisa aceitar os termos\n';
 		continuar = false;

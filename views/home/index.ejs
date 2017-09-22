@@ -36,145 +36,35 @@
    	  <img src="/imagens/onstores.png" width="82" height="90" title="ON Stores"> 
       <p>Compre agora e retire no Shopping nos próximos 30 minutos.</p>
     </h1>
-   <div id="produtos">   
-   <a href="/produtos/teste" class="prods">
+   <div id="produtos">
+
+	<% 
+	if (produtos.length>0){
+		produtos.forEach(function(produto) { 
+	%>    
+    <a href="/produtos/<%=produto.id%>" class="prods">
         <section>
         	<div class="favs">
-            	<span>30%</span>
+            	<span> <%=produto.desconto%> %</span>
                 <button value="" id=""></button>
             </div>
             
-       		<img src="imagens/sapato.jpg" title="nome do Produto" class="img">
+       		<img src="imagens/<%=produto.imagem%>" title="nome do Produto" class="img">
             <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
+            <div class="shop"><%=produto.shopping%></div>
+            <h3><%=produto.produto%></h3>
             <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
+            	<span>De R$ <%=produto.de%></span>
+                <span>Por R$ <%=produto.por%></span>
             </div>
        </section>  
    </a> 
    
-   <a href="/produtos/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-            
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
+   <% 
+	}); 
+	}
+   %>	
    
-   <a href="/produtos/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
-   
-   <a href="/produtos/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
-   
-    <a href="/produtos/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
-   
-   
-    <a href="/produtos/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
-   
-    <a href="/produtos/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
-   
-    <a href="/produtos/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a>
    
    </div><!--produtos--> 
  </div><!--full-->

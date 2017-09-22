@@ -94,6 +94,21 @@ $(document).ready(function() {
 		  }
 	   });
 	}  
+	
+	 $("#btn_login").fancybox({
+		type : 'iframe',
+		padding : 5,
+		afterClose: function() {
+			location.reload();
+		}});
+		
+	$("#btn_carrinho").fancybox({
+		type : 'iframe',
+		padding : 5,
+		afterClose: function() {
+			location.reload();
+		}});	
+		
 
 });	
 </script>

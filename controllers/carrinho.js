@@ -2,18 +2,41 @@ module.exports = function (app){
 	app.get("/carrinho", function(req,res){
 		
 		var total = 0;
+		
 		for (index = 0; index < app.get("carrinho").length; ++index) {
 			total += parseFloat((app.get("carrinho")[index].por) * parseFloat(app.get("carrinho")[index].qtde));
 			app.get("carrinho")[index].total = (parseFloat(app.get("carrinho")[index].por) * parseFloat(app.get("carrinho")[index].qtde)).toFixed(2);
 		}
 		total = parseFloat(total).toFixed(2);
+		app.locals.total_carrinho = app.get("carrinho").length;
 		res.render("carrinho/index", {resultados:app.get("carrinho"), total: total});
 	});
 	app.post("/carrinho", function(req,res){
 		//res.render("carrinho/index");
+		req.session.carrinho = "OK";
 		res.redirect("/login");
 	});
 	app.post("/carrinho/add", function(req,res){
+		
+		var produto = req.session.produto_selecionado;
+		var adicionar = true;
+		for (index = 0; index < app.get("carrinho").length; ++index) {
+			if (app.get("carrinho")[index].id == produto){
+				adicionar = false;
+			}
+		}
+		if (adicionar){
+			console.log('1');
+			for (index = 0; index < app.get("produtos").length; ++index) {
+				if (app.get("produtos")[index].id == produto){
+					var tmp = app.get("produtos")[index];
+					tmp.qtde = 1;
+					app.get("carrinho").push(tmp);
+					console.log('2');
+				}
+			}
+		}
+		
 		res.redirect("/carrinho");
 	});
 	app.get("/carrinho/remove/:iddocarrinho", function(req,res){

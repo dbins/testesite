@@ -38,11 +38,21 @@ module.exports = function (app){
 		
 	});
 	app.get("/produtos/:nomedoproduto", function(req,res){
+		
+		//Apenas para fins de testes!
 		var nomedoproduto = req.params.nomedoproduto;
+		req.session.produto_selecionado = nomedoproduto;
+		var teste = {"id": "0","desconto":"", "imagem":"", "marca":"", "produto":"", "de":"", "por": "", "shopping":""};
+		for (index = 0; index < app.get("produtos").length; ++index) {
+			if (app.get("produtos")[index].id == nomedoproduto){
+				teste= app.get("produtos")[index];
+			}
+		}
+		
 		var consulta = api.view(nomedoproduto).then(function (resultados) {
-			res.render("produtos/produto", {resultados:resultados});
+			res.render("produtos/produto", {resultados:resultados, relacionados: app.get("produtos"), teste: teste});
 		}).catch(function (erro){
-			res.render("produtos/produto", {resultados:{}});
+			res.render("produtos/produto", {resultados:{}, relacionados: app.get("produtos"), teste: teste});
 		});
 	});
 	

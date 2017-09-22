@@ -11,13 +11,24 @@
 
 			<nav id="menu">
 
-                <ul class="dropdown"> 
-				  
+					<%
+					if (shopping == ''){
+				    %>
+						<ul class="dropdown"> 					
+					<%
+					} 
+					else
+					{
+					%>					
+						<ul class="dropshp"> 
+					<%
+				    }
+				    %>
+				   
 				    <%
 					if (shopping != ''){
 				    %>				  
-				   <!------- Mostrar na do shopping---->
-
+				   <!------- Mostrar no shopping---->
                    <li id="shp"><a href=""><img src="/imagens/shopping-cidadesp.png" width="90" height="69" title="Shopping Cidade São Paulo"></a></li>
 				   <%
 				   }
@@ -99,7 +110,7 @@
 				if(usuario != '') {
 				%>                   
 				   <!--Mostrar logado-->
-				   <a class="bt fancybox fancybox.iframe" href="/carrinho"><img src="/imagens/bag.png" width="20" height="20" title="Sacola"> 2</a>
+				   <a class="bt fancybox fancybox.iframe" id="btn_carrinho" href="/carrinho"><img src="/imagens/bag.png" width="20" height="20" title="Sacola"> <%=total_carrinho%></a>
 				<%
 				} else {
 				%>

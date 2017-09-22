@@ -12,9 +12,9 @@ module.exports = function (app){
 			} else {
 				banners = resultados.dados.data;	
 			}
-			res.render("home/index", {banners:banners, shopping:''});
+			res.render("home/index", {banners:banners, shopping:'', produtos: app.get("produtos")});
 		}).catch(function (erro){
-			res.render("home/index", {banners:[], shopping:''});
+			res.render("home/index", {banners:[], shopping:'', produtos: app.get("produtos")});
 		});
 		
 		
@@ -41,10 +41,10 @@ module.exports = function (app){
 				} else {
 					banners = resultados.dados.data;	
 				}
-				res.render("home/index", {banners:banners, shopping:nomedoshopping});
+				res.render("home/index", {banners:banners, shopping:nomedoshopping, produtos: app.get("produtos")});
 				
 			}).catch(function (erro){
-				res.render("home/index", {banners:[], shopping:nomedoshopping});
+				res.render("home/index", {banners:[], shopping:nomedoshopping, produtos: app.get("produtos")});
 			});
 		}
 	});

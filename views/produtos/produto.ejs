@@ -1,5 +1,5 @@
 <% layout("../layout/index") -%>
-<% block("title", "ON Market Place | Loja On line | Nome do Produto"); -%>
+<% block("title", "ON Market Place | Loja On line | " + teste.produto); -%>
 
  <div class="full">
     
@@ -10,16 +10,16 @@
        
         <div id="foto">
         	<div class="fleft">
-                <a class="buttons"><img src="imagens/chapeu.jpg" class="img" id="foto1"></a>
-                <a class="buttons"><img src="imagens/chapeu2.jpg" class="img" id="foto2"></a>
-                <a class="buttons"><img src="imagens/chapeu3.jpg" class="img" id="foto3"></a>
-                <a class="buttons"><img src="imagens/chapeu4.jpg" class="img" id="foto4"></a>
+                <a class="buttons"><img src="/imagens/chapeu.jpg" class="img" id="foto1"></a>
+                <a class="buttons"><img src="/imagens/chapeu2.jpg" class="img" id="foto2"></a>
+                <a class="buttons"><img src="/imagens/chapeu3.jpg" class="img" id="foto3"></a>
+                <a class="buttons"><img src="/imagens/chapeu4.jpg" class="img" id="foto4"></a>
             </div>
             <div class="fright">
-            	<div class="galery foto1"><img src="imagens/chapeu.jpg" class="img"></div>
-                <div class="galery foto2"><img src="imagens/chapeu2.jpg" class="img"></div>
-                <div class="galery foto3"><img src="imagens/chapeu3.jpg" class="img"></div>
-                <div class="galery foto4"><img src="imagens/chapeu4.jpg" class="img"></div>
+            	<div class="galery foto1"><img src="/imagens/chapeu.jpg" class="img"></div>
+                <div class="galery foto2"><img src="/imagens/chapeu2.jpg" class="img"></div>
+                <div class="galery foto3"><img src="/imagens/chapeu3.jpg" class="img"></div>
+                <div class="galery foto4"><img src="/imagens/chapeu4.jpg" class="img"></div>
             </div><!--fright-->
         </div><!--foto-->
          
@@ -27,17 +27,17 @@
     
     <!-----------infos cores, tamanho, shopping--------->
     <div id="info">
-     <form action="">
-       	<div class="compartilha"><img src="imagens/compartilha.png" width="30" height="30"></div> 
+     <form method = "POST" action="/carrinho/add">
+       	<div class="compartilha"><img src="/imagens/compartilha.png" width="30" height="30"></div> 
         <p>FARM</p> 
-        <p>Shopping Cidade São Paulo</p>
-        <h1>Chapéu inverno preto casual
+        <p><%=teste.shopping%></p>
+        <h1><%=teste.produto%>
         <div class="pline"></div>
         </h1>   
         
         <div class="preco">
-           <span>De: R$ 35,40</span>
-           <span>Por: 20,00</span>
+           <span>De: R$ <%=teste.de%></span>
+           <span>Por: <%=teste.por%></span>
          </div> 
          
          <div class="cor">
@@ -64,6 +64,7 @@
          </div> 
      
          <input type="submit" value=" Adicionar à sacola ">         
+		 <input type="hidden" name="_csrf" value="<%= csrfToken %>">	
    	</form>
    </div><!--info-->
     
@@ -112,72 +113,34 @@
        		<span class="twhite" style="left: 13%;">Veja também</span>
         </h3>
         <div class="clear"></div><br><br>
-        <a href="/produtos/teste" class="prods">
+		
+		
+		<% 
+		if (relacionados.length>0){
+			relacionados.forEach(function(resultado) { 
+		%> 
+		
+        <a href="/produtos/<%=resultado.id%>" class="prods">
             <section>
                 <div class="favs">
-                    <span>30%</span>
+                    <span><%=resultado.desconto%>%</span>
                     <button value="" id=""></button>
                 </div>
-                <img src="imagens/sapato.jpg" title="nome do Produto" class="img">
+                <img src="/imagens/<%=resultado.imagem%>" title="<%=resultado.produto%>" class="img">
                 <h2>Arezzo</h2>
-                <div class="shop">Shopping Cidade São Paulo</div>
-                <h3>Sapato Oxford Feminino Facinelli</h3>
+                <div class="shop"><%=resultado.shopping%></div>
+                <h3><%=resultado.produto%></h3>
                 <div class="valor">
-                    <span>De R$ 35,40</span>
-                    <span>Por 20,00</span>
+                    <span>De R$ <%=resultado.de%></span>
+                    <span>Por <%=resultado.de%></span>
                 </div>
            </section>  
   		 </a> 
-   
-    <a href="/produtos/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
-   
-    <a href="/produtos/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
-    <a href="/produtos/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a>         
+		 
+	   <% 
+	   }); 
+	   }
+	   %>	 
         
     </div><!--more-->
      
