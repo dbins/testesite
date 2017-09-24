@@ -9,7 +9,6 @@ module.exports = function (app){
 		var consulta = api.list().then(function (resultados) {
 			
 			var promocoes = [];
-			console.log(resultados.dados);
 			if (JSON.stringify(resultados.dados) === "{}"){
 				//Nao retornou banners
 			} else {
@@ -27,7 +26,6 @@ module.exports = function (app){
 		var consulta = api.list().then(function (resultados) {
 			res.render("promocoes/index", {resultados:resultados});
 		}).catch(function (erro){
-			console.log('erro');
 			res.render("promocoes/index", {resultados:{}});
 		});
 	});

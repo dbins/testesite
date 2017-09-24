@@ -39,7 +39,6 @@ moviesAPI.prototype.config = function(){
 
 
 moviesAPI.prototype.paginasAPI = function(){
-	//console.log('*A*');
 	if (parseInt(this.total_registros)>0){
 		if (parseInt(this.limite)>0){
 			if (parseInt(this.total_registros) % parseInt(this.limite)==0){
@@ -55,11 +54,9 @@ moviesAPI.prototype.list = function(){
 	var resposta = "";
 	return this.paginacao(1).then((data, res) => {
 		resposta = data;	
-		//console.log('*C*');
 		return resposta;
 		
 	}).catch((err) => {
-		console.log('**');
 		resposta = {"resultado":"ERRO DE COMUNICACAO 3", "dados":{}};	
 		return resposta;
 	});
@@ -81,7 +78,6 @@ moviesAPI.prototype.paginacao = function(pagina){
 		}
 	}
 	var resposta = "";
-	console.log(this.url + "/" + this.metodo + "?$skip=" + this.posicao + criterio);
 	var opcoes = {  
 	    method: 'GET',
 		uri: this.url + "/" + this.metodo + "?$skip=" + this.posicao + criterio

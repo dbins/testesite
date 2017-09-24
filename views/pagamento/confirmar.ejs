@@ -11,8 +11,8 @@
                     // INICIAR A INSTÂNCIA DO CHECKOUT
                     // declarando um callback de sucesso
                     var checkout = new PagarMeCheckout.Checkout({"encryption_key":"ek_test_E8SxpgBoEr1GBBWiXXcVHP4mIiShsw", success: function(data) {
-                        console.log(data);
-                        //Tratar aqui as ações de callback do checkout, como exibição de mensagem ou envio de token para captura da transação
+						console.log(data);
+                        window.location.href = "/pagamentos/finalizar";
                     }, 
 					error: function (error){
 						console.log(error);

@@ -15,15 +15,14 @@
 
                 <div class="item">
 
-                	<img src="<%=resultados.image_landscape%>" title="Nome do banner">
+                	<img src="<%=resultados.images[1].url%>" title="Nome do banner">
 
                 	<section>
 
-                        <span>20 de agosto</span>
-
+                      
                         <span><%=resultados.title%></span>
 
-                        <span><%=resultados.mall%></span>
+                      
 
                     </section>
 
@@ -35,7 +34,7 @@
 
                 <div class="item">
 
-                    <iframe width="100%" height="600" src="https://www.youtube.com/embed/<%=resultados.video%>?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+                    <iframe width="100%" height="600" src="<%=resultados.trailers[0].embeddedUrl%>?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
 
                 </div>
 
@@ -51,7 +50,7 @@
 
            
 
-            <div class="thumbcine"><img src="<%=resultados.image_portrait%>" class="img"></div>  
+            <div class="thumbcine"><img src="<%=resultados.images[1].url%>" class="img"></div>  
 
         </div> <!--banner-->
 
@@ -67,7 +66,7 @@
 
     	<h1><%=resultados.title%></h1>
 
-    	<p><span>??? </span> 2017 &bull; 
+    	<p><span><%=resultados.contentRating%> </span> 2017 &bull; 
 		<%
 		resultados.genres.forEach(function(item) { 
 		%>
@@ -75,7 +74,7 @@
 		<%
 		});
 		%>
-		&bull; ????h ????m</p>
+		<%=resultados.duration%> m</p>
 
     </div>
 
@@ -87,7 +86,7 @@
 
     	 <h2>Sinopse</h2>
 
-            <%=resultados.description%>
+            <%=resultados.synopsis%>
 
             
 
@@ -165,76 +164,28 @@
 
                        
 
-                       	<a href="" class="cine" target="_blank">
-
-                        	<p>Shopping Cidade São Paulo</p>
-
-                            <span>15h00 | 17h30 | 19h00</span>
-
+                        <% 
+						if (sessoes[0]){
+						sessoes[0].rooms.forEach(function(resultado) { 
+						%>
+							<a href="" class="cine" target="_blank">
+                        	<p><%=resultado.name%></p>
+							<%
+							if (resultado.sessions){
+							resultado.sessions.forEach(function(resultado2) { 
+							%>	
+                            <span><%=resultado2.date.hour%></span>
+							<%
+							});
+							}
+							%>
                             <div class="linecine"></div>
 
-                        </a>
-
-                        
-
-                        <a href="" class="cine" target="_blank">
-
-                        	<p>Shopping Cidade São Paulo</p>
-
-                            <span>15h00 | 17h30 | 19h00</span>
-
-                            <div class="linecine"></div>
-
-                        </a>
-
-                        
-
-                        <a href="" class="cine" target="_blank">
-
-                        	<p>Shopping Cidade São Paulo</p>
-
-                            <span>15h00 | 17h30 | 19h00</span>
-
-                            <div class="linecine"></div>
-
-                        </a>
-
-                        
-
-                        <a href="" class="cine" target="_blank">
-
-                        	<p>Shopping Tiête Plaza</p>
-
-                            <span>15h00 | 17h30 | 19h00</span>
-
-                            <div class="linecine"></div>
-
-                        </a>
-
-                        
-
-                        <a href="" class="cine" target="_blank">
-
-                        	<p>Shopping Tiête Plaza</p>
-
-                            <span>15h00 | 17h30 | 19h00</span>
-
-                            <div class="linecine"></div>
-
-                        </a>
-
-                        
-
-                        <a href="" class="cine" target="_blank">
-
-                        	<p>Shopping Tiête Plaza</p>
-
-                            <span>15h00 | 17h30 | 19h00</span>
-
-                            <div class="linecine"></div>
-
-                        </a>
-
+							</a>
+						<%
+						});
+						}
+						%>
                        
 
                        	
@@ -251,9 +202,28 @@
 
                      <div id="cine2">
 
-                       
+                        <% 
+						if (sessoes[1]){
+						sessoes[1].rooms.forEach(function(resultado) { 
+						%>
+							<a href="" class="cine" target="_blank">
+                        	<p><%=resultado.name%></p>
+							<%
+							if (resultado.sessions){
+							resultado.sessions.forEach(function(resultado2) { 
+							%>	
+                            <span><%=resultado2.date.hour%></span>
+							<%
+							});
+							}
+							%>
+                            <div class="linecine"></div>
 
-                       	Cine 2
+							</a>
+						<%
+						});
+						}
+						%>
 
                       </div>
 
@@ -263,7 +233,28 @@
 
                       <div id="cine3">
 
-                         	Cine 3
+                    	<% 
+						if (sessoes[2]){
+						sessoes[2].rooms.forEach(function(resultado) { 
+						%>
+							<a href="" class="cine" target="_blank">
+                        	<p><%=resultado.name%></p>
+							<%
+							if (resultado.sessions){
+							resultado.sessions.forEach(function(resultado2) { 
+							%>	
+                            <span><%=resultado2.date.hour%></span>
+							<%
+							});
+							}
+							%>
+                            <div class="linecine"></div>
+
+							</a>
+						<%
+						});
+						}
+						%>
 
                       </div>
 
@@ -274,8 +265,28 @@
                      <div id="cine4">
 
                      
+						<% 
+						if (sessoes[3]){
+						sessoes[3].rooms.forEach(function(resultado) { 
+						%>
+							<a href="" class="cine" target="_blank">
+                        	<p><%=resultado.name%></p>
+							<%
+							if (resultado.sessions){
+							resultado.sessions.forEach(function(resultado2) { 
+							%>	
+                            <span><%=resultado2.date.hour%></span>
+							<%
+							});
+							}
+							%>
+                            <div class="linecine"></div>
 
-                        	Cine 4 
+							</a>
+						<%
+						});
+						}
+						%>
 
                        
 
@@ -287,7 +298,28 @@
 
                      
 
-                        	Cine 5 
+                        	<% 
+						if (sessoes[4]){
+						sessoes[4].rooms.forEach(function(resultado) { 
+						%>
+							<a href="" class="cine" target="_blank">
+                        	<p><%=resultado.name%></p>
+							<%
+							if (resultado.sessions){
+							resultado.sessions.forEach(function(resultado2) { 
+							%>	
+                            <span><%=resultado2.date.hour%></span>
+							<%
+							});
+							}
+							%>
+                            <div class="linecine"></div>
+
+							</a>
+						<%
+						});
+						}
+						%>
 
                        
 
@@ -299,7 +331,28 @@
 
                      
 
-                         	Cine 6
+                       	<% 
+						if (sessoes[5]){
+						sessoes[5].rooms.forEach(function(resultado) { 
+						%>
+							<a href="" class="cine" target="_blank">
+                        	<p><%=resultado.name%></p>
+							<%
+							if (resultado.sessions){
+							resultado.sessions.forEach(function(resultado2) { 
+							%>	
+                            <span><%=resultado2.date.hour%></span>
+							<%
+							});
+							}
+							%>
+                            <div class="linecine"></div>
+
+							</a>
+						<%
+						});
+						}
+						%>
 
                        
 
@@ -311,7 +364,28 @@
 
                      
 
-                         	Cine 7
+                        <% 
+						if (sessoes[6]){
+						sessoes[6].rooms.forEach(function(resultado) { 
+						%>
+							<a href="" class="cine" target="_blank">
+                        	<p><%=resultado.name%></p>
+							<%
+							if (resultado.sessions){
+							resultado.sessions.forEach(function(resultado2) { 
+							%>	
+                            <span><%=resultado2.date.hour%></span>
+							<%
+							});
+							}
+							%>
+                            <div class="linecine"></div>
+
+							</a>
+						<%
+						});
+						}
+						%>
 
                        
 
@@ -322,8 +396,28 @@
                      <div id="cine8">
 
                      
+						<% 
+						if (sessoes[7]){
+						sessoes[7].rooms.forEach(function(resultado) { 
+						%>
+							<a href="" class="cine" target="_blank">
+                        	<p><%=resultado.name%></p>
+							<%
+							if (resultado.sessions){
+							resultado.sessions.forEach(function(resultado2) { 
+							%>	
+                            <span><%=resultado2.date.hour%></span>
+							<%
+							});
+							}
+							%>
+                            <div class="linecine"></div>
 
-                         	Cine 8
+							</a>
+						<%
+						});
+						}
+						%>
 
                        
 
@@ -373,7 +467,7 @@
 		em_cartaz.forEach(function(resultado) { 
 		%>
 		 <a href="/cinema/filme/<%=resultado.url_title%>" class="filmes">
-			<img src="<%=resultado.image_portrait%>"  title="<%=resultado.title%>" class="img"> 
+			<img src="<%=resultado.images[0].url%>"  title="<%=resultado.title%>" class="img"> 
 			<div class="fline"></div>
 			<p><%=resultado.title%></p>
 		</a>

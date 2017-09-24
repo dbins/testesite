@@ -19,7 +19,6 @@ module.exports = function (app){
 				resultado = app.get("pedidos")[index];	
 			}
 		}
-		console.log(resultado);
 		res.render("conta/detalhes_pedido", {resultados:resultado});
 	});
 	

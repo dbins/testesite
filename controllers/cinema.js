@@ -1,7 +1,12 @@
 var webservice = require('./../servicos/movies.js');
+var ingresso = require('./../servicos/ingresso.js');
+
 var rp2 = require('request-promise'); 
 var dados_temp = [];
 var categorias_temp = [];
+var resposta_completa = [];
+var datas_temp = [];
+
 function MonthAsString(monthIndex) {
     var d = new Date();
     var month = new Array();
@@ -34,21 +39,54 @@ function DayAsString(dayIndex) {
     return weekdays[dayIndex];
 }
 
+function retornaIDIngresso(shoppings, shopping){
+	var retorno = 1313;
+	shoppings.forEach(function(item){
+	   if (item.url_title == shopping){
+		  retorno = item.ingresso;
+	   }
+	});
+	return retorno;
+}
+
+function retornaIDFilme(filmes, filme){
+	var retorno = 0;
+	filmes.forEach(function(item){
+	   if (item.urlKey == filme){
+		  retorno = item.id;
+	   }
+	});
+	return retorno;
+}
+
+
 
 module.exports = function (app){
 	app.get("/cinema", function(req,res){
 		res.locals.csrfToken = req.csrfToken();
-		var api = new webservice(app.locals.shopping);
-		var consulta = api.list().then(function (resultados) {
-			var consulta2 = api.categorias().then(function (resultados2) {
-				dados_temp = resultados.dados.data;
-				categorias_temp = resultados2.categorias;
-				res.render("cinema/index", {resultados:resultados.dados.data, categorias:resultados2.categorias});
-			}).catch(function (erro){
-				res.render("cinema/index", {resultados:{}, categorias: {}});
-			});
+		
+		app.locals.id_do_shopping_ingresso =  retornaIDIngresso(app.locals.shoppings, app.locals.shopping);
+		
+		var api_ingresso = new ingresso(app.locals.id_do_shopping_ingresso);
+		//var api = new webservice(app.locals.shopping);
+		//var consulta = api.list().then(function (resultados) {
+		var consulta = api_ingresso.list().then(function (resultados) {	
+			//var consulta2 = api.categorias().then(function (resultados2) {
+			var resultados2 = api_ingresso.categorias(resultados.dados);
+			var resultados3 = api_ingresso.filmes(resultados.dados);
+			var resultados4 = api_ingresso.datas(resultados.dados);
+			
+			
+			resposta_completa = resultados.dados;
+			//dados_temp = resultados.dados;
+			categorias_temp = resultados2.categorias;
+			dados_temp = resultados3.dados;
+			datas_temp = resultados4.dados;
+			
+			//res.render("cinema/index", {resultados:resultados.dados.data, categorias:resultados2.categorias});
+			res.render("cinema/index", {resultados:resultados3.dados, categorias:resultados2.categorias, banners: resultados3.dados});
 		}).catch(function (erro){
-			res.render("cinema/index", {resultados:{}, categorias: {}});
+			res.render("cinema/index", {resultados:{}, categorias: {}, banners: {}});
 		});
 	});
 	
@@ -68,29 +106,56 @@ module.exports = function (app){
 				var categoria_selecionada = req.body.categoria;
 				var data_selecionada = req.body.data;
 				
+				if (data_selecionada != ""){
+					data_selecionada = data_selecionada.slice(0, -5);
+				}
+				
+				//Para trazer tudo se nao filtrar nada
+				if (nome_filme == ""){
+					if (categoria_selecionada ==""){
+						if (data_selecionada ==""){
+							results = dados_temp;
+						}
+					}	
+				}
+				
 				//Apenas para testes
 				for (index = 0; index < dados_temp.length; ++index) {
 					item = dados_temp[index];
 					
 					if (nome_filme == ""){
-						//Nao faz nada
-						if (categoria_selecionada ==""){
-							//Nao faz nada
-						} else {
-							item.genres.forEach(function(obj2) {
-								if (obj2.indexOf(categoria_selecionada) !== -1){
-									results.push(item);
-								}
-							});
-						}
+						//Nao faz nada	
 					} else {
 						if (item && item.title && item.title.toUpperCase().indexOf(nome_filme) !== -1) {
 							results.push(item);
 						}
 					}
+					
+					if (categoria_selecionada ==""){
+						//Nao faz nada
+					} else {
+						item.genres.forEach(function(obj2) {
+							if (obj2.indexOf(categoria_selecionada) !== -1){
+								results.push(item);
+							}
+						});
+					}
+					
+					if (data_selecionada == ""){
+						//Nao faz nada
+					} else {
+						datas_temp.forEach(function(obj2) {
+							if (obj2.dateFormatted == data_selecionada){
+								if (obj2.urlKey == item.urlKey){
+									results.push(item);
+								}
+							}
+						});
+					}
+					
 				}
 
-				res.render("cinema/index", {resultados:results, categorias:categorias_temp});
+				res.render("cinema/index", {resultados:results, categorias:categorias_temp, banners:dados_temp});
 			} else {
 				res.status(500).redirect('/erro/500');
 			}
@@ -101,6 +166,7 @@ module.exports = function (app){
 	});
 	app.get("/cinema/filme/:nomedofilme", function(req,res){
 		var nomedofilme = req.params.nomedofilme;
+		var id_do_filme = retornaIDFilme(dados_temp, nomedofilme);
 		
 		var diasDeExibicao = [];
 
@@ -111,25 +177,28 @@ module.exports = function (app){
 			diasDeExibicao.push({dia: DayAsString(currentDate.getDay()) , data: currentDate.getDate() + " de " + MonthAsString(currentDate.getMonth())});
 		}
 		
-		var api = new webservice(app.locals.shopping);
-		var consulta = api.view(nomedofilme).then(function (resultados) {
-			var consulta2 = api.list().then(function (resultados2) {
-				console.log('filme');
-				console.log(resultados.dados);
+		//var api = new webservice(app.locals.shopping);
+		app.locals.id_do_shopping_ingresso =  retornaIDIngresso(app.locals.shoppings, app.locals.shopping);
+		var api_ingresso = new ingresso(app.locals.id_do_shopping_ingresso);
+		
+		//var consulta = api.view(nomedofilme).then(function (resultados) {
+		var consulta = api_ingresso.view(id_do_filme).then(function (resultados) {
+			//var consulta2 = api.list().then(function (resultados2) {
 				
+				var lista_sessoes = api_ingresso.sessoes(resposta_completa, id_do_filme);
 				if (JSON.stringify(resultados.dados) === "{}"){
 					res.status(500).redirect('/erro/500');
 				} else {
 					if (typeof resultados.title === undefined) {
 						res.status(500).redirect('/erro/500');
 					} else {
-						res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": resultados2.dados.data, datas: diasDeExibicao});
+						res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": dados_temp, datas: diasDeExibicao, sessoes: lista_sessoes.sessoes});
 					}	
 				}
 				
-			}).catch(function (erro){
-				res.status(500).redirect('/erro/500');
-			});
+			//}).catch(function (erro){
+			//	res.status(500).redirect('/erro/500');
+			//});
 		}).catch(function (erro){
 			res.status(500).redirect('/erro/500');
 		});

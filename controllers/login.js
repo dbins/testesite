@@ -1,7 +1,23 @@
 var servicoEmail = require('./../servicos/emails.js');
 
+
 module.exports = function (app){
+	//var servicoAutenticar = require('./../servicos/autenticacao.js');
+	
 	app.get("/login", function(req,res){
+		
+		//Apenas para validar o conceito de autenticacao!
+		//var autentica = new servicoAutenticar();
+		//var consulta = autentica.config().then(function (resultados) {
+		//	var consulta2 = autentica.users().then(function (resultados2) {
+			
+		//	}).catch(function (erro){
+			
+		//	});
+		//}).catch(function (erro){
+			
+		//});
+		
 		if (req.session.carrinho){
 			if (req.session.carrinho == "OK"){
 				res.redirect("/pagamento/dados");
@@ -15,19 +31,19 @@ module.exports = function (app){
 		req.session.usuario = "Bins";
 		
 		var cliente = {};
-		cliente.CPF = "44444444444";
-		cliente.email = "teste@teste.com.br";
-		cliente.nome = "TESTE";
-		cliente.sobrenome = "ADLIB";
+		cliente.CPF = req.body.CPF;
+		cliente.email = "bins.br@gmail.com";
+		cliente.nome = "Daniel";
+		cliente.sobrenome = "Bins";
 		cliente.genero = "";
 		cliente.aniversario = "01/04/1970";
 		cliente.ddd ="11";
-		cliente.telefone = "2345678";
+		cliente.telefone = "91111111";
 		req.session.cliente = cliente;
 		app.locals.usuario = "Bins";
 		req.session.cpf = req.body.CPF;
 		req.session.save(function (err) {
-			if (err) return next(err)
+		if (err) return next(err)
 			res.redirect("/pagamento/dados");
 		});
 		
@@ -44,6 +60,7 @@ module.exports = function (app){
 		cliente.ddd = req.body.ddd;
 		cliente.telefone = req.body.telefone;
 		req.session.cliente = cliente;
+		req.session.usuario = req.body.nome + " " + req.body.sobrenome; 
 		
 		res.redirect("/pagamento/dados");
 	});

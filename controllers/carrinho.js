@@ -26,13 +26,11 @@ module.exports = function (app){
 			}
 		}
 		if (adicionar){
-			console.log('1');
 			for (index = 0; index < app.get("produtos").length; ++index) {
 				if (app.get("produtos")[index].id == produto){
 					var tmp = app.get("produtos")[index];
 					tmp.qtde = 1;
 					app.get("carrinho").push(tmp);
-					console.log('2');
 				}
 			}
 		}

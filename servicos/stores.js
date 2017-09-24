@@ -39,7 +39,6 @@ storesAPI.prototype.config = function(){
 
 
 storesAPI.prototype.paginasAPI = function(){
-	console.log('*A*');
 	if (parseInt(this.total_registros)>0){
 		if (parseInt(this.limite)>0){
 			if (parseInt(this.total_registros) % parseInt(this.limite)==0){
@@ -79,7 +78,6 @@ storesAPI.prototype.paginacao = function(pagina){
 		}
 	}
 	var resposta = "";
-	//console.log(this.url + "/" + this.metodo + "?$skip=" + this.posicao + criterio);
 	var opcoes = {  
 	    method: 'GET',
 		uri: this.url + "/" + this.metodo + "?$skip=" + this.posicao + criterio

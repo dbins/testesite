@@ -584,7 +584,7 @@ function checkform_novo_cadastro (form){
 	
 	if (form.ddd.value == "") {
 		mensagem = mensagem + 'Preencha o DDD do telefone celular\n';
-		form.ddd_celular.style.backgroundColor='#FFFF99';
+		form.ddd.style.backgroundColor='#FFFF99';
 		continuar = false;
 	} else {
 		if (form.ddd.value.length == 1){

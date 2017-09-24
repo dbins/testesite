@@ -16,9 +16,9 @@ module.exports = function (app){
 		}
 		
 		rp2(opcoes).then(function (response) {
-			console.log("sucesso");
+			//sucesso
 		}).catch(function (err) {
-			console.log("erro");
+			//erro
 		});
 	});
 	

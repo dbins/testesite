@@ -30,7 +30,6 @@ emailAPI.prototype.esqueceuSenha = function(destinatario, dados){
 	// Pronto, basta enviar!
 	this.transporte.sendMail(email, function(err){
 	  if(err) {
-		  console.log(err);
 		return 2;
 	  }	else {
 		return 1; //OK

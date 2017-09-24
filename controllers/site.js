@@ -50,7 +50,6 @@ module.exports = function (app){
 
 	
 	app.get("/", function(req,res){
-		console.log('vou apagar o nome do shopping');
 		app.locals.shopping = '';
 		res.redirect('/home');
 	});

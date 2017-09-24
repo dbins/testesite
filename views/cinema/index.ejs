@@ -7,11 +7,11 @@
               <div id="owl-demo" class="owl-carousel">
                 
 				<% 
-				if (resultados.length>0){
-				resultados.forEach(function(resultado) { 
+				if (banners.length>0){
+				banners.forEach(function(resultado) { 
 				%>
                 <div class="item">
-                	<img src="<%=resultado.image_landscape%>" title="<%=resultado.title%>">
+                	<img src="<%=resultado.images[1].url%>" title="<%=resultado.title%>">
                 	<section>
                         <span>20 de agosto</span>
                         <span><%=resultado.title%></span>
@@ -68,8 +68,8 @@
 		if (resultados.length>0){
 		resultados.forEach(function(resultado) { 
 		%>
-		 <a href="/cinema/filme/<%=resultado.url_title%>" class="filmes">
-			<img src="<%=resultado.image_portrait%>"  title="<%=resultado.title%>" width=200> 
+		 <a href="/cinema/filme/<%=resultado.urlKey%>" class="filmes">
+			<img src="<%=resultado.images[0].url%>"  title="<%=resultado.title%>" width=200> 
 			<div class="fline"></div>
 			<p><%=resultado.title%></p>
 		</a>
