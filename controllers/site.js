@@ -20,8 +20,8 @@ module.exports = function (app){
 		var produto = req.body.produto;
 		var resultados = []
 		if (produto != ""){
-			if (app.locals.produtos.length>0){
-				app.locals.produtos.forEach(function(resultado) {
+			if (app.get("produtos").length>0){
+				app.get("produtos").forEach(function(resultado) {
 					var str = resultado.produto.toLowerCase();
 					var n = str.indexOf(produto.toLowerCase());
 					if (n >=0){

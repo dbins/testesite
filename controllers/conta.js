@@ -60,8 +60,28 @@ module.exports = function (app){
 			res.redirect("/");
 			return;
 		}
+		
+		var cliente = {"cpf": "", "email": "", "nome": "", "sobrenome": "", "aniversario": ""};
+		var endereco = {"rua":"", "numero":"", "complemento":"", "bairro":"", "cidade":"", "estado":"", "cep":""};
+		if (req.session.cliente){
+			endereco.rua = req.session.cliente.endereco;
+			endereco.bairro = req.session.cliente.bairro;
+			endereco.cidade = req.session.cliente.cidade;
+			endereco.estado = req.session.cliente.estado;
+			endereco.numero = req.session.cliente.numero;
+			endereco.cep = req.session.cliente.cep;
+			endereco.complemento = req.session.cliente.complemento;
+			
+			cliente.cpf = req.session.cliente.CPF;
+			cliente.email = req.session.cliente.email;
+			cliente.nome = req.session.cliente.nome;
+			cliente.sobrenome = req.session.cliente.sobrenome;
+			cliente.aniversario = req.session.cliente.aniversario;
+					
+		}	
+		
 		res.locals.csrfToken = req.csrfToken();
-		res.render("conta/configuracoes", {carteira:app.get("cartoes")});
+		res.render("conta/configuracoes", {cliente: cliente, endereco: endereco, carteira:app.get("cartoes")});
 	});
 	
 	app.post("/configuracoes/dados", function(req,res){

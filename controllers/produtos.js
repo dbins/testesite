@@ -26,7 +26,6 @@ module.exports = function (app){
 		var marcas = app.get('marcas');
 		var categorias = app.get('categorias');
 		var consulta = api.list().then(function (resultados) {
-			console.log(api.paginas);
 			res.render("produtos/index", {resultados:resultados, categorias: categorias, marcas: marcas});
 		}).catch(function (erro){
 			res.render("produtos/index", {resultados:{}, categorias:{},marcas:{}});

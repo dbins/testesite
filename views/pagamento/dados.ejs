@@ -137,43 +137,43 @@
 
           <div class="campos20">
 
-          	<input type="text" value=""  placeholder="CEP" name="CEP" maxlength="8" onkeypress="return isNumberKey(event)" onblur="validar_cep(this.value);">
+          	<input type="text" value="<%=endereco.cep%>"  placeholder="CEP" name="CEP" maxlength="8" onkeypress="return isNumberKey(event)" onblur="validar_cep(this.value);">
 
           </div>
 
           <div class="campos60">
 
-          	<input type="text" value="" placeholder="Rua" name="endereco" readonly="true">
+          	<input type="text" value="<%=endereco.rua%>" placeholder="Rua" name="endereco" readonly="true">
 
           </div>
 
            <div class="campos20">
 
-          	<input type="text" value="" placeholder="Número" name="numero">
+          	<input type="text" value="<%=endereco.numero%>" placeholder="Número" name="numero">
 
           </div>
 
            <div class="campos20">
 
-          	<input type="text" value="" placeholder="Complemento" name="complemento">
+          	<input type="text" value="<%=endereco.complemento%>" placeholder="Complemento" name="complemento">
 
           </div>
 
            <div class="campos30">
 
-          	<input type="text" value="" placeholder="Bairro" name="bairro" readonly="true">
+          	<input type="text" value="<%=endereco.bairro%>" placeholder="Bairro" name="bairro" readonly="true">
 
           </div>
 
           <div class="campos30">
 
-          	<input type="text" value="" placeholder="Cidade" name="cidade" readonly="true">
+          	<input type="text" value="<%=endereco.cidade%>" placeholder="Cidade" name="cidade" readonly="true">
 
           </div>         
 
            <div class="campos20">
 
-          	<input type="text" value="" placeholder="UF" name="estado" maxlength="2" readonly="true">
+          	<input type="text" value="<%=endereco.estado%>" placeholder="UF" name="estado" maxlength="2" readonly="true">
 
           </div>         
 

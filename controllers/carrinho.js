@@ -11,11 +11,13 @@ module.exports = function (app){
 		app.locals.total_carrinho = app.get("carrinho").length;
 		res.render("carrinho/index", {resultados:app.get("carrinho"), total: total});
 	});
+	
 	app.post("/carrinho", function(req,res){
 		//res.render("carrinho/index");
 		req.session.carrinho = "OK";
 		res.redirect("/login");
 	});
+	
 	app.post("/carrinho/add", function(req,res){
 		
 		var produto = req.session.produto_selecionado;
