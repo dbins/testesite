@@ -10,6 +10,14 @@ var ingressoAPI = function (shopping_selecionado) {
 	this.total_registros = 0;
 	this.posicao = 0;
 	this.metodo = "";
+	
+	//Rever este trecho e refatorar
+	if (shopping_selecionado == 1210){
+		this.id_cidade = 2;
+	}
+	if (shopping_selecionado == 1389){
+		this.id_cidade = 15;
+	}
 };
 
 ingressoAPI.prototype.list = function(){

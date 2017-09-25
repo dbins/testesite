@@ -74,7 +74,6 @@ var marcas  = [{"title": "Arezzo"}, {"title": "Empório Colombo"}, {"title": "Zo
 var categorias = [{ "url_title" : "shoes", "title" : "Calçados" },{ "url_title" : "healthcare", "title" : "Saúde e Beleza" },{ "url_title" : "toysgifts", "title" : "Brinquedos e presentes" },{ "url_title" : "library", "title" : "Livrarias, Papelarias e Gráficas" }];
 var shoppings = [{"_id":"59c18501c171621ea44959b5","url_title":"grand_plaza_shopping","domain":"grandplazashopping.com.br","title":"Grand Plaza Shopping", "on": "https://d2dzv4u894anei.cloudfront.net/", "ingresso": "350"},{"_id":"59c18517c171621ea44959cb","url_title":"tiete_plaza_shopping","domain":"tieteplazashopping.com.br","title":"Tiete Plaza Shopping", "on": "https://tps-concierge.s3-sa-east-1.amazonaws.com/", "ingresso": "1295"},{"_id":"59c1852ec171621ea44959e1","url_title":"shopping_cerrado","domain":"shoppingcerrado.com.br","title":"Shopping Cerrado", "on": "https://s3-sa-east-1.amazonaws.com/sc-concierge/", "ingresso": "1389"},{"_id":"59c18559c171621ea4495a18","url_title":"shopping_metropolitano_barra","domain":"shoppingmetropolitanobarra.com.br","title":"Shopping Metropolitano Barra", "on": "https://smb-concierge.s3-us-west-2.amazonaws.com/", "ingresso": "1210"},{"_id":"59c18469c171621ea4495917","url_title":"shopping_cidade_sao_paulo","domain":"shoppingcidadesp.com.br","title":"Shopping Cidade São Paulo", "on": "", "ingresso": "1313"}, {"_id":"59c1853fc171621ea44959f7","url_title":"shopping_d","domain":"shoppingd.com.br","title":"Shopping D", "on": "", "ingresso": "154"}];
 
-var usuario_de_testes = "58d1d4b3b994b3110079beed"; //endpoint users
 
 var pedidos = [{"pedido":"12345567", "data":"23/08/2017", "valor": "150,00"},{"pedido":"12345568", "data":"27/08/2017", "valor": "250,00"},{"pedido":"12345569", "data":"29/08/2017", "valor": "90,00"},{"pedido":"12345570", "data":"30/08/2017", "valor": "270,00"},{"pedido":"12345571", "data":"03/09/2017", "valor": "950,00"}];
 var cartoes = [{"nome":"Obi Wan Kenobi", "comeco":"5548", "fim":"2593"},{"nome":"Anakin Skywalker", "comeco":"5540", "fim":"3513"},{"nome":"Han Solo", "comeco":"1248", "fim":"2190"}];
@@ -91,7 +90,7 @@ app.set('carrinho', carrinho);
 app.set('pedidos', pedidos);
 app.set('cartoes', cartoes);
 app.set('produtos', produtos);
-app.set('usuario_de_testes', usuario_de_testes);
+
 
 app.locals.produtos = produtos;
 app.locals.tokenAPI = "";
