@@ -94,6 +94,7 @@ app.set('produtos', produtos);
 
 app.locals.produtos = produtos;
 app.locals.tokenAPI = "";
+app.locals.tokenUsuario = "";
 app.locals.total_carrinho = 0;
 
 //Funcoes para padronizar nomes e caminho de imagens!

@@ -60,7 +60,7 @@
 
                        	<div class="campos50">
 
-                        	<input type="text" value="<%=cliente.cpf%>" name="CPF" maxlength="11" placeholder="CPF"  onKeyPress="return isNumberKey(event);">   
+                        	<input type="text" value="<%=cliente.cpf%>" name="CPF" maxlength="11" placeholder="CPF"  onKeyPress="return isNumberKey(event);" readonly>   
 
                         </div>
 
@@ -106,6 +106,14 @@
                         	<input type="text" value="<%=cliente.aniversario%>" id="aniversario" name="aniversario" placeholder="data de nascimento" maxlength="10">   
 
                         </div>
+						
+						 <div class="campos50">
+							<input type="text" value="<%=cliente.ddd%>"  placeholder="DDD" name="ddd" maxlength="2" onKeyPress="return isNumberKey(event);">
+						 </div>
+						 <div class="campos50">
+
+							<input type="text" value="<%=cliente.telefone%>"  placeholder="Telefone Celular" name="telefone" maxlength="10" onKeyPress="return isNumberKey(event);">
+						 </div>
 
                         
 

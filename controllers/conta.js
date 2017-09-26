@@ -1,3 +1,5 @@
+var servicoUsuario = require('./../servicos/usuarios.js');
+
 module.exports = function (app){
 	app.get("/compras", function(req,res){
 		if (!req.session.usuario){
@@ -61,7 +63,7 @@ module.exports = function (app){
 			return;
 		}
 		
-		var cliente = {"cpf": "", "email": "", "nome": "", "sobrenome": "", "aniversario": ""};
+		var cliente = {"cpf": "", "email": "", "nome": "", "sobrenome": "", "aniversario": "", "ddd": "", "telefone": ""};
 		var endereco = {"rua":"", "numero":"", "complemento":"", "bairro":"", "cidade":"", "estado":"", "cep":""};
 		if (req.session.cliente){
 			endereco.rua = req.session.cliente.endereco;
@@ -77,6 +79,8 @@ module.exports = function (app){
 			cliente.nome = req.session.cliente.nome;
 			cliente.sobrenome = req.session.cliente.sobrenome;
 			cliente.aniversario = req.session.cliente.aniversario;
+			cliente.ddd = req.session.cliente.ddd;
+			cliente.telefone = req.session.cliente.telefone;
 					
 		}	
 		
@@ -90,7 +94,60 @@ module.exports = function (app){
 			return;
 		}
 		//Gravar os dados
+		var dados_do_cliente = {};
+		dados_do_cliente._id = req.session.cliente.id;
+		
+		dados_do_cliente.firstname = req.body.nome;
+		dados_do_cliente.lastname = req.body.sobrenome;
+		dados_do_cliente.middlename = "";
+		dados_do_cliente.birthday = req.body.aniversario;
+		//Alterar depois
+		dados_do_cliente.gender = req.session.cliente.genero;
+		//Nao vai alterar
+		dados_do_cliente.cpf = req.session.cliente.CPF;
+		dados_do_cliente.email = req.body.email;
+		dados_do_cliente.ddd =  req.body.ddd;
+		dados_do_cliente.phone = req.body.telefone;
+		
+		dados_do_cliente.address = req.session.cliente.endereco;
+		dados_do_cliente.neighborhood = req.session.cliente.bairro;
+		dados_do_cliente.city = req.session.cliente.cidade;
+		dados_do_cliente.state = req.session.cliente.estado;
+		dados_do_cliente.number = req.session.cliente.numero;
+		dados_do_cliente.zipcode = req.session.cliente.cep;
+		dados_do_cliente.complement = req.session.cliente.complemento;
+		dados_do_cliente.password = req.session.cliente.senha2;
+		
+		dados_do_cliente.middlename = "";
+		dados_do_cliente.country =  "BR";
+		dados_do_cliente.opt_in = req.session.cliente.opt_in;
+		dados_do_cliente.created_at = req.session.cliente.created_at;
+		dados_do_cliente.favorite_events = req.session.cliente.favorite_events;
+		dados_do_cliente.favorite_products = req.session.cliente.favorite_products;
+		dados_do_cliente.favorite_stores = req.session.cliente.favorite_stores;
+		
+		//Tem que atualizar a session!
+		req.session.cliente.nome = req.body.nome;
+		req.session.cliente.sobrenome = req.body.sobrenome;
+		req.session.cliente.aniversario = req.body.aniversario;
+		req.session.cliente.email = req.body.email;
+		req.session.cliente.ddd =  req.body.ddd;
+		req.session.cliente.phone = req.body.telefone;
+		
+		if (app.locals.token_api == ""){
+			//Sem token de app nao pode fazer isso
+		} else {	
+			var apiUsuario = new servicoUsuario(app.locals.token_api);
+			var consulta = apiUsuario.atualizar(dados_do_cliente).then(function (resultados) {
+				//Sucesso
+						
+			}).catch(function (erro){
+				//ERRO
+			});
+		}
+		
 		res.redirect('/configuracoes');
+		
 	});
 	
 	app.post("/configuracoes/endereco", function(req,res){
@@ -98,6 +155,56 @@ module.exports = function (app){
 			res.redirect("/");
 			return;
 		}
+		
+		var dados_do_cliente = {};
+		dados_do_cliente._id = req.session.cliente.id;
+		dados_do_cliente.firstname = req.session.cliente.nome;
+		dados_do_cliente.lastname = req.session.cliente.sobrenome;
+		dados_do_cliente.middlename = "";
+		dados_do_cliente.birthday = req.session.cliente.aniversario;
+		dados_do_cliente.gender = req.session.cliente.genero;
+		dados_do_cliente.cpf = req.session.cliente.CPF;
+		dados_do_cliente.address = req.body.endereco;
+		dados_do_cliente.neighborhood = req.body.bairro;
+		dados_do_cliente.city = req.body.cidade;
+		dados_do_cliente.state = req.body.estado;
+		dados_do_cliente.number = req.body.numero;
+		dados_do_cliente.zipcode = req.body.CEP;
+		dados_do_cliente.complement = req.body.complemento;
+		dados_do_cliente.ddd =  req.session.cliente.ddd;
+		dados_do_cliente.phone = req.session.cliente.telefone;
+		dados_do_cliente.email = req.session.cliente.email;
+		
+		dados_do_cliente.password = req.session.cliente.senha2;
+		
+		dados_do_cliente.middlename = "";
+		dados_do_cliente.country =  "BR";
+		dados_do_cliente.opt_in = req.session.cliente.opt_in;
+		dados_do_cliente.created_at = req.session.cliente.created_at;
+		dados_do_cliente.favorite_events = req.session.cliente.favorite_events;
+		dados_do_cliente.favorite_products = req.session.cliente.favorite_products;
+		dados_do_cliente.favorite_stores = req.session.cliente.favorite_stores;
+		
+		//Tem que atualizar a session!
+		req.session.cliente.endereco = req.body.endereco;
+		req.session.cliente.bairro = req.body.bairro;
+		req.session.cliente.cidade = req.body.cidade;
+		req.session.cliente.estado = req.body.estado;
+		req.session.cliente.numero = req.body.numero;
+		req.session.cliente.cep = req.body.CEP;
+		req.session.cliente.complemento = req.body.complemento;
+		
+		if (app.locals.token_api == ""){
+			//Sem token de app nao pode fazer isso	
+		} else {
+			var apiUsuario = new servicoUsuario(app.locals.token_api);
+			var consulta = apiUsuario.atualizar(dados_do_cliente).then(function (resultados) {
+				//Sucesso	
+			}).catch(function (erro){
+				//ERRO
+			});
+		}
+		
 		//Gravar os dados
 		res.redirect('/configuracoes');
 	});
@@ -117,6 +224,47 @@ module.exports = function (app){
 			return;
 		}
 		//Gravar os dados
+		
+		var dados_do_cliente = {};
+		dados_do_cliente._id = req.session.cliente.id;
+		dados_do_cliente.firstname = req.session.cliente.nome;
+		dados_do_cliente.lastname = req.session.cliente.sobrenome;
+		dados_do_cliente.middlename = "";
+		dados_do_cliente.birthday = req.session.cliente.aniversario;
+		dados_do_cliente.gender = req.session.cliente.genero;
+		dados_do_cliente.cpf = req.session.cliente.CPF;
+		dados_do_cliente.address = req.session.cliente.endereco;
+		dados_do_cliente.neighborhood = req.session.cliente.bairro;
+		dados_do_cliente.city = req.session.cliente.cidade;
+		dados_do_cliente.state = req.session.cliente.estado;
+		dados_do_cliente.number = req.session.cliente.numero;
+		dados_do_cliente.zipcode = req.session.cliente.cep;
+		dados_do_cliente.complement = req.session.cliente.complemento;
+		dados_do_cliente.ddd =  req.session.cliente.ddd;
+		dados_do_cliente.phone = req.session.cliente.telefone;
+		dados_do_cliente.email = req.session.cliente.email;
+		
+		//Bug ao atualizar a senha!
+		//dados_do_cliente.password = req.session.cliente.senha2;
+			
+		dados_do_cliente.middlename = "";
+		dados_do_cliente.country =  "BR";
+        dados_do_cliente.opt_in = req.session.cliente.opt_in;
+        dados_do_cliente.created_at = req.session.cliente.created_at;
+        dados_do_cliente.favorite_events = req.session.cliente.favorite_events;
+        dados_do_cliente.favorite_products = req.session.cliente.favorite_products;
+        dados_do_cliente.favorite_stores = req.session.cliente.favorite_stores;
+		if (app.locals.token_api == ""){
+			//Sem token de app nao pode fazer isso
+		} else {	
+			var apiUsuario = new servicoUsuario(app.locals.token_api);
+			var consulta = apiUsuario.atualizar(dados_do_cliente).then(function (resultados) {
+				//Sucesso	
+			}).catch(function (erro){
+				//ERRO
+			});
+		}
+		
 		res.redirect('/configuracoes');
 	});
 	

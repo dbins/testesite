@@ -59,32 +59,38 @@ module.exports = function (app){
 		endereco.cep = req.body.CEP;
 		req.session.endereco = endereco;
 		
+		
+		var dados_do_cliente = {};
+		var id = objectid();
+		dados_do_cliente._id = id;
+		dados_do_cliente.firstname = req.session.cliente.nome;
+		dados_do_cliente.lastname = req.session.cliente.sobrenome;
+		dados_do_cliente.middlename = "";
+		dados_do_cliente.birthday = req.session.cliente.aniversario;
+		dados_do_cliente.gender = req.session.cliente.genero;
+		dados_do_cliente.cpf = req.session.cliente.CPF;
+		dados_do_cliente.address = req.session.endereco.rua;
+		dados_do_cliente.neighborhood = req.session.endereco.bairro;
+		dados_do_cliente.city = req.session.endereco.cidade;
+		dados_do_cliente.state = req.session.endereco.estado;
+		dados_do_cliente.number = req.session.endereco.numero;
+		dados_do_cliente.zipcode = req.session.endereco.cep;
+		dados_do_cliente.complement = req.session.endereco.complemento;
+		dados_do_cliente.ddd =  req.session.cliente.ddd;
+		dados_do_cliente.phone = req.session.cliente.telefone;
+		dados_do_cliente.email = req.session.cliente.email;
+		//A senha é criptograda automaticamente pelo servico!
+		dados_do_cliente.password = req.session.cliente.senha;
 		//Por enquanto gravar o usuário aqui
 		if (req.session.cliente.novo){
 			if (app.locals.token_api == ""){
 				//Houve um erro, nao houve comunicacao para gerar token
 			} else {
 				//Gravar o usuario novo:
-				var dados_do_cliente = {};
-				var id = objectid();
-				dados_do_cliente._id = id;
-				dados_do_cliente.firstname = req.session.cliente.nome;
-				dados_do_cliente.lastname = req.session.cliente.sobrenome;
-				dados_do_cliente.middlename = "";
-				dados_do_cliente.birthday = req.session.cliente.aniversario;
-				dados_do_cliente.gender = req.session.cliente.genero;
-				dados_do_cliente.cpf = req.session.cliente.CPF;
-				dados_do_cliente.address = req.session.endereco.rua;
-				dados_do_cliente.neighborhood = req.session.endereco.bairro;
-				dados_do_cliente.city = req.session.endereco.cidade;
-				dados_do_cliente.state = req.session.endereco.estado;
 				dados_do_cliente.country = "BR";
-				dados_do_cliente.number = req.session.endereco.numero;
-				dados_do_cliente.zipcode = req.session.endereco.cep;
-				dados_do_cliente.complement = req.session.endereco.complemento;
-				dados_do_cliente.opt_in = "true";
-				dados_do_cliente.email = req.session.cliente.email;
-				dados_do_cliente.password = crypto.createHash('md5').update(req.session.cliente.senha).digest("hex");
+				dados_do_cliente.opt_in = "true";	
+				//dados_do_cliente.password = crypto.createHash('md5').update(req.session.cliente.senha).digest("hex");
+				
 				
 				var apiUsuario = new servicoUsuario(app.locals.token_api);
 				var apiLogin = new servicoLogin(app.locals.token_api);
@@ -92,16 +98,37 @@ module.exports = function (app){
 				var consulta = apiUsuario.gravar(dados_do_cliente).then(function (resultados) {
 					//SUCESSO
 					//Gravar o usuario para poder fazer login!
-					var consulta2 = apiLogin.gravar(dados_do_cliente).then(function (resultados2) {
+					//Acho que nao precisa mais
+					//var consulta2 = apiLogin.gravar(dados_do_cliente).then(function (resultados2) {
 						//SUCESSO
-					}).catch(function (erro2){
+					//}).catch(function (erro2){
 						//ERRO
-					});
+					//});
 				}).catch(function (erro){
 					//ERRO
 				});
 				
 			}
+		} else {
+			//Fazer o update
+			dados_do_cliente._id = req.session.cliente.id;
+			dados_do_cliente.password = req.session.cliente.senha2;
+			
+			dados_do_cliente.middlename = "";
+			dados_do_cliente.country =  "BR";
+            dados_do_cliente.opt_in = req.session.cliente.opt_in;
+            dados_do_cliente.created_at = req.session.cliente.created_at;
+            dados_do_cliente.favorite_events = req.session.cliente.favorite_events;
+            dados_do_cliente.favorite_products = req.session.cliente.favorite_products;
+            dados_do_cliente.favorite_stores = req.session.cliente.favorite_stores;
+			
+			var apiUsuario = new servicoUsuario(app.locals.token_api);
+			var consulta = apiUsuario.atualizar(dados_do_cliente).then(function (resultados) {
+				//Sucesso	
+			}).catch(function (erro){
+				//ERRO
+			});
+			
 		}
 		res.redirect("/pagamento/cartoes");
 	});

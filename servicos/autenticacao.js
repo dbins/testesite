@@ -16,11 +16,18 @@ function autenticacaoAPI () {
 
 autenticacaoAPI.prototype.config = function(){
 	//if (app.locals.tokenAPI == ""){
+		//var dados_usuario = {
+		//	"level": "app",
+		//	"strategy":  "local", 
+		//	"email": "bins.br@gmail.com", 
+		//	"password": "124345678"
+		//};
+		
 		var dados_usuario = {
 			"level": "app",
 			"strategy":  "local", 
-			"email": "bins.br@gmail.com", 
-			"password": "124345678"
+			"email": "concierge_mobile@adlib.com.br", 
+			"password": "VaiPlaneta!"
 		};
 		
 		var opcoes = {  
@@ -64,6 +71,33 @@ autenticacaoAPI.prototype.users = function(){
 };
 
 
+
+autenticacaoAPI.prototype.validarUsuario = function(email, senha){
+		
+		var dados_usuario = {
+			"level": "user",
+			"strategy":  "local", 
+			"email": email, 
+			"password": senha
+		};
+		
+		var opcoes = {  
+		  method: 'POST',
+		  uri: this.url + "/" + this.metodo,
+		  body: dados_usuario,
+		  json: true // JSON stringifies the body automatically
+		}
+		
+		
+		return rp(opcoes).then((data) => {
+			this.token = data.accessToken;
+			var resposta = {"token" : data.accessToken};
+			return resposta;
+			
+		}).catch((err) => {
+			//A pagina vai tratar o erro
+		});
+};
 
 module.exports = autenticacaoAPI;
 

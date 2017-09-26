@@ -81,5 +81,31 @@ usuariosAPI.prototype.gravar = function(dados_do_cliente){
 	});
 }
 
+usuariosAPI.prototype.atualizar = function(dados_do_cliente){
+	var opcoes = {  
+    	method: 'PUT',
+		uri: this.url + "/" + this.metodo + "/" + dados_do_cliente._id,
+		body: dados_do_cliente,
+	    json: true,
+	    headers: {
+         'Authorization': this.token
+		}
+	}
+	
+	
+	return rp(opcoes).then((data, res) => {
+		var dados = JSON.parse(data);
+		if (dados.data.length == 0){
+			resposta = {"resultado":"NAO_LOCALIZADO", "id": "0"};	
+		} else {
+			resposta = {"resultado":"OK", "id": dados.data._id};	
+		}
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO", "id": "0"};	
+		return resposta;
+	});
+}
+
 module.exports = usuariosAPI;
 

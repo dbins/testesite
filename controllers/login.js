@@ -1,7 +1,8 @@
 var servicoEmail = require('./../servicos/emails.js');
 var servicoUsuario = require('./../servicos/usuarios.js');
 var servicoLogin = require('./../servicos/logins.js');
-var crypto = require('crypto');
+//var crypto = require('crypto');
+var bcrypt = require('bcrypt-nodejs');
 
 
 module.exports = function (app){
@@ -47,10 +48,10 @@ module.exports = function (app){
 			//Houve um erro, nao houve comunicacao para gerar token
 		} else {
 			//Verificar se o usuario existe
-			var apiLogin = new servicoLogin(app.locals.token_api);
-			//var apiUsuario = new servicoUsuario(app.locals.token_api);
-			//var consulta = apiUsuario.consultar(req.body.CPF).then(function (resultados) {
-			var consulta = apiLogin.consultar(req.body.CPF).then(function (resultados) {	
+			//var apiLogin = new servicoLogin(app.locals.token_api);
+			var apiUsuario = new servicoUsuario(app.locals.token_api);
+			var consulta = apiUsuario.consultar(req.body.CPF).then(function (resultados) {
+			//var consulta = apiLogin.consultar(req.body.CPF).then(function (resultados) {	
 				
 				
 				if (resultados.resultado == "NAO_LOCALIZADO"){
@@ -66,8 +67,27 @@ module.exports = function (app){
 				if (resultados.resultado == "OK"){
 					//Verificar se a senha existe
 					var dados = resultados.dados.data[0];
-					var senha = crypto.createHash('md5').update(req.body.senha).digest("hex");
-					if (dados.password == senha){
+					//var senha = crypto.createHash('md5').update(req.body.senha).digest("hex");
+					//console.log(senha);
+					//if (dados.password == senha){
+					
+					//console.log(dados.password);
+					//bcrypt.compare(req.body.senha, dados.password, (err, result) => {
+					//	if (err) {
+					//	   console.log('bcrypt - error - ', err);
+					//	} else {
+					//	   console.log('bcrypt - result - ', result);
+					//	}
+					// });
+						
+					//if (bcrypt.compareSync(req.body.senha, dados.password)){
+						
+					
+					var consulta = autentica.validarUsuario(dados.email, req.body.senha).then(function (resultados) {
+						
+						//User o token do usuario
+						app.locals.tokenUsuario = resultados.token;
+						
 						req.session.usuario = dados.firstname;
 						var cliente = {};
 						cliente.CPF = dados.cpf;
@@ -76,12 +96,15 @@ module.exports = function (app){
 						} else {
 							cliente.email = "";
 						}
+						cliente.id = dados._id;
 						cliente.nome = dados.firstname;
 						cliente.sobrenome = dados.lastname;
 						cliente.genero = dados.gender;
 						cliente.aniversario = dados.birthday;
-						cliente.ddd ="11";
-						cliente.telefone = "91111111";
+						cliente.ddd = dados.ddd;
+						cliente.telefone = dados.phone;
+						cliente.senha = req.body.senha;
+						cliente.senha2 = dados.password;
 						
 						cliente.endereco = dados.address;
 						cliente.bairro = dados.neighborhood;
@@ -91,6 +114,15 @@ module.exports = function (app){
 						cliente.numero = dados.number;
 						cliente.cep = dados.zipcode;
 						cliente.complemento = dados.complement;
+						
+						//Quando cria o registro estes dados nao sao informados
+						//Mas para atualizar voce precisa devolver senao o servico apaga :-(
+						
+						cliente.opt_in = dados.opt_in;
+						cliente.created_at = dados.created_at;
+						cliente.favorite_events = dados.favorite_events;
+						cliente.favorite_products = dados.favorite_products;
+						cliente.favorite_stores = dados.favorite_stores;
 						
 						req.session.cliente = cliente;
 						
@@ -103,10 +135,10 @@ module.exports = function (app){
 						if (err) return next(err)
 							res.redirect("/pagamento/dados");
 						});
-					} else {
+					}).catch(function (erro){
 						res.render("login/index", {mensagem: "O login ou a senha informada não foram localizadas"});
 						return;
-					}
+					});
 				}
 				
 			}).catch(function (erro){
