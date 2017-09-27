@@ -666,3 +666,56 @@ function checkform_novo_cadastro (form){
 		
 	
 }	
+
+
+
+
+function checkform_informacoes (form){
+	var continuar = true;
+	var mensagem = "Ocorreram os seguintes erros:\n"
+	
+	if (form.nome.value == "") {
+		mensagem = mensagem + 'Por favor informe seu nome\n';
+		form.nome.style.backgroundColor='#FFFF99';
+		continuar = false;
+	}	
+	
+	if (form.telefone.value == "") {
+		mensagem = mensagem + 'Por favor informe seu sobrenome\n';
+		form.telefone.style.backgroundColor='#FFFF99';
+		continuar = false;
+	}
+	
+	if (form.email.value == "") {
+		mensagem = mensagem + 'Por favor informe o seu e-mail\n';
+		form.email.style.backgroundColor='#FFFF99';
+		continuar = false;
+	} else {
+		if (echeck(form.email.value)==false){
+			mensagem = mensagem + 'Preencha corretamente o endereco de e-mail\n';
+			continuar = false;
+		}
+	}	
+	
+	if (form.tipo.value == "") {
+		mensagem = mensagem + 'Por favor informe o tipo de contato\n';
+		form.tipo.style.backgroundColor='#FFFF99';
+		continuar = false;
+	}	
+	
+	if (form.mensagem.value == "") {
+		mensagem = mensagem + 'Por favor informe o tipo de mensagem\n';
+		form.mensagem.style.backgroundColor='#FFFF99';
+		continuar = false;
+	}	
+	
+	
+	if (continuar) {
+		return true;
+	} else {
+		alert(mensagem);
+		return false;
+	}
+		
+	
+}	

@@ -1,6 +1,80 @@
 <% layout("../layout/index") -%>
 <% block("title", "Informações"); -%>
-
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyB4W0beWSv874W8nxqFIrcH1qGE8NloZ_Q&sensor=false&callback=initialize"></script>
+		<script type="text/javascript">
+		
+		var gmarkers = []; 
+		
+		function load(latitude, longitude) {
+		  var myLatlng = new google.maps.LatLng(latitude, longitude);
+		  var mapOptions = {
+			center: myLatlng,
+			zoom: 16,
+			mapTypeId: google.maps.MapTypeId.ROADMAP,
+			mapTypeControl: true,
+			mapTypeControlOptions: {
+				style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR,
+				position: google.maps.ControlPosition.BOTTOM_CENTER
+			},
+			panControl: true,
+			panControlOptions: {
+				position: google.maps.ControlPosition.TOP_RIGHT
+			},
+			zoomControl: true,
+			zoomControlOptions: {
+				style: google.maps.ZoomControlStyle.LARGE,
+				position: google.maps.ControlPosition.LEFT_CENTER
+			},
+			scaleControl: true,
+			scaleControlOptions: {
+				position: google.maps.ControlPosition.TOP_LEFT
+			},
+			streetViewControl: true,
+			streetViewControlOptions: {
+				position: google.maps.ControlPosition.LEFT_TOP
+			}
+		  };
+		  map = new google.maps.Map(document.getElementById('map'), mapOptions);
+		  var infoWindow = new google.maps.InfoWindow;
+		  var point = new google.maps.LatLng(latitude, longitude);
+		  var html = "*";
+		  var icon = 'http://labs.google.com/ridefinder/images/mm_20_red.png';
+		  var shadow = 'http://labs.google.com/ridefinder/images/mm_20_shadow.png';
+		  var marker = new google.maps.Marker({
+				map: map,
+				position: point,
+				icon: icon,
+				shadow: shadow
+			  });
+		  bindInfoWindow(marker, map, infoWindow, html);
+			  
+		  
+		  
+		}
+		
+		function bindInfoWindow(marker, map, infoWindow, html) {
+		  google.maps.event.addListener(marker, 'click', function() {
+			infoWindow.setContent(html);
+			infoWindow.open(map, marker);
+		  });
+		  gmarkers.push(marker);
+		}
+		
+		function myclick(i) {
+			google.maps.event.trigger(gmarkers[i], "click");
+		}
+		$(document).ready(function() {
+		  load(<%=resultados.client.position.latitude%>, <%=resultados.client.position.longitude%>);	
+		});
+</script>
+<style type="text/css">
+	 #map{
+		margin: 0;
+		padding: 0;
+		height: 400px;
+		width:100%
+	}
+</style>
 
 <div class="full">
     
@@ -14,12 +88,10 @@
         	
          <section class="history">
          
-       	  	<img src="imagens/fachada-shopping.jpg" class="img">
+       	  	<img src="/imagens/fachada-shopping.jpg" class="img">
             
-            <h2>História do Cidade São Paulo</h2>
-            <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.</p>
-            
-            <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos.</p>
+            <h2>História do <%=resultados.client.name%></h2>
+            <%=resultados.client.about%>
             
          </section><!--history-->
         
@@ -98,14 +170,14 @@
         
         <div class="mapa">
         	<h3>Como Chegar</h3>
-            	<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14628.78619420263!2d-46.7140186!3d-23.5613834!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59c88849fd6d%3A0x6c2a8652e6e5b36a!2sShopping+Cidade+S%C3%A3o+Paulo!5e0!3m2!1spt-BR!2sbr!4v1505422640892" width="100%" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>    
+            	<div id="map"></div>
             
         </div>
         
         <div class="mapa">
         	<h3>Mapa do Shopping</h3>
             <div>
-            	<img src="imagens/shopping-cerrado.svg" class="img">
+            	<img src="/imagens/shopping-cerrado.svg" class="img">
             </div>    
             
         </div>
@@ -115,32 +187,33 @@
         <div class="contato">   
        	<h2>Fale Conosco</h2> 
        	<p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de realcionamento do ON.STORES que nossa equipe entrará em contato rapidamente com você.</p>     
-		
+		<form method="POST" action=""  onSubmit="return checkform_informacoes(this);">
           <div class="ctc">
                 <div class="campos100">
-                    <input type="text" value="" placeholder=" Nome ">
+                    <input name="nome" type="text" value="" placeholder=" Nome ">
                 </div>
                 
                 <div class="campos100">
-                    <input type="text" value="" placeholder=" E-mail ">
+                    <input name="email" type="text" value="" placeholder=" E-mail ">
                 </div>
                 
                 <div class="campos100">
-                    <input type="text" value="" placeholder=" Telefone ">
+                    <input name="telefone" type="text" value="" placeholder=" Telefone ">
                 </div>
                 
                 <div class="campos100">
-                    <input type="text" value="" placeholder=" Tipo de Atendimento ">
+                    <input name="tipo" type="text" value="" placeholder=" Tipo de Atendimento ">
                 </div>
             
           </div><!--ctc-->
           
           <div class="ctc">
                 <div class="campos100">
-                   <textarea rows="4" cols="50" placeholder=" Mensagem "></textarea>
+                   <textarea name="mensagem" rows="4" cols="50" placeholder=" Mensagem "></textarea>
                 </div>
               
                <input type="submit" value=" Enviar ">
+			   <input type="hidden" name="_csrf" value="<%= csrfToken %>">	
           
           </div><!--ctc-->
    
@@ -148,7 +221,7 @@
         	<a href="http://vagas.intranetmall.com.br/grandplazashopping/" target="_blank">Trabalhe Conosco</a>
             <a href="https://im.intranetmall.com.br/grandplazashopping/" target="_blank">Portal do Lojista</a>
         </div>
-   
+		</form>
    <div class="clear"></div>
    </div><!--contato--> 
         
