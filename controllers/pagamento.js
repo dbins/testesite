@@ -229,5 +229,17 @@ module.exports = function (app){
 		res.render("pagamento/gerar_boleto");
 	});
 	
+	app.post("/pagamento/gravar", function(req,res){
+		var retorno =  0;
+		var token_pagarme = req.body.token;
+		var tipo_pagamento = req.body.tipo;
+		if (req.session.usuario){
+			//Gravar a transacao, guardar o token e redirecionar
+			app.locals.pgtk = token_pagarme;
+			retorno = 1;
+		}		
+		return res.json(retorno);	
+	});
+	
 	
 }

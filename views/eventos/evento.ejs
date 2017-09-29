@@ -1,11 +1,11 @@
 <% layout("../layout/index") -%>
-<% block("title", "ON Market Place | Eventos |" + nome_do_shopping_barra_titulo + " | " + resultados.info.title); -%>
+<% block("title", "ON Market Place | Eventos |" + nome_do_shopping_barra_titulo + " | " + resultados.name); -%>
 
 
 <div class="full">
     
       <aside class="bannerint">
-        	<img src="<%=caminho_imagem(resultados.mall)%><%=resultados.media.images.main%>" width="1366" height="285" title="<%=resultados.info.title%>">
+        	<img src="#" width="1366" height="285" title="<%=resultados.name%>">
             <section>Detalhe do evento</section>
         </aside> <!--banner-->
    
@@ -13,15 +13,15 @@
   	<a href="/eventos" class="back"><span class="seta-esquerda"></span> Voltar para eventos</a>
     
     <div class="titevents">
-    	<h1><%=resultados.info.title%></h1>
-    	<p>Início <span><%=moment(resultados.start_at).format( 'DD-MM-YYYY')%> </span> </p> <p> Término <span><%=moment(resultados.end_at).format( 'DD-MM-YYYY')%></span></p>
+    	<h1><%=resultados.name%></h1>
+    	<p>Início <span><%=moment(resultados.start_at).format( 'DD-MM-YYYY')%> </span> </p> <p> Término <span><%=moment(resultados.stop_at).format( 'DD-MM-YYYY')%></span></p>
     </div>
     
     <div class="clear"></div><br><br>
     
     <section id="sobrecine">
    		<h2>Descrição do Eventos</h2>
-        <%=resultados.info.short_description%>
+        <%=resultados.short_description%>
             
     </section>
   
@@ -65,7 +65,7 @@
               </tr>
 			</table>    
 			---!>
-            <%-resultados.info.description%>
+            <%-resultados.detailed_descrition%>
           	</div><!--event-->
             
 			<div class="clear"></div><br><br><br>
@@ -88,15 +88,15 @@
 		<% 
 		if (outros.length>0){
 		outros.forEach(function(resultado) { 
-		if (resultado.url_title != resultados.url_title){
+		if (resultado.slug != resultados.slug){
 		%>
-        <a href="/eventos/evento/<%=resultado.url_title%>" class="eventos">
+        <a href="/eventos/evento/<%=resultado.slug%>" class="eventos">
 
-            <img src="<%=caminho_imagem(resultado.mall)%><%=resultado.media.images.main%>" width="385" height="265" title="<%=resultado.info.title%>"> 
+            <img src="#" width="385" height="265" title="<%=resultado.name%>"> 
 
             <div class="eline"></div>
 
-            <p><%=resultado.info.title%><br>
+            <p><%=resultado.name%><br>
 			
 			
             R$ ????</p>

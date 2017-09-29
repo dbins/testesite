@@ -23,7 +23,7 @@ module.exports = function (app){
 		var consulta = api.view(nomedoevento).then(function (resultados) {
 			var consulta2 = api.list().then(function (resultados2) {
 				
-				if (typeof resultados.dados.info.title === undefined) {
+				if (typeof resultados.dados.name === undefined) {
 					res.status(500).redirect('/erro/500');
 				} else {
 					res.render("eventos/evento", {resultados:resultados.dados, outros:resultados2.dados.data,moment: moment});

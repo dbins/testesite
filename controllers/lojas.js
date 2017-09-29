@@ -1,4 +1,6 @@
 var webservice = require('./../servicos/stores.js');
+var webservice_produtos = require('./../servicos/products.js');
+
 var dados_temporarios;
 function ListarCategorias(dados, shopping){
 	var categorias = []
@@ -38,15 +40,44 @@ module.exports = function (app){
 		
 	});
 	app.post("/lojas", function(req,res){
-		res.render("lojas/index");
+		
+		res.render("lojas/index", {resultados: resultados});
 	});
 	
-	app.get("/lojas/online", function(req,res){
+	app.get("/lojas/loja-online", function(req,res){
+		var api_produtos = new webservice_produtos('');
+		var consulta = api_produtos.list().then(function (resultados) {
+			dados = api_produtos.montar(resultados.dados.data);
+			res.render("lojas/online", {produtos: dados});
+		}).catch(function (erro){
+			res.status(500).redirect('/erro/500');
+		});		
+	});
+	
+	app.get("/lojas/loja-online/:segmento", function(req,res){
+		var segmento = req.params.segmento;
+		var api_produtos = new webservice_produtos('');
+		var consulta = api_produtos.segmento(segmento).then(function (resultados) {
+			dados = api_produtos.montar(resultados.dados.data);
+			res.render("lojas/online", {produtos: dados});
+		}).catch(function (erro){
+			res.status(500).redirect('/erro/500');
+		});		
+	});
+	
+	app.post("/lojas/loja-online", function(req,res){
 		res.render("lojas/online");
 	});
 	
-	app.post("/lojas/online", function(req,res){
-		res.render("lojas/online");
+	app.post("/lojas/loja-online/:segmento", function(req,res){
+		var segmento = req.params.segmento;
+		var api_produtos = new webservice_produtos('');
+		var consulta = api_produtos.segmento(segmento).then(function (resultados) {
+			dados = api_produtos.montar(resultados.dados.data);
+			res.render("lojas/online", {produtos: dados});
+		}).catch(function (erro){
+			res.status(500).redirect('/erro/500');
+		});		
 	});
 
 	app.get("/lojas/loja/:nomedaloja", function(req,res){

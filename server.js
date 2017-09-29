@@ -127,6 +127,7 @@ app.locals.shoppings = shoppings;
 app.locals.nome_do_shopping_barra_titulo = "";
 app.locals.id_do_shopping_ingresso = "1313";
 app.locals.token_api = "";
+app.locals.pgtk = "";
 
 //Tratando o erro de rota invalida
 app.use(function(req, res, next){

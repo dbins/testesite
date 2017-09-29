@@ -3,6 +3,28 @@
 		<script src="/js/jquery.min.js"></script>
         <button id="pay-button" style="display:none">Abrir modal de pagamento</button>
         <script>
+			function finalizar(data){
+				var temp = data;
+				var token = temp.token;
+				var tipo = temp.payment_method;
+				$.ajax({
+				  type: 'POST',
+				  url: '/pagamento/gravar',
+				  dataType : 'json',
+				  data: { 
+					'token': token, 
+					'tipo': tipo, 
+					'_csrf': '<%= csrfToken %>'
+				  },
+				  success: function (response) {
+					window.location.href = "/pagamento/finalizar";
+				  },
+				  error: function () {
+					window.location.href = "/erro/500";
+				  }
+			   });
+			}  
+		
             $(document).ready(function() {
 				
                 var button = $('#pay-button');
@@ -11,8 +33,11 @@
                     // INICIAR A INSTÂNCIA DO CHECKOUT
                     // declarando um callback de sucesso
                     var checkout = new PagarMeCheckout.Checkout({"encryption_key":"ek_test_E8SxpgBoEr1GBBWiXXcVHP4mIiShsw", success: function(data) {
-						console.log(data);
-                        window.location.href = "/pagamentos/finalizar";
+						console.log('aaaa');
+						finalizar(data);
+						//var retorno = temp.token;
+						//var tipo = temp.payment_method;
+					    //window.location.href = "/pagamento/finalizar";
                     }, 
 					error: function (error){
 						console.log(error);

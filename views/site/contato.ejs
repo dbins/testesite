@@ -13,39 +13,41 @@
  <!------------------Lojas---------------------->  
 	<div class="clear"></div><br>
     
+    <form method="POST" action=""  onSubmit="return checkform_contato(this);">	
    <div class="contato">   
        	<h2>Fale Conosco</h2> 
        	<p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de realcionamento do ON.STORES que nossa equipe entrará em contato rapidamente com você.</p>     
 		
         <div class="ctc">
             <div class="campos100">
-                <input type="text" value="" placeholder=" Nome ">
+                <input type="text" value="" placeholder=" Nome " name="nome">
             </div>
             
             <div class="campos100">
-                <input type="text" value="" placeholder=" E-mail ">
+                <input type="text" value="" placeholder=" E-mail " name="email">
             </div>
             
             <div class="campos100">
-                <input type="text" value="" placeholder=" Telefone ">
+                <input type="text" value="" placeholder=" Telefone " name="telefone">
             </div>
             
             <div class="campos100">
-                <input type="text" value="" placeholder=" Tipo de Atendimento ">
+                <input type="text" value="" placeholder=" Tipo de Atendimento " name="tipo">
             </div>
             
           </div><!--ctc-->
           
           <div class="ctc">
           	<div class="campos100">
-               <textarea rows="4" cols="50" placeholder=" Mensagem "></textarea>
+               <textarea rows="4" cols="50" placeholder=" Mensagem " name="mensagem"></textarea>
             </div>
           
           <input type="submit" value=" Enviar ">
-          
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           </div><!--ctc-->
    
    <div class="clear"></div>
    </div><!--contato--> 
+   </form>
    
  </div><!--full-->

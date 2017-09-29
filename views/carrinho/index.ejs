@@ -208,7 +208,7 @@
 
         <a href="">Trocas</a>
 
-        <a href="">Contato</a>      
+        <a href="/contato">Contato</a>      
 
      </section><!--aviso-->
 
@@ -221,9 +221,15 @@
         <input type="text" value="R$ <%=total%>" readonly disabled >
 
         
-
+		<%
+		if (total > 0){
+		%>
         <input type="submit" value=" Comprar ">    
 		<input type="hidden" name="_csrf" value="<%= csrfToken %>">	
+		<%
+		}
+		%>
+		
     </div>
 
     

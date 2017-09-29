@@ -18,13 +18,13 @@
 		if (resultados.length>0){
 		resultados.forEach(function(resultado) { 
 		%>
-    	<a href="/eventos/evento/<%=resultado.url_title%>" class="eventos">
+    	<a href="/eventos/evento/<%=resultado.slug%>" class="eventos">
 
-            <img src="<%=caminho_imagem(resultado.mall)%><%=resultado.media.images.main%>" width="385" height="265" title="<%=resultado.info.title%>"> 
+            <img src="#" width="385" height="265" title="<%=resultado.name%>"> 
 
             <div class="eline"></div>
 
-            <p><%=resultado.info.title%><br>
+            <p><%=resultado.name%><br>
 			
 			
             R$ ????</p>

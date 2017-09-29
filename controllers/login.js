@@ -83,7 +83,8 @@ module.exports = function (app){
 					//if (bcrypt.compareSync(req.body.senha, dados.password)){
 						
 					
-					var consulta = autentica.validarUsuario(dados.email, req.body.senha).then(function (resultados) {
+					//Aguardar a senha voltar a funcionar
+					//var consulta = autentica.validarUsuario(dados.email, req.body.senha).then(function (resultados) {
 						
 						//User o token do usuario
 						app.locals.tokenUsuario = resultados.token;
@@ -133,12 +134,17 @@ module.exports = function (app){
 						req.session.cpf = dados.cpf;
 						req.session.save(function (err) {
 						if (err) return next(err)
-							res.redirect("/pagamento/dados");
+							
+							if (app.locals.total_carrinho ==0){
+								res.render("login/redirecionar");
+							} else {
+								res.redirect("/pagamento/dados");
+							}
 						});
-					}).catch(function (erro){
-						res.render("login/index", {mensagem: "O login ou a senha informada não foram localizadas"});
-						return;
-					});
+					//}).catch(function (erro){
+					//	res.render("login/index", {mensagem: "O login ou a senha informada não foram localizadas"});
+					//	return;
+					//});
 				}
 				
 			}).catch(function (erro){

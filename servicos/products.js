@@ -124,5 +124,29 @@ produtosAPI.prototype.montar = function(resultados){
 }
 
 
+produtosAPI.prototype.segmento = function(segmento){
+	var criterio = '';
+	if (typeof this.api_nome_do_shopping !== undefined) {
+		if (this.api_nome_do_shopping != ''){
+			criterio = '&mall=' + this.api_nome_do_shopping;
+		}
+	}
+	var resposta = "";
+	var opcoes = {  
+	    method: 'GET',
+		uri: this.url + "/" + this.metodo + "?segment=" + segmento + criterio
+	}
+	console.log(this.url + "/" + this.metodo + "?segment=" + segmento + criterio);
+	return rp(opcoes).then((data, res) => {
+		console.log(data);
+		resposta = {"resultado":"OK", "dados": JSON.parse(data)};	
+		return resposta;
+	}).catch((err) => {
+		console.log('erro');
+		resposta = {"resultado":"ERRO DE COMUNICACAO 2", "dados":{}};	
+		return resposta;
+	});
+}
+
 module.exports = produtosAPI;
 

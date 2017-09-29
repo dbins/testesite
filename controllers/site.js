@@ -9,6 +9,13 @@ module.exports = function (app){
 		res.render("site/contato");
 	});
 	app.post("/contato", function(req,res){
+		
+		var nome = req.body.nome;
+		var email = req.body.email;
+		var telefone = req.body.telefone;
+		var tipo = req.body.tipo;
+		var mensagem = req.body.mensagem;
+		
 		res.render("site/contato");
 	});
 	app.post("/novidades", function(req,res){
@@ -38,6 +45,7 @@ module.exports = function (app){
 		res.render("site/newsletter");
 	});
 	app.post("/newsletter", function(req,res){
+		var email = req.body.email;
 		res.render("site/newsletter");
 	});
 	

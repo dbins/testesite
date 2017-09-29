@@ -91,13 +91,19 @@
     <header>
 
    
-
+	<%
+	if (total_carrinho > 0){
+	%>
    	<!---mosrar quando nao o carrinho tiver vazio --->
     <div id="titcar">Login <img src="/imagens/bag.png" width="60" height="35"></div>
-
-    
-
-    <!---mosrar o passo a passo quando estiver comprando--->
+	<%
+	}
+	%>
+		
+		<%
+		if(usuario != '') {
+		%>   
+        <!---mosrar o passo a passo quando estiver comprando--->
 
     	<nav class="rota">
 
@@ -134,7 +140,9 @@
             </a>            
 
         </nav>
-
+		<%
+		}
+		%>
         
 
     </header>
