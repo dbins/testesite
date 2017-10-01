@@ -1,6 +1,7 @@
 var servicoEmail = require('./../servicos/emails.js');
 var servicoUsuario = require('./../servicos/usuarios.js');
 var servicoLogin = require('./../servicos/logins.js');
+var objectid = require('objectid');
 //var crypto = require('crypto');
 var bcrypt = require('bcrypt-nodejs');
 
@@ -159,6 +160,8 @@ module.exports = function (app){
 		//res.render("login/index");
 		//Gravando o cliente na sessao para gravar antes de finalizar a compra
 		var cliente = {};
+		var id = objectid(); //Nao gera id automatico ao gravar
+		cliente.id = id;
 		cliente.CPF = req.body.CPF;
 		cliente.email = req.body.email;
 		cliente.nome = req.body.nome;
@@ -168,7 +171,7 @@ module.exports = function (app){
 		cliente.ddd = req.body.ddd;
 		cliente.telefone = req.body.telefone;
 		cliente.senha = req.body.senha;
-		cliente.novo = "SIM";
+		//cliente.novo = "SIM";
 		
 		//Dados que serao capturados na etapa seguinte!
 		cliente.endereco = "";
@@ -183,7 +186,53 @@ module.exports = function (app){
 		req.session.cliente = cliente;
 		req.session.usuario = req.body.nome + " " + req.body.sobrenome; 
 		
-		res.redirect("/pagamento/dados");
+		//Alteracao. Precisa gravar agora, pois pode ocorrer o caso do cliente se cadastrar sem tem carrinho
+		if (app.locals.token_api == ""){
+			//Houve um erro, nao houve comunicacao para gerar token
+		} else {
+			//Gravar o usuario novo:
+			var dados_do_cliente = {};
+			dados_do_cliente._id = id;
+			dados_do_cliente.firstname = req.body.nome;
+			dados_do_cliente.lastname = req.body.sobrenome;
+			dados_do_cliente.middlename = "";
+			dados_do_cliente.birthday = req.body.aniversario;
+			dados_do_cliente.gender = req.body.genero;
+			dados_do_cliente.cpf = req.session.cliente.CPF;
+			dados_do_cliente.address = "";
+			dados_do_cliente.neighborhood = "";
+			dados_do_cliente.city = "";
+			dados_do_cliente.state = "";
+			dados_do_cliente.number = "";
+			dados_do_cliente.zipcode = "";
+			dados_do_cliente.complement = "";
+			dados_do_cliente.ddd =  req.body.ddd;
+			dados_do_cliente.phone = req.body.telefone;
+			dados_do_cliente.email = req.body.email;
+			//A senha é criptograda automaticamente pelo servico!
+			dados_do_cliente.password =  req.body.senha;
+			dados_do_cliente.country = "BR";
+			dados_do_cliente.opt_in = "true";	
+			var apiUsuario = new servicoUsuario(app.locals.token_api);
+			var consulta = apiUsuario.gravar(dados_do_cliente).then(function (resultados) {
+				
+				var tmp1 = dados_do_cliente.firstname;
+				var tmp2 = dados_do_cliente.lastname;
+				app.locals.usuario = dados_do_cliente.firstname + ' ' +  dados_do_cliente.lastname;
+				app.locals.letras = tmp1.substring(0,1) + tmp2.substring(0,1);
+						
+				//SUCESSO
+				if (app.locals.total_carrinho ==0){
+					res.render("login/redirecionar");
+				} else {
+					res.redirect("/pagamento/dados");
+				}
+			}).catch(function (erro){
+				//ERRO
+			});
+		}
+		
+		//res.redirect("/pagamento/dados");
 	});
 	
 	app.post("/login/validar", function(req,res){

@@ -179,8 +179,8 @@ module.exports = function (app){
 		
 		
 		//Valor fixo para testes
-		total = 100;
-		res.render("pagamento/confirmar", {cliente: req.session.cliente, endereco: req.session.endereco, carrinho: app.get("carrinho"), total_carrinho: total});
+		//total = 100;
+		res.render("pagamento/confirmar", {cliente: req.session.cliente, endereco: req.session.endereco, carrinho: app.get("carrinho"), total_carrinho:  parseFloat(total) * 100, total_exibir: parseFloat(total).toFixed(2)});
 	});
 	app.post("/pagamento/cartoes", function(req,res){
 		if (!req.session.usuario){
@@ -217,6 +217,8 @@ module.exports = function (app){
 		var max = 50000;
 		//var pedido = Math.floor(Math.random()*(max-min+1)+min);
 		app.locals.pgtk = Math.floor(Math.random()*(max-min+1)+min); //SOMENTE PARA TESTES
+		
+		
 		
 		var iddacompra = app.get("ultima_transacao");
 		var pedido = iddacompra;
@@ -290,11 +292,11 @@ module.exports = function (app){
 				//updated_at: Date, 	
 				//removed_at: Date
 				array_itens.push(tmp_item);
-				
 				total += parseFloat((app.get("carrinho")[index].por) * parseFloat(app.get("carrinho")[index].qtde));
 				
 			}
-			total = FormataNumero(total);
+			total = parseFloat(total) * 100;
+			//total = FormataNumero(total);
 			//Transacoes 
 			var transacao = {};
 			
@@ -317,6 +319,7 @@ module.exports = function (app){
 			//transacao.removed_at: Date,
 			transacao.total_price = total;
 			//transacao.total_reversed: Number
+			
 			
 			//Apenas para fins de testes, efetuar captura
 			var apiPagarme = new servicoPagarme();
@@ -342,8 +345,7 @@ module.exports = function (app){
 			objeto_metadata.id = 0;
 			objeto_metadata.produtos = app.get("carrinho");
 			dados.metadata = objeto_metadata;
-			
-			var consulta = apiPagarme.captura(token_pagarme, '100', dados).then(function (resultados) {
+			var consulta = apiPagarme.captura(token_pagarme, total, dados).then(function (resultados) {
 				//Somente volta resposta depois da captura!
 				app.set('ultima_transacao', resultados.dados.id);
 				return res.json(retorno);	

@@ -52,7 +52,7 @@
 
             <tr>
 
-                <td><span>Data</span><br><%=moment(resultados.data).format('DD-MM-YYYY')%></td>
+                <td><span>Data</span><br><%=moment(resultados.data).format('DD/MM/YYYY')%></td>
 
                 <td><span>Horario de retirada</span><br> 15:00hs</td>
 
@@ -71,7 +71,7 @@
 				<%
 				} else {
 				%>
-				Vencimento:<strong><%=moment(resultados.boleto_vencimento).format('DD-MM-YYYY')%></strong><br/>
+				Vencimento:<br/><strong><%=moment(resultados.boleto_vencimento).format('DD-MM-YYYY')%></strong><br/>
 				<%
 				}
 				%>

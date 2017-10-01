@@ -68,12 +68,12 @@ usuariosAPI.prototype.gravar = function(dados_do_cliente){
 		}
 	}
 	return rp(opcoes).then((data, res) => {
-		var dados = JSON.parse(data);
-		if (dados.data.length == 0){
-			resposta = {"resultado":"NAO_LOCALIZADO", "id": "0"};	
-		} else {
-			resposta = {"resultado":"OK", "id": dados.data._id};	
-		}
+		//var dados = JSON.parse(data);
+		//if (dados.data.length == 0){
+		//	resposta = {"resultado":"NAO_LOCALIZADO", "id": "0"};	
+		//} else {
+			resposta = {"resultado":"OK", "id": data._id};	
+		//}
 		return resposta;
 	}).catch((err) => {
 		resposta = {"resultado":"ERRO", "id": "0"};	

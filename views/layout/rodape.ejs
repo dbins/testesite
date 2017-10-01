@@ -44,6 +44,48 @@
 <script src="/js/ccp.js"></script>
 <script src="/js/jquery.maskedinput.2015.js"></script>
 <script type="text/javascript">
+
+
+	function favoritar_produto(produto, event){
+		event.preventDefault();
+		$.ajax({
+		  type: 'POST',
+		  url: '/produtos/favoritar/',
+		  dataType : 'json',
+		  data: { 
+			'produto': produto, 
+			'_csrf': '<%= csrfToken %>'
+		  },
+		  success: function (response) {
+			alert('Produto selecionado com sucesso!');
+			return false;
+		  },
+		  error: function () {
+			//
+		  }
+	   });
+	}
+	
+	function remover_produto(produto, event){
+		event.preventDefault();
+		$.ajax({
+		  type: 'POST',
+		  url: '/produtos/desfavoritar/',
+		  dataType : 'json',
+		  data: { 
+			'produto': produto, 
+			'_csrf': '<%= csrfToken %>'
+		  },
+		  success: function (response) {
+			$("#lk" +  produto).remove();
+			alert('Produto removido com sucesso!');
+		  },
+		  error: function () {
+			//
+		  }
+	   });
+	}	
+	
 $(document).ready(function() {
 	$('#campobusca').on('keyup', function(e) {
 	 if (e.which !== 32) {
@@ -55,6 +97,7 @@ $(document).ready(function() {
         }
     }
 	});
+	
 	
 	function pesquisar_produto(produto){
 		$.ajax({
@@ -70,7 +113,7 @@ $(document).ready(function() {
 			$.each(response, function( index, value ) {
 				var item = value;
 				
-                retorno += '<a href="/produtos/teste" class="prods">';
+                retorno += '<a href="/produtos/' + item.url_title + '" class="prods">';
                 retorno += '        <section>';
                 retorno += '            <div class="favs">';
                 retorno += '                <span>' + item.desconto + ' %</span>';
@@ -95,41 +138,8 @@ $(document).ready(function() {
 	   });
 	}
 
-	function favoritar_produto(produto){
-		$.ajax({
-		  type: 'POST',
-		  url: '/produtos/favoritar/',
-		  dataType : 'json',
-		  data: { 
-			'produto': produto, 
-			'_csrf': '<%= csrfToken %>'
-		  },
-		  success: function (response) {
-			alert('Produto selecionado com sucesso!');
-		  },
-		  error: function () {
-			//
-		  }
-	   });
-	}
 	
-	function remover_produto(produto){
-		$.ajax({
-		  type: 'POST',
-		  url: '/produtos/desfavoritar/',
-		  dataType : 'json',
-		  data: { 
-			'produto': produto, 
-			'_csrf': '<%= csrfToken %>'
-		  },
-		  success: function (response) {
-			alert('Produto removido com sucesso!');
-		  },
-		  error: function () {
-			//
-		  }
-	   });
-	}	
+	
 	
 	
 	 $("#btn_login").fancybox({

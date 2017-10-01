@@ -110,14 +110,12 @@
                 
                 <div class="log">
                     <a href="" class="lupa" id="lupa"><img src="/imagens/lupa.png" width="25" height="25" title="Busca"></a>
-				<%
-				if(usuario != '') {
-				%>                   
+				                  
 				   <!--Mostrar logado-->
 				   <a class="bt fancybox fancybox.iframe" id="btn_carrinho" href="/carrinho"><img src="/imagens/bag.png" width="20" height="20" title="Sacola"> <%=total_carrinho%></a>
 				<%
-				} else {
-				%>
+				if(usuario == '') {
+				%> 
                   <!----mostrar deslogado----->
                   <a class="bt fancybox fancybox.iframe" id="btn_login" href="/login">Quero entrar </a>
 				<%

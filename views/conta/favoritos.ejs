@@ -95,14 +95,14 @@
 				if (produtos.length>0){
 					produtos.forEach(function(produto) { 
 				%>    
-				<a href="/produtos/<%=produto.id%>" class="prods">
+				<a id="lk<%=produto.id%>" href="/produtos/<%=produto.url_title%>" class="prods">
 					<section>
 						<%
 						if(usuario != '') {
 						%>  
 						<div class="favs">
 							<span> <%=produto.desconto%> %</span>
-							<button value="" id=""></button>
+							<button type="button" value="" id="" onclick="remover_produto('<%=produto.id%>', event)"></button>
 						</div>
 						<%
 						}
@@ -137,7 +137,7 @@
 				if (promocoes.length>0){
 					promocoes.forEach(function(produto) { 
 				%>    
-				<a href="/promocoes/<%=produto.id%>" class="prods">
+				<a href="/promocoes/<%=produto.url_title%>" class="prods">
 					<section>
 						<%
 						if(usuario != '') {
@@ -183,7 +183,7 @@
 				if (lojas.length>0){
 					lojas.forEach(function(produto) { 
 				%>    
-				<a href="/lojas/<%=produto.id%>" class="prods">
+				<a href="/lojas/<%=produto.url_title%>" class="prods">
 					<section>
 						<%
 						if(usuario != '') {
@@ -226,7 +226,7 @@
 				if (eventos.length>0){
 					eventos.forEach(function(produto) { 
 				%>    
-				<a href="/eventos/<%=produto.id%>" class="prods">
+				<a href="/eventos/<%=produto.url_title%>" class="prods">
 					<section>
 						<%
 						if(usuario != '') {

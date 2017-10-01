@@ -1,3 +1,5 @@
+var webservice = require('./../servicos/products.js');
+var api = new webservice();
 module.exports = function (app){
 	app.get("/carrinho", function(req,res){
 		
@@ -23,43 +25,61 @@ module.exports = function (app){
 		var produto = req.body.produto;
 		var adicionar = true;
 		for (index = 0; index < app.get("carrinho").length; ++index) {
-			if (app.get("carrinho")[index].id == produto){
+			if (app.get("carrinho")[index].url_title == produto){
 				adicionar = false;
 			}
 		}
 		if (adicionar){
-			for (index = 0; index < app.get("produtos").length; ++index) {
-				if (app.get("produtos")[index].id == produto){
-					var tmp = app.get("produtos")[index];
-					tmp.qtde = 1;
-					app.get("carrinho").push(tmp);
-				}
-			}
+			var consulta = api.view(produto).then(function (resultados) {
+				var tmp = resultados.dados;
+				var produto_adicionado = api.montarProduto(tmp);
+				produto_adicionado.qtde = 1;
+				app.get("carrinho").push(produto_adicionado);
+				res.redirect("/carrinho");
+			}).catch(function (erro){
+				res.redirect("erro/500");
+			});
+		} else {
+			res.redirect("/carrinho");
 		}
-		
-		res.redirect("/carrinho");
 	});
 	
 	app.get("/carrinho/add/:iddoproduto", function(req,res){
-		
-		var produto = req.params.iddoproduto;
-		var adicionar = true;
-		for (index = 0; index < app.get("carrinho").length; ++index) {
-			if (app.get("carrinho")[index].id == produto){
-				adicionar = false;
-			}
-		}
-		if (adicionar){
-			for (index = 0; index < app.get("produtos").length; ++index) {
-				if (app.get("produtos")[index].id == produto){
-					var tmp = app.get("produtos")[index];
-					tmp.qtde = 1;
-					app.get("carrinho").push(tmp);
+			
+			var produto = req.params.iddoproduto;
+			var consulta = api.view(produto).then(function (resultados) {
+				var tmp = resultados.dados;
+				var produto_adicionado = api.montarProduto(tmp);
+				
+				var adicionar = true;
+				for (index = 0; index < app.get("carrinho").length; ++index) {
+					if (app.get("carrinho")[index].url_title == produto){
+						adicionar = false;
+					}
 				}
-			}
-		}
+				if (adicionar){
+					produto_adicionado.qtde = 1;
+					app.get("carrinho").push(produto_adicionado);
+					res.redirect("/carrinho");
+					return;	
+				} else {
+					res.redirect("/carrinho");
+					return;	
+				}
+			}).catch(function (erro){
+				res.redirect("erro/500");
+				return;
+			});
+			
+			//for (index = 0; index < app.get("produtos").length; ++index) {
+			//	if (app.get("produtos")[index].id == produto){
+			//		var tmp = app.get("produtos")[index];
+			//		tmp.qtde = 1;
+			//		app.get("carrinho").push(tmp);
+			//	}
+			//}
 		
-		res.redirect("/carrinho");
+		
 	});
 	
 	

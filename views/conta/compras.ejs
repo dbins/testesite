@@ -42,15 +42,22 @@
 
                 <td><a href="/compras/detalhes/<%=resultado.pedido%>"><%=resultado.pedido%></a></td>
 
-                <td><%=moment(resultado.data).format('DD-MM-YYYY')%></td>
+                <td><%=moment(resultado.data).format('DD/MM/YYYY')%></td>
 
-                <td>R$ <%=resultado.valor%></td>
+                <td>R$ <%= (parseFloat(resultado.valor)/100).toFixed(2)%></td>
 
-              </tr>
-			  <%
-				});
-				}
-				%>
+             </tr>
+			 <%
+			});
+			} else {
+			%>
+			<tr>
+				<td colspan="3" align="center">Não existem pedidos</td>
+			</tr>	
+				
+			<%
+			}
+			%>	
 
         </table>
          </div><!--area-->

@@ -48,7 +48,7 @@
 			%>  
         	<div class="favs">
             	<span> <%=produto.desconto%> %</span>
-                <button type="button" value="" id="" onclick="favoritar_produto('<%=produto.url_title%>')"></button>
+                <button type="button" value="" id="" onclick="favoritar_produto('<%=produto.id%>', event)"></button>
             </div>
             <%
 			}
@@ -76,8 +76,13 @@
    
    <% 
 	}); 
-	}
+	} else {
    %>	
+   <h3>Não existem produtos para exibição</h3>
+   
+   <%
+   }
+   %>
    
    
    </div><!--produtos--> 

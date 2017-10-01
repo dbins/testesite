@@ -93,8 +93,8 @@
                         <div class="campos50">
 
                         	<select class="minimal">
-                                <option>Masculino</option>
-                                <option>Feminino</option>
+                                <option <%= cliente.sobrenome =='male' ? ' selected' : '' %>>Masculino</option>
+                                <option <%= cliente.sobrenome =='female' ? ' selected' : '' %>>Feminino</option>
                             </select>  
 
                         </div>

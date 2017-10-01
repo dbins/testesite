@@ -20,7 +20,7 @@
 
 	
 
-<link href="css/estilo.css" rel="stylesheet" type="text/css" />
+<link href="/css/estilo.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
 		function confirmarClique() {
 			if(confirm("Você deseja excluir este produto?")) {
@@ -32,7 +32,7 @@
 	</script>
 
 <style type="text/css">
-.adicionar_carrinho {	background-color: #9966CC; padding:10px 120px;   margin-top:5%; float:right; color:#fff; border:none; 	font-size: 18px;  height:60px;	font-style: italic; 	font-weight: bold; 	font-family: Lora;}
+.adicionar_carrinho {	background-color: #9966CC; padding:2px 2px;   margin-top:5%; float:right; color:#fff; border:none; 	font-size: 18px; width:220px;  height:60px;	font-style: italic; 	font-weight: bold; 	font-family: Lora;}
 
 </style>
 </head>
@@ -49,7 +49,7 @@
 
         <header> 
 
-    		<div id="titcar">Minha sacola <img src="imagens/bag.png" width="60" height="35"></div>
+    		<div id="titcar">Minha sacola <img src="/imagens/bag.png" width="60" height="35"></div>
 
     		
 
@@ -183,13 +183,13 @@
 
         <td>
 
-        	<input type="text" value="<%=resultado.por%>">
+        	<input type="text" value="<%=resultado.por%>" readonly=readonly>
 
         </td>
 
         <td>
 
-        	<input type="text" value=" <%=resultado.total%>">
+        	<input type="text" value=" <%=resultado.total%>"  readonly=readonly>
 
             <a onClick="return confirmarClique();" href="/carrinho/remove/<%=resultado.id%>/"> x </a>
 

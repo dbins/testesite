@@ -51,142 +51,45 @@
        
  <!------------------produtos---------------------->  
    <div id="produtos">   
-   <a href="/cupons/teste" class="prods">
+   
+   <% 
+   if (resultados.length>0){
+		resultados.forEach(function(produto) { 
+   %> 
+   <a href="/cupons/<%=produto.slug%>" class="prods">
         <section>
         	<div class="favs">
             	<span>30%</span>
                 <button value="" id=""></button>
             </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
+       		<img src="/imagens/sapato.jpg" title="<%=produto.title%>" class="img">
+            <h2><%=produto.store%></h2>
+            <div class="shop"><%=produto.mall%></div>
+            <h3><%=produto.title%></h3>
             <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
+				<%
+				if (produto.price_start == produto.price_end){
+				%>
+            	<span>De R$ <%=produto.price_start%></span>
+                <span>Por <%=produto.price_end%></span>
+				<%
+				} else {
+				%>
+				<span>R$ <%=produto.price%></span>
+				<%
+				}
+				%>
             </div>
        </section>  
    </a> 
-   
-   <a href="/cupons/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
-   
-   <a href="/cupons/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
-   
-   <a href="/cupons/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
-   
-    <a href="/cupons/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
-   
-   
-    <a href="/cupons/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
-   
-    <a href="/cupons/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a> 
-   
-    <a href="/cupons/teste" class="prods">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/sapato.jpg" title="nome do Produto" class="img">
-            <h2>Arezzo</h2>
-            <div class="shop">Shopping Cidade São Paulo</div>
-            <h3>Sapato Oxford Feminino Facinelli</h3>
-            <div class="valor">
-            	<span>De R$ 35,40</span>
-                <span>Por 20,00</span>
-            </div>
-       </section>  
-   </a>
+   <%
+   });
+   } else {
+   %>
+   <h3>Não existem cupons!</h3>
+   <%
+   }
+   %>
    
    </div><!--produtos--> 
  </div><!--full-->

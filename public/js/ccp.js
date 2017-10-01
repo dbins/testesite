@@ -213,7 +213,7 @@ function checkform_cadastro (form){
 		continuar = false;
 	}	
 	
-	if (form.aniversario.value == "" || form.data.value == "DD/MM/AAAA") {
+	if (form.aniversario.value == "" || form.aniversario.value == "DD/MM/AAAA") {
 		mensagem = mensagem + 'Preencha a data de nascimento\n';
 		form.aniversario.style.backgroundColor='#FFFF99';
 		continuar = false;
@@ -599,13 +599,8 @@ function checkform_novo_cadastro (form){
 		}
 	}	
 	
-	if (form.genero.value == "") {
-		mensagem = mensagem + 'Por favor informe o genero\n';
-		form.genero.style.backgroundColor='#FFFF99';
-		continuar = false;
-	}	
 	
-	if (form.aniversario.value == "" || form.data.value == "DD/MM/AAAA") {
+	if (form.aniversario.value == "" || form.aniversario.value == "DD/MM/AAAA") {
 		mensagem = mensagem + 'Preencha a data de nascimento\n';
 		form.aniversario.style.backgroundColor='#FFFF99';
 		continuar = false;
@@ -650,6 +645,40 @@ function checkform_novo_cadastro (form){
 				continuar = false;
 			}
 		}
+	}
+	
+	if (form.senha.value == "") {
+		mensagem = mensagem + 'Informe a sua nova senha\n';
+		form.senha.style.backgroundColor='#FFFF99';
+		continuar = false;
+	} else {
+		if (alphanumeric(form.senha)){
+			//Nao faz nada
+		} else {
+			mensagem = mensagem + 'A nova senha deve possuir apenas letras ou números!\n';
+			form.senha.style.backgroundColor='#FFFF99';
+			continuar = false;
+		}
+	}
+		
+	if (form.confirmar_senha.value == "") {
+		mensagem = mensagem + 'Informe a confirmação da nova senha\n';
+		form.confirmar_senha.style.backgroundColor='#FFFF99';
+		continuar = false;
+	}
+
+	if (form.senha.value == form.confirmar_senha.value) {
+		if (form.senha.value.length < 6) {
+			mensagem = mensagem + 'A nova senha deve ter pelo menos 6 caracteres\n';
+			form.senha.style.backgroundColor='#FFFF99';
+			form.confirmar_senha.style.backgroundColor='#FFFF99';
+			continuar = false;
+		}
+	} else {
+		mensagem = mensagem + 'A nova senha e a confirmação da senha devem ser iguais\n';
+		form.senha.style.backgroundColor='#FFFF99';
+		form.confirmar_senha.style.backgroundColor='#FFFF99';
+		continuar = false;
 	}
 	
 	if (form.aceite.checked==false) {

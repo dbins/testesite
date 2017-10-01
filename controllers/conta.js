@@ -89,7 +89,7 @@ module.exports = function (app){
 			return;
 		}
 		
-		var cliente = {"cpf": "", "email": "", "nome": "", "sobrenome": "", "aniversario": "", "ddd": "", "telefone": ""};
+		var cliente = {"cpf": "", "email": "", "nome": "", "sobrenome": "", "genero": "", "aniversario": "", "ddd": "", "telefone": ""};
 		var endereco = {"rua":"", "numero":"", "complemento":"", "bairro":"", "cidade":"", "estado":"", "cep":""};
 		if (req.session.cliente){
 			endereco.rua = req.session.cliente.endereco;
@@ -103,6 +103,7 @@ module.exports = function (app){
 			cliente.cpf = req.session.cliente.CPF;
 			cliente.email = req.session.cliente.email;
 			cliente.nome = req.session.cliente.nome;
+			cliente.genero = req.session.cliente.genero;
 			cliente.sobrenome = req.session.cliente.sobrenome;
 			cliente.aniversario = req.session.cliente.aniversario;
 			cliente.ddd = req.session.cliente.ddd;
@@ -128,7 +129,7 @@ module.exports = function (app){
 		dados_do_cliente.middlename = "";
 		dados_do_cliente.birthday = req.body.aniversario;
 		//Alterar depois
-		dados_do_cliente.gender = req.session.cliente.genero;
+		dados_do_cliente.gender = req.body.genero;
 		//Nao vai alterar
 		dados_do_cliente.cpf = req.session.cliente.CPF;
 		dados_do_cliente.email = req.body.email;
