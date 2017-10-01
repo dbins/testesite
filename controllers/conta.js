@@ -1,4 +1,6 @@
 var servicoUsuario = require('./../servicos/usuarios.js');
+var servicoPagarme = require('./../servicos/pagarme.js');
+var moment = require('moment');
 
 module.exports = function (app){
 	app.get("/compras", function(req,res){
@@ -6,7 +8,15 @@ module.exports = function (app){
 			res.redirect("/");
 			return;
 		}
-		res.render("conta/compras", {resultados:app.get("pedidos")});
+		var apiPagarme = new servicoPagarme();
+		var consulta = apiPagarme.pedidos(req.session.cliente.CPF).then(function (resultados) {
+			var tmp_pedidos = apiPagarme.montarPedidos(resultados.dados);
+			//res.render("conta/compras", {resultados:app.get("pedidos")});
+			res.render("conta/compras", {resultados:tmp_pedidos, moment:moment});
+		}).catch(function (erro){
+			res.redirect("erro/500");
+		});
+		
 	});
 	app.get("/compras/detalhes/:iddacompra", function(req,res){
 		if (!req.session.usuario){
@@ -21,7 +31,22 @@ module.exports = function (app){
 				resultado = app.get("pedidos")[index];	
 			}
 		}
-		res.render("conta/detalhes_pedido", {resultados:resultado});
+		
+		var apiPagarme = new servicoPagarme();
+		var consulta = apiPagarme.verTransacao(iddacompra).then(function (resultados) {
+			var tmp_pedido = apiPagarme.montarPedido(resultados.dados);
+			if (req.session.cliente.CPF == tmp_pedido.cpf){
+				//OK
+			} else {
+				res.redirect("/");
+				return;
+			}
+			res.render("conta/detalhes_pedido", {resultados:tmp_pedido, moment: moment});
+		}).catch(function (erro){
+			res.redirect("/erro/500");
+		});
+		
+		
 	});
 	
 	app.get("/compras/detalhes/qrcode/:iddacompra", function(req,res){
@@ -37,7 +62,8 @@ module.exports = function (app){
 			res.redirect("/");
 			return;
 		}
-		res.render("conta/favoritos");
+		var total = app.get("favoritos_produtos").length + app.get("favoritos_promocoes") + app.get("favoritos_lojas") + app.get("favoritos_eventos");
+		res.render("conta/favoritos", {total: total, produtos: app.get("favoritos_produtos"), promocoes: app.get("favoritos_promocoes"), lojas: app.get("favoritos_lojas"), eventos: app.get("favoritos_eventos")});
 	});
 	app.get("/favoritos/remove/:iddoobjeto", function(req,res){
 		if (!req.session.usuario){

@@ -42,7 +42,7 @@
 
                 <td><a href="/compras/detalhes/<%=resultado.pedido%>"><%=resultado.pedido%></a></td>
 
-                <td><%=resultado.data%></td>
+                <td><%=moment(resultado.data).format('DD-MM-YYYY')%></td>
 
                 <td>R$ <%=resultado.valor%></td>
 

@@ -2,6 +2,7 @@ var servicoEmail = require('./../servicos/emails.js');
 var webservice = require('./../servicos/cep.js');
 var servicoUsuario = require('./../servicos/usuarios.js');
 var servicoLogin = require('./../servicos/logins.js');
+var servicoPagarme = require('./../servicos/pagarme.js');
 var moment = require('moment');
 var objectid = require('objectid');
 var crypto = require('crypto');
@@ -14,6 +15,14 @@ function retornaIDShopping(shoppings, shopping){
 	   }
 	});
 	return retorno;
+}
+
+function FormataNumero(numero){
+	var tmp = numero;
+	tmp = tmp.toString();
+	tmp = tmp.replace(/,/g, '');
+	tmp = tmp.replace(/./g, '');
+	return tmp;
 }
 
 module.exports = function (app){
@@ -206,8 +215,27 @@ module.exports = function (app){
 		//Gerar QRCode
 		var min = 10000;
 		var max = 50000;
-		var pedido = Math.floor(Math.random()*(max-min+1)+min);
-		res.render("pagamento/finalizar", {pedido: pedido, resultados: app.get("carrinho"),moment: moment});
+		//var pedido = Math.floor(Math.random()*(max-min+1)+min);
+		app.locals.pgtk = Math.floor(Math.random()*(max-min+1)+min); //SOMENTE PARA TESTES
+		
+		var iddacompra = app.get("ultima_transacao");
+		var pedido = iddacompra;
+		var apiPagarme = new servicoPagarme();
+		var consulta = apiPagarme.verTransacao(iddacompra).then(function (resultados) {
+			var tmp_pedido = apiPagarme.montarPedido(resultados.dados);
+			if (req.session.cliente.CPF == tmp_pedido.cpf){
+				//OK
+			} else {
+				res.redirect("/");
+				return;
+			}
+			res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: app.get("carrinho"),moment: moment});
+		}).catch(function (erro){
+			//res.redirect("/erro/500");
+		});
+		
+		
+		
 	});
 	
 	app.get("/pagamento/boleto", function(req,res){
@@ -237,8 +265,97 @@ module.exports = function (app){
 			//Gravar a transacao, guardar o token e redirecionar
 			app.locals.pgtk = token_pagarme;
 			retorno = 1;
-		}		
-		return res.json(retorno);	
+			
+			
+			//Transacoes Itens
+			var array_itens = [];
+			var total = 0;
+			for (index = 0; index < app.get("carrinho").length; ++index) {
+				
+				var tmp_item = {};
+				
+				app.get("carrinho")[index].total = (parseFloat(app.get("carrinho")[index].por) * parseFloat(app.get("carrinho")[index].qtde));
+				
+				tmp_item.mall =  app.get("carrinho")[index].mall;
+				tmp_item.store = app.get("carrinho")[index].loja;
+				tmp_item.product = app.get("carrinho")[index].url_title;
+				//tmp_item.bought_at: Date,
+				//tmp_item.delivered_at: Date,
+				tmp_item.quantity = app.get("carrinho")[index].qtde;
+				tmp_item.unity_price = FormataNumero(app.get("carrinho")[index].por);
+				tmp_item.total_price = FormataNumero(app.get("carrinho")[index].total);
+				//approved_at: Date,
+				//reversed_at: Date,
+				//created_at: Date,
+				//updated_at: Date, 	
+				//removed_at: Date
+				array_itens.push(tmp_item);
+				
+				total += parseFloat((app.get("carrinho")[index].por) * parseFloat(app.get("carrinho")[index].qtde));
+				
+			}
+			total = FormataNumero(total);
+			//Transacoes 
+			var transacao = {};
+			
+			transacao.user = req.session.cliente.id;
+			transacaostatus = 'WAITING_PAYMENT';
+			transacao.source = 'SITE';
+			//transacao.transaction_id: String,
+			transacao.order_number = "";
+			transacao.price = total;
+			transacao.token = "";
+			transacao.token_pagarme = "";
+			transacao.status_pagarme = "";
+			transacao.charge_back_details = "";
+			transacao.status_clear_sale = "";
+			transacao.clear_sale_id = "";
+			transacao.payment={};
+			transacao.sale_transaction_products = array_itens;    
+			//transacao.created_at: Date,
+			//transacao.updated_at: Date,	
+			//transacao.removed_at: Date,
+			transacao.total_price = total;
+			//transacao.total_reversed: Number
+			
+			//Apenas para fins de testes, efetuar captura
+			var apiPagarme = new servicoPagarme();
+			var dados = {};
+			var array_items = [];
+			
+			
+			
+			for (index = 0; index < app.get("carrinho").length; ++index) {
+				var tmp_item = {};
+				tmp_item.id= app.get("carrinho")[index].url_title;
+				tmp_item.title= app.get("carrinho")[index].produto;
+				tmp_item.unit_price= FormataNumero(app.get("carrinho")[index].por);
+				tmp_item.quantity = app.get("carrinho")[index].qtde;
+				tmp_item.tangible = true;
+				tmp_item.category = "";
+				tmp_item.venue = "";
+				tmp_item.date = moment().format('YYYY-MM-DD');
+				array_items.push(tmp_item);	
+			}		
+			dados.items = array_items;
+			var objeto_metadata = {};
+			objeto_metadata.id = 0;
+			objeto_metadata.produtos = app.get("carrinho");
+			dados.metadata = objeto_metadata;
+			
+			var consulta = apiPagarme.captura(token_pagarme, '100', dados).then(function (resultados) {
+				//Somente volta resposta depois da captura!
+				app.set('ultima_transacao', resultados.dados.id);
+				return res.json(retorno);	
+			}).catch(function (erro){
+				return res.json(retorno);	
+			});
+	
+		} else {
+			return res.json(retorno);	
+		}
+		
+		
 	});
 	
 	

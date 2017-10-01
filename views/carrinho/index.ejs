@@ -31,7 +31,10 @@
 		};
 	</script>
 
+<style type="text/css">
+.adicionar_carrinho {	background-color: #9966CC; padding:10px 120px;   margin-top:5%; float:right; color:#fff; border:none; 	font-size: 18px;  height:60px;	font-style: italic; 	font-weight: bold; 	font-family: Lora;}
 
+</style>
 </head>
 
 
@@ -134,11 +137,18 @@
                 <span><%=resultado.loja%></span>
 
                 <div class="valorcar">
-
+					<%
+					if (resultado.de == resultado.por) {
+					%>
+					<span>R$ <%=resultado.por%></span>
+					<%
+					} else {
+					%>
                     <span>De R$ <%=resultado.de%></span>
-
-                    <span>Por <%=resultado.por%></span>
-
+					<span>Por <%=resultado.por%></span>
+					<%
+					}
+					%>
                 </div>
 
             </div>
@@ -163,7 +173,7 @@
 				<%
 				}
 				%>
-                <input type="text" value=" <%=resultado.qtde%> " maxlength="2">
+                <input type="text" value=" <%=resultado.qtde%> " maxlength="2" readonly=readonly>
 
                 <a href="/carrinho/altera/<%=resultado.id%>/<%=parseInt(resultado.qtde)+1%>">+</a>
 
@@ -189,15 +199,25 @@
 
     <% 
 	}); 
-	}
+	} else {
 	%>	
+	<tr>
+		<td colspan="5" align="center">
+			Não existem produtos em seu carrinho
+		</td>
+	</tr>
+	<%
+	}
+	%>
 
 	</table>
 
     <div class="clear"></div>
 
     
-
+	<% 
+	if (resultados.length>0){
+	%>
      <section class="avisocar">
 
         <h3>Importante</h3>
@@ -211,7 +231,9 @@
         <a href="/contato">Contato</a>      
 
      </section><!--aviso-->
-
+	<%
+	}
+	%>
         
 
     <div class="total">
@@ -229,6 +251,7 @@
 		<%
 		}
 		%>
+		<input type="button" class="adicionar_carrinho"  value="Selecionar mais produtos" onclick="window.top.location.href='/lojas/loja-online'">    
 		
     </div>
 

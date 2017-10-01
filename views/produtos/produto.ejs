@@ -1,6 +1,9 @@
 <% layout("../layout/index") -%>
 <% block("title", "ON Market Place | Loja On line | " + teste.produto); -%>
+<style type="text/css">
+.adicionar_sacola {	background-color: #9966CC; padding:10px 120px;   margin-top:5%; float:right; color:#fff; border:none; 	font-size: 18px;  height:60px;	font-style: italic; 	font-weight: bold; 	font-family: Lora;}
 
+</style>
  <div class="full">
     
   <article id="conteudo">
@@ -27,7 +30,6 @@
     
     <!-----------infos cores, tamanho, shopping--------->
     <div id="info">
-     <form method = "POST" action="/carrinho/add">
        	<div class="compartilha"><img src="/imagens/compartilha.png" width="30" height="30"></div> 
         <p><%=teste.loja%></p> 
         <p><%=teste.shopping%></p>
@@ -36,8 +38,18 @@
         </h1>   
         
         <div class="preco">
+			<%
+			if (teste.de == teste.por) {
+			%>
+			<span>R$ <%=teste.por%></span>
+			<%
+			} else {
+			%>
            <span>De: R$ <%=teste.de%></span>
            <span>Por: <%=teste.por%></span>
+		   <%
+		   }
+		   %>
          </div> 
          
          <div class="cor">
@@ -63,9 +75,8 @@
             <a href="">+</a>
          </div> 
      
-         <input type="submit" value=" Adicionar à sacola ">         
-		 <input type="hidden" name="_csrf" value="<%= csrfToken %>">	
-   	</form>
+         <a id="btn_sacola" href="/carrinho/add/<%=teste.id%>" class="adicionar_sacola fancybox fancybox.iframe">Adicionar</a>
+	
    </div><!--info-->
     
      <!---Descrição---->
@@ -118,26 +129,45 @@
 		<% 
 		if (relacionados.length>0){
 			relacionados.forEach(function(resultado) { 
+			if (resultado.url_title != teste.url_title){
 		%> 
 		
-        <a href="/produtos/<%=resultado.id%>" class="prods">
+        <a href="/produtos/<%=resultado.url_title%>" class="prods">
+			
             <section>
+				<%
+				if(usuario != '') {
+				%>  
                 <div class="favs">
                     <span><%=resultado.desconto%>%</span>
                     <button value="" id=""></button>
                 </div>
+				<%
+				}
+				%>
                 <img src="/imagens/<%=resultado.imagem%>" title="<%=resultado.produto%>" class="img">
                 <h2>Arezzo</h2>
                 <div class="shop"><%=resultado.shopping%></div>
                 <h3><%=resultado.produto%></h3>
                 <div class="valor">
+					<%
+					if (resultado.de == resultado.por) {
+					%>
+					<span>R$ <%=resultado.por%></span>
+					<%
+					} else {
+					%>
                     <span>De R$ <%=resultado.de%></span>
                     <span>Por <%=resultado.de%></span>
+					<%
+					}
+					%>
                 </div>
            </section>  
   		 </a> 
 		 
 	   <% 
+			}
 	   }); 
 	   }
 	   %>	 

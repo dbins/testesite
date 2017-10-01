@@ -93,22 +93,65 @@ $(document).ready(function() {
 			$("#result").html('');
 		  }
 	   });
-	}  
+	}
+
+	function favoritar_produto(produto){
+		$.ajax({
+		  type: 'POST',
+		  url: '/produtos/favoritar/',
+		  dataType : 'json',
+		  data: { 
+			'produto': produto, 
+			'_csrf': '<%= csrfToken %>'
+		  },
+		  success: function (response) {
+			alert('Produto selecionado com sucesso!');
+		  },
+		  error: function () {
+			//
+		  }
+	   });
+	}
+	
+	function remover_produto(produto){
+		$.ajax({
+		  type: 'POST',
+		  url: '/produtos/desfavoritar/',
+		  dataType : 'json',
+		  data: { 
+			'produto': produto, 
+			'_csrf': '<%= csrfToken %>'
+		  },
+		  success: function (response) {
+			alert('Produto removido com sucesso!');
+		  },
+		  error: function () {
+			//
+		  }
+	   });
+	}	
+	
 	
 	 $("#btn_login").fancybox({
 		type : 'iframe',
-		padding : 5,
+		padding : 0,
 		afterClose: function() {
 			location.reload();
 		}});
 		
 	$("#btn_carrinho").fancybox({
 		type : 'iframe',
-		padding : 5,
+		padding : 0,
 		afterClose: function() {
 			location.reload();
 		}});	
 		
-
+	$("#btn_sacola").fancybox({
+		type : 'iframe',
+		padding : 0,
+		afterClose: function() {
+			location.reload();
+		}});	
+	
 });	
 </script>

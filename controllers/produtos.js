@@ -1,26 +1,7 @@
-var webservice = require('./../servicos/deals.js');
+var webservice = require('./../servicos/products.js');
 var rp2 = require('request-promise'); 
 var api = new webservice();
 module.exports = function (app){
-	
-	app.get("/produtos/senhas", function(req,res){
-		var dados_de_login = {
-			"email": "feathers@example.com", 
-			"password": "secret" 
-		}
-		var opcoes = {  
-		  method: 'POST',
-		  uri: 'https://concierge-api.appspot.com/authentication',
-		  body: dados_de_login,
-		  json: true // JSON stringifies the body automatically
-		}
-		
-		rp2(opcoes).then(function (response) {
-			//sucesso
-		}).catch(function (err) {
-			//erro
-		});
-	});
 	
 	app.get("/produtos", function(req,res){
 		var marcas = app.get('marcas');
@@ -41,28 +22,58 @@ module.exports = function (app){
 		//Apenas para fins de testes!
 		var nomedoproduto = req.params.nomedoproduto;
 		req.session.produto_selecionado = nomedoproduto;
-		var teste = {"id": "0","desconto":"", "imagem":"", "marca":"", "produto":"", "de":"", "por": "", "shopping":""};
-		for (index = 0; index < app.get("produtos").length; ++index) {
-			if (app.get("produtos")[index].id == nomedoproduto){
-				teste= app.get("produtos")[index];
-			}
-		}
+		//var teste = {"id": "0","url_title": "", "desconto":"", "imagem":"", "marca":"", "produto":"", "de":"", "por": "", "shopping":""};
+		//for (index = 0; index < app.get("produtos").length; ++index) {
+		//	if (app.get("produtos")[index].url_title == nomedoproduto){
+		//		tmp = app.get("produtos")[index];
+		//	}
+		//}
 		
 		var consulta = api.view(nomedoproduto).then(function (resultados) {
+			var tmp = resultados.dados;
+			var teste = api.montarProduto(tmp);
 			res.render("produtos/produto", {resultados:resultados, relacionados: app.get("produtos"), teste: teste});
 		}).catch(function (erro){
-			res.render("produtos/produto", {resultados:{}, relacionados: app.get("produtos"), teste: teste});
+			res.redirect("erro/500");
 		});
 	});
 	
-	app.get("/produtos/favoritar/:nomedoproduto", function(req,res){
-		var nomedoproduto = req.params.nomedoproduto;
-		res.render("produtos/produto");
+	app.post("/produtos/favoritar", function(req,res){
+		var nomedoproduto = req.body.produto;
+		var tmp = {};
+		for (index = 0; index < app.get("produtos").length; ++index) {
+			if (app.get("produtos")[index].id == nomedoproduto){
+				tmp= app.get("produtos")[index];
+			}
+		}
+		var adicionar = true;
+		for (index = 0; index < app.get("favoritos_produtos").length; ++index) {
+			if (app.get("favoritos_produtos")[index].id == nomedoproduto){
+				adicionar = false;	
+			}	
+		}
+		var retorno = 0;
+		if (adicionar){
+			var tmp2 = app.get("favoritos_produtos")
+			tmp2.push(tmp);
+			app.set("favoritos_produtos", tmp2);
+			retorno = 1;
+		}
+		res.json({resultado:retorno});
 	});
 	
-	app.get("/produtos/desfavoritar/:nomedoproduto", function(req,res){
-		var nomedoproduto = req.params.nomedoproduto;
-		res.render("produtos/produto");
+	app.post("/produtos/desfavoritar", function(req,res){
+		var nomedoproduto = req.body.produto;
+		var retorno = 0;
+		for (index = 0; index < app.get("produtos").length; ++index) {
+			if (app.get("produtos")[index].id == nomedoproduto){
+				var tmp2 = app.get("favoritos_produtos")
+				tmp2.splice(index, 1);
+				app.set("favoritos_produtos", tmp2);
+				retorno = 1;
+			}
+		}
+		res.json({resultado:retorno});
 	});
 	
 	app.get("/produtos/pagina/:pagina", function(req,res){

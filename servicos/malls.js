@@ -20,10 +20,8 @@ mallsAPI.prototype.consultar = function(mall){
         'Authorization': this.token
 		}
 	}
-	console.log(this.url + "/" + this.metodo + "?mall=" + mall);
 	return rp(opcoes).then((data, res) => {
 		var dados = JSON.parse(data);
-		console.log(data);
 		resposta = {"resultado":"OK", "dados": dados};	
 		return resposta;
 	}).catch((err) => {

@@ -93,10 +93,8 @@
 
 
 
-       <!----quando houver algum erro na compra------>
-
        
-
+	   <!---
        <div id="erro">
 
    	 		<img src="/imagens/pena.jpg" width="78" height="77">
@@ -107,8 +105,9 @@
 
             <p>Motivo da recusa</p>
 
-      </div><!--erro-->
-
+      </div>
+	  --->
+	   	
       
 
       
@@ -123,7 +122,7 @@
 
       	 <h2>Seus produtos estarão disponíveis para serem retirados na loja nos próximos 30 minutos.</h2>
 
-      	<h3>*Uma cópia dos detalhes da sua compra foi enviada para <strong>email@email.com.br</strong>. Você também pode acessá-los através da sua <a href="/compras/detalhes/<%=pedido%>"> <strong>Área de Cliente</strong></a>.</h3>
+      	<h3>*Uma cópia dos detalhes da sua compra foi enviada para <strong><%=email%></strong>. Você também pode acessá-los através da sua <a href="/compras/detalhes/<%=pedido%>"> <strong>Área de Cliente</strong></a>.</h3>
 
       
 
@@ -231,7 +230,24 @@
 
             <tr>
 
-                <td><span>Forma de pagamento</span><br> Mastercard **********345</td>
+                <td><span>Forma de pagamento</span><br> 
+				
+				<strong><%=pagarme.tipo%></strong><br/>
+				
+				<%
+				if (pagarme.tipo == "Cartão de Crédito"){
+				%>
+				Bandeira:<br/> <strong><%=pagarme.bandeira%></strong><br/>
+				<strong><%=pagarme.cartao_comeco%>****<%=pagarme.cartao_fim%></strong><br/>
+				<%
+				} else {
+				%>
+				Vencimento:<br/><strong><%=moment(pagarme.boleto_vencimento).format('DD-MM-YYYY')%></strong><br/>
+				<%
+				}
+				%>
+				
+				</td>
 
                 <td><span>Token</span><br>  000 000 000 </td>
 

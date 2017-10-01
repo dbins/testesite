@@ -98,6 +98,7 @@ produtosAPI.prototype.view = function(registro){
 	    method: 'GET',
 		uri: this.url + "/" + this.metodo + "/" + registro
 	}
+	
 	return rp(opcoes).then((data, res) => {
 		resposta = {"resultado":"OK", "dados": JSON.parse(data), "status": "OK"};	
 		return resposta;
@@ -116,13 +117,47 @@ produtosAPI.prototype.montar = function(resultados){
 		var tmp_loja = obj.store;
 		var nome_do_Shopping = tmp_nome.replace(/_/g, ' ');
 		var nome_da_Loja = tmp_loja.replace(/_/g, ' ');
-		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":"sapato.jpg", "marca":"Arezzo", "produto":obj.name, "de":parseFloat(obj.price_start/100).toFixed(2), "por": parseFloat(obj.price_final/100).toFixed(2), "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja};
+		
+		var preco_inicial = 0;
+		var preco_final = 0;
+		if (obj.price_start){
+			if (obj.price_final){
+				preco_inicial = parseFloat(obj.price_start/100).toFixed(2);
+				preco_final = parseFloat(obj.price_final/100).toFixed(2);
+			}
+		} else {
+			preco_inicial = parseFloat(obj.price/100).toFixed(2);
+			preco_final = parseFloat(obj.price/100).toFixed(2);
+		}
+		
+		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":"sapato.jpg", "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja};
 		retorno.push(item);
 		
 	});
 	return retorno;
 }
 
+produtosAPI.prototype.montarProduto = function(obj){
+	var tmp_nome = obj.mall;
+	var tmp_loja = obj.store;
+	var nome_do_Shopping = tmp_nome.replace(/_/g, ' ');
+	var nome_da_Loja = tmp_loja.replace(/_/g, ' ');
+		
+	var preco_inicial = 0;
+	var preco_final = 0;
+	if (obj.price_start){
+		if (obj.price_final){
+			preco_inicial = parseFloat(obj.price_start/100).toFixed(2);
+			preco_final = parseFloat(obj.price_final/100).toFixed(2);
+		}
+	} else {
+		preco_inicial = parseFloat(obj.price/100).toFixed(2);
+		preco_final = parseFloat(obj.price/100).toFixed(2);
+	}
+		
+	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":"sapato.jpg", "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja};
+	return item;
+}
 
 produtosAPI.prototype.segmento = function(segmento){
 	var criterio = '';
@@ -136,13 +171,10 @@ produtosAPI.prototype.segmento = function(segmento){
 	    method: 'GET',
 		uri: this.url + "/" + this.metodo + "?segment=" + segmento + criterio
 	}
-	console.log(this.url + "/" + this.metodo + "?segment=" + segmento + criterio);
 	return rp(opcoes).then((data, res) => {
-		console.log(data);
 		resposta = {"resultado":"OK", "dados": JSON.parse(data)};	
 		return resposta;
 	}).catch((err) => {
-		console.log('erro');
 		resposta = {"resultado":"ERRO DE COMUNICACAO 2", "dados":{}};	
 		return resposta;
 	});

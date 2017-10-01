@@ -20,7 +20,7 @@ module.exports = function (app){
 	
 	app.post("/carrinho/add", function(req,res){
 		
-		var produto = req.session.produto_selecionado;
+		var produto = req.body.produto;
 		var adicionar = true;
 		for (index = 0; index < app.get("carrinho").length; ++index) {
 			if (app.get("carrinho")[index].id == produto){
@@ -39,6 +39,31 @@ module.exports = function (app){
 		
 		res.redirect("/carrinho");
 	});
+	
+	app.get("/carrinho/add/:iddoproduto", function(req,res){
+		
+		var produto = req.params.iddoproduto;
+		var adicionar = true;
+		for (index = 0; index < app.get("carrinho").length; ++index) {
+			if (app.get("carrinho")[index].id == produto){
+				adicionar = false;
+			}
+		}
+		if (adicionar){
+			for (index = 0; index < app.get("produtos").length; ++index) {
+				if (app.get("produtos")[index].id == produto){
+					var tmp = app.get("produtos")[index];
+					tmp.qtde = 1;
+					app.get("carrinho").push(tmp);
+				}
+			}
+		}
+		
+		res.redirect("/carrinho");
+	});
+	
+	
+	
 	app.get("/carrinho/remove/:iddocarrinho", function(req,res){
 		var iddocarrinho = req.params.iddocarrinho;
 		var index = app.get("carrinho").indexOf(iddocarrinho);

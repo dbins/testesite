@@ -50,9 +50,9 @@
 
             </tr>
 
-             <tr>
+            <tr>
 
-                <td><span>Data</span><br><%=resultados.data%></td>
+                <td><span>Data</span><br><%=moment(resultados.data).format('DD-MM-YYYY')%></td>
 
                 <td><span>Horario de retirada</span><br> 15:00hs</td>
 
@@ -60,7 +60,25 @@
 
             <tr>
 
-                <td><span>Forma de pagamento</span><br> Mastercard **********345</td>
+                <td><span>Forma de pagamento</span><br><strong><%=resultados.tipo%></strong>
+				
+				<%
+				if (resultados.tipo == "Cartão de Crédito"){
+				%>
+				Bandeira: <strong><%=resultados.bandeira%></strong><br/>
+				Começo: <strong><%=resultados.cartao_comeco%></strong><br/>
+				Fim: <strong><%=resultados.cartao_fim%></strong><br/>
+				<%
+				} else {
+				%>
+				Vencimento:<strong><%=moment(resultados.boleto_vencimento).format('DD-MM-YYYY')%></strong><br/>
+				<%
+				}
+				%>
+				Status: <%=resultados.status%>
+				</td>
+				
+				
 
                 <td><span>Token</span><br>  000 000 000 </td>
 
@@ -80,54 +98,33 @@
 
                 <td colspan="7"><b>Itens comprados</b></td>
 
-              </tr>
+            </tr>
+			<% 
+			if (resultados.items.length>0){
+			resultados.items.forEach(function(resultado) { 
+			%> 
 
               <tr class="lin">
 
-                <td>Chapéu de inverno preto aveludado</td>
+                <td><%=resultado.produto%></td>
 
-                <td>Shoppig Cidade São Paulo</td>
-
-                <td>FARM</td>
-
-                <td>Cor Azul</td>
-
-                <td>Tamanho P</td>
-
-                <td>01 Unidade(s)</td>
-
-                <td>R$ 150,00</td>
-
-              </tr>
-
-              <tr>
-
-                <td colspan="7">
-
-                <div class="lin"></div>
-
-                </td>               
-
-              </tr>
-
-              <tr>
-
-                <td>Chapéu de inverno preto aveludado</td>
-
-                <td>Shoppig Cidade São Paulo</td>
+                <td><%=resultado.shopping%></td>
 
                 <td>FARM</td>
 
-                <td>Cor Azul</td>
+                <td>Cor ????</td>
 
-                <td>Tamanho P</td>
+                <td>Tamanho ?????</td>
 
-                <td>01 Unidade(s)</td>
+                <td><%=resultado.qtde%> Unidade(s)</td>
 
-                <td>R$ 150,00</td>
+                <td>R$ <%=resultado.total%></td>
 
               </tr>
-
+		    <%
+			})
+			}
+			%>
         </table>
 
         
