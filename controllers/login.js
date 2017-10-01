@@ -270,11 +270,16 @@ module.exports = function (app){
 					return;
 				}
 				if (resultados.resultado == "OK"){
-					var envioEmail = new servicoEmail();
-					envioEmail.esqueceuSenha('bins.br@gmail.com',{});
-					res.redirect("/login");
+					var consulta2 = apiUsuario.consultar(req.body.CPF).then(function (resultados2) {
+						var envioEmail = new servicoEmail();
+						var tmp = resultados2.dados.data;
+						var email = tmp[0].email;
+						envioEmail.esqueceuSenha(email,{});
+						res.redirect("/login");
+					}).catch(function (erro2){
+						res.redirect("/login");
+					});
 				}
-				
 			}).catch(function (erro){
 			
 			});

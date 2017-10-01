@@ -205,8 +205,8 @@ module.exports = function (app){
 			return;
 		}
 		
-		//var envioEmail = new servicoEmail();
-		//envioEmail.finalizarCompra('bins.br@gmail.com',{});
+		var envioEmail = new servicoEmail();
+		envioEmail.finalizarCompra(req.session.cliente.email,{});
 		
 		req.session.carrinho = "";
 		app.locals.total_carrinho = 0; 

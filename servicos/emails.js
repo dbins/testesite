@@ -1,15 +1,18 @@
 var nodemailer = require('nodemailer');
 
 function emailAPI () {
-	this.remetente = "contato@adlibdigital.com.br";
+	this.remetente = "contato@dbins.com.br";
 	this.transporte = nodemailer.createTransport({
-	  host: 'email-ssl.com.br',
-	  tls: { rejectUnauthorized: false },
-	  port: '465',
-	  secure: true,
+	  host: 'smtp.dbins.com.br',
+	  tls: { rejectUnauthorized: false, 
+	 ciphers: 'SSLv3'
+	  },
+	  port: '587',
+	  secure: false,
+	   secureConnection: false,
 	  auth: {
-		user: 'contato@adlibdigital.hospedagemdesites.ws',
-		pass: 'Tad48305'
+		user: 'contato@dbins.com.br',
+		pass: 'bins01041970'
 	  } 
 	});
 }
@@ -26,8 +29,6 @@ emailAPI.prototype.esqueceuSenha = function(destinatario, dados){
 	  //}]
 	};
 
-	
-	// Pronto, basta enviar!
 	this.transporte.sendMail(email, function(err){
 	  if(err) {
 		return 2;
@@ -40,13 +41,9 @@ emailAPI.prototype.esqueceuSenha = function(destinatario, dados){
 emailAPI.prototype.finalizarCompra = function(destinatario, dados){
 	var email = {
 	  from: this.remetente,
-	  to: email,
+	  to: destinatario,
 	  subject: 'Compra Concluida senha',
-	  html: 'Aqui vai o texto do compra concluida.'
-	  //attachments: [{ // 
-		//	filename: 'boleto.pdf', // 
-		//	path: 'servidor/boletos/boleto_gerado1234.pdf' // 
-	  //}]
+	  html: 'Aqui vai o texto da compra concluida.'
 	};
 
 	this.transporte.sendMail(email, function(err){
