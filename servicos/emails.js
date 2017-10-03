@@ -56,5 +56,41 @@ emailAPI.prototype.finalizarCompra = function(destinatario, dados){
 	});
 };
 
+emailAPI.prototype.contatoInformacoes = function(destinatario, dados){
+	var email = {
+	  from: this.remetente,
+	  to: destinatario,
+	  subject: 'Formulario de Informações do Shopping',
+	  html: dados
+	};
+
+	this.transporte.sendMail(email, function(err){
+	  if(err) {
+		//Tratar erro
+		return 2;
+	  }	else {
+		return 1; //OK
+	  }	
+	});
+};
+
+emailAPI.prototype.contatoSite = function(destinatario, dados){
+	var email = {
+	  from: this.remetente,
+	  to: destinatario,
+	  subject: 'Formulario de Contato do Site',
+	  html: dados
+	};
+
+	this.transporte.sendMail(email, function(err){
+	  if(err) {
+		//Tratar erro
+		return 2;
+	  }	else {
+		return 1; //OK
+	  }	
+	});
+};
+
 module.exports = emailAPI;
 

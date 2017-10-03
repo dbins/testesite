@@ -1,3 +1,5 @@
+var servicoEmail = require('./../servicos/emails.js');
+
 module.exports = function (app){
 	app.get("/termos", function(req,res){
 		res.render("site/termos");
@@ -6,17 +8,22 @@ module.exports = function (app){
 		res.render("site/perguntas");
 	});
 	app.get("/contato", function(req,res){
-		res.render("site/contato");
+		res.render("site/contato", {aviso: ''});
 	});
 	app.post("/contato", function(req,res){
 		
-		var nome = req.body.nome;
-		var email = req.body.email;
-		var telefone = req.body.telefone;
-		var tipo = req.body.tipo;
-		var mensagem = req.body.mensagem;
+		var envioEmail = new servicoEmail();
+		var dados_email = '';
+		dados_email += '<p>Informações recebidas atraves do formulário de contato do site</p>';
+		dados_email += '<p>Nome:' + req.body.nome + "</p>";
+		dados_email += '<p>Email:' + req.body.email + "</p>";
+		dados_email += '<p>Telefone:' + req.body.telefone + "</p>";
+		dados_email += '<p>Tipo de Atendimento:' + req.body.tipo + "</p>";
+		dados_email += '<p>Mensagem:' + req.body.mensagem + "</p>";
+					
+		envioEmail.contatoSite('letonon@gmail.com', dados_email);
 		
-		res.render("site/contato");
+		res.render("site/contato", {aviso: 'OK'});
 	});
 	app.post("/novidades", function(req,res){
 		res.render("site/novidades");

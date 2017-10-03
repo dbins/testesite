@@ -108,11 +108,30 @@ produtosAPI.prototype.view = function(registro){
 	});
 }
 
+produtosAPI.prototype.GQL_view = function(registro){
+	
+	var query = 'query={product(id:"' + registro + '"){slug name,short_description,long_description, start_at, end_at, relationship, status, promotion,segment, stock, sale_transaction_products{quantity}, images{path, type, order}}';
+	var resposta = "";
+	var opcoes = {  
+	    method: 'GET',
+		uri: this.url + "/graphql?" + query
+	}
+	
+	return rp(opcoes).then((data, res) => {
+		resposta = {"resultado":"OK", "dados": JSON.parse(data), "status": "OK"};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+		return resposta;
+	});
+}
+
 produtosAPI.prototype.montar = function(resultados){
 	var retorno = [];
 	var tmp = resultados;
 	
 	tmp.forEach(function(obj) {
+		console.log(obj);
 		var tmp_nome = obj.mall;
 		var tmp_loja = obj.store;
 		var nome_do_Shopping = tmp_nome.replace(/_/g, ' ');
@@ -130,7 +149,7 @@ produtosAPI.prototype.montar = function(resultados){
 			preco_final = parseFloat(obj.price/100).toFixed(2);
 		}
 		
-		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":"sapato.jpg", "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja};
+		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":"sapato.jpg", "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color};
 		retorno.push(item);
 		
 	});
@@ -155,7 +174,7 @@ produtosAPI.prototype.montarProduto = function(obj){
 		preco_final = parseFloat(obj.price/100).toFixed(2);
 	}
 		
-	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":"sapato.jpg", "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja};
+	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":"sapato.jpg", "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color};
 	return item;
 }
 

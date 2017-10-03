@@ -175,8 +175,17 @@
 				%>
                 <input type="text" value=" <%=resultado.qtde%> " maxlength="2" readonly=readonly>
 
+				<%
+				if (resultado.qtde < resultado.estoque){
+				%>	
                 <a href="/carrinho/altera/<%=resultado.id%>/<%=parseInt(resultado.qtde)+1%>">+</a>
-
+				<%
+				} else {
+				%>
+				Limite estoque!
+				<%
+				}
+				%>
              </div>
 
         </td>

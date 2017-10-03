@@ -54,18 +54,24 @@
          
          <div class="cor">
          	<span>Cor</span>
-            <a href="" style="background:#F90"></a>
-            <a href="" style="background:#093"></a>
-            <a href="" style="background:#FF0"></a>
-            <a href="" style="background:#F60"></a>
+			<%
+			if (teste.cor){
+			%>
+            <a href="" style="background:<%=teste.cor%>"></a>
+			<%
+			}
+			%>
          </div> 
          
          <div class="tamanho">
          	<span>Tamanho</span>
-            <a href="">P</a>
-            <a href="">M</a>
-            <a href="">G</a>
-            <a href="">GG</a>
+			<%
+			if (teste.tamanho){
+			%>
+            <a href=""><%=teste.tamanho%></a>
+			<%
+			}
+			%>
          </div> 
    
          <div class="qtd">
