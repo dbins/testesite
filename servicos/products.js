@@ -108,17 +108,43 @@ produtosAPI.prototype.view = function(registro){
 	});
 }
 
-produtosAPI.prototype.GQL_view = function(registro){
+produtosAPI.prototype.listGQL = function(){
 	
-	var query = 'query={product(id:"' + registro + '"){slug name,short_description,long_description, start_at, end_at, relationship, status, promotion,segment, stock, sale_transaction_products{quantity}, images{path, type, order}}';
+	var query = 'query={products{slug name,short_description,long_description, start_at, end_at, relationship, status, promotion,segment, stock, price_start,price_final,price, images{path, type, order}, store{slug, fantasy_name, floor, title},mall{_id, slug, domain, name}}}';
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
-		uri: this.url + "/graphql?" + query
+		uri: this.url + "/graphql?" + query,
+		headers: {
+         'Content-Type': 'application/json'
+		}
 	}
 	
 	return rp(opcoes).then((data, res) => {
-		resposta = {"resultado":"OK", "dados": JSON.parse(data), "status": "OK"};	
+		var tmp = JSON.parse(data);
+		resposta = {"resultado":"OK", "dados": tmp.data.products, "status": "OK"};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+		return resposta;
+	});
+}
+
+produtosAPI.prototype.viewGQL = function(registro){
+	
+	var query = 'query={product(id:"' + registro + '"){slug name,short_description,long_description, start_at, end_at, relationship, status, promotion,segment, stock, price_start,price_final,price, sizes, colors, images{path, type, order}, store{slug, fantasy_name, floor, title},mall{_id, slug, domain, name}}}';
+	var resposta = "";
+	var opcoes = {  
+	    method: 'GET',
+		uri: this.url + "/graphql?" + query,
+		headers: {
+         'Content-Type': 'application/json'
+		}
+	}
+	
+	return rp(opcoes).then((data, res) => {
+		var tmp = JSON.parse(data);
+		resposta = {"resultado":"OK", "dados": tmp.data.product, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
@@ -131,7 +157,6 @@ produtosAPI.prototype.montar = function(resultados){
 	var tmp = resultados;
 	
 	tmp.forEach(function(obj) {
-		console.log(obj);
 		var tmp_nome = obj.mall;
 		var tmp_loja = obj.store;
 		var nome_do_Shopping = tmp_nome.replace(/_/g, ' ');
@@ -148,8 +173,43 @@ produtosAPI.prototype.montar = function(resultados){
 			preco_inicial = parseFloat(obj.price/100).toFixed(2);
 			preco_final = parseFloat(obj.price/100).toFixed(2);
 		}
+		var imagem = "/imagens/sapato.jpg";
 		
-		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":"sapato.jpg", "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color};
+		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color};
+		retorno.push(item);
+		
+	});
+	return retorno;
+}
+
+produtosAPI.prototype.montarGQL = function(resultados){
+	var retorno = [];
+	var tmp = resultados.dados;
+	
+	
+	tmp.forEach(function(obj) {
+		var nome_do_Shopping = obj.mall.name;
+		var nome_da_Loja = obj.store.title;
+		
+		var preco_inicial = 0;
+		var preco_final = 0;
+		if (obj.price_start){
+			if (obj.price_final){
+				preco_inicial = parseFloat(obj.price_start/100).toFixed(2);
+				preco_final = parseFloat(obj.price_final/100).toFixed(2);
+			}
+		} else {
+			preco_inicial = parseFloat(obj.price/100).toFixed(2);
+			preco_final = parseFloat(obj.price/100).toFixed(2);
+		}
+		var imagem = "/imagens/sapato.jpg";
+		for (i = 0; i < obj.images.length; i++) { 
+			if (obj.images[i].type == "main"){
+				imagem = obj.images[i].path;	
+			}
+		}
+		
+		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": "", "cor": ""};
 		retorno.push(item);
 		
 	});
@@ -173,8 +233,35 @@ produtosAPI.prototype.montarProduto = function(obj){
 		preco_inicial = parseFloat(obj.price/100).toFixed(2);
 		preco_final = parseFloat(obj.price/100).toFixed(2);
 	}
+	var imagem = "sapato.jpg";
+	
+	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "store": obj.store, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "descricao": obj.long_description};
+	return item;
+}
+
+produtosAPI.prototype.montarProdutoGQL = function(obj){
+	var nome_do_Shopping = obj.mall.name;
+	var nome_da_Loja = obj.store.title;
 		
-	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":"sapato.jpg", "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color};
+	var preco_inicial = 0;
+	var preco_final = 0;
+	if (obj.price_start){
+		if (obj.price_final){
+			preco_inicial = parseFloat(obj.price_start/100).toFixed(2);
+			preco_final = parseFloat(obj.price_final/100).toFixed(2);
+		}
+	} else {
+		preco_inicial = parseFloat(obj.price/100).toFixed(2);
+		preco_final = parseFloat(obj.price/100).toFixed(2);
+	}
+	var imagem = "";
+	for (i = 0; i < obj.images.length; i++) { 
+		if (obj.images[i].type == "main"){
+			imagem = obj.images[i].path;	
+		}
+	}
+		
+	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "descricao": obj.long_description};
 	return item;
 }
 

@@ -30,8 +30,10 @@ module.exports = function (app){
 		//}
 		
 		var consulta = api.view(nomedoproduto).then(function (resultados) {
+		//var consulta = api.viewGQL(nomedoproduto).then(function (resultados) {	
 			var tmp = resultados.dados;
 			var teste = api.montarProduto(tmp);
+			//var teste = api.montarProdutoGQL(resultados.dados);
 			res.render("produtos/produto", {resultados:resultados, relacionados: app.get("produtos"), teste: teste});
 		}).catch(function (erro){
 			res.redirect("erro/500");
