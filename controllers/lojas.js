@@ -84,7 +84,8 @@ module.exports = function (app){
 		var api_produtos = new webservice_produtos('');
 		var consulta = api_produtos.segmento(segmento).then(function (resultados) {
 			dados = api_produtos.montar(resultados.dados.data);
-			res.render("lojas/online", {produtos: dados});
+			var categorias = ListarCategoriasMock();
+			res.render("lojas/online", {produtos: dados, categorias: categorias});
 		}).catch(function (erro){
 			res.status(500).redirect('/erro/500');
 		});		
@@ -98,8 +99,9 @@ module.exports = function (app){
 		var segmento = req.params.segmento;
 		var api_produtos = new webservice_produtos('');
 		var consulta = api_produtos.segmento(segmento).then(function (resultados) {
+			var categorias = ListarCategoriasMock();
 			dados = api_produtos.montar(resultados.dados.data);
-			res.render("lojas/online", {produtos: dados});
+			res.render("lojas/online", {produtos: dados, categorias: categorias});
 		}).catch(function (erro){
 			res.status(500).redirect('/erro/500');
 		});		
