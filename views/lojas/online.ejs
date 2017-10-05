@@ -42,9 +42,9 @@
 
         	<label>Preço</label>
 
-            <input type="text" value="" placeholder="min">
+            <input type="text" id="valor_inicial" name="valor_inicial" value="" placeholder="min">
 
-            <input type="text" value="" placeholder="máx">
+            <input type="text" id="valor_final" name="valor_final"  value="" placeholder="máx">
 
         </div>
 
@@ -52,15 +52,18 @@
 
         	<label>Categoria</label>
 
-            <select class="minimal">
+            <select class="minimal"  name="categoria">
 
-            	<option>Todas</option>
-
-                <option>Categoria 1</option>
-
-                <option>Categoria 2</option>
-
-                <option>Categoria 3</option>
+            	<option value="">Todas</option>
+				<% 
+				if (categorias.length>0){
+				categorias.forEach(function(item) { 
+				%> 
+                <option value=""><%=item%></option>
+				<% 
+				}); 
+				}
+				%>
 
             </select>
 
@@ -158,6 +161,12 @@
 
  </div><!--full-->
 
+<script type="text/javascript">
+	$(function(){
+		$("#valor_inicial").maskMoney();
+        $("#valor_final").maskMoney();
+    })
+</script>
 
 
 <!------------------Fim produtos---------------------->

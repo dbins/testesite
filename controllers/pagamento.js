@@ -177,10 +177,21 @@ module.exports = function (app){
 		//Por enquanto gerar os itens aqui.
 		//A ordem de gravar sera primeiro gerar os itens, depois gerar a transacao
 		
+		//Parcela minima 30 reais
+		var parcelas = Math.floor((parseFloat(total) * 100)/3000);;
+		
+		if (parseInt(parcelas)>6){
+			parcelas = 6; //Maximo de parcelas
+		}
 		
 		//Valor fixo para testes
 		//total = 100;
-		res.render("pagamento/confirmar", {cliente: req.session.cliente, endereco: req.session.endereco, carrinho: app.get("carrinho"), total_carrinho:  parseFloat(total) * 100, total_exibir: parseFloat(total).toFixed(2)});
+		var formapagamento= "credit_card";
+		if ((parseFloat(total) * 100) >= 6000){
+			formapagamento= "boleto,credit_card";
+		}
+		
+		res.render("pagamento/confirmar", {cliente: req.session.cliente, endereco: req.session.endereco, carrinho: app.get("carrinho"), total_carrinho:  parseFloat(total) * 100, total_exibir: parseFloat(total).toFixed(2), parcelas: parcelas, formapagamento: formapagamento});
 	});
 	app.post("/pagamento/cartoes", function(req,res){
 		if (!req.session.usuario){

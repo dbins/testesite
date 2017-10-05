@@ -121,7 +121,9 @@ produtosAPI.prototype.listGQL = function(){
 	}
 	
 	return rp(opcoes).then((data, res) => {
+		
 		var tmp = JSON.parse(data);
+		
 		resposta = {"resultado":"OK", "dados": tmp.data.products, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
