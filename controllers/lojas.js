@@ -69,6 +69,7 @@ module.exports = function (app){
 	app.get("/lojas/loja-online", function(req,res){
 		var api_produtos = new webservice_produtos('');
 		var consulta = api_produtos.list().then(function (resultados) {
+			console.log(resultados.dados.data);
 		//var consulta = api_produtos.listGQL().then(function (resultados) {
 			dados = api_produtos.montar(resultados.dados.data);
 			var categorias = ListarCategoriasMock();
