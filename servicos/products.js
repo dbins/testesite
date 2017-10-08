@@ -165,6 +165,17 @@ produtosAPI.prototype.montar = function(resultados){
 		//var nome_da_Loja = tmp_loja.replace(/_/g, ' ');
 		var nome_do_Shopping = "";
 		var nome_da_Loja = "";
+		var store = "";
+		var promocao = "NAO";
+		
+		if (obj.promotion){
+			if (obj.promotion ==true){
+				promocao = "SIM";
+			}
+		}
+		if (obj.store){
+			store = obj.store;
+		}		
 		
 		var preco_inicial = 0;
 		var preco_final = 0;
@@ -179,7 +190,7 @@ produtosAPI.prototype.montar = function(resultados){
 		}
 		var imagem = "/imagens/sapato.jpg";
 		
-		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color};
+		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "promocao": promocao, "store": store};
 		retorno.push(item);
 		
 	});

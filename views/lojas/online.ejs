@@ -111,7 +111,7 @@
 	if (produtos.length>0){
 		produtos.forEach(function(produto) { 
 	%>    
-    <a href="/produtos/<%=produto.url_title%>" class="prods">
+    <a href="/produtos/<%=produto.url_title%>" class="prods" data-nome="<%=produto.produto%>" data-categoria="" data-valor="<%=produto.por%>" data-promocao="<%=produto.promocao%>" data-loja="<%=produto.store%>">
         <section>
 			<%
 			if(usuario != '') {
@@ -166,6 +166,68 @@
 		$("#valor_inicial").maskMoney();
         $("#valor_final").maskMoney();
     })
+</script>
+<script type="text/javascript">
+$('#c1').change(function() {
+  filtrarCheckbox();
+});
+$('#c2').change(function() {
+  filtrarCheckbox();
+});
+
+
+function filtrarCheckbox(){
+	if ($('#c1').is(':checked')) {
+		if ($('#c2').is(':checked')) {
+			$('.prods').show();
+		} else {
+			$('.prods').hide().filter(function() {
+				return $(this).data('promocao') == "SIM"
+			}).show();
+		}
+	} else {
+		if ($('#c2').is(':checked')) {
+			$('.prods').hide().filter(function() {
+				return $(this).data('promocao') == "NAO"
+			}).show();
+		} else {
+			$('.prods').show();
+		}
+	}
+}
+
+$("#valor_inicial" ).click(function() {
+   $("#valor_final").val("");
+   $('.prods').show();
+});
+
+$("#valor_inicial").focusout(function(){
+    if ($("#valor_inicial").val() != ""){
+		if ($("#valor_final").val() != ""){
+			filtrarIntervalo();
+		}
+	}
+});
+
+$("#valor_final").focusout(function(){
+	if ($("valor_inicial").val() != ""){
+		if ($("#valor_final").val() != ""){
+			filtrarIntervalo();
+		}
+	}
+});
+
+function filtrarIntervalo(){
+	if (parseFloat($("#valor_final").val()) >= parseFloat($("#valor_inicial").val())){
+		filter();
+	}
+}
+function filter() {
+
+$('.prods').hide().filter(function() {
+    return $(this).data('valor') >=  parseFloat($("#valor_inicial").val()) && $(this).data('valor') <= parseFloat($("#valor_final").val())
+}).show();
+}
 </script>
 
 
