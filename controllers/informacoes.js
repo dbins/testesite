@@ -18,14 +18,14 @@ module.exports = function (app){
 			var consulta = autentica.config().then(function (resultados) {
 				app.locals.token_api = resultados.dados;
 				var api = new webservice(app.locals.token_api);
-				
 				//Apenas para testes enquanto monta API
-				var codigodoshopping = "596457feeafb690011507034";
-				var consulta2 = api.consultar(codigodoshopping).then(function (resultados2) {
-					res.render("informacoes/index", {resultados: resultados2.dados, aviso: ''});
-				}).catch(function (erro){
-					res.redirect("/erro/404");
-				});
+				//var codigodoshopping = "596457feeafb690011507034";
+				//var consulta2 = api.consultar(codigodoshopping).then(function (resultados2) {
+					//res.render("informacoes/index", {resultados: resultados2.dados, aviso: ''});
+				//}).catch(function (erro){
+				//	res.redirect("/erro/404");
+				//});
+				res.render("informacoes/index", {resultados: {}, aviso: ''});
 			}).catch(function (erro){
 				//
 			});

@@ -221,9 +221,10 @@ produtosAPI.prototype.montarGQL = function(resultados){
 }
 
 produtosAPI.prototype.montarProduto = function(obj){
-	var tmp_nome = obj.mall;
+	//var tmp_nome = obj.mall;
 	var tmp_loja = obj.store;
-	var nome_do_Shopping = tmp_nome.replace(/_/g, ' ');
+	//var nome_do_Shopping = tmp_nome.replace(/_/g, ' ');
+	var nome_do_Shopping = "";
 	var nome_da_Loja = tmp_loja.replace(/_/g, ' ');
 		
 	var preco_inicial = 0;

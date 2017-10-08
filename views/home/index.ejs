@@ -20,6 +20,17 @@
                 </div>
 				<%
 				});
+				} else {
+				%>
+				<div class="item">
+					<img src="/banner/banner-geral.jpg" title="ZARA" class="img">
+					<section>
+						<span>30% OFF</span>
+						<span>Zara</span>
+						<span>Promoção</span>
+					</section>
+				</div>
+				<%
 				}
 				%>
 				
@@ -136,7 +147,8 @@
         </h5>
         <p class="sub-title"> simplesmente uma simulação de texto da indústria tipográfica e de impressos,
          e vem sendo utilizado desde o século XVI</p>
-         
+        
+		<% if (shopping == ''){ %>	
 		<% shoppings.forEach(function(resultado) { %>
       	<a href="/informacoes/<%=resultado.url_title%>" class="mall">
          	<div>
@@ -146,7 +158,88 @@
        		</div>	
       	</a>
 		<% }); %>
-         
+        
+		<%	} 	else {	%>
+		
+			<!-----EVENTOS DO SHOPPING----->
+			
+			<h5 class="titles">
+				<span class="twhite" style="left:25%">Eventos</span>
+			</h5>
+			<p class="sub-title"> simplesmente uma simulação de texto da indústria tipográfica e de impressos,
+			 e vem sendo utilizado desde o século XVI
+			</p>
+			
+		
+			<div class="bannerevent">
+				   <div class="container">
+					  <div id="owl-demo2" class="owl-carousel">
+
+						<div class="item">
+							
+							<div class="gif">
+								<img src="/imagens/evento1.png" title="Eventos" class="img">
+								<section>
+									<span>Evento<br> Teste 1</span>
+								</section>
+							</div>
+							
+							<div class="gif">
+								<img src="/imagens/evento1.png" title="Eventos" class="img">
+								<section>
+									<span>Evento<br> Teste 2</span>
+								</section>
+							</div>
+							
+							<div class="gif">
+								<img src="/imagens/evento1.png" title="Eventos" class="img">
+								<section>
+									<span>Evento<br> Teste 3</span>
+								</section>
+							</div>
+						
+						
+						</div>
+						
+						<div class="item">
+						
+							<div class="gif">
+								<img src="/imagens/evento1.png" title="Eventos" class="img">
+								<section>
+									<span>Evento<br> Teste 4</span>
+								</section>
+							</div>
+							
+							<div class="gif">
+								<img src="/imagens/evento1.png" title="Eventos" class="img">
+								<section>
+									<span>Evento<br> Teste 5</span>
+								</section>
+							</div>
+							
+							<div class="gif">
+								<img src="/imagens/evento1.png" title="Eventos" class="img">
+								<section>
+									<span>Evento<br> Teste 6</span>
+								</section>
+							</div>
+							
+						</div>
+						
+
+						
+									
+					
+					  </div>
+				   </div>    
+			</div> 
+		
+		
+	
+		
+		<%  } %>
+		
+		
     </div><!--full-->
 </article>
 

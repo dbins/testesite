@@ -18,7 +18,6 @@ module.exports = function (app){
 		
 	});
 	app.get("/produtos/:nomedoproduto", function(req,res){
-		
 		//Apenas para fins de testes!
 		var nomedoproduto = req.params.nomedoproduto;
 		req.session.produto_selecionado = nomedoproduto;

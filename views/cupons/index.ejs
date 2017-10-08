@@ -28,27 +28,32 @@
         </div>
          <div>
         	<label>Categoria</label>
-            <select class="minimal">
+            <select class="minimal" name="categoria" id="categoria">
             	<option value="">Todas</option>
 				<% 
-				if (categorias.length>0){
-				categorias.forEach(function(item) { 
-				%> 
-                <option value=""><%=item%></option>
-				<% 
-				}); 
-				}
+				//if (categorias.length>0){
+				//categorias.forEach(function(item) { 
 				%>
-
+				<!---
+                <option value=""><%//=item%></option>
+				--->
+				<% 
+				//}); 
+				//}
+				%>
+				<option value="categoria1">Categoria 1</option>
+				<option value="categoria2">Categoria 2</option>
+				<option value="categoria3">Categoria 3</option>
+				<option value="categoria4">Categoria 4</option>
             </select>
         </div>
          <div>
-        	<label>Marca</label>
-            <select class="minimal">
-            	<option>Todas</option>
-                <option>Marca 1</option>
-                <option>Marca 2</option>
-                <option>Marca 3</option>
+        	<label>Loja</label>
+            <select class="minimal" name="loja" id="loja">
+            	<option value="">Todas</option>
+                <option value="andiamo">Andiamo</option>
+                <option value="amor aos pedaços">Amor aos Pedaços</option>
+                <option value="outback">Outback</option>
             </select>
         </div>
 		<input type="hidden" name="_csrf" value="<%= csrfToken %>">		
@@ -93,7 +98,96 @@
    });
    } else {
    %>
+   
+   <!---
    <h3>Não existem cupons!</h3>
+   --->
+   
+   <a href="/cupons/cupom" class="prods" data-nome="Filé com Fetuccini" data-categoria="categoria1" data-valor="40.00" data-tipo="promocao" data-loja="andiamo">
+        <section>
+        	<div class="favs">
+            	<span>30%</span>
+                <button value="" id=""></button>
+            </div>
+       		<img src="imagens/cupon-adiano.jpg" title="nome do Produto" class="img">
+            <h2>Andiamo</h2>
+            <% if (shopping == ''){ %>
+			<div class="shop">Shopping Cidade São Paulo</div>
+            <%	} else { %>
+			
+			<%  } %>
+			<h3>Filé com Fetuccini</h3>			
+            <div class="valor">
+            	<span>De R$ 95,40</span>
+                <span>Por 40,00</span>
+            </div>
+       </section>  
+   </a> 
+   
+   <a href="/cupons/" class="prods" data-nome="Espaguete ao pesto" data-categoria="categoria2" data-valor="60.00" data-tipo="produto" data-loja="andiamo">
+        <section>
+        	<div class="favs">
+            	<span>30%</span>
+                <button value="" id=""></button>
+            </div>
+       		<img src="imagens/cupon-adiano2.jpg" title="nome do Produto" class="img">
+            <h2>Andiamo</h2>
+            <% if (shopping == ''){ %>
+			<div class="shop">Shopping Cidade São Paulo</div>
+            <%	} else { %>
+			
+			<%  } %>
+			<h3>Espaguete ao pesto</h3>			
+            <div class="valor">
+            	<span>De R$ 75,40</span>
+                <span>Por 60,00</span>
+            </div>
+       </section>  
+   </a> 
+
+     <a href="/cupons/" class="prods" data-nome="Bolo de nozes" data-categoria="categoria3" data-valor="35.00"  data-tipo="produto" data-loja="amor aos pedaços">
+        <section>
+        	<div class="favs">
+            	<span>30%</span>
+                <button value="" id=""></button>
+            </div>
+       		<img src="imagens/cupon-amor.jpg" title="nome do Produto" class="img">
+            <h2>Amor aos pedaços</h2>
+            <% if (shopping == ''){ %>
+			<div class="shop">Shopping Cidade São Paulo</div>
+            <%	} else { %>
+			
+			<%  } %>
+			<h3>Bolo de nozes</h3>			
+            <div class="valor">
+            	<span>De R$ 55,40</span>
+                <span>Por 35,00</span>
+            </div>
+       </section>  
+   </a> 
+ 
+     <a href="/cupons/" class="prods" data-nome="Bloomin Onion" data-categoria="categoria4" data-valor="30.00" data-tipo="promocao" data-loja="outback">
+        <section>
+        	<div class="favs">
+            	<span>30%</span>
+                <button value="" id=""></button>
+            </div>
+       		<img src="imagens/cupon-amor.jpg" title="nome do Produto" class="img">
+            <h2>Outback</h2>
+            <% if (shopping == ''){ %>
+			<div class="shop">Shopping Cidade São Paulo</div>
+            <%	} else { %>
+			
+			<%  } %>
+			<h3>Bloomin Onion</h3>			
+            <div class="valor">
+            	<span>De R$ 45,40</span>
+                <span>Por 30,00</span>
+            </div>
+       </section>  
+   </a>
+   
+   
    <%
    }
    %>
@@ -105,4 +199,109 @@
 		$("#valor_inicial").maskMoney();
         $("#valor_final").maskMoney();
     })
+</script>
+<script type="text/javascript">
+
+$('#c1').change(function() {
+  //if ($(this).is(':checked')) {
+  //  
+  //} else {
+   // 
+  //}
+  filtrarCheckbox();
+});
+$('#c2').change(function() {
+  filtrarCheckbox();
+});
+
+
+function filtrarCheckbox(){
+	if ($('#c1').is(':checked')) {
+		if ($('#c2').is(':checked')) {
+			$('.prods').show();
+		} else {
+			$('.prods').hide().filter(function() {
+				return $(this).data('tipo') == "promocao"
+			}).show();
+		}
+	} else {
+		if ($('#c2').is(':checked')) {
+			$('.prods').hide().filter(function() {
+				return $(this).data('tipo') == "produto"
+			}).show();
+		} else {
+			$('.prods').show();
+		}
+	}
+}
+
+$("#valor_inicial" ).click(function() {
+   $("#valor_final").val("");
+   $('.prods').show();
+});
+
+$("#valor_inicial").focusout(function(){
+    if ($("#valor_inicial").val() != ""){
+		if ($("#valor_final").val() != ""){
+			filtrarIntervalo();
+		}
+	}
+});
+
+$("#valor_final").focusout(function(){
+	if ($("valor_inicial").val() != ""){
+		if ($("#valor_final").val() != ""){
+			filtrarIntervalo();
+		}
+	}
+});
+
+function filtrarIntervalo(){
+	if (parseFloat($("#valor_final").val()) >= parseFloat($("#valor_inicial").val())){
+		filter();
+	}
+}
+	
+$('#categoria').on('change', function() {
+  var value = $(this).val();
+  
+  if (value==""){
+	$('.prods').show();
+  } else {
+	filter2(value.toLowerCase());
+  }
+});
+
+$('#loja').on('change', function() {
+  var value = $(this).val();
+  
+  if (value==""){
+	$('.prods').show();
+  } else {
+	filter3(value.toLowerCase());
+  }
+});
+
+function filter() {
+
+$('.prods').hide().filter(function() {
+    return $(this).data('valor') >=  parseFloat($("#valor_inicial").val()) && $(this).data('valor') <= parseFloat($("#valor_final").val())
+}).show();
+}
+
+function filter2(e) {
+    var regex = new RegExp('\\b\\w*' + e + '\\w*\\b');
+            $('.prods').hide().filter(function () {
+        return regex.test($(this).data('categoria'))
+    }).show();
+}
+
+function filter3(e) {
+    var regex = new RegExp('\\b\\w*' + e + '\\w*\\b');
+            $('.prods').hide().filter(function () {
+        return regex.test($(this).data('loja'))
+    }).show();
+}
+
+
 </script>

@@ -30,13 +30,13 @@ module.exports = function (app){
 	
 	app.get("/lojas", function(req,res){
 		res.locals.csrfToken = req.csrfToken();
-		var api = new webservice(app.locals.shopping);
+		//var api = new webservice(app.locals.shopping);
+		var api = new webservice("");
 		var consulta = api.list().then(function (resultados) {
 			//var categorias = ListarCategorias(resultados.dados.data, app.locals.shopping);
 			var categorias = ListarCategoriasMock();
 			dados_temporarios = resultados.dados.data;
 			if (typeof categorias === undefined) {
-				console.log('d');
 				res.status(500).redirect('/erro/500');
 			} else {
 				res.render("lojas/index", {resultados:resultados.dados.data, categorias: categorias});	
@@ -55,7 +55,6 @@ module.exports = function (app){
 			var categorias = ListarCategoriasMock();
 			dados_temporarios = resultados.dados.data;
 			if (typeof categorias === undefined) {
-				console.log('d');
 				res.status(500).redirect('/erro/500');
 			} else {
 				res.render("lojas/index", {resultados:resultados.dados.data, categorias: categorias});	
@@ -69,7 +68,6 @@ module.exports = function (app){
 	app.get("/lojas/loja-online", function(req,res){
 		var api_produtos = new webservice_produtos('');
 		var consulta = api_produtos.list().then(function (resultados) {
-			console.log(resultados.dados.data);
 		//var consulta = api_produtos.listGQL().then(function (resultados) {
 			dados = api_produtos.montar(resultados.dados.data);
 			var categorias = ListarCategoriasMock();
@@ -109,23 +107,15 @@ module.exports = function (app){
 	});
 
 	app.get("/lojas/loja/:nomedaloja", function(req,res){
-		console.log('a');
 		var api = new webservice(app.locals.shopping);
 		var nomedaloja = req.params.nomedaloja;
 		var consulta = api.view(nomedaloja).then(function (resultados) {
-			console.log('b');
 			if (typeof resultados.dados.fantasy_name === undefined) {
-				console.log('d');
 				res.status(500).redirect('/erro/500');
 			} else {
-				console.log('c');	
 				var api_produtos = new webservice_produtos('');
-				console.log('c1');	
 				var consulta2 = api_produtos.list().then(function (resultados2) {
-					console.log('c2');	
-					console.log(resultados2);
 					var produtos = api_produtos.montar(resultados2.dados.data);
-					console.log(produtos);	
 					res.render("lojas/loja", {resultados:resultados.dados, produtos: produtos});
 				}).catch(function (erro2){
 					res.status(500).redirect('/erro/500');
@@ -133,7 +123,6 @@ module.exports = function (app){
 				
 			}
 		}).catch(function (erro){
-			console.log('e');
 			res.status(500).redirect('/erro/500');
 		});
 	});

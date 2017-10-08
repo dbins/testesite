@@ -23,11 +23,18 @@ autenticacaoAPI.prototype.config = function(){
 		//	"password": "124345678"
 		//};
 		
+		//Alterado 07-10-17
+		//var dados_usuario = {
+		//	"level": "app",
+		//	"strategy":  "local", 
+		//	"email": "concierge_mobile@adlib.com.br", 
+		//	"password": "VaiPlaneta!"
+		//};
 		var dados_usuario = {
 			"level": "app",
-			"strategy":  "local", 
-			"email": "concierge_mobile@adlib.com.br", 
-			"password": "VaiPlaneta!"
+			"strategy": "local", 
+			"email": "concierge_frontend@adlib.com.br", 
+			"password": "8902de078cc1aa843c0b91b5f6e2aed9c5c15272e1adf6264fb0ec9cf35df421"
 		};
 		
 		var opcoes = {  

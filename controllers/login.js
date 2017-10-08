@@ -127,7 +127,6 @@ module.exports = function (app){
 						cliente.favorite_stores = dados.favorite_stores;
 						
 						req.session.cliente = cliente;
-						
 						var tmp1 = dados.firstname;
 						var tmp2 = dados.lastname;
 						app.locals.usuario = dados.firstname + ' ' +  dados.lastname;
