@@ -3,6 +3,8 @@ var webservice = require('./../servicos/cep.js');
 var servicoUsuario = require('./../servicos/usuarios.js');
 var servicoLogin = require('./../servicos/logins.js');
 var servicoPagarme = require('./../servicos/pagarme.js');
+var servicoSales = require('./../servicos/salestransactions.js');
+var servicoProdutoSales = require('./../servicos/salestransactionsproducts.js');
 var moment = require('moment');
 var objectid = require('objectid');
 var crypto = require('crypto');
@@ -288,15 +290,17 @@ module.exports = function (app){
 				var tmp_item = {};
 				
 				app.get("carrinho")[index].total = (parseFloat(app.get("carrinho")[index].por) * parseFloat(app.get("carrinho")[index].qtde));
-				
-				tmp_item.mall =  app.get("carrinho")[index].mall;
+				//Formato API
+				//tmp_item.mall =  app.get("carrinho")[index].mall;
+				tmp_item.mall =  "NAO TEM NO ENDPOINT DE SHOPPINGS";
 				tmp_item.store = app.get("carrinho")[index].loja;
 				tmp_item.product = app.get("carrinho")[index].url_title;
 				//tmp_item.bought_at: Date,
 				//tmp_item.delivered_at: Date,
 				tmp_item.quantity = app.get("carrinho")[index].qtde;
-				tmp_item.unity_price = FormataNumero(app.get("carrinho")[index].por);
-				tmp_item.total_price = FormataNumero(app.get("carrinho")[index].total);
+				tmp_item.unity_price = (parseFloat(app.get("carrinho")[index].total) * 1000)/parseFloat(app.get("carrinho")[index].qtde);
+				tmp_item.total_price = parseFloat(app.get("carrinho")[index].total) * 1000;
+				tmp_item.bought_at = moment().format('YYYY-MM-DD');
 				//approved_at: Date,
 				//reversed_at: Date,
 				//created_at: Date,
@@ -306,6 +310,11 @@ module.exports = function (app){
 				total += parseFloat((app.get("carrinho")[index].por) * parseFloat(app.get("carrinho")[index].qtde));
 				
 			}
+			
+			
+			
+			
+			
 			total = parseFloat(total) * 100;
 			//total = FormataNumero(total);
 			//Transacoes 
@@ -314,17 +323,17 @@ module.exports = function (app){
 			transacao.user = req.session.cliente.id;
 			transacaostatus = 'WAITING_PAYMENT';
 			transacao.source = 'SITE';
-			//transacao.transaction_id: String,
-			transacao.order_number = "";
+			//transacao.transaction_id: String, //ID NA PAGARME!
+			transacao.order_number = "0";
 			transacao.price = total;
-			transacao.token = "";
-			transacao.token_pagarme = "";
-			transacao.status_pagarme = "";
-			transacao.charge_back_details = "";
-			transacao.status_clear_sale = "";
-			transacao.clear_sale_id = "";
-			transacao.payment={};
-			transacao.sale_transaction_products = array_itens;    
+			transacao.token = "0";
+			transacao.token_pagarme = token_pagarme;
+			transacao.status_pagarme = "paid"; //Alterar!
+			//transacao.charge_back_details = "";
+			//transacao.status_clear_sale = "";
+			//transacao.clear_sale_id = "";
+			//transacao.payment={};
+			//transacao.sale_transaction_products = array_itens;    
 			//transacao.created_at: Date,
 			//transacao.updated_at: Date,	
 			//transacao.removed_at: Date,
@@ -336,10 +345,11 @@ module.exports = function (app){
 			var apiPagarme = new servicoPagarme();
 			var dados = {};
 			var array_items = [];
-			
+			//var array_items_API = [];
 			
 			
 			for (index = 0; index < app.get("carrinho").length; ++index) {
+				//Formato PAGARME
 				var tmp_item = {};
 				tmp_item.id= app.get("carrinho")[index].url_title;
 				tmp_item.title= app.get("carrinho")[index].produto;
@@ -350,7 +360,20 @@ module.exports = function (app){
 				tmp_item.venue = "";
 				tmp_item.date = moment().format('YYYY-MM-DD');
 				array_items.push(tmp_item);	
-			}		
+				
+				
+				//Formato API
+				//var tmp_item_API = {};
+				//tmp_item_API.mall = "TEM QUE INSERIR O MALL DE VOLTA NO ENDPOINT DE PRODUTO";
+				//tmp_item_API.product= app.get("carrinho")[index].url_title;
+				//tmp_item_API.store= app.get("carrinho")[index].store;
+				//tmp_item_API.unit_price= FormataNumero(app.get("carrinho")[index].por);
+				//tmp_item_API.quantity = app.get("carrinho")[index].qtde;
+				//tmp_item_API.total_price = FormataNumero(parseFloat(app.get("carrinho")[index].por) * parseFloat(app.get("carrinho")[index].qtde));
+				//tmp_item_API.bought_at = moment().format('YYYY-MM-DD');
+				//array_items_API.push(tmp_item_API);	
+			}
+			
 			dados.items = array_items;
 			var objeto_metadata = {};
 			objeto_metadata.id = 0;
@@ -359,6 +382,31 @@ module.exports = function (app){
 			var consulta = apiPagarme.captura(token_pagarme, total, dados).then(function (resultados) {
 				//Somente volta resposta depois da captura!
 				app.set('ultima_transacao', resultados.dados.id);
+				transacao.transaction_id = resultados.dados.id; //ID NA PAGARME!
+				
+				//Gravar os itens
+				var apiProdutosVendas = new servicoProdutoSales(app.locals.token_api);
+				//Toda gravacao de item é uma promisse. Gerar um array e executar tudo de uma vez
+				var array_promisses = [];
+				for (index = 0; index < array_itens.length; ++index) {
+					array_promisses.push(apiProdutosVendas.gravar(array_itens[index]));	
+				}
+				
+				Promise.all(array_promisses)
+				  .then(function(results) {
+					  var tmp_array_itens = []
+					  for (index = 0; index < results.length; ++index) {
+						tmp_array_itens.push(results[index].id);
+					  }
+					  transacao.sale_transaction_products = tmp_array_itens; //TODOS OS ITENS DA COMPRA!
+					  var apiVendas = new servicoSales(app.locals.token_api);
+					  var gravar_vendas = apiVendas.gravar(transacao).then(function (resultados) {
+						//NAO ESPERAR O RETORNO PORQUE E TESTE.
+						//ALINHAR O OPERACIONAL CORRETO DEPOIS!
+					   });
+					}).catch((err) => {
+						//problema....
+					});
 				return res.json(retorno);	
 			}).catch(function (erro){
 				return res.json(retorno);	
