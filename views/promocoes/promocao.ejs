@@ -1,5 +1,5 @@
 <% layout("../layout/index") -%>
-<% block("title", "ON Market Place | Promoções | " + nome_do_shopping_barra_titulo + " | " + resultados.info.title); -%>
+<% block("title", "ON Market Place | Promoções | " + nome_do_shopping_barra_titulo); -%>
 
  <div class="full">
 
@@ -7,9 +7,9 @@
 
       <aside class="bannerint">
 
-        	<img src="<%=caminho_imagem(resultados.mall)%><%=resultados.media.images.main%>" width="1366" height="285" title="<%=resultados.info.title%>">
+        	<img src="" width="1366" height="285" title="">
 
-            <!--<section><%=resultados.info.title%></section>-->
+            <!--<section>*</section>-->
 
         </aside> <!--banner-->
 
@@ -23,9 +23,9 @@
 
     <div class="titevents">
 
-    	<h1><%=resultados.info.title%></h1>
+    	<h1>*</h1>
 
-    	<p>Início <span><%=moment(resultados.start_at).format( 'DD-MM-YYYY')%></span> </p> <p> Término <span><%=moment(resultados.end_at).format( 'DD-MM-YYYY')%></span></p>
+    	<p>Início </p>
 
     </div>
 
@@ -39,7 +39,7 @@
 
    		<h2>Descrição da Promoção</h2>
 
-        <p><%-resultados.info.description%></p>
+        <p>*</p>
 
         <p>Acesse os <a href="termos.php">termos e condições</a></p>    
 
@@ -81,21 +81,7 @@
 
         <div class="clear"></div><br><br>
 
-        <% 
-		if (outros.length>0){
-		outros.forEach(function(resultado) { 
-		%> 
-      	<a href="/promocoes/promocao/<%=resultado.url_title%>" class="promo">
-         	<div>
-            	<span class="purple"></span>
-   	     		<img src="<%=caminho_imagem(resultado.mall)%><%=resultado.media.images.main%>" class="img" title="<%=resultado.info.title%>">
-               <p><%=resultado.info.title%><br>
-       		</div>	
-      	</a>
-        <% 
-		}); 
-		}
-		%>
+        
 
 
        <div class="clear"></div><br><br>
