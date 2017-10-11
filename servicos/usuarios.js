@@ -20,7 +20,9 @@ usuariosAPI.prototype.verificar = function(cpf){
         'Authorization': this.token
 		}
 	}
+	
 	return rp(opcoes).then((data, res) => {
+		
 		var dados = JSON.parse(data);
 		if (dados.data.length == 0){
 			resposta = {"resultado":"NAO_LOCALIZADO"};	
@@ -43,7 +45,9 @@ usuariosAPI.prototype.consultar = function(cpf){
         'Authorization': this.token
 		}
 	}
+	
 	return rp(opcoes).then((data, res) => {
+		
 		var dados = JSON.parse(data);
 		if (dados.data.length == 0){
 			resposta = {"resultado":"NAO_LOCALIZADO", "dados": []};	

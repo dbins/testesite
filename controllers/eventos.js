@@ -5,7 +5,7 @@ module.exports = function (app){
 
 	
 	app.get("/eventos", function(req,res){
-		var api = new webservice(app.locals.shopping);	
+		var api = new webservice(req.session.shopping);	
 		var consulta = api.list().then(function (resultados) {
 			res.render("eventos/index", {resultados:resultados.dados.data, shoppings: app.locals.shoppings});
 		}).catch(function (erro){
@@ -19,7 +19,7 @@ module.exports = function (app){
 	
 	app.get("/eventos/evento/:nomedoevento", function(req,res){
 		var nomedoevento = req.params.nomedoevento;
-		var api = new webservice(app.locals.shopping);
+		var api = new webservice(req.session.shopping);
 		var consulta = api.view(nomedoevento).then(function (resultados) {
 			var consulta2 = api.list().then(function (resultados2) {
 				

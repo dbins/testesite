@@ -31,8 +31,9 @@ module.exports = function (app){
 		//}).catch(function (erro){
 			
 		//});
+		
 		if (req.session.carrinho){
-			if (req.session.carrinho == "OK"){
+			if (req.session.carrinho && req.session.carrinho.length){
 				if (req.session.usuario){
 					res.redirect("/pagamento/dados");
 					return;
@@ -44,7 +45,6 @@ module.exports = function (app){
 	app.post("/login", function(req,res){
 		//res.render("login/index");
 		
-		
 		if (app.locals.token_api == ""){
 			//Houve um erro, nao houve comunicacao para gerar token
 		} else {
@@ -53,7 +53,6 @@ module.exports = function (app){
 			var apiUsuario = new servicoUsuario(app.locals.token_api);
 			var consulta = apiUsuario.consultar(req.body.CPF).then(function (resultados) {
 			//var consulta = apiLogin.consultar(req.body.CPF).then(function (resultados) {	
-				
 				
 				if (resultados.resultado == "NAO_LOCALIZADO"){
 					//Definir mensagem de erro
@@ -88,7 +87,7 @@ module.exports = function (app){
 					//var consulta = autentica.validarUsuario(dados.email, req.body.senha).then(function (resultados) {
 						
 						//User o token do usuario
-						app.locals.tokenUsuario = resultados.token;
+					//	app.locals.tokenUsuario = resultados.token;
 						
 						req.session.usuario = dados.firstname;
 						var cliente = {};
@@ -129,16 +128,20 @@ module.exports = function (app){
 						req.session.cliente = cliente;
 						var tmp1 = dados.firstname;
 						var tmp2 = dados.lastname;
-						app.locals.usuario = dados.firstname + ' ' +  dados.lastname;
-						app.locals.letras = tmp1.substring(0,1) + tmp2.substring(0,1);
+						req.session.usuario = dados.firstname + ' ' +  dados.lastname;
+						req.session.letras = tmp1.substring(0,1) + tmp2.substring(0,1);
 						req.session.cpf = dados.cpf;
 						req.session.save(function (err) {
 						if (err) return next(err)
 							
-							if (app.locals.total_carrinho ==0){
-								res.render("login/redirecionar");
+							if (req.session.carrinho){
+								if (req.session.carrinho && req.session.carrinho.length){
+									res.redirect("/pagamento/dados");	
+								} else {
+									res.render("login/redirecionar");	
+								}	
 							} else {
-								res.redirect("/pagamento/dados");
+								res.render("login/redirecionar");
 							}
 						});
 					//}).catch(function (erro){
@@ -217,11 +220,11 @@ module.exports = function (app){
 				
 				var tmp1 = dados_do_cliente.firstname;
 				var tmp2 = dados_do_cliente.lastname;
-				app.locals.usuario = dados_do_cliente.firstname + ' ' +  dados_do_cliente.lastname;
-				app.locals.letras = tmp1.substring(0,1) + tmp2.substring(0,1);
+				req.session.usuario = dados_do_cliente.firstname + ' ' +  dados_do_cliente.lastname;
+				req.session.letras = tmp1.substring(0,1) + tmp2.substring(0,1);
 						
 				//SUCESSO
-				if (app.locals.total_carrinho ==0){
+				if (req.session.total_carrinho ==0){
 					res.render("login/redirecionar");
 				} else {
 					res.redirect("/pagamento/dados");

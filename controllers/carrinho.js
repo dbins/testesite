@@ -4,19 +4,20 @@ module.exports = function (app){
 	app.get("/carrinho", function(req,res){
 		
 		var total = 0;
+		if(!req.session.carrinho)
+			req.session.carrinho = [];
 		
-		for (index = 0; index < app.get("carrinho").length; ++index) {
-			total += parseFloat((app.get("carrinho")[index].por) * parseFloat(app.get("carrinho")[index].qtde));
-			app.get("carrinho")[index].total = (parseFloat(app.get("carrinho")[index].por) * parseFloat(app.get("carrinho")[index].qtde)).toFixed(2);
+		for (index = 0; index < req.session.carrinho.length; ++index) {
+			total += parseFloat((req.session.carrinho[index].por) * parseFloat(req.session.carrinho[index].qtde));
+			req.session.carrinho[index].total = (parseFloat(req.session.carrinho[index].por) * parseFloat(req.session.carrinho[index].qtde)).toFixed(2);
 		}
 		total = parseFloat(total).toFixed(2);
-		app.locals.total_carrinho = app.get("carrinho").length;
-		res.render("carrinho/index", {resultados:app.get("carrinho"), total: total});
+		req.session.total_carrinho = req.session.carrinho.length;
+		res.render("carrinho/index", {resultados:req.session.carrinho, total: total});
 	});
 	
 	app.post("/carrinho", function(req,res){
 		//res.render("carrinho/index");
-		req.session.carrinho = "OK";
 		res.redirect("/login");
 	});
 	
@@ -24,8 +25,8 @@ module.exports = function (app){
 		
 		var produto = req.body.produto;
 		var adicionar = true;
-		for (index = 0; index < app.get("carrinho").length; ++index) {
-			if (app.get("carrinho")[index].url_title == produto){
+		for (index = 0; index < req.session.carrinho.length; ++index) {
+			if (req.session.carrinho[index].url_title == produto){
 				adicionar = false;
 			}
 		}
@@ -34,7 +35,7 @@ module.exports = function (app){
 				var tmp = resultados.dados;
 				var produto_adicionado = api.montarProduto(tmp);
 				produto_adicionado.qtde = 1;
-				app.get("carrinho").push(produto_adicionado);
+				req.session.carrinho.push(produto_adicionado);
 				res.redirect("/carrinho");
 			}).catch(function (erro){
 				res.redirect("erro/500");
@@ -50,16 +51,20 @@ module.exports = function (app){
 			var consulta = api.view(produto).then(function (resultados) {
 				var tmp = resultados.dados;
 				var produto_adicionado = api.montarProduto(tmp);
-				
 				var adicionar = true;
-				for (index = 0; index < app.get("carrinho").length; ++index) {
-					if (app.get("carrinho")[index].url_title == produto){
+			
+				
+				if(!req.session.carrinho)
+					req.session.carrinho = [];
+				
+				for (index = 0; index < req.session.carrinho.length; ++index) {
+					if (req.session.carrinho[index].url_title == produto){
 						adicionar = false;
 					}
 				}
 				if (adicionar){
 					produto_adicionado.qtde = 1;
-					app.get("carrinho").push(produto_adicionado);
+					req.session.carrinho.push(produto_adicionado);
 					res.redirect("/carrinho");
 					return;	
 				} else {
@@ -67,16 +72,16 @@ module.exports = function (app){
 					return;	
 				}
 			}).catch(function (erro){
-				res.redirect("erro/500");
-				return;
+				//res.redirect("erro/500");
+				//return;
 			});
 			
 			//for (index = 0; index < app.get("produtos").length; ++index) {
 			//	if (app.get("produtos")[index].id == produto){
 			//		var tmp = app.get("produtos")[index];
 			//		tmp.qtde = 1;
-			//		app.get("carrinho").push(tmp);
-			//	}
+			//		req.session.carrinho.push(tmp);
+			//	///////}
 			//}
 		
 		
@@ -86,16 +91,16 @@ module.exports = function (app){
 	
 	app.get("/carrinho/remove/:iddocarrinho", function(req,res){
 		var iddocarrinho = req.params.iddocarrinho;
-		var index = app.get("carrinho").indexOf(iddocarrinho);
-		app.get("carrinho").splice(index, 1);
+		var index = req.session.carrinho.indexOf(iddocarrinho);
+		req.session.carrinho.splice(index, 1);
 		res.redirect("/carrinho");
 	});
 	app.get("/carrinho/altera/:iddocarrinho/:qtde", function(req,res){
 		var iddocarrinho = req.params.iddocarrinho;
 		var qtde = req.params.qtde;
-		for (index = 0; index < app.get("carrinho").length; ++index) {
-			if (app.get("carrinho")[index].id == iddocarrinho){
-				app.get("carrinho")[index].qtde = qtde;
+		for (index = 0; index < req.session.carrinho.length; ++index) {
+			if (req.session.carrinho[index].id == iddocarrinho){
+				req.session.carrinho[index].qtde = qtde;
 			}
 		}
 		res.redirect("/carrinho");

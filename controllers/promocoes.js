@@ -5,7 +5,7 @@ module.exports = function (app){
 	
 	
 	app.get("/promocoes", function(req,res){
-		var api = new webservice(app.locals.shopping);
+		var api = new webservice(req.session.shopping);
 		var consulta = api.list().then(function (resultados) {
 			
 			var promocoes = [];
@@ -32,14 +32,14 @@ module.exports = function (app){
 	
 	app.get("/promocoes/promocao/:nomedapromocao", function(req,res){
 		var nomedapromocao = req.params.nomedapromocao;
-		var api = new webservice(app.locals.shopping);
+		//var api = new webservice(req.session.shopping);
 		//var consulta = api.view(nomedapromocao).then(function (resultados) {
 		//	var consulta2 = api.list().then(function (resultados2) {
 		//		if (typeof resultados.dados.info.title === undefined) {
 					//res.status(500).redirect('/erro/500');
 		//		} else {
 					//res.render("promocoes/promocao", {resultados:resultados.dados, outros:resultados2.dados.data,moment: moment});
-					res.render("promocoes/promocao", {resultados:{}, outros:{}	,moment: moment});
+					res.render("promocoes/promocao", {resultados:{}, outros:{}, moment: moment});
 					
 		//		}
 				

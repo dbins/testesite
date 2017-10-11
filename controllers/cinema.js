@@ -65,10 +65,10 @@ module.exports = function (app){
 	app.get("/cinema", function(req,res){
 		res.locals.csrfToken = req.csrfToken();
 		
-		app.locals.id_do_shopping_ingresso =  retornaIDIngresso(app.locals.shoppings, app.locals.shopping);
+		req.session.id_do_shopping_ingresso =  retornaIDIngresso(app.locals.shoppings, req.session.shopping);
 		
-		var api_ingresso = new ingresso(app.locals.id_do_shopping_ingresso);
-		//var api = new webservice(app.locals.shopping);
+		var api_ingresso = new ingresso(req.session.id_do_shopping_ingresso);
+		//var api = new webservice(req.session.shopping);
 		//var consulta = api.list().then(function (resultados) {
 		var consulta = api_ingresso.list().then(function (resultados) {	
 			//var consulta2 = api.categorias().then(function (resultados2) {
@@ -177,9 +177,9 @@ module.exports = function (app){
 			diasDeExibicao.push({dia: DayAsString(currentDate.getDay()) , data: currentDate.getDate() + " de " + MonthAsString(currentDate.getMonth())});
 		}
 		
-		//var api = new webservice(app.locals.shopping);
-		app.locals.id_do_shopping_ingresso =  retornaIDIngresso(app.locals.shoppings, app.locals.shopping);
-		var api_ingresso = new ingresso(app.locals.id_do_shopping_ingresso);
+		//var api = new webservice(req.session.shopping);
+		app.locals.id_do_shopping_ingresso =  retornaIDIngresso(app.locals.shoppings, req.session.shopping);
+		var api_ingresso = new ingresso(req.session.id_do_shopping_ingresso);
 		
 		//var consulta = api.view(nomedofilme).then(function (resultados) {
 		var consulta = api_ingresso.view(id_do_filme).then(function (resultados) {

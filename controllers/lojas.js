@@ -30,10 +30,10 @@ module.exports = function (app){
 	
 	app.get("/lojas", function(req,res){
 		res.locals.csrfToken = req.csrfToken();
-		//var api = new webservice(app.locals.shopping);
+		//var api = new webservice(req.session.shopping);
 		var api = new webservice("");
 		var consulta = api.list().then(function (resultados) {
-			//var categorias = ListarCategorias(resultados.dados.data, app.locals.shopping);
+			//var categorias = ListarCategorias(resultados.dados.data, req.session.shopping);
 			var categorias = ListarCategoriasMock();
 			dados_temporarios = resultados.dados.data;
 			if (typeof categorias === undefined) {
@@ -49,9 +49,9 @@ module.exports = function (app){
 	});
 	app.post("/lojas", function(req,res){
 		//Aplicar os filtros!
-		var api = new webservice(app.locals.shopping);
+		var api = new webservice(req.session.shopping);
 		var consulta = api.list().then(function (resultados) {
-			//var categorias = ListarCategorias(resultados.dados.data, app.locals.shopping);
+			//var categorias = ListarCategorias(resultados.dados.data, req.session.shopping);
 			var categorias = ListarCategoriasMock();
 			dados_temporarios = resultados.dados.data;
 			if (typeof categorias === undefined) {
@@ -107,7 +107,7 @@ module.exports = function (app){
 	});
 
 	app.get("/lojas/loja/:nomedaloja", function(req,res){
-		var api = new webservice(app.locals.shopping);
+		var api = new webservice(req.session.shopping);
 		var nomedaloja = req.params.nomedaloja;
 		var consulta = api.view(nomedaloja).then(function (resultados) {
 			if (typeof resultados.dados.fantasy_name === undefined) {

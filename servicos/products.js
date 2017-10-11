@@ -94,7 +94,7 @@ produtosAPI.prototype.paginacao = function(pagina){
 
 produtosAPI.prototype.view = function(registro){
 	var resposta = "";
-	var opcoes = {  
+	var opcoes = {
 	    method: 'GET',
 		uri: this.url + "/" + this.metodo + "/" + registro
 	}
@@ -109,8 +109,11 @@ produtosAPI.prototype.view = function(registro){
 }
 
 produtosAPI.prototype.listGQL = function(){
-	
-	var query = 'query={products{slug name,short_description,long_description, start_at, end_at, relationship, status, promotion,segment, stock, price_start,price_final,price, images{path, type, order}, store{slug, fantasy_name, floor, title},mall{_id, slug, domain, name}}}';
+	const q_store = `store{slug, fantasy_name, floor, title}`;
+	const q_mall  = `mall{_id, slug, domain, name}`;
+    const q_group = `group{slug name}`;
+    const q_images= `images{path, type, order}`;
+	var query = `query={products{ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_images}}}`;
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -121,9 +124,7 @@ produtosAPI.prototype.listGQL = function(){
 	}
 	
 	return rp(opcoes).then((data, res) => {
-		
 		var tmp = JSON.parse(data);
-		
 		resposta = {"resultado":"OK", "dados": tmp.data.products, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
@@ -134,7 +135,7 @@ produtosAPI.prototype.listGQL = function(){
 
 produtosAPI.prototype.viewGQL = function(registro){
 	
-	var query = 'query={product(id:"' + registro + '"){slug name,short_description,long_description, start_at, end_at, relationship, status, promotion,segment, stock, price_start,price_final,price, sizes, colors, images{path, type, order}, store{slug, fantasy_name, floor, title},mall{_id, slug, domain, name}}}';
+	var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price store{slug, fantasy_name, floor, title} mall{_id, slug, domain, name}  images{path, type, order}}}';
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -204,7 +205,7 @@ produtosAPI.prototype.montarGQL = function(resultados){
 	
 	tmp.forEach(function(obj) {
 		var nome_do_Shopping = obj.mall.name;
-		var nome_da_Loja = obj.store.title;
+		var nome_da_Loja = obj.store.title||obj.store.fantasy_name||obj.store.real_name;
 		
 		var preco_inicial = 0;
 		var preco_final = 0;

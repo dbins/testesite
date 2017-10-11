@@ -34,8 +34,9 @@ module.exports = function (app){
 		var produto = req.body.produto;
 		var resultados = []
 		if (produto != ""){
-			if (app.get("produtos").length>0){
-				app.get("produtos").forEach(function(resultado) {
+			if (req.session.produtos){
+			if (req.session.produtos.length>0){
+				req.session.produtos.forEach(function(resultado) {
 					var str = resultado.produto.toLowerCase();
 					var n = str.indexOf(produto.toLowerCase());
 					if (n >=0){
@@ -44,6 +45,7 @@ module.exports = function (app){
 				});		
 				
 			}	
+			}
 		}
 		res.json(resultados);
 	});
@@ -57,7 +59,6 @@ module.exports = function (app){
 	});
 	
 	app.get("/logout", function(req,res){
-		app.locals.usuario = "";
 		req.session.destroy();
 		res.redirect('/');
 	});
@@ -65,7 +66,7 @@ module.exports = function (app){
 
 	
 	app.get("/", function(req,res){
-		app.locals.shopping = '';
+		req.session.shopping = '';
 		res.redirect('/home');
 	});
 	

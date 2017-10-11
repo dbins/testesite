@@ -9,7 +9,7 @@ function ListarCategoriasMock(){
 
 module.exports = function (app){
 	app.get("/cupons", function(req,res){
-		var api = new webservice(app.locals.shopping);
+		var api = new webservice(req.session.shopping);
 		var consulta = api.list().then(function (resultados) {
 			var categorias = ListarCategoriasMock();
 			if (typeof categorias === undefined) {

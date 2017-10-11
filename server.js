@@ -56,10 +56,7 @@ app.use(function(request,response,next){
 
 app.use(express.static(__dirname + '/public'));
 
-//Definindo as rotas
-consign()
-  .include('controllers')
-  .into(app);	
+	
   
 //Ativando o sistema de templates
 app.engine('ejs', require('ejs-locals'));
@@ -138,6 +135,19 @@ app.locals.nome_do_shopping_barra_titulo = "";
 app.locals.id_do_shopping_ingresso = "1313";
 app.locals.token_api = "";
 app.locals.pgtk = "";
+
+
+//Transformando variaveis de sessao em variaveis locais
+//As variaveis app.locals nao serao mais utilizadas
+app.use((req, res, next) => {
+	Object.assign(res.locals, req.session);
+	next();
+});
+
+//Definindo as rotas
+consign()
+  .include('controllers')
+  .into(app);
 
 //Tratando o erro de rota invalida
 app.use(function(req, res, next){

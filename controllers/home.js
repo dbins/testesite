@@ -6,8 +6,9 @@ module.exports = function (app){
 	
 	app.get("/home", function(req,res){
 		var api_produtos = new webservice_produtos('');
-		var consulta = api_produtos.list().then(function (resultados) {
-			app.set("produtos", api_produtos.montar(resultados.dados.data));
+		var consulta = api_produtos.listGQL().then(function (resultados) {
+			
+			req.session.produtos = api_produtos.montarGQL(resultados);
 			var api_banners = new webservice_banners('');
 			var consulta = api_banners.list().then(function (resultados) {
 				var banners = [];
@@ -16,12 +17,12 @@ module.exports = function (app){
 				} else {
 					banners = resultados.dados.data;	
 				}
-				res.render("home/index", {banners:banners, shopping:'', produtos: app.get("produtos")});
+				res.render("home/index", {banners:banners, shopping:'', produtos: req.session.produtos });
 			}).catch(function (erro){
-				res.render("home/index", {banners:[], shopping:'', produtos: app.get("produtos")});
+				res.render("home/index", {banners:[], shopping:'', produtos: req.session.produtos });
 			});	
 		}).catch(function (erro){
-			res.render("home/index", {banners:[], shopping:'', produtos: app.get("produtos")});
+			res.render("home/index", {banners:[], shopping:'', produtos: req.session.produtos});
 		});		
 		
 		
@@ -40,12 +41,12 @@ module.exports = function (app){
 			//Nao localizado
 			res.redirect('/erro/404');
 		} else {
-			app.locals.shopping = nomedoshopping;
-			app.locals.nome_do_shopping_barra_titulo = " | " + tmp ;
+			req.session.shopping = nomedoshopping;
+			req.session.nome_do_shopping_barra_titulo = " | " + tmp ;
 			
 			var api_produtos = new webservice_produtos(nomedoshopping);
 			var consulta = api_produtos.list().then(function (resultados) {
-				app.set("produtos", api_produtos.montar(resultados.dados.data));
+				req.session.produtos = api_produtos.montar(resultados.dados.data);
 				var api_banners = new webservice_banners(nomedoshopping);
 				var consulta = api_banners.list(nomedoshopping).then(function (resultados) {
 					var banners = [];
@@ -54,14 +55,14 @@ module.exports = function (app){
 					} else {
 						banners = resultados.dados.data;	
 					}
-					res.render("home/index", {banners:banners, shopping:nomedoshopping, produtos: app.get("produtos")});
+					res.render("home/index", {banners:banners, shopping:nomedoshopping, produtos: req.session.produtos});
 					
 				}).catch(function (erro){
-					res.render("home/index", {banners:[], shopping:nomedoshopping, produtos: app.get("produtos")});
+					res.render("home/index", {banners:[], shopping:nomedoshopping, produtos: req.session.produtos});
 				});	
 		
 			}).catch(function (erro){
-				res.render("home/index", {banners:[], shopping:'', produtos: app.get("produtos")});
+				res.render("home/index", {banners:[], shopping:'', produtos: req.session.produtos});
 			});		
 			
 		}
