@@ -54,24 +54,18 @@
          
          <div class="cor">
          	<span>Cor</span>
-			<%
-			if (teste.cor){
-			%>
-            <a href="" style="background:<%=teste.cor%>"></a>
-			<%
-			}
-			%>
+            <a href="" style="background:#F90"></a>
+            <a href="" style="background:#093"></a>
+            <a href="" style="background:#FF0"></a>
+            <a href="" style="background:#F60"></a>
          </div> 
          
          <div class="tamanho">
          	<span>Tamanho</span>
-			<%
-			if (teste.tamanho){
-			%>
-            <a href=""><%=teste.tamanho%></a>
-			<%
-			}
-			%>
+            <a href="">P</a>
+            <a href="">M</a>
+            <a href="">G</a>
+            <a href="">GG</a>
          </div> 
    
          <div class="qtd">
@@ -81,7 +75,7 @@
             <a href="">+</a>
          </div> 
      
-         <a id="btn_sacola" href="/carrinho/add/<%=teste.url_title%>" class="adicionar_sacola fancybox fancybox.iframe">Adicionar</a>
+         <a id="btn_sacola" href="/carrinho/add/<%=teste.url_title%>" class="adicionar_sacola fancybox fancybox.iframe">Adicionar ao carrinho</a>
 	
    </div><!--info-->
     
@@ -91,7 +85,7 @@
      
      
      	<h2>Descrição do Produto</h2>
-        <%=teste.descricao%>
+        <p><%=teste.descricao%></p>
        
        
        </section>
@@ -99,12 +93,13 @@
         
         <div class="aviso">
         	<h3>Importante</h3>
-            <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. </p>
-            <a href="#a-duvidas" class="fancybox">Dúvidas</a>
-            <a href="#a-trocas" class="fancybox">Trocas</a>
+            <p>Lembre-se que após a compra, você deverá retirar os itens adquiridos diretamente na loja do shopping. Seu pedido estará disponível para retirada em 30 minutos após a confirmação de seu pagamento.</p>
+            <a href="http://ajuda.adlib.com.br" target="_blank">Dúvidas</a>
+            <a href="http://ajuda.adlib.com.br" target="_blank">Trocas</a>
             <a href="/contato" class="fancybox">Contato</a>
            
-            <div id="a-duvidas" class="danger">
+           <!--
+		   <div id="a-duvidas" class="danger">
                 <h3>Dúvidas</h3>
                 <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. </p>            	
             </div>
@@ -114,16 +109,17 @@
             <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. </p>
             </div>
             
-            <div id="a-contact"class="danger">
+            <div id="a-contact" class="danger">
             	<h3>Contato</h3>
             <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. </p>
             </div>
+			-->
             
         </div><!--aviso-->
         
         
         
-    
+  
     
     <div id="more">
    		<h3 class="titles">
@@ -179,7 +175,7 @@
 	   %>	 
         
     </div><!--more-->
-     
+
   </article> <!--foto-->
 
  </div><!--full-->

@@ -2,10 +2,8 @@ var webservice = require('./../servicos/movies.js');
 var ingresso = require('./../servicos/ingresso.js');
 
 var rp2 = require('request-promise'); 
-var dados_temp = [];
 var categorias_temp = [];
 var resposta_completa = [];
-var datas_temp = [];
 
 function MonthAsString(monthIndex) {
     var d = new Date();
@@ -62,6 +60,7 @@ function retornaIDFilme(filmes, filme){
 
 
 module.exports = function (app){
+	
 	app.get("/cinema", function(req,res){
 		res.locals.csrfToken = req.csrfToken();
 		
@@ -78,10 +77,10 @@ module.exports = function (app){
 			
 			
 			resposta_completa = resultados.dados;
-			//dados_temp = resultados.dados;
+			//req.session.dados_temp = resultados.dados;
 			categorias_temp = resultados2.categorias;
-			dados_temp = resultados3.dados;
-			datas_temp = resultados4.dados;
+			req.session.dados_temp = resultados3.dados;
+			req.session.datas_temp = resultados4.dados;
 			
 			//res.render("cinema/index", {resultados:resultados.dados.data, categorias:resultados2.categorias});
 			res.render("cinema/index", {resultados:resultados3.dados, categorias:resultados2.categorias, banners: resultados3.dados});
@@ -92,7 +91,7 @@ module.exports = function (app){
 	
 	app.post("/cinema", function(req,res){
 		res.locals.csrfToken = req.csrfToken();
-		if (dados_temp.length>0){
+		if (req.session.dados_temp.length>0){
 			if (categorias_temp.length>0){
 				//Isso vai ser filtrado na API
 				//Filtrando manualmente para fins de teste de navegacao
@@ -114,14 +113,14 @@ module.exports = function (app){
 				if (nome_filme == ""){
 					if (categoria_selecionada ==""){
 						if (data_selecionada ==""){
-							results = dados_temp;
+							results = req.session.dados_temp;
 						}
 					}	
 				}
 				
 				//Apenas para testes
-				for (index = 0; index < dados_temp.length; ++index) {
-					item = dados_temp[index];
+				for (index = 0; index < req.session.dados_temp.length; ++index) {
+					item = req.session.dados_temp[index];
 					
 					if (nome_filme == ""){
 						//Nao faz nada	
@@ -144,7 +143,7 @@ module.exports = function (app){
 					if (data_selecionada == ""){
 						//Nao faz nada
 					} else {
-						datas_temp.forEach(function(obj2) {
+						req.session.datas_temp.forEach(function(obj2) {
 							if (obj2.dateFormatted == data_selecionada){
 								if (obj2.urlKey == item.urlKey){
 									results.push(item);
@@ -155,7 +154,7 @@ module.exports = function (app){
 					
 				}
 
-				res.render("cinema/index", {resultados:results, categorias:categorias_temp, banners:dados_temp});
+				res.render("cinema/index", {resultados:results, categorias:categorias_temp, banners:req.session.dados_temp});
 			} else {
 				res.status(500).redirect('/erro/500');
 			}
@@ -166,7 +165,10 @@ module.exports = function (app){
 	});
 	app.get("/cinema/filme/:nomedofilme", function(req,res){
 		var nomedofilme = req.params.nomedofilme;
-		var id_do_filme = retornaIDFilme(dados_temp, nomedofilme);
+		// TODO: Os dados do filme precisam vir direto da API pois os crawlers indexarão a url e os usuários  
+		// poderão acessar o filme diretamente sem passar pela lista de filmes, e então verão um erro ou o dado cacheado.
+		
+		var id_do_filme = retornaIDFilme(req.session.dados_temp, nomedofilme);
 		
 		var diasDeExibicao = [];
 
@@ -192,7 +194,7 @@ module.exports = function (app){
 					if (typeof resultados.title === undefined) {
 						res.status(500).redirect('/erro/500');
 					} else {
-						res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": dados_temp, datas: diasDeExibicao, sessoes: lista_sessoes.sessoes});
+						res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": req.session.dados_temp, datas: diasDeExibicao, sessoes: lista_sessoes.sessoes});
 					}	
 				}
 				

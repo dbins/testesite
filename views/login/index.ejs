@@ -93,7 +93,7 @@
 	if (total_carrinho > 0){
 	%>
    	<!---mosrar quando nao o carrinho tiver vazio --->
-    <div id="titcar">Login <img src="/imagens/bag.png" width="60" height="35"></div>
+    <!--<div id="titcar">Login <img src="/imagens/bag.png" width="60" height="35"></div>-->
 	<%
 	}
 	%>
@@ -309,15 +309,15 @@ $(document).ready(function() {
 
  $( ".buttons1" ).click(function(event) {
 	  event.preventDefault();
-	  $( "#logar" ).hide( "slow");
-	  $( "#esquece" ).show( "slow");  
+	  $( "#logar" ).hide();
+	  $( "#esquece" ).show();  
 
   });
 
    $( ".buttons2" ).click(function(event) {
 	 event.preventDefault();
-	  $( "#logar" ).show( "slow");
-	  $( "#esquece" ).hide( "slow");  
+	  $( "#logar" ).show();
+	  $( "#esquece" ).hide();  
 
   });
 

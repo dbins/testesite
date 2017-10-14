@@ -16,19 +16,11 @@
 
 			<nav id="menu">
 
-					<%
-					if (shopping == ''){
-				    %>
+					<%	if (shopping == ''){   %>
 						<ul class="dropdown"> 					
-					<%
-					} 
-					else
-					{
-					%>					
+					<%	} 	else {	%>					
 						<ul class="dropshp"> 
-					<%
-				    }
-				    %>
+					<%  } %>
 				   
 				    <%
 					if (shopping != ''){
@@ -45,6 +37,16 @@
 				   <!------- Mostrar na visão geral---->
                    <li><a>SHOPPINGS <span class="seta-baixo"></span></a>
                         <ul class="submenu">
+							
+							
+							<li><a href="/home/shopping_cidade_sao_paulo">Shopping Cidade São Paulo</a></li>
+							<li><a href="/home/"> Grand Plaza Shopping</a></li>
+							<li><a href="/home/">Tiete Plaza Shopping</a></li>
+							<li><a href="/home/">Shopping Cerrado</a></li>
+							<li><a href="/home/">Shopping Metropolitano Barra</a></li>
+							<li><a href="/home/">Shopping D</a></li>
+							
+							<!--
 							<% 
 							if (shoppings.length>0){
 							shoppings.forEach(function(resultado) { %>
@@ -53,6 +55,8 @@
 							}); 
 							}
 							%>
+							-->
+							
                             
                         </ul>
                     </li>
@@ -76,7 +80,7 @@
 						</li>
 						<li><a>LAZER <span class="seta-baixo"></span></a>
 							<ul class="submenu">
-								<li><a href="/cinema">CINEMA</a> </li>
+								<li><a href="/cinema">Cinema</a> </li>
 							 </ul>
 						</li>
                     <%
@@ -117,7 +121,7 @@
 				if(usuario == '') {
 				%> 
                   <!----mostrar deslogado----->
-                  <a class="bt fancybox fancybox.iframe" id="btn_login" href="/login">Quero entrar </a>
+                  <a class="bt fancybox fancybox.iframe" id="btn_login" href="/login">MINHA CONTA </a>
 				<%
 				}
 				%>

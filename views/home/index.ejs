@@ -6,22 +6,9 @@
         <div class="banner">
            <div class="container">
               <div id="owl-demo" class="owl-carousel">
-               <% 
-			   if (banners.length>0){
-			   banners.forEach(function(resultado) { 
-			   %>
-                <div class="item">
-                	<img src="/banner/banner.jpg" title="<%=resultado.main_title%>" width="1365" height="600">
-                	<section>
-                        <span>30% OFF</span>
-                        <span><%=resultado.main_title%></span>
-                        <span><%=resultado.mall%></span>
-                    </section>
-                </div>
-				<%
-				});
-				} else {
-				%>
+
+				
+				<% if (shopping == ''){ %>
 				<div class="item">
 					<img src="/banner/banner-geral.jpg" title="ZARA" class="img">
 					<section>
@@ -30,9 +17,39 @@
 						<span>Promoção</span>
 					</section>
 				</div>
-				<%
-				}
-				%>
+				
+				<%	} else { %>
+				<div class="item">
+					<img src="/banner/banner-shopping.jpg" title="Animale" class="img">
+					<section>
+						<span>50% OFF</span>
+						<span>Animale</span>
+						<span>Bolsas em promoção</span>
+					</section>
+				</div>
+				
+				<%  } %>
+				
+				
+				
+			    <!--
+				  <% 
+				   if (banners.length>0){
+				   banners.forEach(function(resultado) { 
+				   %>
+					<div class="item">
+						<img src="/banner/banner.jpg" title="<%=resultado.main_title%>" width="1365" height="600">
+						<section>
+							<span>30% OFF</span>
+							<span><%=resultado.main_title%></span>
+							<span><%=resultado.mall%></span>
+						</section>
+					</div>
+					<%
+					});
+					}
+					%>
+				-->
 				
             
               </div><!--owl demo-->
@@ -64,7 +81,7 @@
             <%
 			}
 			%>
-       		<img src="/imagens/<%=produto.imagem%>" title="<%=produto.produto%>" class="img">
+       		<img src="<%=produto.imagem%>" title="<%=produto.produto%>" class="img">
             <h2><%=produto.loja%></h2>
             <div class="shop"><%=produto.shopping%></div>
             <h3><%=produto.produto%></h3>
@@ -142,34 +159,76 @@
 <!--------------------Shoppings--------------------------->
 <article id="shoppings">
 	<div class="full">
-    	<h5 class="titles">
+    	
+         
+		<% if (shopping == ''){ %>
+		
+		<h5 class="titles">
         	<span class="twhite">Shoppings</span>
         </h5>
         <p class="sub-title"> simplesmente uma simulação de texto da indústria tipográfica e de impressos,
-         e vem sendo utilizado desde o século XVI</p>
-        
-		<% if (shopping == ''){ %>	
-		<% shoppings.forEach(function(resultado) { %>
-      	<a href="/informacoes/<%=resultado.url_title%>" class="mall">
+         e vem sendo utilizado desde o século XVI
+		</p>
+		
+		<a href="/home/shopping_cidade_sao_paulo" class="mall">
          	<div>
             	<span class="purple"></span>
-   	     		<img src="/imagens/teste.jpg" class="img" title="<%=resultado.title%>">
-                <p><%=resultado.title%></p>
+   	     		<img src="/imagens/foto-shopping-cidadesp.png" class="img" title="Shopping Cidade São Paulo">
+                <p>Cidade<br> São Paulo</p>
        		</div>	
       	</a>
-		<% }); %>
-        
+		
+		<a href="" class="mall">
+         	<div>
+            	<span class="purple"></span>
+   	     		<img src="/imagens/foto-shopping-tiete.png" class="img" title="Tiete Plaza Shopping">
+                <p> Tiete <br>Plaza</p>
+       		</div>	
+      	</a>
+		
+		<a href="#" class="mall">
+         	<div>
+            	<span class="purple"></span>
+   	     		<img src="/imagens/foto-shopping-granplaza.png" class="img" title="Shopping Gran Plaza">
+                <p> Grand<br>Plaza</p>
+       		</div>	
+      	</a>
+		
+		<a href="" class="mall">
+         	<div>
+            	<span class="purple"></span>
+   	     		<img src="/imagens/foto-shopping-d.png" class="img" title="Shopping D">
+                <p>Shopping D</p>
+       		</div>	
+      	</a>
+		
+		<a href="" class="mall">
+         	<div>
+            	<span class="purple"></span>
+   	     		<img src="/imagens/foto-shopping-cerrado.png" class="img" title="Shopping Cerrado">
+                <p>Shopping Cerrado</p>
+       		</div>	
+      	</a>
+		
+		<a href="" class="mall">
+         	<div>
+            	<span class="purple"></span>
+   	     		<img src="/imagens/foto-shopping-cidadesp.png" class="img" title="Shopping Metropolitano da Barra">
+                <p>Metropolitano <br> da Barra</p>
+       		</div>	
+      	</a>
+		
 		<%	} 	else {	%>
 		
-			<!-----EVENTOS DO SHOPPING----->
-			
-			<h5 class="titles">
-				<span class="twhite" style="left:25%">Eventos</span>
-			</h5>
-			<p class="sub-title"> simplesmente uma simulação de texto da indústria tipográfica e de impressos,
-			 e vem sendo utilizado desde o século XVI
-			</p>
-			
+		<!-----EVENTOS DO SHOPPING----->
+		
+		<h5 class="titles">
+        	<span class="twhite" style="left:25%">Eventos</span>
+        </h5>
+        <p class="sub-title"> simplesmente uma simulação de texto da indústria tipográfica e de impressos,
+         e vem sendo utilizado desde o século XVI
+		</p>
+		
 		
 			<div class="bannerevent">
 				   <div class="container">
@@ -240,6 +299,19 @@
 		<%  } %>
 		
 		
+		
+		<!--
+		<% shoppings.forEach(function(resultado) { %>
+      	<a href="/informacoes/<%=resultado.url_title%>" class="mall">
+         	<div>
+            	<span class="purple"></span>
+   	     		<img src="/imagens/teste.jpg" class="img" title="<%=resultado.title%>">
+                <p><%=resultado.title%></p>
+       		</div>	
+      	</a>
+		<% }); %>
+		-->
+         
     </div><!--full-->
 </article>
 

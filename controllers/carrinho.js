@@ -31,9 +31,14 @@ module.exports = function (app){
 			}
 		}
 		if (adicionar){
-			var consulta = api.view(produto).then(function (resultados) {
+			
+			//console.log(adicionar, produto);
+			
+			//var consulta = api.view(produto).then(function (resultados) {
+			var consulta = api.viewGQL(produto).then(function (resultados) {	
 				var tmp = resultados.dados;
-				var produto_adicionado = api.montarProduto(tmp);
+				//var produto_adicionado = api.montarProduto(tmp);
+				var produto_adicionado = api.montarProdutoGQL(tmp);
 				produto_adicionado.qtde = 1;
 				req.session.carrinho.push(produto_adicionado);
 				res.redirect("/carrinho");
@@ -48,9 +53,12 @@ module.exports = function (app){
 	app.get("/carrinho/add/:iddoproduto", function(req,res){
 			
 			var produto = req.params.iddoproduto;
-			var consulta = api.view(produto).then(function (resultados) {
+			//var consulta = api.view(produto).then(function (resultados) {
+			var consulta = api.viewGQL(produto).then(function (resultados) {		
 				var tmp = resultados.dados;
-				var produto_adicionado = api.montarProduto(tmp);
+				//var produto_adicionado = api.montarProduto(tmp);
+				var produto_adicionado = api.montarProdutoGQL(tmp);
+				
 				var adicionar = true;
 			
 				
@@ -62,8 +70,10 @@ module.exports = function (app){
 						adicionar = false;
 					}
 				}
+				
 				if (adicionar){
 					produto_adicionado.qtde = 1;
+					console.log(produto_adicionado);
 					req.session.carrinho.push(produto_adicionado);
 					res.redirect("/carrinho");
 					return;	

@@ -1,9 +1,9 @@
 <footer>
 <div class="full">
-	<p>
-      <a href="" target="_blank"><img src="/imagens/icon-face.jpg" width="39" height="39" title="Facebook ON Store"></a>
-      <a href="" target="_blank"><img src="/imagens/icon-insta.jpg" width="39" height="39" title="Instagram ON Store"></a>
-      <a href="" target="_blank"><img src="/imagens/icon-youtube.jpg" width="39" height="39" title="You Tube ON Store"> </a>     
+	<p class="icons">
+      <a href="" target="_blank" title="Facebook">FB</a>
+      <a href="" target="_blank" title="Instagram">IG</a>
+      <a href="" target="_blank" title="You Tube">YT </a>     
     </p>
     <p><a href="" target="_blank"><img src="/imagens/CCP.png" width="91" height="25"></a></p>
     <div class="newsletter">
@@ -18,12 +18,19 @@
     
     <div id="navigation">
     
-
-            <ul class="rodape"> 
-                    <li><a href="">Informações  <span class="seta-baixo3"></span></a></li>
-                    <li><a href="/termos">Termos e condições  <span class="seta-baixo3"></span> </a></li>
-                    <li><a href="/perguntas">Perguntas frequentes <span class="seta-baixo3"></span></a></li>
-                    <li><a href="/contato">Alguma Dúvida <span class="seta-baixo3"></span></a></li>
+	
+           <ul class="rodape"> 
+				<%	if (shopping == ''){   %>
+					
+					<li><a href="/termos">Termos e condições </a></li>
+					<li><a href="http://adlibdigital.zendesk.com/hc/pt-br" target="_blank">Perguntas frequentes</a> </li>
+					<li><a href="/contato">Contato</a></li>
+				<%	} 	else {	%>
+					<li><a href="/informacoes">Informações  </a></li>
+					<li><a href="/termos">Termos e condições  </a></li>
+					<li><a href="http://adlibdigital.zendesk.com/hc/pt-br" target="_blank">Perguntas frequentes</a> </li>
+					<li><a href="/contato">Contato</a></li>
+				<%  } %>
           </ul>
           
           
@@ -40,129 +47,14 @@
 <script type="text/javascript" src="/source/jquery.fancybox.js"></script>
 
 <script src="/js/owl.carousel.js"></script>
-<script src="/js/on.js"></script>
+<script src="/js/on.js">
 <script src="/js/ccp.js"></script>
 <script src="/js/jquery.maskedinput.2015.js"></script>
-<script src="/js/jquery.maskMoney.js" type="text/javascript"></script>
+
 <script type="text/javascript">
 
-
-	function favoritar_produto(produto, event){
-		event.preventDefault();
-		$.ajax({
-		  type: 'POST',
-		  url: '/produtos/favoritar/',
-		  dataType : 'json',
-		  data: { 
-			'produto': produto, 
-			'_csrf': '<%= csrfToken %>'
-		  },
-		  success: function (response) {
-			alert('Produto selecionado com sucesso!');
-			return false;
-		  },
-		  error: function () {
-			//
-		  }
-	   });
-	}
-	
-	function remover_produto(produto, event){
-		event.preventDefault();
-		$.ajax({
-		  type: 'POST',
-		  url: '/produtos/desfavoritar/',
-		  dataType : 'json',
-		  data: { 
-			'produto': produto, 
-			'_csrf': '<%= csrfToken %>'
-		  },
-		  success: function (response) {
-			$("#lk" +  produto).remove();
-			alert('Produto removido com sucesso!');
-		  },
-		  error: function () {
-			//
-		  }
-	   });
-	}	
-	
 $(document).ready(function() {
-	$('#campobusca').on('keyup', function(e) {
-	 if (e.which !== 32) {
-        var value = $(this).val();
-        var noWhitespaceValue = value.replace(/\s+/g, '');
-        var noWhitespaceCount = noWhitespaceValue.length;
-        if (noWhitespaceCount > 3) {
-	       pesquisar_produto(value);
-        }
-    }
-	});
-	
-	
-	function pesquisar_produto(produto){
-		$.ajax({
-		  type: 'POST',
-		  url: '/busca',
-		  dataType : 'json',
-		  data: { 
-			'produto': produto, 
-			'_csrf': '<%= csrfToken %>'
-		  },
-		  success: function (response) {
-		    var retorno = '';
-			$.each(response, function( index, value ) {
-				var item = value;
-				
-                retorno += '<a href="/produtos/' + item.url_title + '" class="prods">';
-                retorno += '        <section>';
-                retorno += '            <div class="favs">';
-                retorno += '                <span>' + item.desconto + ' %</span>';
-                retorno += '                <button value="" id=""></button>';
-                retorno += '            </div>';
-                retorno += '            <img src="/imagens/' + item.imagem + ' " title="' +   item.produto + '" class="img">';
-                retorno += '            <h2>' + item.marca + '</h2>';
-                retorno += '            <h3>' + item.produto + '</h3>';
-                retorno += '            <div class="valor">';
-                retorno += '                <span>De R$ ' + item.de + '</span>';
-                retorno += '                <span>Por ' + item.por + '</span>';
-                retorno += '            </div>';
-                retorno += '       </section>';
-                retorno += '   </a>';
-				
-			});
-			$("#result").html(retorno);
-		  },
-		  error: function () {
-			$("#result").html('');
-		  }
-	   });
-	}
-
-	
-	
-	
-	
-	 $("#btn_login").fancybox({
-		type : 'iframe',
-		padding : 0,
-		afterClose: function() {
-			location.reload();
-		}});
 		
-	$("#btn_carrinho").fancybox({
-		type : 'iframe',
-		padding : 0,
-		afterClose: function() {
-			location.reload();
-		}});	
-		
-	$("#btn_sacola").fancybox({
-		type : 'iframe',
-		padding : 0,
-		afterClose: function() {
-			location.reload();
-		}});	
 	
 });	
 </script>

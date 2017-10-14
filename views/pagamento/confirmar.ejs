@@ -57,18 +57,18 @@
 					    //window.location.href = "/pagamento/finalizar";
                     }, 
 					error: function (error){
-						//
+						console.log(error)
 					}});
 
                     // DEFINIR AS OPÇÕES
                     // e abrir o modal
                     // É necessário passar os valores boolean em "var params" como string
-                    var params = {"customerData":"false", "amount":"<%=total_carrinho%>", "createToken": "true", "interestRate": 0, "postbackUrl":"", "customerName":"<%=cliente.nome%> <%=cliente.sobrenome%>", "customerDocumentNumber":"<%=cliente.CPF%>", "customerEmail":"<%=cliente.email%>", "customerAddressStreet":"<%=endereco.rua%>", "customerAddressStreetNumber":"<%=endereco.numero%>", "customerAddressComplementary":"<%=endereco.complemento%>", "customerAddressNeighborhood":"<%=endereco.bairro%>", "customerAddressCity":"<%=endereco.cidade%>", "customerAddress-State":"<%=endereco.estado%>", "customerAddressZipcode":"<%=endereco.cep%>", "customerPhoneDdd":"<%=cliente.ddd%>", "customerPhoneNumber":"<%=cliente.telefone%>","disableZeroDocumentNumber":"true", "freeInstallments":"0", "defaultInstallment":"1","maxInstallments":"<%=parcelas%>",
+                    var params = {"customerData":"false", "amount":"<%=total_carrinho%>", "createToken": "true", "interestRate": 0, "postbackUrl":"", "customerName":"<%=cliente.nome%> <%=cliente.sobrenome%>", "customerDocumentNumber":"<%=cliente.CPF%>", "customerEmail":"<%=cliente.email%>", "customerAddressStreet":"<%=endereco.rua%>", "customerAddressStreetNumber":"<%=endereco.numero%>", "customerAddressComplementary":"<%=endereco.complemento%>", "customerAddressNeighborhood":"<%=endereco.bairro%>", "customerAddressCity":"<%=endereco.cidade%>", "customerAddress-State":"<%=endereco.estado%>", "customerAddressZipcode":"<%=endereco.cep%>", "customerPhoneDdd":"<%=cliente.ddd%>", "customerPhoneNumber":"<%=cliente.telefone%>","disableZeroDocumentNumber":"true", "freeInstallments":"0", "defaultInstallment":"1",
                       
 					  //Texto mostrado no botão de pagamento.
 					  "buttonText":"Pagar",
                       //Meios de pagamento disponíveis no Checkout.
-					  "paymentMethods":"<%=formapagamento%>",
+					  "paymentMethods":"boleto,credit_card",
                        //numero de parcelas
 					  "maxInstallments":6,
                       //Cor primária da interface de Checkout.
@@ -93,7 +93,7 @@
         </script>
         
 <style type="text/css">
-.adicionar_carrinho {	background-color: #9966CC; padding:10px 10px;   margin-top:5%; float:right; color:#fff; border:none; 	font-size: 18px; width:210px; height:60px;	font-style: italic; 	font-weight: bold; 	font-family: Lora;}
+.adicionar_carrinho {	background-color: #9966CC; padding:10px 10px;   margin-top:13%; float:right; color:#fff; border:none; 	font-size: 18px; width:100%; height:60px;	font-style: italic; 	font-weight: bold; 	font-family: Lora;}
 </style>
 </head>
 
@@ -267,11 +267,7 @@
 
         <p>Lembre-se que após a compra, você deverá retirar os itens adquiridos  diretamente na loja do shopping.  Seu pedido estará disponível  para retirada em 30 minutos  após  a confirmação  de seu pagamento.</p>
 
-        <a href="">Dúvidas</a>
-
-        <a href="">Trocas</a>
-
-        <a href="/contato">Contato</a>      
+       
 
      </section><!--aviso-->
 	    

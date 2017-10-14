@@ -67,6 +67,8 @@ module.exports = function (app){
 				if (resultados.resultado == "OK"){
 					//Verificar se a senha existe
 					var dados = resultados.dados.data[0];
+					//console.log(dados);
+					
 					//var senha = crypto.createHash('md5').update(req.body.senha).digest("hex");
 					//console.log(senha);
 					//if (dados.password == senha){
@@ -169,7 +171,10 @@ module.exports = function (app){
 		cliente.nome = req.body.nome;
 		cliente.sobrenome = req.body.sobrenome;
 		cliente.genero = req.body.genero;
-		cliente.aniversario = req.body.aniversario;
+		//cliente.aniversario = req.body.aniversario;
+		var tmp_data =  req.body.aniversario; 
+		cliente.aniversario = tmp_data.split("/").reverse().join("-");
+		
 		cliente.ddd = req.body.ddd;
 		cliente.telefone = req.body.telefone;
 		cliente.senha = req.body.senha;
@@ -198,7 +203,10 @@ module.exports = function (app){
 			dados_do_cliente.firstname = req.body.nome;
 			dados_do_cliente.lastname = req.body.sobrenome;
 			dados_do_cliente.middlename = "";
-			dados_do_cliente.birthday = req.body.aniversario;
+			//dados_do_cliente.birthday = req.body.aniversario;
+			var tmp_data =  req.body.aniversario; 
+			dados_do_cliente.aniversario = tmp_data.split("/").reverse().join("-");
+			
 			dados_do_cliente.gender = req.body.genero;
 			dados_do_cliente.cpf = req.session.cliente.CPF;
 			dados_do_cliente.address = "";

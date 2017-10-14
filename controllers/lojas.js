@@ -67,11 +67,11 @@ module.exports = function (app){
 	
 	app.get("/lojas/loja-online", function(req,res){
 		var api_produtos = new webservice_produtos('');
-		var consulta = api_produtos.list().then(function (resultados) {
-		//var consulta = api_produtos.listGQL().then(function (resultados) {
-			dados = api_produtos.montar(resultados.dados.data);
+		//var consulta = api_produtos.list().then(function (resultados) {
+		var consulta = api_produtos.listGQL().then(function (resultados) {
+			//dados = api_produtos.montar(resultados.dados.data);
 			var categorias = ListarCategoriasMock();
-			//dados = api_produtos.montarGQL(resultados);
+			dados = api_produtos.montarGQL(resultados);
 			res.render("lojas/online", {produtos: dados, categorias: categorias});
 		}).catch(function (erro){
 			res.status(500).redirect('/erro/500');
@@ -91,6 +91,7 @@ module.exports = function (app){
 	});
 	
 	app.post("/lojas/loja-online", function(req,res){
+		//Como vai carregar tudo na tela e filtrar por AJAX, esta rota vai precisar ser excluida....
 		res.render("lojas/online");
 	});
 	

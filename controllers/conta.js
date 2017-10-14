@@ -105,7 +105,22 @@ module.exports = function (app){
 			cliente.nome = req.session.cliente.nome;
 			cliente.genero = req.session.cliente.genero;
 			cliente.sobrenome = req.session.cliente.sobrenome;
-			cliente.aniversario = req.session.cliente.aniversario;
+			
+			var tmp_data1 = new Date(req.session.cliente.aniversario);
+			var tmp_data =  new Date(tmp_data1.getTime() + Math.abs(tmp_data1.getTimezoneOffset()*60000));
+			ano = tmp_data.getFullYear();
+			mes = tmp_data.getMonth()+1;
+			dia = tmp_data.getDate();
+
+			if (dia < 10) {
+			  dia = '0' + dia;
+			}
+			if (mes < 10) {
+			  mes = '0' + mes;
+			}
+			cliente.aniversario = dia+'/' + mes + '/'+ano;
+			
+			
 			cliente.ddd = req.session.cliente.ddd;
 			cliente.telefone = req.session.cliente.telefone;
 					
@@ -127,7 +142,8 @@ module.exports = function (app){
 		dados_do_cliente.firstname = req.body.nome;
 		dados_do_cliente.lastname = req.body.sobrenome;
 		dados_do_cliente.middlename = "";
-		dados_do_cliente.birthday = req.body.aniversario;
+		var tmp_data =  req.body.aniversario; 
+		dados_do_cliente.birthday = tmp_data.split("/").reverse().join("-");
 		//Alterar depois
 		dados_do_cliente.gender = req.body.genero;
 		//Nao vai alterar
@@ -153,13 +169,19 @@ module.exports = function (app){
 		dados_do_cliente.favorite_products = req.session.cliente.favorite_products;
 		dados_do_cliente.favorite_stores = req.session.cliente.favorite_stores;
 		
+		
+		
 		//Tem que atualizar a session!
 		req.session.cliente.nome = req.body.nome;
 		req.session.cliente.sobrenome = req.body.sobrenome;
-		req.session.cliente.aniversario = req.body.aniversario;
+		//req.session.cliente.aniversario = req.body.aniversario;
+		var tmp_data =  req.body.aniversario; 
+		req.session.cliente.aniversario = tmp_data.split("/").reverse().join("-");
 		req.session.cliente.email = req.body.email;
 		req.session.cliente.ddd =  req.body.ddd;
 		req.session.cliente.phone = req.body.telefone;
+		//console.log('atualizar');
+		//console.log(dados_do_cliente);
 		
 		if (app.locals.token_api == ""){
 			//Sem token de app nao pode fazer isso

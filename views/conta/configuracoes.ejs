@@ -92,9 +92,9 @@
 
                         <div class="campos50">
 
-                        	<select class="minimal">
-                                <option <%= cliente.sobrenome =='male' ? ' selected' : '' %>>Masculino</option>
-                                <option <%= cliente.sobrenome =='female' ? ' selected' : '' %>>Feminino</option>
+                        	<select class="minimal" name="genero">
+                                <option value="male" <%= cliente.genero =='male' ? ' selected' : '' %>>Masculino</option>
+                                <option value="female" <%= cliente.genero =='female' ? ' selected' : '' %>>Feminino</option>
                             </select>  
 
                         </div>
@@ -110,6 +110,7 @@
 						 <div class="campos50">
 							<input type="text" value="<%=cliente.ddd%>"  placeholder="DDD" name="ddd" maxlength="2" onKeyPress="return isNumberKey(event);">
 						 </div>
+						 
 						 <div class="campos50">
 
 							<input type="text" value="<%=cliente.telefone%>"  placeholder="Telefone Celular" name="telefone" maxlength="10" onKeyPress="return isNumberKey(event);">
@@ -159,7 +160,7 @@
 
                         <div class="campos70">
 
-                        	<input type="text" value="<%=endereco.complemento%>" placeholder="complemento">   
+                        	<input type="text" name="complemento" value="<%=endereco.complemento%>" placeholder="complemento">   
 
                         </div>
 
@@ -228,9 +229,9 @@
 
                         	<div>
 
-                                <input type="checkbox" id="c1" name="cb">
+                                <input type="checkbox" id="c2" name="cb">
 
-                                <label for="c1"></label> 
+                                <label for="c2"></label> 
 
                             </div>
 

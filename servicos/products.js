@@ -109,7 +109,7 @@ produtosAPI.prototype.view = function(registro){
 }
 
 produtosAPI.prototype.listGQL = function(){
-	const q_store = `store{slug, fantasy_name, floor, title}`;
+	const q_store = `store{slug, real_name, fantasy_name, floor, title}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
     const q_group = `group{slug name}`;
     const q_images= `images{path, type, order}`;
@@ -135,7 +135,7 @@ produtosAPI.prototype.listGQL = function(){
 
 produtosAPI.prototype.viewGQL = function(registro){
 	
-	var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price store{slug, fantasy_name, floor, title} mall{_id, slug, domain, name}  images{path, type, order}}}';
+	var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price store{slug, real_name, fantasy_name, floor, title} mall{_id, slug, domain, name}  images{path, type, order}}}';
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -202,10 +202,9 @@ produtosAPI.prototype.montarGQL = function(resultados){
 	var retorno = [];
 	var tmp = resultados.dados;
 	
-	
 	tmp.forEach(function(obj) {
 		var nome_do_Shopping = obj.mall.name;
-		var nome_da_Loja = obj.store.title||obj.store.fantasy_name||obj.store.real_name;
+		var nome_da_Loja = obj.store.real_name||obj.store.title||obj.store.fantasy_name;
 		
 		var preco_inicial = 0;
 		var preco_final = 0;
@@ -218,7 +217,7 @@ produtosAPI.prototype.montarGQL = function(resultados){
 			preco_inicial = parseFloat(obj.price/100).toFixed(2);
 			preco_final = parseFloat(obj.price/100).toFixed(2);
 		}
-		var imagem = "/imagens/sapato.jpg";
+		var imagem = "/imagens/lojas-padrao.jpg";
 		for (i = 0; i < obj.images.length; i++) { 
 			if (obj.images[i].type == "main"){
 				imagem = obj.images[i].path;	
@@ -250,7 +249,12 @@ produtosAPI.prototype.montarProduto = function(obj){
 		preco_inicial = parseFloat(obj.price/100).toFixed(2);
 		preco_final = parseFloat(obj.price/100).toFixed(2);
 	}
-	var imagem = "sapato.jpg";
+	var imagem = "/imagens/lojas-padrao.jpg";
+	for (i = 0; i < obj.images.length; i++) { 
+		if (obj.images[i].type == "main"){
+			imagem = obj.images[i].path;	
+		}
+	}
 	
 	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "store": obj.store, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "descricao": obj.long_description};
 	return item;
@@ -258,7 +262,8 @@ produtosAPI.prototype.montarProduto = function(obj){
 
 produtosAPI.prototype.montarProdutoGQL = function(obj){
 	var nome_do_Shopping = obj.mall.name;
-	var nome_da_Loja = obj.store.title;
+	var nome_da_Loja = obj.store.real_name||obj.store.title||obj.store.fantasy_name;
+		
 		
 	var preco_inicial = 0;
 	var preco_final = 0;
@@ -271,14 +276,24 @@ produtosAPI.prototype.montarProdutoGQL = function(obj){
 		preco_inicial = parseFloat(obj.price/100).toFixed(2);
 		preco_final = parseFloat(obj.price/100).toFixed(2);
 	}
-	var imagem = "";
+	var imagem = "/imagens/lojas-padrao.jpg";
 	for (i = 0; i < obj.images.length; i++) { 
 		if (obj.images[i].type == "main"){
 			imagem = obj.images[i].path;	
 		}
 	}
+	
+	var cor = "";
+	var tamanho = "";
+	if (obj.color){
+		cor = obj.color;
+	}
+	if (obj.size){
+		tamanho = obj.size;
+	}
+	
 		
-	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "descricao": obj.long_description};
+	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "descricao": obj.long_description};
 	return item;
 }
 

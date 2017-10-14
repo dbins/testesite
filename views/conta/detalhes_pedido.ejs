@@ -60,22 +60,24 @@
 
             <tr>
 
-                <td><span>Forma de pagamento</span><br><strong><%=resultados.tipo%></strong>
+                <td>
+				<span>Forma de pagamento</span>
+				<br><%=resultados.tipo%><br> <br>
 				
 				<%
 				if (resultados.tipo == "Cartão de Crédito"){
 				%>
-				Bandeira: <strong><%=resultados.bandeira%></strong><br/>
-				Começo: <strong><%=resultados.cartao_comeco%></strong><br/>
-				Fim: <strong><%=resultados.cartao_fim%></strong><br/>
+				<span>Bandeira:</span><br> <%=resultados.bandeira%> **** **** **** <%=resultados.cartao_fim%><br/><br/>
+				<!--Começo: <%=resultados.cartao_comeco%><br/>-->
+				
 				<%
 				} else {
 				%>
-				Vencimento:<br/><strong><%=moment(resultados.boleto_vencimento).format('DD-MM-YYYY')%></strong><br/>
+				<span>Vencimento:</span> <br/><strong><%=moment(resultados.boleto_vencimento).format('DD-MM-YYYY')%></strong><br/><br/>
 				<%
 				}
 				%>
-				Status: <%=resultados.status%>
+				<span>Status:</span> <br/><%=resultados.status%>
 				</td>
 				
 				

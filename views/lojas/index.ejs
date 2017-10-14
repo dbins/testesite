@@ -60,8 +60,9 @@
 		%>
 		<div class="lojaItem" data-size="<%=resultado.fantasy_name.toLowerCase()%>">	
     	<a href="/lojas/loja/<%=resultado.slug%>" class="store" >
-            <img src="/imagens/sapato.jpg" width="350" height="185"> 
-            <div class="line"><%=resultado.fantasy_name%></div>
+            <img src="/imagens/lojas-padrao.jpg" width="350" height="185" title="<%=resultado.fantasy_name%>"> 
+            <p class="nomeloja"><%=resultado.fantasy_name%></p>
+			<div class="line"></div>
         </a>
 		</div>
 		<% 

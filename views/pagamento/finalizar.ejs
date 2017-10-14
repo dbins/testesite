@@ -24,7 +24,9 @@
 <script src="/js/jquery.min.js"></script>
 <script src="/js/ccp.js"></script>
 <script src="/js/jquery.maskedinput.2015.js"></script>
-
+<style type="text/css">
+.adicionar_carrinho {	background-color: #9966CC; padding:10px;   margin-top:13%; float:right; color:#fff; border:none; 	font-size: 18px; width:100%; height:60px;	font-style: italic; 	font-weight: bold; 	font-family: Lora;}
+</style>
 </head>
 
 
@@ -164,9 +166,9 @@
 
             <div class="campos30" style="float:right">
 
-                <div class="qrcode">
-
-                    <img src="/compras/detalhes/qrcode/<%=pedido%>" class="img">
+                <div class="qrcode">qrcode
+					<img src="/imagens/qrcode.jpg" class="img">
+                    <!--<img src="/compras/detalhes/qrcode/<%=pedido%>" class="img">-->
 
                     <div class="clear"></div>
 
@@ -180,15 +182,16 @@
 
       	</div><!--token-->
 
-      
-
+<div class="campos40">     
+	 <input type="button" class="adicionar_carrinho"  value="Continuar Comprando" onclick="window.top.location.href='/lojas/loja-online'">
+</div>
       </div><!--confirmation-->
 
       
 
       <!---detalhes do pedido---->
 
-      <div class="area" style="width:100%; margin:0;">        
+      <div class="area" style="width:100%; margin:0; display:None">        
 
         <h2>Detalhe do Pedido</h2>
 
@@ -230,19 +233,20 @@
 
             <tr>
 
-                <td><span>Forma de pagamento</span><br> 
+                <td>
+				<span>Forma de pagamento</span><br> 
 				
-				<strong><%=pagarme.tipo%></strong><br/>
+				<%=pagarme.tipo%><br/><br/>
 				
 				<%
 				if (pagarme.tipo == "Cartão de Crédito"){
 				%>
-				Bandeira:<br/> <strong><%=pagarme.bandeira%></strong><br/>
-				<strong><%=pagarme.cartao_comeco%>****<%=pagarme.cartao_fim%></strong><br/>
+				<span>Bandeira:</span> <br/> <%=pagarme.bandeira%> 
+				<%=pagarme.cartao_comeco%>****<%=pagarme.cartao_fim%><br/><br/>
 				<%
 				} else {
 				%>
-				Vencimento:<br/><strong><%=moment(pagarme.boleto_vencimento).format('DD-MM-YYYY')%></strong><br/>
+				<span>Vencimento:</span> <br/><%=moment(pagarme.boleto_vencimento).format('DD-MM-YYYY')%><br/>
 				<%
 				}
 				%>

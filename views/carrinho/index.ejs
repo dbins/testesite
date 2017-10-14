@@ -49,7 +49,7 @@
 
         <header> 
 
-    		<div id="titcar">Minha sacola <img src="/imagens/bag.png" width="60" height="35"></div>
+    		<!--<div id="titcar">Minha sacola <img src="/imagens/bag.png" width="60" height="35"></div>-->
 
     		
 
@@ -128,7 +128,7 @@
 
         	
 
-            <img src="/imagens/<%=resultado.imagem%>" width="150" height="104">
+            <img src="<%=resultado.imagem%>" width="150" height="104">
 
         	<div class="carprod">
 
@@ -171,21 +171,17 @@
 				%>
                 <a href="/carrinho/altera/<%=resultado.id%>/<%=parseInt(resultado.qtde)-1%>">-</a>
 				<%
-				}
-				%>
-                <input type="text" value=" <%=resultado.qtde%> " maxlength="2" readonly=readonly>
-
-				<%
-				if (resultado.qtde < resultado.estoque){
-				%>	
-                <a href="/carrinho/altera/<%=resultado.id%>/<%=parseInt(resultado.qtde)+1%>">+</a>
-				<%
 				} else {
 				%>
-				Limite estoque!
+				<a href="#">&nbsp;</a>
 				<%
 				}
 				%>
+				
+                <input type="text" value=" <%=resultado.qtde%> " maxlength="2" readonly=readonly>
+
+                <a href="/carrinho/altera/<%=resultado.id%>/<%=parseInt(resultado.qtde)+1%>">+</a>
+
              </div>
 
         </td>
@@ -212,7 +208,10 @@
 	%>	
 	<tr>
 		<td colspan="5" align="center">
-			Não existem produtos em seu carrinho
+			<div class="vazio">
+				<img src="/imagens/pena.jpg" value="" width="78" height="77">
+				<p>Não existem produtos em seu carrinho</p>
+			</div>
 		</td>
 	</tr>
 	<%
@@ -231,13 +230,15 @@
 
         <h3>Importante</h3>
 
-        <p>Lembre-se que após a compra, você deverá retirar os itens adquiridos  diretamente na loja do shopping.  Seu pedido estará disponível  para retirada em 30 minutos  após  a confirmação  de seu pagamento.</p>
+        <p>Lembre-se que após a compra, você deverá retirar os itens adquiridos  diretamente na loja do shopping. <br> Seu pedido estará disponível  para retirada em 30 minutos  após  a confirmação  de seu pagamento.</p>
 
-        <a href="">Dúvidas</a>
+       <!--
+	   <a href="">Dúvidas</a>
 
         <a href="">Trocas</a>
 
-        <a href="/contato">Contato</a>      
+        <a href="/contato">Contato</a>  
+		-->		
 
      </section><!--aviso-->
 	<%
@@ -245,7 +246,10 @@
 	%>
         
 
-    <div class="total">
+    <% 
+	if (resultados.length>0){
+	%>
+	<div class="total">
 
     	<label>VALOR TOTAL</label>
 
@@ -260,10 +264,12 @@
 		<%
 		}
 		%>
-		<input type="button" class="adicionar_carrinho"  value="Selecionar mais produtos" onclick="window.top.location.href='/lojas/loja-online'">    
+		<!--<input type="button" class="adicionar_carrinho"  value="Selecionar mais produtos" onclick="window.top.location.href='/lojas/loja-online'"> -->   
 		
     </div>
-
+<%
+	}
+	%>
     
 
 </form>

@@ -89,7 +89,24 @@
 
              <div id="content2">
 
-                Produtos
+                <!--quando nao tiver produto--->
+					<%
+					if (total == 0){
+					%>
+            		<div class="sorry">
+
+                        <img src="/imagens/sorry.jpg" width="97" height="89"> 
+
+                        <p> Você ainda não tem itens favoritos</p>
+
+                  	</div>
+					<%
+					} else {
+					%>
+					<h3>Sua lista de favoritos possui <%=total%> itens!</h3>
+					<%
+					}
+					%>
 
                 <% 
 				if (produtos.length>0){
@@ -131,7 +148,24 @@
 
               <div id="content3">
 
-                Promoções
+                <!--quando nao tiver produto--->
+					<%
+					if (total == 0){
+					%>
+            		<div class="sorry">
+
+                        <img src="/imagens/sorry.jpg" width="97" height="89"> 
+
+                        <p> Você ainda não tem itens favoritos</p>
+
+                  	</div>
+					<%
+					} else {
+					%>
+					<h3>Sua lista de favoritos possui <%=total%> itens!</h3>
+					<%
+					}
+					%>
 
                 <% 
 				if (promocoes.length>0){
@@ -175,9 +209,24 @@
 
              <div id="content4">
 
-             
+             <!--quando nao tiver produto--->
+					<%
+					if (total == 0){
+					%>
+            		<div class="sorry">
 
-                Lojas
+                        <img src="/imagens/sorry.jpg" width="97" height="89"> 
+
+                        <p> Você ainda não tem itens favoritos</p>
+
+                  	</div>
+					<%
+					} else {
+					%>
+					<h3>Sua lista de favoritos possui <%=total%> itens!</h3>
+					<%
+					}
+					%>
 
                 <% 
 				if (lojas.length>0){
@@ -220,7 +269,24 @@
 
               <div id="content5">
 
-                Eventos
+               <!--quando nao tiver produto--->
+					<%
+					if (total == 0){
+					%>
+            		<div class="sorry">
+
+                        <img src="/imagens/sorry.jpg" width="97" height="89"> 
+
+                        <p> Você ainda não tem itens favoritos</p>
+
+                  	</div>
+					<%
+					} else {
+					%>
+					<h3>Sua lista de favoritos possui <%=total%> itens!</h3>
+					<%
+					}
+					%>
 
                 <% 
 				if (eventos.length>0){

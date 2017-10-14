@@ -1,8 +1,9 @@
 @charset "utf-8";
 @import url('https://fonts.googleapis.com/css?family=Droid+Sans:400,700|Lora:400,700,700i');
 
+
 /*=========================global=======================*/
-*{box-sizing:border-box; 	-moz-box-sizing:border-box;}
+*{box-sizing:border-box; 	-moz-box-sizing:border-box;  }
 html,body,main{	margin: 0; 	padding: 0;	outline: 0;}
 html {min-height: 100%;}
 a img{ border:none}
@@ -135,16 +136,16 @@ select.minimal:focus {
 
 /*=======================header  e NAV==================*/
 header{ position:fixed; width:100%; background:#fff; top:0; z-index:1000}
-.efect { box-shadow:1px 1px 4px #989797; transition: all 0.4s ease; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; z-index:2000}
+.efect { box-shadow:1px 1px 4px #989797; transition: all 0.4s ease; -webkit-transition: all 0.4s ease; -moz-transition: all 0.4s ease; z-index:500}
 nav{ float:left; width:80%; padding: 50px 0px; height:120px; position:relative;}
 #on{background-color: #242424; float:left; padding:20px; text-align:center; width:10%; height:120px;}
 #ccp{background-color: #000000; float:left; padding:45px 10px; text-align:center; width:10%; height:120px;}
 #on img{ max-width:45px;}
 #ccp img{ max-width:110px;}
-#shp{background-color: #fff; float:left; padding:20px 0px; text-align:center;	border-right: 1px solid #979797; margin:-45px 0 0 0}
+#shp{background-color: #fff; float:left; padding:20px 0px; text-align:center;	border-right: 1px solid #e9e9e9; margin:-45px 0 0 0}
 #shp img{ max-width:90px;}
 .log{ float:right; position:relative; top:-15px; height:50px; min-width:20%; }
-.bt{ padding:15px 20px; height:50px; border: 1px solid #979797; text-align:center; text-decoration:none; color:#242424; margin-left:-1px; float:right; position:relative; cursor: pointer}
+.bt{ padding:15px 20px; height:50px;  font-family: 'Droid Sans', sans-serif; text-transform:uppercase; border: 1px solid #979797; text-align:center; text-decoration:none; color:#242424; margin-left:-1px; float:right; position:relative; cursor: pointer}
 .bt:hover{ text-decoration:none}
 .lupa{ position:relative; top:10px; right:0; padding:10px;}
 #busca{ width:100%; position:absolute; left:0; top:120px; background:#fff; display:none; z-index:100}
@@ -176,7 +177,7 @@ ul.dropdown a:hover	{ color:#242424;  }
 
 
 /* 	LEVEL TWO*/
-ul.dropdown ul { visibility: hidden; position: absolute; top: 100%; left: 0; display: block; width:200px; padding:1px 10px; background:#fff;  }
+ul.dropdown ul { visibility: hidden; position: absolute; top: 100%; left: 0; display: block; width:280px; padding:1px 10px; background:#fff;  }
 ul.dropdown ul li { float:none;  padding:0;  }
 ul.dropdown ul li a { display:block;   text-align:left; padding:20px 10px;  border-bottom:1px #e0e0e0 solid; color:#444; font-size:14px;   } 
 ul.dropdown ul li a:hover {  color:#9d69aa; border-bottom:2px #9d69aa solid  }
@@ -243,21 +244,30 @@ ul.dropdown2 li:hover > ul { visibility: visible; }
 
 
 /*===============================BANNER======================*/
-.banner{ float:left; width:100%; position:relative;  color:#fff; font-smooth: always;}
-.banner section{ position:absolute; z-index:1; top:20%;  width:100%;}
+.banner{ float:left; width:100%; position:relative;  color:#fff; font-smooth: always; font-family: 'Lora';}
+.banner section{ position:absolute; z-index:1; top:30%;  width:100%;}
 .banner span:nth-child(1){ float:left; text-align:center; font-size:14px; font-weight:bold;  float:left; width:100%}
-.banner span:nth-child(2){ float:left; text-align:center; font-size:72px; font-weight:bold; text-shadow: 2px 1px  3px #333; line-height:75px; font-style:italic; float:left; width:100%; padding:40px;}
+.banner span:nth-child(2){ float:left; text-align:center;  font-size:72px; font-weight:bold; line-height:75px; font-style:italic; float:left; width:100%; padding:40px;}
 .banner span:nth-child(3){ float:left; text-align:center; font-size:14px; font-weight:bold;  float:left; width:100%}
+
+
+.bannerevent{ float:left; width:100%; position:relative;  color:#fff; font-smooth: always; }
+.bannerevent .gif section{ position:absolute; z-index:1; top:25%;  width:100%; text-align:center; font-size: 48px; 	font-style: italic; 	 	font-weight: bold; color:#fff;}
+.bannerevent img{ max-width:450px;}
+.bannerevent .item{ width:100%; margin:0 auto; position:relative; text-align:center}
+.bannerevent .gif{ float:left; padding:5px; width:33%; position:relative}
+
+/*.bannerevent .owl-item{ max-width:600px;}*/
 
 .bannerint{ float:left; width:100%; position:relative;  color:#fff; font-smooth: always;}
 .bannerint section{ position:absolute; z-index:1; top:30%;  width:100%; text-align:center; font-size:72px; font-style:italic; font-weight:bold}
-.bannerint img{ border-bottom:4px solid #9429FF; }
+.bannerint img{ border-bottom:2px solid #9429FF; }
 
 /*========================CABEÇALHOS=============================*/
 .cab-on{ float:left; background-color: #E7E7E7; padding:15px 10px; text-align:center; font-size: 18px;	color: #242424; 	font-weight: bold; width:100%; margin-top:-5px; margin-bottom:10px;}
 
 /*=========================Produtos============================*/
-#produtos{ float:left; padding:60px; width:100%;}
+#produtos{ float:left; padding:30px 60px 0 60px; width:100%;}
 .prods{ float:left; width:25%; padding:5px; font-size:20px; color: #333333;  text-align:center; position:relative; min-height:500px;}
 .prods section{ padding:10px; }
 .prods section:hover{ background-color: #E5E5E5; text-decoration:underline}
@@ -337,22 +347,33 @@ margin:5px;  font-family: "Droid Sans";}
 #info h1{font-style: italic; font-weight: bold; line-height: 50px; margin:-5px 0 10px 0}
 #info input[type="submit"]{	background-color: #9966CC; width:80%; padding:20px; 	font-size: 20px; 	font-weight: bold; color:#fff; border:none; cursor:pointer; font-family: 'Lora', serif; font-style:italic; margin:8% 10%;}
 
+#infocupon{ position:absolute;  right: 30px; top:30px;  z-index:10;  width:37%; padding:100px 50px; background-color: #242424; min-height:585px; float:right;  	color: #FFFFFF; font-size:30px; line-height:10px }
+#infocupon p:nth-child(2){ font-size:14px}
+#infocupon p:nth-child(3){ font-size:15px; color: #B57FEC; font-family: "Droid Sans";}
+#infocupon h1{font-style: italic; font-weight: bold; line-height: 50px; margin:-5px 0 10px 0}
+#infocupon input[type="submit"]{	background-color: #9966CC; width:80%; padding:20px; 	font-size: 20px; 	font-weight: bold; color:#fff; border:none; cursor:pointer; font-family: 'Lora', serif; font-style:italic; margin:8% 10%;}
+
+#descricaocupon{ float:left; padding:80px; width:100%; font-size:24px; line-height:40px;}
+#descricaocupon h2{ font-size:36px;	font-style: italic;	font-weight: bold;	color: #000000;}
+
+
+
 .preco{ text-align:left; line-height:25px; margin:0 0 10px 0}
 .preco span:nth-child(1){float:left; font-size:16px; width:100%; text-decoration: line-through; color: #B0B0B0;}
 .preco span:nth-child(2){font-size:25px;}
 .pline{ width:30%; border-bottom:1px #fff solid; height:2px; padding:15px 0 0 0}
 
 .cor{ float:left; width:100%; padding:5px; 	font-family: "Droid Sans"; font-size:14px; line-height:30px;}
-.cor span{ float:left; font-size:14px; width:120px;}
+.cor span{ float:left; font-size:14px; width:80px;}
 .cor a{ width:40px; height:40px; float:left; margin:0 2px;}
 
 .tamanho{ float:left; width:100%; padding:5px; 	font-family: "Droid Sans"; font-size:14px; line-height:30px;}
-.tamanho span{ float:left; font-size:14px; width:120px;}
+.tamanho span{ float:left; font-size:14px; width:80px;}
 .tamanho a{ width:40px; height:40px; border:1px #fff solid; color:#fff; padding:5px; text-align:center; float:left; margin:0 2px;}
 .tamanho a:hover{border:1px #9966CC solid;}
 
 .qtd{ float:left; width:100%; padding:5px; 	font-family: "Droid Sans"; font-size:14px; line-height:30px;}
-.qtd span{ float:left; font-size:14px; width:120px;}
+.qtd span{ float:left; font-size:14px; width:80px;}
 .qtd a{ width:40px; height:40px; border:1px #fff solid; color:#fff; padding:5px; text-align:center; float:left; margin:0 2px;}
 .qtd a:hover{border:1px #9966CC solid;}
 .qtd input[type="text"]{width:40px; height:40px; border:1px #fff solid; background:none; color:#fff; padding:5px; text-align:center; float:left; margin:0 2px;}
@@ -371,12 +392,13 @@ margin:5px;  font-family: "Droid Sans";}
 .lojafilter select{ min-width:175px;}
 .lojafilter div:nth-child(1){ width:30%; line-height:55px;}
 .lojafilter div:nth-child(2){ width:25%; line-height:55px;}
-.lojafilter div:nth-child(3){ width:28%; line-height:55px;}
-.lojafilter div:nth-child(4){ width:16%; line-height:55px;}
+.lojafilter div:nth-child(3){ width:29%; line-height:55px;}
+.lojafilter div:nth-child(4){ width:15%; line-height:55px;}
 .lojafilter :nth-child(4) img{ float:right; margin:-7px 0 0 10px}
 
 #lojas{float:left; padding:60px; width:100%;}
 .store{ float: left; width:33%; text-align:center; position:relative; padding:40px 0}
+.store p{ color:#dbdbdb; font-family: 'Lora', serif; font-style: italic;  font-size:15px; position:absolute; bottom:45px; width:100%; text-align:center;}
 .line{	border-bottom: 1px solid #979797;  margin-left:15%; width:70%;  transition: 0.2s ease-in-out; -webkit-transition: 0.2s ease-in-out;}
 .store:hover .line{	border-bottom: 1px solid #9429FF; margin-left:40%; width:20%;  transition: 0.2s ease-in-out; -webkit-transition: 0.2s ease-in-out;}
 
@@ -384,6 +406,8 @@ margin:5px;  font-family: "Droid Sans";}
 .pad{ padding-top:40px;}
 .thumb{ position:absolute; left:80px; bottom:-100px; border:6px #fff solid; width:300px;}
 .back{ position:absolute; top:10px; right:20px; 	font-family: "Droid Sans"; padding:10px; 	font-size: 14px; 	color: #242424;}
+
+.thumb img{ border:none}
 
 .titcine{ position:absolute; top:-15px; left:320px; line-height:15px; }
 .titcine h1{font-size: 36px; 	color: #000000; font-style:italic}
@@ -402,10 +426,12 @@ margin:5px;  font-family: "Droid Sans";}
 .mleft a{font-style: italic; 	font-weight: bold; color:#242424; font-size:16px; float:left; padding:10px 5px 10px 15px}
 .mleft a:hover{ background-image:url(../imagens/seta-direita.jpg); background-repeat:no-repeat; background-position: 0px 15px; cursor:pointer}
 .mright{ float:left; width:80%;  position:relative; overflow:hidden; height:300px}
-.piso{	background-color: #F1F1F1;  border-top:4px #9429FF solid; padding:10px; 	font-family: "Droid Sans"; 	font-size: 16px;	font-weight: bold; float:right; width:76.5%;  position:relative; margin-right:5px; text-align:center}
+.piso{	background-color: #F1F1F1;  border-top:4px #9429FF solid; padding:10px; 	font-family: "Droid Sans"; 	font-size: 16px;	font-weight: bold; float:right; width:79.5%;  position:relative; margin-right:5px; text-align:center}
 .maps{ position:absolute; top:5px; right:5px;}
 
-
+.mrightloja{ float:left; width:100%;  position:relative; overflow:hidden; height:300px}
+.pisoloja{	background-color: #F1F1F1;  border-top:4px #9429FF solid; padding:10px; 	font-family: "Droid Sans"; 	font-size: 16px;	font-weight: bold; float:right; width:99.3%;  position:relative; margin-right:5px; text-align:center}
+.mapsloja{ position:absolute; top:5px; right:5px;}
 
 
 /*=================================Cinema============================*/
@@ -500,7 +526,7 @@ margin:5px;  font-family: "Droid Sans";}
 .serv:hover .lineserv{	border-bottom: 1px solid #9429FF; width:90%;  transition: 0.2s ease-in-out; -webkit-transition: 0.2s ease-in-out;}
 .serv span{ line-height:40px; float:left; width:50%; padding:10px 0; font-weight:bold; 	font-size: 16px;	font-style: italic;}
 .serv span img{ width:37px; height:35px; float:left; margin:0 5px 0 0}
-.serv p{	font-family: "Droid Sans"; height:100px;}
+.serv p{	font-family: "Droid Sans"; height:100px; line-height:25px;}
 .sembanner{ float:left; width:100%; position:relative; 	background-color: #F1F1F1; color:#000; font-smooth: always; height:125px; border-bottom:2px #9429FF solid ;padding:40px 0 0 0}
 .sembanner section{ position:absolute; z-index:1; top:30%;  width:100%; text-align:center; 	font-size: 36px; font-style:italic; font-weight:bold}
 .sembanner img{ border-bottom:4px solid #9429FF; }
@@ -521,8 +547,8 @@ margin:5px;  font-family: "Droid Sans";}
 .online div:nth-child(1){ width:12%; margin:18px 0 0 0}
 .online div:nth-child(2){ width:12%; margin:18px 0 0 0}
 .online div:nth-child(3){ width:26%; line-height:55px;}
-.online div:nth-child(4){ width:25%; line-height:55px;}
-.online div:nth-child(5){ width:25%; line-height:55px;}
+.online div:nth-child(4){ width:28%; line-height:55px;}
+.online div:nth-child(5){ width:21%; line-height:55px;}
 
 
 /*===========================Eventos===================================*/
@@ -593,11 +619,13 @@ margin:5px;  font-family: "Droid Sans";}
 .lin{	border-bottom: 1px solid #dfdfdf;}
 
 /*===========================CARRINHO=======================*/
-#carrinho{ width:100%; padding:50px 10px; min-height:700px; float:left}
+#carrinho{ width:100%; padding:0 10px; min-height:700px; float:left; position:relative}
 #carrinho header{ position:relative; float:left; width:100%}
 #titcar{ position:relative; float:right;	font-size: 24px;	font-style: italic;	font-weight: bold; color:#333; width:215px; line-height:45px; margin:20px 20px 20px 0}
 #titcar img{ float:right; padding:0 15px;}
 
+.vazio{font-family: 'Lora', serif; color: #333; font-weight:bold; font-style:italic; font-size:25px; text-align:center} 
+.vazio img{ float:none!important}
 .sacola{ width:100%; border-spacing: 0;  border-collapse: collapse;}
 .sacola th{	font-family: 'Lora', serif;	font-size: 14px; 	color: #333;  padding:10px 0px; text-transform:uppercase; }
 .sacola tr{  border-bottom:1px #000 solid; padding:30px}
@@ -606,17 +634,18 @@ margin:5px;  font-family: "Droid Sans";}
 
 .sacola th:nth-child(1){ width:35%; text-align:left}
 .sacola th:nth-child(2){ width:20%; text-align:center}
-.sacola th:nth-child(3){ width:15%; text-align:cente}
-.sacola th:nth-child(4){ width:15%; text-align:cente}
-.sacola th:nth-child(5){ width:15%; text-align:cente}
+.sacola th:nth-child(3){ width:15%; text-align:center}
+.sacola th:nth-child(4){ width:15%; text-align:center}
+.sacola th:nth-child(5){ width:15%; text-align:center; padding-left:48px}
 
 .sacola td:nth-child(1) img{ float:left; margin:20px 0}
 .sacola td:nth-child(2) img{ float:left; }
 .sacola td:nth-child(2){font-size: 15px;}
-.sacola td:nth-child(4) input[type="text"]{ padding:15px; border:1px #000 solid; width:90%;  text-align:center; font-weight:bold; font-size:20px; font-family: 'Lora', serif;}
+.sacola td:nth-child(4) input[type="text"]{ padding:15px; border:1px #000 solid; width:100%;  text-align:center; font-weight:bold; font-size:20px; font-family: 'Lora', serif;}
 .sacola td:nth-child(5) input[type="text"]{ padding:15px; border:1px #000 solid; width:75%; float:left; text-align:center; font-weight:bold; font-size:20px; font-family: 'Lora', serif;}
 .sacola td:nth-child(5) a{ float:left; width:25px; height:25px; 	background-color: #333333; border-radius:50%; color:#fff; padding:1px 5px; font-size:16px; text-align:center; margin:17px 0 0 5px}
 
+.adicionar_sacola{   font-size: 20px!important;    height: 60px;    margin-top: 10%!important;    padding: 25px 20px!important; width:100%; text-align:center; }
 
 .carprod{font-size:14px; 	color: #881EA1;  text-align:left; 	color: #333333;  text-align:left; float:left; width:50%;}
 .carprod h3{font-size: 20px;} 
@@ -624,21 +653,26 @@ margin:5px;  font-family: "Droid Sans";}
 .valorcar span:nth-child(1){float:left; font-size:14px; width:100%; text-decoration: line-through;}
 .valorcar span:nth-child(2){font-size:20px;}
 
-.qtdcar{ float:left; width:100%; padding:5px; 	font-family: "Droid Sans"; font-size:14px; line-height:30px;}
+.qtdcar{ float:left; width:100%; padding:5px 5px 5px 40px; 	font-family: "Droid Sans"; font-size:14px; line-height:30px;}
 .qtdcar span{ float:left; font-size:14px; width:120px;}
 .qtdcar a{ width:40px; height:50px; border:1px #000 solid; color:#000; padding:5px; text-align:center; float:left; margin:0 -1px; line-height:35px}
 .qtdcar a:hover{border:1px #9966CC solid;}
 .qtdcar input[type="text"]{width:40px; height:50px; border:1px #000 solid; background:none; color:#000; padding:5px; text-align:center; float:left; font-size:20px; font-family: 'Lora', serif; }
 
+.avisocar2{ width:100%; background-color: #F1F1F1; margin:10px 0; 	border: 3px solid #9429FF;
+ padding:20px 10px; float:left; 	font-size: 18px; font-family: "Droid Sans"; 	line-height: 21px; text-align:left; }
+.avisocar2 h3{	color: #333333;	font-size: 20px; font-weight: bold;}
+.avisocar2 a{ padding:5px 30px; color: #333333; font-weight: bold; text-decoration:underline}
+
 .avisocar{ width:70%; background-color: #F1F1F1; margin:10px 0; 	border: 3px solid #9429FF;
- padding:10px; float:left; 	font-size: 18px; font-family: "Droid Sans"; 	line-height: 21px; text-align:left; }
+ padding:20px 10px; float:left; 	font-size: 18px; font-family: "Droid Sans"; 	line-height: 21px; text-align:left; }
 .avisocar h3{	color: #333333;	font-size: 20px; font-weight: bold;}
 .avisocar a{ padding:5px 30px; color: #333333; font-weight: bold; text-decoration:underline}
 
 .total{ float:left; padding:10px;  width:30%;}
 .total label{ float:left; width:50%; 	font-family: "Droid Sans"; color:#333;	font-weight: bold; padding:18px 0; 	font-size: 18px; text-align:center; }
 .total input[type="text"]{	border: 1px solid #333333; 	background-color: #333333;  color:#fff; padding:15px 10px; text-align:center; 	font-family: Lora; font-weight: bold;font-style: italic; width:50%; 	font-size: 20px;}
-.total input[type="submit"]{	background-color: #9966CC; color:#fff; 	font-size: 20px; text-align:center; border:none; float:left; width:100%; padding:15px 10px; 	font-style: italic; 	font-weight: bold; font-family: 'Lora', serif; margin:70px 0 0 0; cursor:pointer}
+.total input[type="submit"]{	background-color: #9966CC; color:#fff; 	font-size: 20px; text-align:center; border:none; float:left; width:100%; padding:15px 10px; 	font-style: italic; 	font-weight: bold; font-family: 'Lora', serif; margin:50px 0 0 0; cursor:pointer}
 
 
 /*======================LOGIN===============================*/
@@ -678,7 +712,7 @@ margin:5px;  font-family: "Droid Sans";}
 .finaliza{ margin:0 auto; margin-top:40px; padding:10px;  width:730px;}
 .finaliza label{ float:left; width:150px; 	font-family: "Droid Sans"; color:#333;	font-weight: bold; padding:20px 0; 	font-size: 18px; text-align:center; }
 .finaliza input[type="text"]{	 width:160px!important; background:#333!important; font-family: 'Lora', serif;	font-size: 20px!important; color:#fff; text-align:center; font-weight:bold}
-.finaliza input[type="submit"]{  float:left; width:350px!important;  margin:5px 0 0 20px!important; cursor:pointer}
+.finaliza input[type="submit"]{  float:left; width:350px!important;  margin:0 0 0 20px!important; cursor:pointer}
 
 /*===============pagarme=====================*/
 #pagarme{ width:100%; padding:50px 10px; min-height:950px; float:left}
@@ -762,7 +796,8 @@ margin:5px;  font-family: "Droid Sans";}
 #tab4:checked ~ #conf4,
 #tab5:checked ~ #conf5 {  display: block; margin:50px 0 0 0}
 .config section{ background:none; border:none}
-.config input[type="text"],.config input[type="password"], .config select{	border: 1px solid #000000; width:100%; font-family: "Droid Sans"; font-size:16px; color:#000; padding:20px; display:block; margin:0}
+.config input[type="text"],.config input[type="password"]{	border: 1px solid #000000; width:100%; font-family: "Droid Sans"; font-size:16px; color:#000; padding:20px; display:block; margin:0}
+ .config select{	border: 1px solid #000000; width:100%; font-family: "Droid Sans"; font-size:16px; color:#000; padding:19px; display:block; margin:0}
 .config button{	background-color: #9966CC; padding:20px 50px; width:40%; margin-left:30%; margin-top:5%; float:left; color:#fff; border:none; 	font-size: 20px; 	font-style: italic; 	font-weight: bold; 	font-family: Lora;}
 .config button:hover{ background:#864bc1; cursor:pointer}
 .config input::placeholder {  color: #000;}
@@ -786,7 +821,7 @@ margin:5px;  font-family: "Droid Sans";}
 #informacoes{ float:left; width:100%; padding:10px 70px;  margin:30px 0 0 0}
 .history, .funcionamento{ float:left; width:580px; margin:0px 15px}
 .history h2, .funcionamento h3{ border-bottom: 1px #000 solid; padding:20px 0; font-size: 18px; 	font-style: italic; 	font-weight: bold;}
-.history p{font-family: "Droid Sans"; 	font-size: 16px; line-height:25px;}
+.history p{font-family: "Droid Sans"; 	font-size: 16px; line-height:25px; text-align:justify}
 
 .fnc{ width:100%; float:left; border:1px #000 solid; text-align:left; 	font-family: "Droid Sans"; 	font-size: 16px; border-spacing: 0; border-collapse: collapse; margin:10px 0 }
 .fnc:nth-child(1){margin:0 0 10px 0}
@@ -824,7 +859,7 @@ footer p img{ margin:0 10px}
 
 #navigation{ float:left; width:100%; text-align:center; position:relative; z-index:10}
 .copy{ float:left; padding:10px; text-align:center; width:100%;  margin:30px 0}
-
+.icons a{font-family: 'Lora', serif; font-style:italic; font-weight:bold; color:#fff; font-size:30px; text-transform:uppercase; padding:0 20px;}
 
 /* 	LEVEL ONE*/
 ul.rodape { position: relative; margin:0; padding:0; 	color: #fff; font-family: 'Droid Sans', sans-serif; font-size:12px; text-transform:uppercase; text-align:center }
@@ -1220,5 +1255,9 @@ ul.dropdown li a {font-size: 13px; padding:0 15px}
 .titevents{ left:25px;}
 
 #sobrepromo{ margin:0 0 0 40px}
+.qtdcar{ padding:5px;}
+.fancybox-close {	left: 1%!important;}
+
+
 
 }
