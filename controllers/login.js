@@ -48,10 +48,16 @@ module.exports = function (app){
 		if (app.locals.token_api == ""){
 			//Houve um erro, nao houve comunicacao para gerar token
 		} else {
+			var tmp_CPF = req.body.CPF;
+			if (!tmp_CPF==""){
+				tmp_CPF = tmp_CPF.replace(".", "");
+				tmp_CPF = tmp_CPF.replace(".", "");
+				tmp_CPF = tmp_CPF.replace("-", "");
+			}
 			//Verificar se o usuario existe
 			//var apiLogin = new servicoLogin(app.locals.token_api);
 			var apiUsuario = new servicoUsuario(app.locals.token_api);
-			var consulta = apiUsuario.consultar(req.body.CPF).then(function (resultados) {
+			var consulta = apiUsuario.consultar(tmp_CPF).then(function (resultados) {
 			//var consulta = apiLogin.consultar(req.body.CPF).then(function (resultados) {	
 				
 				if (resultados.resultado == "NAO_LOCALIZADO"){
@@ -166,7 +172,13 @@ module.exports = function (app){
 		var cliente = {};
 		var id = objectid(); //Nao gera id automatico ao gravar
 		cliente.id = id;
-		cliente.CPF = req.body.CPF;
+		var CPF = req.body.CPF;
+		if (!CPF==""){
+			CPF = CPF.replace(".", "");
+			CPF = CPF.replace(".", "");
+			CPF = CPF.replace("-", "");
+		}
+		cliente.CPF = CPF;
 		cliente.email = req.body.email;
 		cliente.nome = req.body.nome;
 		cliente.sobrenome = req.body.sobrenome;
@@ -248,12 +260,17 @@ module.exports = function (app){
 	app.post("/login/validar", function(req,res){
 		
 		var CPF = req.body.CPF;
+		if (!CPF==""){
+			CPF = CPF.replace(".", "");
+			CPF = CPF.replace(".", "");
+			CPF = CPF.replace("-", "");
+		}
 		if (app.locals.token_api == ""){
 			//Houve um erro, nao houve comunicacao para gerar token
 		} else {
 			//Verificar se o usuario existe
 			var apiUsuario = new servicoUsuario(app.locals.token_api);
-			var consulta = apiUsuario.verificar(req.body.CPF).then(function (resultados) {
+			var consulta = apiUsuario.verificar(CPF).then(function (resultados) {
 				res.json(resultados);
 			}).catch(function (erro){
 				res.json({"resultado": "ERRO"});
@@ -266,9 +283,15 @@ module.exports = function (app){
 		if (app.locals.token_api == ""){
 			//Houve um erro, nao houve comunicacao para gerar token
 		} else {
+			var CPF = req.body.CPF;
+			if (!CPF==""){
+				CPF = CPF.replace(".", "");
+				CPF = CPF.replace(".", "");
+				CPF = CPF.replace("-", "");
+			}
 			//Verificar se o usuario existe
 			var apiUsuario = new servicoUsuario(app.locals.token_api);
-			var consulta = apiUsuario.verificar(req.body.CPF).then(function (resultados) {
+			var consulta = apiUsuario.verificar(CPF).then(function (resultados) {
 				if (resultados.resultado == "NAO_LOCALIZADO"){
 					//Definir mensagem de erro
 					res.redirect("/login");
@@ -280,7 +303,7 @@ module.exports = function (app){
 					return;
 				}
 				if (resultados.resultado == "OK"){
-					var consulta2 = apiUsuario.consultar(req.body.CPF).then(function (resultados2) {
+					var consulta2 = apiUsuario.consultar(CPF).then(function (resultados2) {
 						var envioEmail = new servicoEmail();
 						var tmp = resultados2.dados.data;
 						var email = tmp[0].email;

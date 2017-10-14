@@ -16,13 +16,19 @@
 		
 		<script type="text/javascript">
 		function validar_cliente(CPF){
-			if (CPF.length==11){
+			var tmp_CPF = CPF;
+			if (!tmp_CPF==""){
+				tmp_CPF = tmp_CPF.replace(".", "");
+				tmp_CPF = tmp_CPF.replace(".", "");
+				tmp_CPF = tmp_CPF.replace("-", "");
+			}
+			if (tmp_CPF.length==11){
 				$.ajax({
 				  type: 'POST',
 				  url: '/login/validar',
 				  dataType : 'json',
 				  data: { 
-					'CPF': CPF, 
+					'CPF': tmp_CPF, 
 					'_csrf': '<%= csrfToken %>'
 				  },
 				  success: function (response) {
@@ -46,13 +52,19 @@
 		}  
 		
 		function validar_cliente_esqueci(CPF){
-			if (CPF.length==11){
+			var tmp_CPF = CPF;
+			if (!tmp_CPF==""){
+				tmp_CPF = tmp_CPF.replace(".", "");
+				tmp_CPF = tmp_CPF.replace(".", "");
+				tmp_CPF = tmp_CPF.replace("-", "");
+			}
+			if (tmp_CPF.length==11){
 				$.ajax({
 				  type: 'POST',
 				  url: '/login/validar',
 				  dataType : 'json',
 				  data: { 
-					'CPF': CPF, 
+					'CPF': tmp_CPF, 
 					'_csrf': '<%= csrfToken %>'
 				  },
 				  success: function (response) {
@@ -158,7 +170,7 @@
 			<h1>Sou cliente</h1> 
 
           <div class="campos100">
-          	<input type="text" value="" placeholder="cpf" name="CPF" maxlength="11" onKeyPress="return isNumberKey(event);">
+          	<input type="text" value="" placeholder="cpf" id="Login" name="CPF" maxlength="14" onKeyPress="return isNumberKey(event);">
           </div>
 
           <div class="campos100">
@@ -189,7 +201,7 @@
 
           <div class="campos100">
 
-          	<input type="text" value="" placeholder="Informe seu CPF" name="CPF" id="CPF2" maxlength="11" onKeyPress="return isNumberKey(event);" onblur="validar_cliente_esqueci(this.value);">
+          	<input type="text" value="" placeholder="Informe seu CPF" name="CPF" id="CPF2" maxlength="14" onKeyPress="return isNumberKey(event);" onblur="validar_cliente_esqueci(this.value);">
 
           </div>
 
@@ -222,7 +234,7 @@
     	<form action="/login/cadastrar" method="POST" autocomplete="off"  onSubmit="return checkform_novo_cadastro(this);">
 
         <div class="campos50">
-          	<input type="text" value="" placeholder="cpf" name="CPF" maxlength="11" onKeyPress="return isNumberKey(event);" onblur="validar_cliente(this.value);">
+          	<input type="text" value="" placeholder="cpf" name="CPF" id="CPF" maxlength="14" onKeyPress="return isNumberKey(event);" onblur="validar_cliente(this.value);">
          </div>
 
          <div class="campos50">
@@ -301,7 +313,10 @@
 
 <script>
 $(document).ready(function() {
-
+console.log('estou aqui');
+  $("#CPF").mask("999.999.999-99");	
+  $("#CPF2").mask("999.999.999-99");	
+  $("#Login").mask("999.999.999-99");
   $("#aniversario").mask("99/99/9999");	
   $('#esquece').hide();
   $('#logar').show(); 
