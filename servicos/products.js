@@ -283,6 +283,11 @@ produtosAPI.prototype.montarProdutoGQL = function(obj){
 		}
 	}
 	
+	var imagens = ["/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg"];
+	for (i = 0; i < obj.images.length; i++) { 
+		imagens[i] = obj.images[i].path;	
+	}
+	
 	var cor = "";
 	var tamanho = "";
 	if (obj.color){
@@ -293,7 +298,7 @@ produtosAPI.prototype.montarProdutoGQL = function(obj){
 	}
 	
 		
-	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "descricao": obj.long_description};
+	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "descricao": obj.long_description, "imagens": imagens};
 	return item;
 }
 

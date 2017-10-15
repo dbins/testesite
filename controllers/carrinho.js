@@ -22,16 +22,24 @@ module.exports = function (app){
 	});
 	
 	app.post("/carrinho/add", function(req,res){
-		
 		var produto = req.body.produto;
+		var quantidade = 1;
+		if (req.body.quantidade){
+			console.log(req.body.quantidade);
+			if (!req.body.quantidade ==""){
+				quantidade = req.body.quantidade;
+			}
+		}
 		var adicionar = true;
+		if(!req.session.carrinho)
+			req.session.carrinho = [];
+		
 		for (index = 0; index < req.session.carrinho.length; ++index) {
 			if (req.session.carrinho[index].url_title == produto){
 				adicionar = false;
 			}
 		}
 		if (adicionar){
-			
 			//console.log(adicionar, produto);
 			
 			//var consulta = api.view(produto).then(function (resultados) {
@@ -39,7 +47,7 @@ module.exports = function (app){
 				var tmp = resultados.dados;
 				//var produto_adicionado = api.montarProduto(tmp);
 				var produto_adicionado = api.montarProdutoGQL(tmp);
-				produto_adicionado.qtde = 1;
+				produto_adicionado.qtde = quantidade;
 				req.session.carrinho.push(produto_adicionado);
 				res.redirect("/carrinho");
 			}).catch(function (erro){
@@ -73,7 +81,6 @@ module.exports = function (app){
 				
 				if (adicionar){
 					produto_adicionado.qtde = 1;
-					console.log(produto_adicionado);
 					req.session.carrinho.push(produto_adicionado);
 					res.redirect("/carrinho");
 					return;	
@@ -94,6 +101,44 @@ module.exports = function (app){
 			//	///////}
 			//}
 		
+		
+	});
+	
+	app.get("/carrinho/add/:iddoproduto/:qtde", function(req,res){
+			
+			var produto = req.params.iddoproduto;
+			var quantidade = req.params.qtde;
+			//var consulta = api.view(produto).then(function (resultados) {
+			var consulta = api.viewGQL(produto).then(function (resultados) {		
+				var tmp = resultados.dados;
+				//var produto_adicionado = api.montarProduto(tmp);
+				var produto_adicionado = api.montarProdutoGQL(tmp);
+				
+				var adicionar = true;
+			
+				
+				if(!req.session.carrinho)
+					req.session.carrinho = [];
+				
+				for (index = 0; index < req.session.carrinho.length; ++index) {
+					if (req.session.carrinho[index].url_title == produto){
+						adicionar = false;
+					}
+				}
+				
+				if (adicionar){
+					produto_adicionado.qtde = quantidade;
+					req.session.carrinho.push(produto_adicionado);
+					res.redirect("/carrinho");
+					return;	
+				} else {
+					res.redirect("/carrinho");
+					return;	
+				}
+			}).catch(function (erro){
+				res.redirect("erro/500");
+				return;
+			});
 		
 	});
 	
