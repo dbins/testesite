@@ -1,4 +1,5 @@
 var servicoEmail = require('./../servicos/emails.js');
+var webservice_produtos = require('./../servicos/products.js');
 
 module.exports = function (app){
 	app.get("/termos", function(req,res){
@@ -32,22 +33,30 @@ module.exports = function (app){
 	//Retorna JSON
 	app.post("/busca", function(req,res){
 		var produto = req.body.produto;
-		var resultados = []
-		if (produto != ""){
-			if (req.session.produtos){
-			if (req.session.produtos.length>0){
-				req.session.produtos.forEach(function(resultado) {
-					var str = resultado.produto.toLowerCase();
-					var n = str.indexOf(produto.toLowerCase());
-					if (n >=0){
-						resultados.push(resultado);
-					}
-				});		
-				
-			}	
+		var resultados_pesquisa = [];
+		var api_produtos = new webservice_produtos('');
+		//TO DO
+		//Precisamos de algo para pesquisar por parte do nome no GraphQL
+		var consulta = api_produtos.listGQL().then(function (resultados) {
+			var tmp_produtos_pesquisados = api_produtos.montarGQL(resultados);
+			if (produto != ""){
+				if (tmp_produtos_pesquisados){
+					if (tmp_produtos_pesquisados.length>0){
+						tmp_produtos_pesquisados.forEach(function(resultado) {
+							var str = resultado.produto.toLowerCase();
+							var n = str.indexOf(produto.toLowerCase());
+							if (n >=0){
+								resultados_pesquisa.push(resultado);
+							}
+						});		
+						
+					}	
+				}
 			}
-		}
-		res.json(resultados);
+			res.json(resultados_pesquisa);
+		}).catch(function (erro){
+			res.json(resultados_pesquisa);
+		});	
 	});
 	
 	app.get("/newsletter", function(req,res){
