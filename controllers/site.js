@@ -37,17 +37,17 @@ module.exports = function (app){
 		var api_produtos = new webservice_produtos('');
 		//TO DO
 		//Precisamos de algo para pesquisar por parte do nome no GraphQL
-		var consulta = api_produtos.listGQL().then(function (resultados) {
+		var consulta = api_produtos.search(produto).then(function (resultados) {
 			var tmp_produtos_pesquisados = api_produtos.montarGQL(resultados);
 			if (produto != ""){
 				if (tmp_produtos_pesquisados){
 					if (tmp_produtos_pesquisados.length>0){
 						tmp_produtos_pesquisados.forEach(function(resultado) {
-							var str = resultado.produto.toLowerCase();
-							var n = str.indexOf(produto.toLowerCase());
-							if (n >=0){
+							//var str = resultado.produto.toLowerCase();
+							//var n = str.indexOf(produto.toLowerCase());
+							//if (n >=0){
 								resultados_pesquisa.push(resultado);
-							}
+							//}
 						});		
 						
 					}	
