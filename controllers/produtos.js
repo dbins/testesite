@@ -33,13 +33,13 @@ module.exports = function (app){
 			var tmp = resultados.dados;
 			//var teste = api.montarProduto(tmp);
 			var teste = api.montarProdutoGQL(resultados.dados);
-			
-			var tmp_relacionados = [];
-			if (req.session.produtos){
-				tmp_relacionados = req.session.produtos;
-			}
-			
-			res.render("produtos/produto", {resultados:resultados, relacionados: tmp_relacionados, teste: teste});
+			var consulta2 = api.listGQLStore(resultados.dados.store.slug).then(function (resultados2) {	
+				//var tmp_relacionados = [];
+				var tmp_relacionados = api.montarGQL(resultados2);
+				res.render("produtos/produto", {resultados:resultados, relacionados: tmp_relacionados, teste: teste});
+			}).catch(function (erro){
+				res.redirect("erro/500");
+			});
 		}).catch(function (erro){
 			res.redirect("erro/500");
 		});

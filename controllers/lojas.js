@@ -115,8 +115,10 @@ module.exports = function (app){
 				res.status(500).redirect('/erro/500');
 			} else {
 				var api_produtos = new webservice_produtos('');
-				var consulta2 = api_produtos.list().then(function (resultados2) {
-					var produtos = api_produtos.montar(resultados2.dados.data);
+				//var consulta2 = api_produtos.list().then(function (resultados2) {
+				var consulta2 = api_produtos.listGQLStore(nomedaloja).then(function (resultados2) {	
+					//var produtos = api_produtos.montar(resultados2.dados.data);
+					var produtos = api_produtos.montarGQL(resultados2);
 					res.render("lojas/loja", {resultados:resultados.dados, produtos: produtos});
 				}).catch(function (erro2){
 					res.status(500).redirect('/erro/500');
