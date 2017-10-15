@@ -45,8 +45,8 @@ module.exports = function (app){
 			req.session.nome_do_shopping_barra_titulo = " | " + tmp ;
 			
 			var api_produtos = new webservice_produtos(nomedoshopping);
-			var consulta = api_produtos.list().then(function (resultados) {
-				req.session.produtos = api_produtos.montar(resultados.dados.data);
+			var consulta = api_produtos.listGQL().then(function (resultados) {
+				req.session.produtos = api_produtos.montarGQL(resultados);
 				var api_banners = new webservice_banners(nomedoshopping);
 				var consulta = api_banners.list(nomedoshopping).then(function (resultados) {
 					var banners = [];
