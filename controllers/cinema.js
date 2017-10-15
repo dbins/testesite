@@ -39,21 +39,25 @@ function DayAsString(dayIndex) {
 
 function retornaIDIngresso(shoppings, shopping){
 	var retorno = 1313;
-	shoppings.forEach(function(item){
-	   if (item.url_title == shopping){
-		  retorno = item.ingresso;
-	   }
-	});
+	if (shoppings){
+		shoppings.forEach(function(item){
+		   if (item.url_title == shopping){
+			  retorno = item.ingresso;
+		   }
+		});
+	}
 	return retorno;
 }
 
 function retornaIDFilme(filmes, filme){
 	var retorno = 0;
-	filmes.forEach(function(item){
-	   if (item.urlKey == filme){
-		  retorno = item.id;
-	   }
-	});
+	if (filmes){
+		filmes.forEach(function(item){
+		   if (item.urlKey == filme){
+			  retorno = item.id;
+		   }
+		});
+	}
 	return retorno;
 }
 
@@ -164,11 +168,12 @@ module.exports = function (app){
 		
 	});
 	app.get("/cinema/filme/:nomedofilme", function(req,res){
+		req.session.id_do_shopping_ingresso =  retornaIDIngresso(app.locals.shoppings, req.session.shopping);
 		var nomedofilme = req.params.nomedofilme;
 		// TODO: Os dados do filme precisam vir direto da API pois os crawlers indexarão a url e os usuários  
 		// poderão acessar o filme diretamente sem passar pela lista de filmes, e então verão um erro ou o dado cacheado.
 		
-		var id_do_filme = retornaIDFilme(req.session.dados_temp, nomedofilme);
+		//var id_do_filme = retornaIDFilme(req.session.dados_temp, nomedofilme);
 		
 		var diasDeExibicao = [];
 
@@ -183,10 +188,11 @@ module.exports = function (app){
 		app.locals.id_do_shopping_ingresso =  retornaIDIngresso(app.locals.shoppings, req.session.shopping);
 		var api_ingresso = new ingresso(req.session.id_do_shopping_ingresso);
 		
-		//var consulta = api.view(nomedofilme).then(function (resultados) {
-		var consulta = api_ingresso.view(id_do_filme).then(function (resultados) {
+		var consulta = api_ingresso.viewURL(nomedofilme).then(function (resultados) {
+			
+			id_do_filme = resultados.dados.id;
+		//var consulta = api_ingresso.view(id_do_filme).then(function (resultados) {
 			//var consulta2 = api.list().then(function (resultados2) {
-				
 				var lista_sessoes = api_ingresso.sessoes(resposta_completa, id_do_filme);
 				if (JSON.stringify(resultados.dados) === "{}"){
 					res.status(500).redirect('/erro/500');
@@ -194,7 +200,42 @@ module.exports = function (app){
 					if (typeof resultados.title === undefined) {
 						res.status(500).redirect('/erro/500');
 					} else {
-						res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": req.session.dados_temp, datas: diasDeExibicao, sessoes: lista_sessoes.sessoes});
+						
+						var consulta2 = api_ingresso.emCartaz().then(function (resultados2) {	
+							var resultados3 = api_ingresso.filmesCartaz(resultados2.dados);
+							req.session.dados_temp = resultados3.dados;
+							
+							//api_ingresso.todasAsSessoesDoFilme(app.locals.shoppings, id_do_filme);
+							//api_ingresso.listFilme(1,1313);
+							var array_promisses = [];
+							app.locals.shoppings.forEach(function(item){
+								var id_cidade = 1;	
+								if ( item.ingresso == 1210){
+									id_cidade = 2;
+								}
+								if ( item.ingresso == 1389){
+									id_cidade = 15;
+								}
+								array_promisses.push(api_ingresso.listFilmeSessoes(id_cidade, item.ingresso, id_do_filme));		
+							});
+							Promise.all(array_promisses).then(function(results) {
+							  var tmp_array_itens = []
+							 for (index = 0; index < results.length; ++index) {
+								tmp_array_itens.push(results[index]);
+							  }
+							  
+							  //TO DO
+							  //Precisa tratar o retorno para imprimir as sessoes na view
+							  res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": req.session.dados_temp, datas: diasDeExibicao, sessoes: []});
+							  
+							}).catch((err) => {
+							//	//problema....
+							});
+							
+							//res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": req.session.dados_temp, datas: diasDeExibicao, sessoes: lista_sessoes.sessoes});
+						}).catch(function (erro){
+							res.status(500).redirect('/erro/500');
+						});	
 					}	
 				}
 				

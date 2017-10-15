@@ -129,5 +129,87 @@ ingressoAPI.prototype.sessoes = function(resultados, id_filme){
 }
 
 
+ingressoAPI.prototype.viewURL = function(registro){
+	var resposta = "";
+	var opcoes = {  
+	    method: 'GET',
+		uri: this.url + "/events/url-key/" + registro
+	}
+	return rp(opcoes).then((data, res) => {
+		resposta = {"resultado":"OK", "dados": JSON.parse(data), "status": "OK"};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+		return resposta;
+	});
+}
+
+
+//Filmes em cartaz
+ingressoAPI.prototype.emCartaz = function(){
+	
+	var resposta = "";
+	var opcoes = {  
+	    method: 'GET',
+		uri: this.url + "/templates/nowplaying"
+		
+	}
+	return rp(opcoes).then((data, res) => {
+		resposta = {"resultado":"OK", "dados": JSON.parse(data)};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 2", "dados":{}};	
+		return resposta;
+	});
+}
+
+ingressoAPI.prototype.filmesCartaz = function(resultados){
+	var id_filmes = [];	
+	var resposta = "";
+	var filmes = [];	
+	tmp = resultados;
+	tmp.forEach(function(obj) {
+		if (id_filmes.indexOf(obj.id)<0){
+			id_filmes.push(obj.id);
+			filmes.push(obj);
+		}
+	});
+	filmes.sort();
+	resposta = {"dados":filmes};	
+	return resposta;
+}
+
+ingressoAPI.prototype.listFilmeSessoes = function(cidade, shopping, filme){
+	
+	var resposta = "";
+	var opcoes = {  
+	    method: 'GET',
+		uri: this.url + "/sessions/city/" + cidade + "/theater/" + shopping
+		
+	}
+	return rp(opcoes).then((data, res) => {
+		var sessoes = [];
+		var tmp = JSON.parse(data);
+		tmp.forEach(function(obj) {
+			var rooms = [];
+			obj.movies.forEach(function(obj2) {
+				if (obj2.id == filme){
+					rooms = obj2.rooms;
+				}
+			});
+			var resultados_dia = {"shopping":shopping, "date": obj.date, "dateFormatted": obj.dateFormatted, "dayOfWeek": obj.dayOfWeek, "rooms": rooms};
+			sessoes.push(resultados_dia);
+		});
+	
+		resposta = {"resultado":"OK", "shopping": shopping, "sessoes": sessoes};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 2", "shopping": "","sessoes":[]};	
+		return resposta;
+	});
+}
+
+	
+
 module.exports = ingressoAPI;
 

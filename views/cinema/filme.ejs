@@ -467,7 +467,7 @@
 		if (em_cartaz.length>0){
 		em_cartaz.forEach(function(resultado) { 
 		%>
-		 <a href="/cinema/filme/<%=resultado.url_title%>" class="filmes">
+		 <a href="/cinema/filme/<%=resultado.urlKey%>" class="filmes">
 			<img src="<%=resultado.images[0].url%>"  title="<%=resultado.title%>" class="img"> 
 			<div class="fline"></div>
 			<p><%=resultado.title%></p>
