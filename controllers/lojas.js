@@ -81,11 +81,14 @@ module.exports = function (app){
 	app.get("/lojas/loja-online/:segmento", function(req,res){
 		var segmento = req.params.segmento;
 		var api_produtos = new webservice_produtos('');
-		var consulta = api_produtos.segmento(segmento).then(function (resultados) {
-			dados = api_produtos.montar(resultados.dados.data);
+		//var consulta = api_produtos.segmento(segmento).then(function (resultados) {
+		var consulta = api_produtos.listGQLSegment(segmento).then(function (resultados) {
+			//dados = api_produtos.montar(resultados.dados.data);
+			dados = api_produtos.montarGQL(resultados);
 			var categorias = ListarCategoriasMock();
 			res.render("lojas/online", {produtos: dados, categorias: categorias});
 		}).catch(function (erro){
+			console.log(erro);
 			res.status(500).redirect('/erro/500');
 		});		
 	});
@@ -98,9 +101,10 @@ module.exports = function (app){
 	app.post("/lojas/loja-online/:segmento", function(req,res){
 		var segmento = req.params.segmento;
 		var api_produtos = new webservice_produtos('');
-		var consulta = api_produtos.segmento(segmento).then(function (resultados) {
+		var consulta = api_produtos.listGQLSegment(segmento).then(function (resultados) {
 			var categorias = ListarCategoriasMock();
-			dados = api_produtos.montar(resultados.dados.data);
+			//dados = api_produtos.montar(resultados.dados.data);
+			dados = api_produtos.montarGQL(resultados);
 			res.render("lojas/online", {produtos: dados, categorias: categorias});
 		}).catch(function (erro){
 			res.status(500).redirect('/erro/500');
