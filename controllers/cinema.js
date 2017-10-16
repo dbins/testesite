@@ -5,6 +5,11 @@ var rp2 = require('request-promise');
 var categorias_temp = [];
 var resposta_completa = [];
 
+function pad(str) {
+  const resto = 2 - String(str).length;
+  return '0'.repeat(resto > 0 ? resto : '0') + str;
+}
+
 function MonthAsString(monthIndex) {
     var d = new Date();
     var month = new Array();
@@ -181,7 +186,7 @@ module.exports = function (app){
 			var currentDate = new Date();
 			currentDate.setDate(new Date().getDate() + i);
 			//+ currentDate.getFullYear()
-			diasDeExibicao.push({dia: DayAsString(currentDate.getDay()) , data: currentDate.getDate() + " de " + MonthAsString(currentDate.getMonth())});
+			diasDeExibicao.push({data_ymd: currentDate.getFullYear() + '-' +  pad(currentDate.getMonth()+1) + '-' + pad(currentDate.getDate()) , dia: DayAsString(currentDate.getDay()) , data: currentDate.getDate() + " de " + MonthAsString(currentDate.getMonth())});
 		}
 		
 		//var api = new webservice(req.session.shopping);
@@ -225,6 +230,8 @@ module.exports = function (app){
 							  }
 							  
 							  //TO DO
+							  var novas_sessoes = api_ingresso.montarSessoes(tmp_array_itens, diasDeExibicao);
+							  //console.log(novas_sessoes);
 							  //Precisa tratar o retorno para imprimir as sessoes na view
 							  res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": req.session.dados_temp, datas: diasDeExibicao, sessoes: []});
 							  

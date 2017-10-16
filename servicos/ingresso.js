@@ -209,6 +209,40 @@ ingressoAPI.prototype.listFilmeSessoes = function(cidade, shopping, filme){
 	});
 }
 
+ingressoAPI.prototype.montarSessoes = function(resultados, datas){
+	var sessoes = [];	
+	
+	for (var i = 0; i <datas.length; i++) {
+		var tmp = []
+		var tmp_shopping = [];
+		//Para dia vai ter um objeto para cada shopping
+		for (var x = 0; x <resultados.length; x++) {
+			var tmp_sessoes = [];
+			var tmp1 = resultados[x].sessoes;
+			for (var w = 0; w <tmp1.length; w++) {
+				if (datas[i].data_ymd == tmp1[w].date){
+					tmp_sessoes.push(tmp1[w].rooms);
+				}
+				
+			}
+			tmp_shopping.push({shopping: resultados[x].shopping, sessoes: tmp_sessoes});
+		}
+		var tmp_dia = {data_ymd: datas[i].data_ymd, dia: datas[i].dia , data: datas[i].data, shopping: tmp_shopping};
+		sessoes.push(tmp_dia);
+	}
+	//console.log(sessoes[0].shopping[3]);
+	//console.log(sessoes[6]);
+	for (var x = 0; x <sessoes.length; x++) { //CADA DIA
+		var tmp = sessoes[x].shopping;
+		for (var y = 0; y < tmp.length; y++) { //CADA SHOPPING
+			var tmp1 = tmp[y].sessoes;
+			for (var z = 0; z < tmp1.length; z++) {	
+				//console.log(tmp1[z]); //SALAS E HORARIOS!
+			}
+		}
+	}
+	return sessoes;
+}
 	
 
 module.exports = ingressoAPI;
