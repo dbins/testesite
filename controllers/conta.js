@@ -25,12 +25,12 @@ module.exports = function (app){
 		}
 		//Sempre pesquisar por id compra + usuario
 		var iddacompra = req.params.iddacompra;
-		var resultado = {};
-		for (index = 0; index < app.get("pedidos").length; ++index) {
-			if (app.get("pedidos")[index].pedido == iddacompra){
-				resultado = app.get("pedidos")[index];	
-			}
-		}
+		//var resultado = {};
+		//for (index = 0; index < app.get("pedidos").length; ++index) {
+		//	if (app.get("pedidos")[index].pedido == iddacompra){
+		//		resultado = app.get("pedidos")[index];	
+		//	}
+		//}
 		
 		var apiPagarme = new servicoPagarme();
 		var consulta = apiPagarme.verTransacao(iddacompra).then(function (resultados) {
@@ -62,8 +62,26 @@ module.exports = function (app){
 			res.redirect("/");
 			return;
 		}
-		var total = app.get("favoritos_produtos").length + app.get("favoritos_promocoes") + app.get("favoritos_lojas") + app.get("favoritos_eventos");
-		res.render("conta/favoritos", {total: total, produtos: app.get("favoritos_produtos"), promocoes: app.get("favoritos_promocoes"), lojas: app.get("favoritos_lojas"), eventos: app.get("favoritos_eventos")});
+		
+		var favoritos_produtos = [];
+		var favoritos_promocoes = [];
+		var favoritos_lojas = [];
+		var favoritos_eventos = [];
+		if (req.session.favoritos_produtos){
+			favoritos_produtos =req.session.favoritos_produtos;
+		}
+		if (req.session.favoritos_promocoes){
+			favoritos_promocoes =req.session.favoritos_promocoes;
+		}
+		if (req.session.favoritos_lojas){
+			favoritos_lojas =req.session.favoritos_lojas;
+		}
+		if (req.session.favoritos_eventos){
+			favoritos_eventos =req.session.favoritos_eventos;
+		}
+		
+		var total = favoritos_produtos.length + favoritos_promocoes.length + favoritos_lojas.length + favoritos_eventos.length;
+		res.render("conta/favoritos", {total: total, produtos: favoritos_produtos, promocoes: favoritos_promocoes, lojas: favoritos_lojas, eventos: favoritos_eventos});
 	});
 	app.get("/favoritos/remove/:iddoobjeto", function(req,res){
 		if (!req.session.usuario){
@@ -126,8 +144,9 @@ module.exports = function (app){
 					
 		}	
 		
+		var cartoes = [{"nome":"Obi Wan Kenobi", "comeco":"5548", "fim":"2593"},{"nome":"Anakin Skywalker", "comeco":"5540", "fim":"3513"},{"nome":"Han Solo", "comeco":"1248", "fim":"2190"}];
 		res.locals.csrfToken = req.csrfToken();
-		res.render("conta/configuracoes", {cliente: cliente, endereco: endereco, carteira:app.get("cartoes")});
+		res.render("conta/configuracoes", {cliente: cliente, endereco: endereco, carteira:cartoes});
 	});
 	
 	app.post("/configuracoes/dados", function(req,res){
