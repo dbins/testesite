@@ -224,12 +224,10 @@ produtosAPI.prototype.montarGQL = function(resultados){
 				imagem = obj.images[i].path;	
 			}
 		}
-		
 		var categoria = "";
-		//Nao existe porque esta funcao trabalha com resultado do endpoint
-		//if (obj.store.category.slug){
-		//	categoria = obj.store.category.slug;
-		//}
+		if (obj.store.category.slug){
+			categoria = obj.store.category.slug;
+		}
 		
 		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": "", "cor": "", "categoria": categoria};
 		retorno.push(item);
@@ -238,6 +236,7 @@ produtosAPI.prototype.montarGQL = function(resultados){
 	return retorno;
 }
 
+//Alteracao
 produtosAPI.prototype.montarProduto = function(obj){
 	//var tmp_nome = obj.mall;
 	var tmp_loja = obj.store;
@@ -262,8 +261,8 @@ produtosAPI.prototype.montarProduto = function(obj){
 			imagem = obj.images[i].path;	
 		}
 	}
-	
-	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "store": obj.store, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "descricao": obj.long_description};
+	var categoria = "";
+	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "store": obj.store, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "descricao": obj.long_description, "categoria": categoria};
 	return item;
 }
 
@@ -335,8 +334,9 @@ produtosAPI.prototype.segmento = function(segmento){
 	});
 }
 
+//Mais alteracao
 produtosAPI.prototype.listGQLStore = function(store){
-	const q_store = `store{slug, real_name, fantasy_name, floor, title}`;
+	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
     const q_group = `group{slug name}`;
     const q_images= `images{path, type, order}`;
@@ -361,8 +361,9 @@ produtosAPI.prototype.listGQLStore = function(store){
 	});
 }
 
+//Mais alteracao
 produtosAPI.prototype.listGQLSegment = function(segment){
-	const q_store = `store{slug, real_name, fantasy_name, floor, title}`;
+	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
     const q_group = `group{slug name}`;
     const q_images= `images{path, type, order}`;
