@@ -1,5 +1,6 @@
 var webservice = require('./../servicos/stores.js');
 var webservice_produtos = require('./../servicos/products.js');
+var webservice_categorias = require('./../servicos/categories.js');
 
 var dados_temporarios;
 
@@ -28,19 +29,27 @@ function ListarCategorias(dados, shopping){
 
 module.exports = function (app){
 	
+	//ALTERACAO
 	app.get("/lojas", function(req,res){
 		res.locals.csrfToken = req.csrfToken();
 		//var api = new webservice(req.session.shopping);
 		var api = new webservice("");
+		var api_categorias = new webservice_categorias();
 		var consulta = api.list().then(function (resultados) {
-			//var categorias = ListarCategorias(resultados.dados.data, req.session.shopping);
-			var categorias = ListarCategoriasMock();
-			dados_temporarios = resultados.dados.data;
-			if (typeof categorias === undefined) {
+			var consulta2 = api_categorias.All().then(function (resultados2) {
+				//var categorias = ListarCategorias(resultados.dados.data, req.session.shopping);
+				//var categorias = ListarCategoriasMock();
+				var categorias = api_categorias.montarCategorias(resultados2.dados.data);
+				dados_temporarios = resultados.dados.data;
+				if (typeof categorias === undefined) {
+					res.status(500).redirect('/erro/500');
+				} else {
+					res.render("lojas/index", {resultados:resultados.dados.data, categorias: categorias});	
+					
+				}
+			}).catch(function (erro){
 				res.status(500).redirect('/erro/500');
-			} else {
-				res.render("lojas/index", {resultados:resultados.dados.data, categorias: categorias});	
-			}
+			});
 			
 		}).catch(function (erro){
 			res.status(500).redirect('/erro/500');
@@ -48,6 +57,7 @@ module.exports = function (app){
 		
 	});
 	app.post("/lojas", function(req,res){
+		
 		//Aplicar os filtros!
 		var api = new webservice(req.session.shopping);
 		var consulta = api.list().then(function (resultados) {
@@ -65,14 +75,23 @@ module.exports = function (app){
 		});
 	});
 	
+	//AQUI TEVE ALTERACAO
 	app.get("/lojas/loja-online", function(req,res){
 		var api_produtos = new webservice_produtos('');
+		var api_categorias = new webservice_categorias();
 		//var consulta = api_produtos.list().then(function (resultados) {
 		var consulta = api_produtos.listGQL().then(function (resultados) {
-			//dados = api_produtos.montar(resultados.dados.data);
-			var categorias = ListarCategoriasMock();
-			dados = api_produtos.montarGQL(resultados);
-			res.render("lojas/online", {produtos: dados, categorias: categorias});
+			var consulta2 = api_categorias.All().then(function (resultados2) {
+				//dados = api_produtos.montar(resultados.dados.data);
+				//var categorias = ListarCategoriasMock();
+				var categorias = api_categorias.montarCategorias(resultados2.dados.data);
+				dados = api_produtos.montarGQL(resultados);
+				res.render("lojas/online", {produtos: dados, categorias: categorias});
+				
+			}).catch(function (erro){
+				res.status(500).redirect('/erro/500');
+			});		
+			
 		}).catch(function (erro){
 			res.status(500).redirect('/erro/500');
 		});		

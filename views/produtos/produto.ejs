@@ -60,18 +60,25 @@
          
          <div class="cor">
          	<span>Cor</span>
-            <a href="" class="colorBtn" style="background:#F90"></a>
-            <a href="" class="colorBtn" style="background:#093"></a>
-            <a href="" class="colorBtn" style="background:#FF0"></a>
-            <a href="" class="colorBtn" style="background:#F60"></a>
+			<%
+			for (i = 0; i < cores.length; i++) { 
+			%>
+            <a href="" class="colorBtn" style="background:<%=cores[i].cor%>" alt="<%=cores[i].nome%>" tooltip="<%=cores[i].nome%>"  data-produto="<%=tamanhos[i].slug%>"></a>
+			<%
+			}
+			%>
+            
          </div> 
          
          <div class="tamanho">
          	<span>Tamanho</span>
-            <a href="" class="tamanhoBtn">P</a>
-            <a href="" class="tamanhoBtn">M</a>
-            <a href="" class="tamanhoBtn">G</a>
-            <a href="" class="tamanhoBtn">GG</a>
+			<%
+			for (i = 0; i < tamanhos.length; i++) { 
+			%>
+            <a href="" class="tamanhoBtn" data-produto="<%=tamanhos[i].slug%>"><%=tamanhos[i].tamanho%></a>
+			<%
+			}
+			%>
          </div> 
    
          <div class="qtd">
@@ -221,9 +228,11 @@
 		
 		$(".colorBtn").click(function(event) {
 			event.preventDefault();
+			$('#btn_sacola').attr('href', '/carrinho/add/' + $(this).attr("data-produto") + '/' + $('#quantidade').val());
 		});
 		$(".tamanhoBtn").click(function(event) {
 			event.preventDefault();
+			 $('#btn_sacola').attr('href', '/carrinho/add/' + $(this).attr("data-produto") + '/' + $('#quantidade').val());
 		});
 		
 		$('#btn_sacola2').click( function(event) {

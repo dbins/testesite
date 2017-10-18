@@ -17,6 +17,8 @@ module.exports = function (app){
 		res.render("produtos/index");
 		
 	});
+	
+	//Alteracao
 	app.get("/produtos/:nomedoproduto", function(req,res){
 		//Apenas para fins de testes!
 		var nomedoproduto = req.params.nomedoproduto;
@@ -34,9 +36,16 @@ module.exports = function (app){
 			//var teste = api.montarProduto(tmp);
 			var teste = api.montarProdutoGQL(resultados.dados);
 			var consulta2 = api.listGQLStore(resultados.dados.store.slug).then(function (resultados2) {	
-				//var tmp_relacionados = [];
-				var tmp_relacionados = api.montarGQL(resultados2);
-				res.render("produtos/produto", {resultados:resultados, relacionados: tmp_relacionados, teste: teste});
+				var consulta3 = api.grupo(resultados.dados.group.slug).then(function (resultados3) {	
+					var tamanhos = api.montarAtributo(resultados3.dados.data, "TAMANHOS");
+					var cores = api.montarAtributo(resultados3.dados.data, "CORES");
+					
+					//var tmp_relacionados = [];
+					var tmp_relacionados = api.montarGQL(resultados2);
+					res.render("produtos/produto", {resultados:resultados, relacionados: tmp_relacionados, teste: teste, tamanhos: tamanhos, cores: cores});
+					}).catch(function (erro){
+						res.redirect("erro/500");
+					});
 			}).catch(function (erro){
 				res.redirect("erro/500");
 			});
