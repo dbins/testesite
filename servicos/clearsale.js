@@ -173,11 +173,19 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 	//6 - HiperCard
 	//7 - Aura
 	
+	var tipo_pagamento = 2;
+	if (dados_pedido.tipo_pagamento == "Cartão de Crédito"){
+		var tipo_pagamento = 1;	
+	}
+	
 	var objetoDetalhesPagamento = {
 		//"Sequential": "", //Sequência de realização do pagamento
 		"Date": moment.utc().toISOString(), //Data do pagamento (yyyy-mm-ddThh:mm:ss)
 		"Amount": "10", //Valor cobrado neste pagamento
-		"PaymentTypeID": "2", //Tipo de Pagamento (Lista de Tipos de Pagamento) (PODE SER 2 PARA BOLETO E 1 PARA CARTAO)
+		"PaymentTypeID": tipo_pagamento, //Tipo de Pagamento (Lista de Tipos de Pagamento) (PODE SER 2 PARA BOLETO E 1 PARA CARTAO)
+		
+		
+		
 		//"QtyInstallments": "", //Quantidade de Parcelas
 		//"Interest": "", //Taxa de Juros
 		//"InterestValue": "", //Valor dos Juros
