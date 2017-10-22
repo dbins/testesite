@@ -138,6 +138,8 @@ module.exports = function (app){
 						var tmp2 = dados.lastname;
 						req.session.usuario = dados.firstname + ' ' +  dados.lastname;
 						req.session.letras = tmp1.substring(0,1) + tmp2.substring(0,1);
+						
+						//req.template_dadosUsuario(dados.firstname + ' ' +  dados.lastname, tmp1.substring(0,1) + tmp2.substring(0,1));
 						req.session.cpf = dados.cpf;
 						req.session.save(function (err) {
 						if (err) return next(err)

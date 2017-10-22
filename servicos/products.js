@@ -1,5 +1,7 @@
 const rp = require('request-promise'); 
 
+//2017-10-22 - O MODEL NAO POSSUI O CAMPO GROUP
+
 var produtosAPI = function (shopping_selecionado) {
 	this.url = "https://concierge-api-v1.herokuapp.com";
 	this.pagina = 1;
@@ -111,7 +113,8 @@ produtosAPI.prototype.view = function(registro){
 produtosAPI.prototype.listGQL = function(){
 	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
-    const q_group = `group{slug name}`;
+    // const q_group = `group{slug name}`;
+	const q_group = '';
     const q_images= `images{path, type, order}`;
 	var query = `query={products{ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_images}}}`;
 	var resposta = "";
@@ -135,7 +138,8 @@ produtosAPI.prototype.listGQL = function(){
 //FOI ALTERADO
 produtosAPI.prototype.viewGQL = function(registro){
 	
-	var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price store{slug, real_name, fantasy_name, floor, title, category{slug,name}} mall{_id, slug, domain, name}  images{path, type, order} group{slug,name}}}';
+	//var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price store{slug, real_name, fantasy_name, floor, title, category{slug,name}} mall{_id, slug, domain, name}  images{path, type, order} group{slug,name}}}';
+	var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price store{slug, real_name, fantasy_name, floor, title, category{slug,name}} mall{_id, slug, domain, name}  images{path, type, order}}}';
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -338,7 +342,8 @@ produtosAPI.prototype.segmento = function(segmento){
 produtosAPI.prototype.listGQLStore = function(store){
 	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
-    const q_group = `group{slug name}`;
+    //const q_group = `group{slug name}`;
+	const q_group = '';
     const q_images= `images{path, type, order}`;
 	var query = `query={products(store: "` + store + `"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_images}}}`;
 	var resposta = "";
@@ -365,7 +370,8 @@ produtosAPI.prototype.listGQLStore = function(store){
 produtosAPI.prototype.listGQLSegment = function(segment){
 	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
-    const q_group = `group{slug name}`;
+    //const q_group = `group{slug name}`;
+	const q_group = '';
     const q_images= `images{path, type, order}`;
 	var query = `query={products(segments: ["` + segment + `"]){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_images}}}`;
 	var resposta = "";
@@ -392,7 +398,8 @@ produtosAPI.prototype.listGQLSegment = function(segment){
 produtosAPI.prototype.search = function(produto){
 	const q_store = `store{slug, real_name, fantasy_name, floor, title}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
-    const q_group = `group{slug name}`;
+    //const q_group = `group{slug name}`;
+	const q_group = '';
     const q_images= `images{path, type, order}`;
 	var query = `query={products(name: "/` + produto + `/"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_images}}}`;
 	var resposta = "";

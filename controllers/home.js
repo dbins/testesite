@@ -5,10 +5,11 @@ var rp2 = require('request-promise');
 module.exports = function (app){
 	
 	app.get("/home", function(req,res){
+		var lista_produtos = [];
 		var api_produtos = new webservice_produtos('');
 		var consulta = api_produtos.listGQL().then(function (resultados) {
 			
-			req.session.produtos = api_produtos.montarGQL(resultados);
+			var lista_produtos = api_produtos.montarGQL(resultados);
 			var api_banners = new webservice_banners('');
 			var consulta = api_banners.list().then(function (resultados) {
 				var banners = [];
@@ -17,12 +18,12 @@ module.exports = function (app){
 				} else {
 					banners = resultados.dados.data;	
 				}
-				res.render("home/index", {banners:banners, shopping:'', produtos: req.session.produtos });
+				res.render("home/index", {banners:banners, shopping:'', produtos: lista_produtos });
 			}).catch(function (erro){
-				res.render("home/index", {banners:[], shopping:'', produtos: req.session.produtos });
+				res.render("home/index", {banners:[], shopping:'', produtos: lista_produtos });
 			});	
 		}).catch(function (erro){
-			res.render("home/index", {banners:[], shopping:'', produtos: req.session.produtos});
+			res.render("home/index", {banners:[], shopping:'', produtos: lista_produtos});
 		});		
 		
 		
@@ -46,7 +47,7 @@ module.exports = function (app){
 			
 			var api_produtos = new webservice_produtos(nomedoshopping);
 			var consulta = api_produtos.listGQL().then(function (resultados) {
-				req.session.produtos = api_produtos.montarGQL(resultados);
+				var lista_produtos = api_produtos.montarGQL(resultados);
 				var api_banners = new webservice_banners(nomedoshopping);
 				var consulta = api_banners.list(nomedoshopping).then(function (resultados) {
 					var banners = [];
@@ -55,14 +56,14 @@ module.exports = function (app){
 					} else {
 						banners = resultados.dados.data;	
 					}
-					res.render("home/index", {banners:banners, shopping:nomedoshopping, produtos: req.session.produtos});
+					res.render("home/index", {banners:banners, shopping:nomedoshopping, produtos: lista_produtos});
 					
 				}).catch(function (erro){
-					res.render("home/index", {banners:[], shopping:nomedoshopping, produtos: req.session.produtos});
+					res.render("home/index", {banners:[], shopping:nomedoshopping, produtos: lista_produtos});
 				});	
 		
 			}).catch(function (erro){
-				res.render("home/index", {banners:[], shopping:'', produtos: req.session.produtos});
+				res.render("home/index", {banners:[], shopping:'', produtos: []});
 			});		
 			
 		}

@@ -4,13 +4,15 @@ var api = new webservice();
 module.exports = function (app){
 	
 	app.get("/produtos", function(req,res){
-		var marcas = app.get('marcas');
-		var categorias = app.get('categorias');
-		var consulta = api.list().then(function (resultados) {
-			res.render("produtos/index", {resultados:resultados, categorias: categorias, marcas: marcas});
-		}).catch(function (erro){
-			res.render("produtos/index", {resultados:{}, categorias:{},marcas:{}});
-		});
+		//var marcas = app.get('marcas');
+		//var categorias = app.get('categorias');
+		//var marcas = [];
+		//var categorias = [];
+		//var consulta = api.list().then(function (resultados) {
+		//	res.render("produtos/index", {resultados:resultados, categorias: categorias, marcas: marcas});
+		//}).catch(function (erro){
+		//	res.render("produtos/index", {resultados:{}, categorias:{},marcas:{}});
+		//});
 		
 	});
 	app.post("/produtos", function(req,res){
@@ -19,33 +21,37 @@ module.exports = function (app){
 	});
 	
 	//Alteracao
+	//DOMINGO
 	app.get("/produtos/:nomedoproduto", function(req,res){
 		//Apenas para fins de testes!
 		var nomedoproduto = req.params.nomedoproduto;
-		req.session.produto_selecionado = nomedoproduto;
+		//req.session.produto_selecionado = nomedoproduto;
 		//var teste = {"id": "0","url_title": "", "desconto":"", "imagem":"", "marca":"", "produto":"", "de":"", "por": "", "shopping":""};
 		//for (index = 0; index < app.get("produtos").length; ++index) {
 		//	if (app.get("produtos")[index].url_title == nomedoproduto){
 		//		tmp = app.get("produtos")[index];
 		//	}
 		//}
-		
 		//var consulta = api.view(nomedoproduto).then(function (resultados) {
 		var consulta = api.viewGQL(nomedoproduto).then(function (resultados) {	
 			var tmp = resultados.dados;
 			//var teste = api.montarProduto(tmp);
 			var teste = api.montarProdutoGQL(resultados.dados);
 			var consulta2 = api.listGQLStore(resultados.dados.store.slug).then(function (resultados2) {	
-				var consulta3 = api.grupo(resultados.dados.group.slug).then(function (resultados3) {	
-					var tamanhos = api.montarAtributo(resultados3.dados.data, "TAMANHOS");
-					var cores = api.montarAtributo(resultados3.dados.data, "CORES");
+				//var consulta3 = api.grupo(resultados.dados.group.slug).then(function (resultados3) {	
+				
+					//var tamanhos = api.montarAtributo(resultados3.dados.data, "TAMANHOS");
+					//var cores = api.montarAtributo(resultados3.dados.data, "CORES");
+					var tamanhos = [];
+					var cores =  [];
 					
 					//var tmp_relacionados = [];
 					var tmp_relacionados = api.montarGQL(resultados2);
 					res.render("produtos/produto", {resultados:resultados, relacionados: tmp_relacionados, teste: teste, tamanhos: tamanhos, cores: cores});
-					}).catch(function (erro){
-						res.redirect("erro/500");
-					});
+				//}).catch(function (erro){
+				//	console.log('f');	
+				//	res.redirect("erro/500");
+				//});
 			}).catch(function (erro){
 				res.redirect("erro/500");
 			});

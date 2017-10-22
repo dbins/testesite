@@ -88,8 +88,8 @@ module.exports = function (app){
 			resposta_completa = resultados.dados;
 			//req.session.dados_temp = resultados.dados;
 			categorias_temp = resultados2.categorias;
-			req.session.dados_temp = resultados3.dados;
-			req.session.datas_temp = resultados4.dados;
+			//req.session.dados_temp = resultados3.dados;
+			//req.session.datas_temp = resultados4.dados;
 			
 			//res.render("cinema/index", {resultados:resultados.dados.data, categorias:resultados2.categorias});
 			res.render("cinema/index", {resultados:resultados3.dados, categorias:resultados2.categorias, banners: resultados3.dados});
@@ -98,80 +98,82 @@ module.exports = function (app){
 		});
 	});
 	
-	app.post("/cinema", function(req,res){
-		res.locals.csrfToken = req.csrfToken();
-		if (req.session.dados_temp.length>0){
-			if (categorias_temp.length>0){
+	//NAO VAI EXISTIR ESTA ROTA - O FILTRO VAI SER POR POST
+	//app.post("/cinema", function(req,res){
+		//res.locals.csrfToken = req.csrfToken();
+		//if (req.session.dados_temp.length>0){
+			//if (categorias_temp.length>0){
 				//Isso vai ser filtrado na API
 				//Filtrando manualmente para fins de teste de navegacao
 				
-				var results = [];
-				var index;
-				var entry;
+				//var results = [];
+				//var index;
+				//var entry;
 				
-				var nome_filme = req.body.filme;
-				nome_filme =nome_filme.toUpperCase();
-				var categoria_selecionada = req.body.categoria;
-				var data_selecionada = req.body.data;
+				//var nome_filme = req.body.filme;
+				//nome_filme =nome_filme.toUpperCase();
+				//var categoria_selecionada = req.body.categoria;
+				//var data_selecionada = req.body.data;
 				
-				if (data_selecionada != ""){
-					data_selecionada = data_selecionada.slice(0, -5);
-				}
+				//if (data_selecionada != ""){
+				//	data_selecionada = data_selecionada.slice(0, -5);
+				//}
 				
 				//Para trazer tudo se nao filtrar nada
-				if (nome_filme == ""){
-					if (categoria_selecionada ==""){
-						if (data_selecionada ==""){
-							results = req.session.dados_temp;
-						}
-					}	
-				}
+				//if (nome_filme == ""){
+				//	if (categoria_selecionada ==""){
+				//		if (data_selecionada ==""){
+				//			results = req.session.dados_temp;
+				//		}
+				//	}	
+				//}
 				
 				//Apenas para testes
-				for (index = 0; index < req.session.dados_temp.length; ++index) {
-					item = req.session.dados_temp[index];
+				//for (index = 0; index < req.session.dados_temp.length; ++index) {
+				//	item = req.session.dados_temp[index];
+				//	
+				//	if (nome_filme == ""){
+				//		//Nao faz nada	
+				//	} else {
+				//		if (item && item.title && item.title.toUpperCase().indexOf(nome_filme) !== -1) {
+				//			results.push(item);
+				//		}
+				//	}
+				//	
+				//	if (categoria_selecionada ==""){
+				//		//Nao faz nada
+				//	} else {
+				//		item.genres.forEach(function(obj2) {
+				//			if (obj2.indexOf(categoria_selecionada) !== -1){
+				//				results.push(item);
+				//			}
+				//		});
+				//	}
 					
-					if (nome_filme == ""){
-						//Nao faz nada	
-					} else {
-						if (item && item.title && item.title.toUpperCase().indexOf(nome_filme) !== -1) {
-							results.push(item);
-						}
-					}
+				//	if (data_selecionada == ""){
+				//		//Nao faz nada
+				//	} else {
+				//		req.session.datas_temp.forEach(function(obj2) {
+				//			if (obj2.dateFormatted == data_selecionada){
+				//				if (obj2.urlKey == item.urlKey){
+				//					results.push(item);
+				//				}
+				//			}
+				//		});
+				//	}
 					
-					if (categoria_selecionada ==""){
-						//Nao faz nada
-					} else {
-						item.genres.forEach(function(obj2) {
-							if (obj2.indexOf(categoria_selecionada) !== -1){
-								results.push(item);
-							}
-						});
-					}
-					
-					if (data_selecionada == ""){
-						//Nao faz nada
-					} else {
-						req.session.datas_temp.forEach(function(obj2) {
-							if (obj2.dateFormatted == data_selecionada){
-								if (obj2.urlKey == item.urlKey){
-									results.push(item);
-								}
-							}
-						});
-					}
-					
-				}
+				//}
 
-				res.render("cinema/index", {resultados:results, categorias:categorias_temp, banners:req.session.dados_temp});
-			} else {
-				res.status(500).redirect('/erro/500');
-			}
-		} else {
-			res.status(500).redirect('/erro/500');
-		}
+				//res.render("cinema/index", {resultados:results, categorias:categorias_temp, banners:req.session.dados_temp});
+			//} else {
+			//	res.status(500).redirect('/erro/500');
+			//}
+		//} else {
+		//	res.status(500).redirect('/erro/500');
+		//}
 		
-	});
+	//});
+	
 	app.get("/cinema/filme/:nomedofilme", function(req,res){
 		req.session.id_do_shopping_ingresso =  retornaIDIngresso(app.locals.shoppings, req.session.shopping);
 		var nomedofilme = req.params.nomedofilme;
@@ -190,7 +192,7 @@ module.exports = function (app){
 		}
 		
 		//var api = new webservice(req.session.shopping);
-		app.locals.id_do_shopping_ingresso =  retornaIDIngresso(app.locals.shoppings, req.session.shopping);
+		//app.locals.id_do_shopping_ingresso =  retornaIDIngresso(app.locals.shoppings, req.session.shopping);
 		var api_ingresso = new ingresso(req.session.id_do_shopping_ingresso);
 		
 		var consulta = api_ingresso.viewURL(nomedofilme).then(function (resultados) {
@@ -208,7 +210,7 @@ module.exports = function (app){
 						
 						var consulta2 = api_ingresso.emCartaz().then(function (resultados2) {	
 							var resultados3 = api_ingresso.filmesCartaz(resultados2.dados);
-							req.session.dados_temp = resultados3.dados;
+							//req.session.dados_temp = resultados3.dados;
 							
 							//api_ingresso.todasAsSessoesDoFilme(app.locals.shoppings, id_do_filme);
 							//api_ingresso.listFilme(1,1313);
@@ -233,13 +235,13 @@ module.exports = function (app){
 							  var novas_sessoes = api_ingresso.montarSessoes(tmp_array_itens, diasDeExibicao);
 							  //console.log(novas_sessoes);
 							  //Precisa tratar o retorno para imprimir as sessoes na view
-							  res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": req.session.dados_temp, datas: diasDeExibicao, sessoes: []});
+							  res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": resultados3.dados, datas: diasDeExibicao, sessoes: []});
 							  
 							}).catch((err) => {
 							//	//problema....
 							});
 							
-							//res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": req.session.dados_temp, datas: diasDeExibicao, sessoes: lista_sessoes.sessoes});
+							//res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": resultados3.dados, datas: diasDeExibicao, sessoes: lista_sessoes.sessoes});
 						}).catch(function (erro){
 							res.status(500).redirect('/erro/500');
 						});	

@@ -8,6 +8,7 @@ var servicoProdutoSales = require('./../servicos/salestransactionsproducts.js');
 var moment = require('moment');
 var objectid = require('objectid');
 var crypto = require('crypto');
+var servicoClearSale = require('./../servicos/clearsale.js');
 
 function retornaIDShopping(shoppings, shopping){
 	var retorno = 0;
@@ -225,6 +226,62 @@ module.exports = function (app){
 		var envioEmail = new servicoEmail();
 		envioEmail.finalizarCompra(req.session.cliente.email,{});
 		
+		
+		//Ao chegar nesta parte, a transacao foi autorizada e capturada
+		//Inserir o ClearSale aqui, ja que a captura nao vai ser na hora
+		var api_clearsale = new servicoClearSale();
+		var dadosCompra = [];
+		for (index = 0; index < req.session.carrinho.length; ++index) {
+			//Formato PAGARME
+			var tmp_item = {};
+			tmp_item.slug= req.session.carrinho[index].url_title;
+			tmp_item.product= req.session.carrinho[index].produto;
+			tmp_item.unity_price = FormataNumero(req.session.carrinho[index].por);
+			tmp_item.quantity = req.session.carrinho[index].qtde;
+			tmp_item.total_price = parseFloat(req.session.carrinho[index].total) * 1000;
+			dadosCompra.push(tmp_item);	
+		}		
+		var fingerprint = req.session.fingerprint;
+		var dados_pedido = {};
+		dados_pedido.numero_pedido = req.session.id_marketplace; //ID SALESTRANSACTION
+		dados_pedido.total = req.session.total_carrinho;
+		dados_pedido.parcelas = req.session.parcelas;
+		dados_pedido.tipo_pagamento = req.session.tipo_pagamento;
+		var dados_cliente = req.session.cliente;
+		
+		//Apenas para padronizar para os cadastros com problema.
+		if (dados_cliente.ddd){
+			if (dados_cliente.ddd  === undefined){
+				dados_cliente.ddd = "11";
+			}
+			if (dados_cliente.ddd  == 'undefined'){
+				dados_cliente.ddd = "11";
+			}
+			
+		}
+		if (dados_cliente.telefone){
+			if (dados_cliente.telefone  === undefined){
+				dados_cliente.telefone = "111111111";
+			}
+			if (dados_cliente.telefone  == 'undefined'){
+				dados_cliente.telefone = "111111111";
+			}
+		}
+		if (dados_cliente.aniversario){
+			if (dados_cliente.aniversario == null){ 
+				dados_cliente.aniversario = "1970-01-01";
+			}	
+			if (dados_cliente.aniversario.length === 0){
+				dados_cliente.aniversario = "1970-01-01";
+			}
+		} else {
+			dados_cliente.aniversario = "1970-01-01";
+		}
+		console.log(dados_cliente);
+		api_clearsale.sendOrders(dados_cliente, dadosCompra, fingerprint, dados_pedido);
+		//Precisa capturar o retorno....
+		
+		
 		req.session.carrinho = "";
 		req.session.total_carrinho = 0; 
 		//Gerar Token
@@ -280,9 +337,12 @@ module.exports = function (app){
 		var retorno =  0;
 		var token_pagarme = req.body.token;
 		var tipo_pagamento = req.body.tipo;
+		var identificador = req.body.identificador;
 		if (req.session.usuario){
 			//Gravar a transacao, guardar o token e redirecionar
 			req.session.pgtk = token_pagarme;
+			req.session.tipo_pagamento = tipo_pagamento; 
+			req.session.fingerprint = identificador;
 			retorno = 1;
 			
 			
@@ -387,6 +447,7 @@ module.exports = function (app){
 				//Somente volta resposta depois da captura!
 				req.session.ultima_transacao = resultados.dados.id;
 				transacao.transaction_id = resultados.dados.id; //ID NA PAGARME!
+				req.session.parcelas = resultados.dados.installments;
 				
 				//Gravar os itens
 				var apiProdutosVendas = new servicoProdutoSales(app.locals.token_api);
@@ -407,11 +468,15 @@ module.exports = function (app){
 					  var gravar_vendas = apiVendas.gravar(transacao).then(function (resultados) {
 						//NAO ESPERAR O RETORNO PORQUE E TESTE.
 						//ALINHAR O OPERACIONAL CORRETO DEPOIS!
+						//ID DO SALES TRANSACTION
+						req.session.id_marketplace = resultados.id;
+						return res.json(retorno);	
+						
 					   });
 					}).catch((err) => {
 						//problema....
 					});
-				return res.json(retorno);	
+				//return res.json(retorno);	
 			}).catch(function (erro){
 				return res.json(retorno);	
 			});
