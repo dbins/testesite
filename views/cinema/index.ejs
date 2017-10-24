@@ -28,7 +28,7 @@
         </div> <!--banner-->
    
    <div class="filtro fgrey" id="cinefilter">
-   	<form method="POST" action="" class="cinefilter"  autocomplete="off">
+   	<form class="cinefilter"  autocomplete="off">
     	<div>
         	<label>Data</label> 
             <input type="text" name="data" id="data" value="" placeholder="__/__/____" maxlength="10">            
@@ -54,7 +54,7 @@
         </div>
         
         <div>
-       	<button type="submit">Perto de você
+       	<button id="perto" type="button">Perto de você
         <img src="imagens/location.png" width="25" height="34">
         </button>
 		<input type="hidden" name="_csrf" value="<%= csrfToken %>">	
@@ -68,7 +68,7 @@
 		if (resultados.length>0){
 		resultados.forEach(function(resultado) { 
 		%>
-		 <a href="/cinema/filme/<%=resultado.urlKey%>" class="filmes"  data-nome="<%=resultado.title.toLowerCase()%>" data-categoria="<%=resultado.genres.toString().toLowerCase()%>">
+		 <a href="/cinema/filme/<%=resultado.urlKey%>" class="filmes"  data-nome="<%=resultado.title.toLowerCase()%>" data-categoria="<%=resultado.genres.toString().toLowerCase()%>" data-exibicao="<%=resultado.datas.toLowerCase()%>">
 			<img src="<%=resultado.images[0].url%>"  title="<%=resultado.title%>" width=200> 
 			<div class="fline"></div>
 			<p><%=resultado.title%></p>
@@ -97,13 +97,14 @@ $(document).ready(function(){
 	
 $(document).ready(function(){
 	$("#nomefilme").keyup(function(e){
+	  $("#data").val('');
 	  //var selectSize = $(this).val();
 	  //filter(selectSize);
 	  if (e.which !== 32) {
 	  var value = $(this).val();
 	  var noWhitespaceValue = value.replace(/\s+/g, '');
 	  var noWhitespaceCount = noWhitespaceValue.length;
-	  if (noWhitespaceCount > 4) {
+	  if (noWhitespaceCount > 3) {
 		  filter(value.toLowerCase());
 	  } else {
 		$('.filmes').show();
@@ -122,6 +123,19 @@ $('#categoria').on('change', function() {
   }
 });
 
+
+$("#data").blur(function(){
+    var value = $(this).val();
+	$('.filmes').show();
+	if (value=="" || value=="__/__/____"){
+		//
+	} else {
+	
+		filter3(value.split('/').join(''));
+		$('#perto').focus(); 
+	}
+});
+
 function filter(e) {
     var regex = new RegExp('\\b\\w*' + e + '\\w*\\b');
             $('.filmes').hide().filter(function () {
@@ -133,6 +147,13 @@ function filter2(e) {
     var regex = new RegExp('\\b\\w*' + e + '\\w*\\b');
             $('.filmes').hide().filter(function () {
         return regex.test($(this).data('categoria'))
+    }).show();
+}
+
+function filter3(e) {
+	var regex = new RegExp('\\b\\w*' + e + '\\w*\\b');
+            $('.filmes').hide().filter(function () {
+        return regex.test($(this).data('exibicao'))
     }).show();
 }
 

@@ -85,6 +85,23 @@ module.exports = function (app){
 			var resultados4 = api_ingresso.datas(resultados.dados);
 			
 			
+			
+			//Colando as datas na resposta :-)
+			for (index = 0; index < resultados3.dados.length; ++index) {
+				var tmp_datas=[];
+				item = resultados3.dados[index];
+				resultados4.dados.forEach(function(obj2) {
+					if (obj2.urlKey == item.urlKey){
+						var tmp_data_item = obj2.date.split("-").reverse().join("");
+						tmp_datas.push(tmp_data_item);
+					}
+				});
+				var string_datas = tmp_datas.join("|");
+				
+				resultados3.dados[index].datas = string_datas;
+			}
+			
+			
 			resposta_completa = resultados.dados;
 			//req.session.dados_temp = resultados.dados;
 			categorias_temp = resultados2.categorias;
