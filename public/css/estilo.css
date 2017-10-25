@@ -269,7 +269,7 @@ ul.dropdown2 li:hover > ul { visibility: visible; }
 /*=========================Produtos============================*/
 #produtos{ float:left; padding:30px 60px 0 60px; width:100%;}
 .prods{ float:left; width:25%; padding:5px; font-size:20px; color: #333333;  text-align:center; position:relative; min-height:500px;}
-.prods section{ padding:10px; }
+.prods section{ padding:10px; min-height:430px; }
 .prods section:hover{ background-color: #E5E5E5; text-decoration:underline}
 .prods section:hover img:nth-child(2){/* border-radius:50%;*/ width:100%; height:auto;}
 .prods h2{ font-size:14px; text-align:left; font-weight:normal; text-transform:uppercase}
@@ -279,8 +279,10 @@ ul.dropdown2 li:hover > ul { visibility: visible; }
 
 .shop{ font-size:14px; 	color: #881EA1; font-family: "Droid Sans"; text-align:left}
 .valor{ text-align:left}
-.valor span:nth-child(1){float:left; font-size:16px; width:100%; text-decoration: line-through;}
-.valor span:nth-child(2){font-size:18px;}
+.de{float:left; font-size:16px; width:100%; text-decoration: line-through;}
+.por{font-size:18px;}
+/*.valor span:nth-child(1){float:left; font-size:16px; width:100%; text-decoration: line-through;}
+.valor span:nth-child(2){font-size:18px;*/ 
 
 .favs{ float:left; width:100%; padding:5px; font-size:14px; z-index:1}
 .favs span:nth-child(1){float:left}

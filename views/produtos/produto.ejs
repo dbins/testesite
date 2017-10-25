@@ -8,12 +8,14 @@
     
   <article id="conteudo">
   	
+  
+  
     <!--------------------Galeria------------------------>
     <section class="detail">
        
         <div id="foto">
         	<div class="fleft">
-				<%
+                <%
 				for (i = 0; i < teste.imagens.length; i++) { 
 				%>
                 <a class="buttons"><img src="<%=teste.imagens[i]%>" class="img" id="foto<%=i%>"></a>
@@ -22,7 +24,7 @@
 				%>
             </div>
             <div class="fright">
-				<%
+            	<%
 				for (i = 0; i < teste.imagens.length; i++) { 
 				%>
             	<div class="galery foto<%=i%>"><img src="<%=teste.imagens[i]%>" class="img"></div>
@@ -47,12 +49,12 @@
 			<%
 			if (teste.de == teste.por) {
 			%>
-			<span>R$ <%=teste.por%></span>
+			<span class="por">R$ <%=teste.por%></span>
 			<%
 			} else {
 			%>
-           <span>De: R$ <%=teste.de%></span>
-           <span>Por: <%=teste.por%></span>
+           <span class="de">De: R$ <%=teste.de%></span>
+           <span class="por">Por: <%=teste.por%></span>
 		   <%
 		   }
 		   %>
@@ -60,25 +62,18 @@
          
          <div class="cor">
          	<span>Cor</span>
-			<%
-			for (i = 0; i < cores.length; i++) { 
-			%>
-            <a href="" class="colorBtn" style="background:<%=cores[i].cor%>" alt="<%=cores[i].nome%>" tooltip="<%=cores[i].nome%>"  data-produto="<%=tamanhos[i].slug%>"></a>
-			<%
-			}
-			%>
-            
+            <a href="" class="colorBtn" style="background:#F90"></a>
+            <a href="" class="colorBtn" style="background:#093"></a>
+            <a href="" class="colorBtn" style="background:#FF0"></a>
+            <a href="" class="colorBtn" style="background:#F60"></a>
          </div> 
          
          <div class="tamanho">
          	<span>Tamanho</span>
-			<%
-			for (i = 0; i < tamanhos.length; i++) { 
-			%>
-            <a href="" class="tamanhoBtn" data-produto="<%=tamanhos[i].slug%>"><%=tamanhos[i].tamanho%></a>
-			<%
-			}
-			%>
+            <a href="" class="tamanhoBtn">P</a>
+            <a href="" class="tamanhoBtn">M</a>
+            <a href="" class="tamanhoBtn">G</a>
+            <a href="" class="tamanhoBtn">GG</a>
          </div> 
    
          <div class="qtd">
@@ -88,8 +83,8 @@
             <a href="" id="plus">+</a>
          </div> 
      
-         <a id="btn_sacola" href="/carrinho/add/<%=teste.url_title%>/1" class="adicionar_sacola fancybox fancybox.iframe">Adicionar ao carrinho</a>
-		
+		 <a id="btn_sacola" href="/carrinho/add/<%=teste.url_title%>/1" class="adicionar_sacola fancybox fancybox.iframe">Adicionar ao carrinho</a>
+	
    </div><!--info-->
     
      <!---Descrição---->
@@ -192,13 +187,6 @@
   </article> <!--foto-->
 
  </div><!--full-->
- 
-<form method="post" name="frm" id="frmC" action="/carrinho/add">	
-	<input type="hidden" name="produto" value="<%=teste.url_title%>">		
-	<input type="hidden" name="quantidade" id="qtde" value="1">
-	<input type="hidden" name="_csrf" value="<%= csrfToken %>">	
-</form>
- 
 <script type="text/javascript">
 	$(function(){
 		$("#plus").click(function(event) {
@@ -206,15 +194,7 @@
 		   if ((parseInt($("#quantidade").val())+1) - parseInt(<%=teste.estoque%>)){
 			$('#quantidade').val(parseInt($("#quantidade").val())+1);	
 		   }
-		   $('#qtde').val($('#quantidade').val());
 		   $('#btn_sacola').attr('href', '/carrinho/add/<%=teste.url_title%>/' + $('#quantidade').val());
-		});
-		
-		$("#btn_sacola").click(function(event) {
-			event.preventDefault();
-		   $('#frmC').submit(function( event ) {
-			  //alert( "Handler for .submit() called." );
-			});	
 		});
 		
 		$("#minus").click(function(event) {
@@ -222,39 +202,15 @@
 		   if (parseInt($("#quantidade").val()) > 1){
 				$('#quantidade').val(parseInt($("#quantidade").val())-1);	
 		   }
-		   $('#qtde').val($('#quantidade').val());
-		    $('#btn_sacola').attr('href', '/carrinho/add/<%=teste.url_title%>/' + $('#quantidade').val());
+		   $('#btn_sacola').attr('href', '/carrinho/add/<%=teste.url_title%>/' + $('#quantidade').val());
 		});
 		
 		$(".colorBtn").click(function(event) {
 			event.preventDefault();
-			$('#btn_sacola').attr('href', '/carrinho/add/' + $(this).attr("data-produto") + '/' + $('#quantidade').val());
 		});
 		$(".tamanhoBtn").click(function(event) {
 			event.preventDefault();
-			 $('#btn_sacola').attr('href', '/carrinho/add/' + $(this).attr("data-produto") + '/' + $('#quantidade').val());
 		});
-		
-		$('#btn_sacola2').click( function(event) {
-			event.preventDefault();
-			$.ajax({
-				url: '/carrinho/add',
-				type: 'post',
-				data: $('#frmC').serialize(),
-				success: function(data) {
-					$.fancybox({
-						type : 'iframe',
-						width: '100%',
-						padding : 0,
-						content: data,
-						afterClose: function() {
-							location.reload();
-						}
-					});
-				}
-			});
-		});
-		
 		
 	});
 </script>	
@@ -263,4 +219,3 @@ csdm('app', '9d416234de');
 csdm('mode', 'manual');
 csdm('send', 'product','name=<%=teste.produto%>');
 </script>
-

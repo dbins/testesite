@@ -114,12 +114,12 @@
 				<%
 				if (produto.de == produto.por) {
 				%>
-				<span>R$ <%=produto.por%></span>
+				<span class="por">R$ <%=produto.por%></span>
 				<%
 				} else {
 				%>
-            	<span>De R$ <%=produto.de%></span>
-                <span>Por R$ <%=produto.por%></span>
+            	<span class="de">De R$ <%=produto.de%></span>
+                <span class="por">Por R$ <%=produto.por%></span>
 				<%
 				}
 				%>

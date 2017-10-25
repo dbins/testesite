@@ -82,12 +82,12 @@
 				<%
 				if (produto.price_start == produto.price_end){
 				%>
-            	<span>De R$ <%=produto.price_start%></span>
-                <span>Por <%=produto.price_end%></span>
+            	<span class="de">De R$ <%=produto.price_start%></span>
+                <span class="por">Por <%=produto.price_end%></span>
 				<%
 				} else {
 				%>
-				<span>R$ <%=produto.price%></span>
+				<span class="por">R$ <%=produto.price%></span>
 				<%
 				}
 				%>

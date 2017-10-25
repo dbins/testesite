@@ -15,7 +15,7 @@
 		<script src="/js/jquery.maskedinput.2015.js"></script>
 		
 		<script type="text/javascript">
-		function validar_cliente(CPF){
+	/*	function validar_cliente(CPF){
 			var tmp_CPF = CPF;
 			if (!tmp_CPF==""){
 				tmp_CPF = tmp_CPF.replace(".", "");
@@ -86,7 +86,7 @@
 				  }
 			   });
 		   }
-		}  
+		}  */
 		</script>
 		
 	</head>
@@ -170,7 +170,7 @@
 			<h1>Sou cliente</h1> 
 
           <div class="campos100">
-          	<input type="text" value="" placeholder="cpf" id="Login" name="CPF" maxlength="14" onKeyPress="return isNumberKey(event);">
+          	<input type="text" value="" placeholder="cpf"  id="Login" name="CPF" maxlength="14" onKeyPress="return isNumberKey(event);">
           </div>
 
           <div class="campos100">
@@ -299,7 +299,7 @@
         </div>
 
 
-			<input type="submit" id="btn_submit" value=" Cadastrar " disabled="true"> 
+			<input type="submit" id="btn_submit" value=" Cadastrar "> 
 			<input type="hidden" name="_csrf" value="<%= csrfToken %>">	
 			
         </form>       
@@ -313,7 +313,6 @@
 
 <script>
 $(document).ready(function() {
-
   $("#CPF").mask("999.999.999-99");	
   $("#CPF2").mask("999.999.999-99");	
   $("#Login").mask("999.999.999-99");

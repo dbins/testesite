@@ -3,7 +3,7 @@ const rp = require('request-promise');
 //2017-10-22 - O MODEL NAO POSSUI O CAMPO GROUP
 
 var produtosAPI = function (shopping_selecionado) {
-	this.url = "https://concierge-api-v1.herokuapp.com";
+	this.url = "https://api.onstores.com.br";
 	this.pagina = 1;
 	this.paginas = 0;
 	this.limite = 10;
@@ -410,7 +410,6 @@ produtosAPI.prototype.search = function(produto){
          'Content-Type': 'application/json'
 		}
 	}
-	
 	
 	return rp(opcoes).then((data, res) => {
 		var tmp = JSON.parse(data);

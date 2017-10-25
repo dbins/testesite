@@ -140,12 +140,12 @@
 					<%
 					if (resultado.de == resultado.por) {
 					%>
-					<span>R$ <%=resultado.por%></span>
+					<span class="por">R$ <%=resultado.por%></span>
 					<%
 					} else {
 					%>
-                    <span>De R$ <%=resultado.de%></span>
-					<span>Por <%=resultado.por%></span>
+                    <span class="de">De R$ <%=resultado.de%></span>
+					<span class="por">Por <%=resultado.por%></span>
 					<%
 					}
 					%>
@@ -177,7 +177,6 @@
 				<%
 				}
 				%>
-				
                 <input type="text" value=" <%=resultado.qtde%> " maxlength="2" readonly=readonly>
 
                 <a href="/carrinho/altera/<%=resultado.id%>/<%=parseInt(resultado.qtde)+1%>">+</a>
