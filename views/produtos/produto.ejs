@@ -2,7 +2,11 @@
 <% block("title", "ON Market Place | Loja On line | " + teste.produto); -%>
 <style type="text/css">
 .adicionar_sacola {	background-color: #9966CC; padding:10px 120px;   margin-top:5%; float:right; color:#fff; border:none; 	font-size: 18px;  height:60px;	font-style: italic; 	font-weight: bold; 	font-family: Lora;}
-
+.borderClass{
+  border-color: #C1E0FF;
+  border-width:2px;
+  border-style: solid;
+}
 </style>
  <div class="full">
     
@@ -44,7 +48,6 @@
         <h1><%=teste.produto%>
         <div class="pline"></div>
         </h1>   
-        
         <div class="preco">
 			<%
 			if (teste.de == teste.por) {
@@ -62,18 +65,25 @@
          
          <div class="cor">
          	<span>Cor</span>
-            <a href="" class="colorBtn" style="background:#F90"></a>
-            <a href="" class="colorBtn" style="background:#093"></a>
-            <a href="" class="colorBtn" style="background:#FF0"></a>
-            <a href="" class="colorBtn" style="background:#F60"></a>
+            <%
+ 			for (i = 0; i < cores.length; i++) { 
+ 			%>
+             <a href="" class="colorBtn" data-cor="<%=tamanhos[i].cor%>" style="background:<%=cores[i].cor%>"><%=cores[i].cor%></a>
+ 			<%
+ 			}
+ 			%>
          </div> 
          
          <div class="tamanho">
          	<span>Tamanho</span>
-            <a href="" class="tamanhoBtn">P</a>
-            <a href="" class="tamanhoBtn">M</a>
-            <a href="" class="tamanhoBtn">G</a>
-            <a href="" class="tamanhoBtn">GG</a>
+           <%
+ 			for (i = 0; i < tamanhos.length; i++) { 
+ 			%>
+             <a href="" class="tamanhoBtn" data-produto="<%=tamanhos[i].slug%>" data-cor="<%=tamanhos[i].cor%>" data-tamanho="<%=tamanhos[i].tamanho%>" style="display:none"><%=tamanhos[i].tamanho%></a> 
+ 			<%
+ 			}
+ 			%>
+			<div id="aviso_tamanho" style="display:none">Por favor selecione a cor desejada</div>
          </div> 
    
          <div class="qtd">
@@ -207,13 +217,42 @@
 		
 		$(".colorBtn").click(function(event) {
 			event.preventDefault();
+			$('#aviso_tamanho').hide();
+			var selected = $(this).attr("data-cor");
+			$('.tamanhoBtn').hide();
+			$('.tamanhoBtn[data-cor=' + selected + ']').show();
+			$(".colorBtn").removeClass('borderClass');
+			$(this).addClass('borderClass'); 
+			
 		});
 		$(".tamanhoBtn").click(function(event) {
 			event.preventDefault();
+			$('.tamanhoBtn').css("background-color", "black");
+			$(this).css("background-color", "red");
+			$('#btn_sacola').attr('href', '/carrinho/add/' + $(this).attr("data-produto") + '/' + $('#quantidade').val());
 		});
+		
+		<%
+		if (teste.cor != null){
+		%>
+			$('.colorBtn[data-cor="<%=teste.cor%>"]').click();
+		<%
+			if (teste.tamanho != null){
+				if (teste.tamanho != ''){
+		%>	
+				$('.tamanhoBtn[data-tamanho="<%=teste.tamanho%>"]').click();
+		<%		
+				}
+			}
+		}
+		%>
+
 		
 	});
 </script>	
+
+
+
 <script> (function (a, b, c, d, e, f, g) { a['CsdmObject'] = e; a[e] = a[e] || function () { (a[e].q = a[e].q || []).push(arguments) }, a[e].l = 1 * new Date(); f = b.createElement(c), g = b.getElementsByTagName(c)[0]; f.async = 1; f.src = d; g.parentNode.insertBefore(f, g) })(window, document, 'script', '//device.clearsale.com.br/m/cs.js', 'csdm'); 
 csdm('app', '9d416234de'); 
 csdm('mode', 'manual');

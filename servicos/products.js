@@ -113,10 +113,11 @@ produtosAPI.prototype.view = function(registro){
 produtosAPI.prototype.listGQL = function(){
 	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
+	const q_parent  = `parent{slug}`;
     // const q_group = `group{slug name}`;
 	const q_group = '';
     const q_images= `images{path, type, order}`;
-	var query = `query={products{ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_images}}}`;
+	var query = `query={products{ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_parent}  ${q_images}}}`;
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -139,7 +140,7 @@ produtosAPI.prototype.listGQL = function(){
 produtosAPI.prototype.viewGQL = function(registro){
 	
 	//var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price store{slug, real_name, fantasy_name, floor, title, category{slug,name}} mall{_id, slug, domain, name}  images{path, type, order} group{slug,name}}}';
-	var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price store{slug, real_name, fantasy_name, floor, title, category{slug,name}} mall{_id, slug, domain, name}  images{path, type, order}}}';
+	var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price color size store{slug, real_name, fantasy_name, floor, title, category{slug,name}} mall{_id, slug, domain, name} parent{slug} images{path, type, order}}}';
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -206,11 +207,10 @@ produtosAPI.prototype.montar = function(resultados){
 produtosAPI.prototype.montarGQL = function(resultados){
 	var retorno = [];
 	var tmp = resultados.dados;
-	
 	tmp.forEach(function(obj) {
+		
 		var nome_do_Shopping = obj.mall.name;
 		var nome_da_Loja = obj.store.real_name||obj.store.title||obj.store.fantasy_name;
-		
 		var preco_inicial = 0;
 		var preco_final = 0;
 		if (obj.price_start){
@@ -232,8 +232,15 @@ produtosAPI.prototype.montarGQL = function(resultados){
 		if (obj.store.category.slug){
 			categoria = obj.store.category.slug;
 		}
-		
-		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": "", "cor": "", "categoria": categoria};
+		var cor = "";
+		var tamanho = "";
+		if (obj.color){
+			cor = obj.color;
+		}
+		if (obj.size){
+			tamanho = obj.size;
+		}
+		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "categoria": categoria};
 		retorno.push(item);
 		
 	});
@@ -342,10 +349,11 @@ produtosAPI.prototype.segmento = function(segmento){
 produtosAPI.prototype.listGQLStore = function(store){
 	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
+	const q_parent  = `parent{slug}`;
     //const q_group = `group{slug name}`;
 	const q_group = '';
     const q_images= `images{path, type, order}`;
-	var query = `query={products(store: "` + store + `"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_images}}}`;
+	var query = `query={products(store: "` + store + `"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group}${q_parent}   ${q_images}}}`;
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -370,10 +378,11 @@ produtosAPI.prototype.listGQLStore = function(store){
 produtosAPI.prototype.listGQLSegment = function(segment){
 	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
+	const q_parent  = `parent{slug}`;
     //const q_group = `group{slug name}`;
 	const q_group = '';
     const q_images= `images{path, type, order}`;
-	var query = `query={products(segments: ["` + segment + `"]){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_images}}}`;
+	var query = `query={products(segments: ["` + segment + `"]){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_parent}  ${q_images}}}`;
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -396,12 +405,16 @@ produtosAPI.prototype.listGQLSegment = function(segment){
 
 
 produtosAPI.prototype.search = function(produto){
-	const q_store = `store{slug, real_name, fantasy_name, floor, title}`;
+	const q_store = `store{slug, real_name, fantasy_name, floor, title, category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
+	const q_parent  = `parent{slug}`;
     //const q_group = `group{slug name}`;
 	const q_group = '';
     const q_images= `images{path, type, order}`;
-	var query = `query={products(name: "/` + produto + `/"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_images}}}`;
+	var query = `query={products(name: "/` + produto + `/"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_parent} ${q_images}}}`;
+	
+	
+	
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -447,34 +460,98 @@ produtosAPI.prototype.grupo = function(grupo){
 produtosAPI.prototype.montarAtributo = function(resultados, tipo){
 	var retorno = [];
 	var imagens = ["/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg"];
-	resultados.forEach(function(obj) {
+	
+	if (Array.isArray(resultados)){
+		resultados.forEach(function(obj) {
+			var preco_inicial = 0;
+			var preco_final = 0;
+			if (obj.price_start){
+				if (obj.price_final){
+					preco_inicial = parseFloat(obj.price_start/100).toFixed(2);
+					preco_final = parseFloat(obj.price_final/100).toFixed(2);
+				}
+			} else {
+				preco_inicial = parseFloat(obj.price/100).toFixed(2);
+				preco_final = parseFloat(obj.price/100).toFixed(2);
+			}
+			for (i = 0; i < obj.images.length; i++) { 
+				imagens[i] = obj.images[i].path;	
+			}
+			if (tipo == "TAMANHOS"){
+				var atributo = {"atributo": "TAMANHO", "tamanho":obj.size, "cor":obj.color, "estoque": obj.stock, "slug": obj.slug, "nome": obj.name, "de":preco_inicial, "por": preco_final, "imagens": imagens};
+				retorno.push(atributo);
+			}
+			//A cor vai ser a chave para selecionar os produtos vinculados!
+			if (tipo == "CORES"){
+				//var atributo = {"atributo": "COR", "tamanho":obj.size, "cor":obj.color, "estoque": obj.stock, "slug": obj.slug, "nome": obj.name, "de":preco_inicial, "por": preco_final, "imagens": imagens};
+				var atributo = {"atributo": "COR", "cor":obj.color};
+				var existe = false;
+				for (i = 0; i < retorno.length; i++) { 
+					if (retorno[i].cor==obj.color){
+						existe = true;
+					}
+				}
+				if (!existe){
+					retorno.push(atributo);
+				}
+			}
+		});
+	} else {
 		var preco_inicial = 0;
 		var preco_final = 0;
-		if (obj.price_start){
-			if (obj.price_final){
-				preco_inicial = parseFloat(obj.price_start/100).toFixed(2);
-				preco_final = parseFloat(obj.price_final/100).toFixed(2);
+		if (resultados.price_start){
+			if (resultados.price_final){
+				preco_inicial = parseFloat(resultados.price_start/100).toFixed(2);
+				preco_final = parseFloat(resultados.price_final/100).toFixed(2);
 			}
 		} else {
-			preco_inicial = parseFloat(obj.price/100).toFixed(2);
-			preco_final = parseFloat(obj.price/100).toFixed(2);
+			preco_inicial = parseFloat(resultados.price/100).toFixed(2);
+			preco_final = parseFloat(resultados.price/100).toFixed(2);
 		}
-		
+		for (i = 0; i < resultados.images.length; i++) { 
+			imagens[i] = resultados.images[i].path;	
+		}
 		if (tipo == "TAMANHOS"){
-			var atributo = {"atributo": "TAMANHO", "tamanho":obj.size_letters, "cor":obj.color, "estoque": obj.stock, "slug": obj.slug, "nome": obj.name, "de":preco_inicial, "por": preco_final, "imagens": imagens};
+			var atributo = {"atributo": "TAMANHO", "tamanho":resultados.size, "cor":resultados.color, "estoque": resultados.stock, "slug": resultados.slug, "nome": resultados.name, "de":preco_inicial, "por": preco_final, "imagens": imagens};
 			retorno.push(atributo);
 		}
+		//A cor vai ser a chave para selecionar os produtos vinculados!
 		if (tipo == "CORES"){
-			var atributo = {"atributo": "COR", "tamanho":obj.size_letters, "cor":obj.color, "estoque": obj.stock, "slug": obj.slug, "nome": obj.name, "de":preco_inicial, "por": preco_final, "imagens": imagens};
+			var atributo = {"atributo": "COR", "cor":resultados.color};
 			retorno.push(atributo);
 		}
-	});
+	};
 	return retorno;
 }
 
 
 
-
+produtosAPI.prototype.variation = function(produto){
+		
+	const q_store = `store{slug, real_name, fantasy_name, floor, title}`;
+	const q_mall  = `mall{_id, slug, domain, name}`;
+	const q_parent  = `parent{slug}`;
+    const q_images= `images{path, type, order}`;
+	var query = `query={products(parent: "/` + produto + `/"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price color size ${q_store} ${q_mall} ${q_parent}  ${q_images}}}`;
+	var resposta = "";
+	var opcoes = {  
+	    method: 'GET',
+		uri: this.url + "/graphql?" + query,
+		headers: {
+         'Content-Type': 'application/json'
+		}
+	}
+	
+	return rp(opcoes).then((data, res) => {
+		var tmp = JSON.parse(data);
+		resposta = {"resultado":"OK", "dados": tmp.data.products, "status": "OK"};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+		return resposta;
+	});
+	
+}
 
 module.exports = produtosAPI;
 

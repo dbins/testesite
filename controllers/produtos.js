@@ -37,26 +37,36 @@ module.exports = function (app){
 			var tmp = resultados.dados;
 			//var teste = api.montarProduto(tmp);
 			var teste = api.montarProdutoGQL(resultados.dados);
-			var consulta2 = api.listGQLStore(resultados.dados.store.slug).then(function (resultados2) {	
-				//var consulta3 = api.grupo(resultados.dados.group.slug).then(function (resultados3) {	
-				
-					//var tamanhos = api.montarAtributo(resultados3.dados.data, "TAMANHOS");
-					//var cores = api.montarAtributo(resultados3.dados.data, "CORES");
-					var tamanhos = [];
-					var cores =  [];
+			var consulta2 = api.listGQLStore(resultados.dados.store.slug).then(function (resultados2) {
+				var produto_pai = 'no_product';
+				if (resultados.dados.parent === undefined || resultados.dados.parent === null){
+					//Nao existe vinculo
+				} else{
+					produto_pai = resultados.dados.parent.slug;
+				}
+				var consulta3 = api.variation(produto_pai).then(function (resultados3) {	
+					//console.log(resultados3);
+					var tamanhos = api.montarAtributo(resultados3.dados, "TAMANHOS");
+					var cores = api.montarAtributo(resultados3.dados, "CORES");
+					
+					if (tamanhos.length==0){
+						tamanhos = api.montarAtributo(resultados.dados, "TAMANHOS");
+					}
+					if (cores.length==0){
+						cores = api.montarAtributo(resultados.dados, "CORES");
+					}
 					
 					//var tmp_relacionados = [];
 					var tmp_relacionados = api.montarGQL(resultados2);
 					res.render("produtos/produto", {resultados:resultados, relacionados: tmp_relacionados, teste: teste, tamanhos: tamanhos, cores: cores});
-				//}).catch(function (erro){
-				//	console.log('f');	
-				//	res.redirect("erro/500");
-				//});
+				}).catch(function (erro){
+					res.redirect("/erro/500");
+				});
 			}).catch(function (erro){
-				res.redirect("erro/500");
+				res.redirect("/erro/500");
 			});
 		}).catch(function (erro){
-			res.redirect("erro/500");
+			res.redirect("/erro/500");
 		});
 	});
 	
