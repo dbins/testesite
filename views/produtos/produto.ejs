@@ -68,7 +68,7 @@
             <%
  			for (i = 0; i < cores.length; i++) { 
  			%>
-             <a href="" class="colorBtn" data-cor="<%=tamanhos[i].cor%>" style="background:<%=cores[i].cor%>"><%=cores[i].cor%></a>
+             <a href="" class="colorBtn" data-cor="<%=tamanhos[i].cor%>" style="background:<%=cores[i].cor%>">&nbsp;</a>
  			<%
  			}
  			%>
@@ -197,6 +197,7 @@
   </article> <!--foto-->
 
  </div><!--full-->
+ <script src="/js/colorpicker/eight-bit-color-picker.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$("#plus").click(function(event) {
@@ -246,7 +247,10 @@
 			}
 		}
 		%>
-
+		const colors = EightBitColorPicker.getDefaultPalette();
+		$('.colorBtn').each(function(){
+			$(this).css('background-color', colors[parseInt($(this).attr("data-cor"))]);
+		});
 		
 	});
 </script>	

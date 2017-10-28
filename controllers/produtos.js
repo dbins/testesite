@@ -41,11 +41,11 @@ module.exports = function (app){
 				var produto_pai = 'no_product';
 				if (resultados.dados.parent === undefined || resultados.dados.parent === null){
 					//Nao existe vinculo
+					produto_pai = resultados.dados.slug;
 				} else{
 					produto_pai = resultados.dados.parent.slug;
 				}
 				var consulta3 = api.variation(produto_pai).then(function (resultados3) {	
-					//console.log(resultados3);
 					var tamanhos = api.montarAtributo(resultados3.dados, "TAMANHOS");
 					var cores = api.montarAtributo(resultados3.dados, "CORES");
 					
@@ -55,7 +55,6 @@ module.exports = function (app){
 					if (cores.length==0){
 						cores = api.montarAtributo(resultados.dados, "CORES");
 					}
-					
 					//var tmp_relacionados = [];
 					var tmp_relacionados = api.montarGQL(resultados2);
 					res.render("produtos/produto", {resultados:resultados, relacionados: tmp_relacionados, teste: teste, tamanhos: tamanhos, cores: cores});

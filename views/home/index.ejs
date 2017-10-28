@@ -163,60 +163,28 @@
          
 		<% if (shopping == ''){ %>
 		
-		<h5 class="titles">
-        	<span class="twhite">Shoppings</span>
-        </h5>
-        <p class="sub-title"> simplesmente uma simulação de texto da indústria tipográfica e de impressos,
-         e vem sendo utilizado desde o século XVI
-		</p>
+			
+			<h5 class="titles">
+				<span class="twhite">Shoppings</span>
+			</h5>
+			<p class="sub-title"> simplesmente uma simulação de texto da indústria tipográfica e de impressos,
+			 e vem sendo utilizado desde o século XVI
+			</p>
 		
-		<a href="/home/shopping_cidade_sao_paulo" class="mall">
-         	<div>
-            	<span class="purple"></span>
-   	     		<img src="/imagens/foto-shopping-cidadesp.png" class="img" title="Shopping Cidade São Paulo">
-                <p>Cidade<br> São Paulo</p>
-       		</div>	
-      	</a>
-		
-		<a href="" class="mall">
-         	<div>
-            	<span class="purple"></span>
-   	     		<img src="/imagens/foto-shopping-tiete.png" class="img" title="Tiete Plaza Shopping">
-                <p> Tiete <br>Plaza</p>
-       		</div>	
-      	</a>
-		
-		<a href="#" class="mall">
-         	<div>
-            	<span class="purple"></span>
-   	     		<img src="/imagens/foto-shopping-granplaza.png" class="img" title="Shopping Gran Plaza">
-                <p> Grand<br>Plaza</p>
-       		</div>	
-      	</a>
-		
-		<a href="" class="mall">
-         	<div>
-            	<span class="purple"></span>
-   	     		<img src="/imagens/foto-shopping-d.png" class="img" title="Shopping D">
-                <p>Shopping D</p>
-       		</div>	
-      	</a>
-		
-		<a href="" class="mall">
-         	<div>
-            	<span class="purple"></span>
-   	     		<img src="/imagens/foto-shopping-cerrado.png" class="img" title="Shopping Cerrado">
-                <p>Shopping Cerrado</p>
-       		</div>	
-      	</a>
-		
-		<a href="" class="mall">
-         	<div>
-            	<span class="purple"></span>
-   	     		<img src="/imagens/foto-shopping-cidadesp.png" class="img" title="Shopping Metropolitano da Barra">
-                <p>Metropolitano <br> da Barra</p>
-       		</div>	
-      	</a>
+			<% 
+			var contador = 0;
+			shoppings.forEach(function(resultado) { %>
+			<a href="/home/<%=resultado.url_title%>" class="mall">
+				<div>
+					<span class="purple"></span>
+					<img src="/imagens/<%=imagens_shopping[contador]%>" class="img" title="<%=resultado.title%>">
+					<p><%=resultado.title%></p>
+				</div>	
+			</a>
+			<% 
+			contador++;
+			}); 
+			%>
 		
 		<%	} 	else {	%>
 		
@@ -300,17 +268,7 @@
 		
 		
 		
-		<!--
-		<% shoppings.forEach(function(resultado) { %>
-      	<a href="/informacoes/<%=resultado.url_title%>" class="mall">
-         	<div>
-            	<span class="purple"></span>
-   	     		<img src="/imagens/teste.jpg" class="img" title="<%=resultado.title%>">
-                <p><%=resultado.title%></p>
-       		</div>	
-      	</a>
-		<% }); %>
-		-->
+	
          
     </div><!--full-->
 </article>

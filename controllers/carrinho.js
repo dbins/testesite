@@ -148,8 +148,12 @@ module.exports = function (app){
 	
 	app.get("/carrinho/remove/:iddocarrinho", function(req,res){
 		var iddocarrinho = req.params.iddocarrinho;
-		var index = req.session.carrinho.indexOf(iddocarrinho);
-		req.session.carrinho.splice(index, 1);
+		//var index = req.session.carrinho.indexOf(iddocarrinho);
+		for (index = 0; index < req.session.carrinho.length; ++index) {
+			if (req.session.carrinho[index].id == iddocarrinho){
+				req.session.carrinho.splice(index, 1);		
+			}
+		}	
 		res.redirect("/carrinho");
 	});
 	app.get("/carrinho/altera/:iddocarrinho/:qtde", function(req,res){

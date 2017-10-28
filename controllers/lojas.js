@@ -33,7 +33,7 @@ module.exports = function (app){
 	app.get("/lojas", function(req,res){
 		res.locals.csrfToken = req.csrfToken();
 		//var api = new webservice(req.session.shopping);
-		var api = new webservice("");
+		var api = new webservice(req.session.shopping);
 		var api_categorias = new webservice_categorias();
 		var consulta = api.list().then(function (resultados) {
 			var consulta2 = api_categorias.All().then(function (resultados2) {
@@ -77,7 +77,7 @@ module.exports = function (app){
 	
 	//AQUI TEVE ALTERACAO
 	app.get("/lojas/loja-online", function(req,res){
-		var api_produtos = new webservice_produtos('');
+		var api_produtos = new webservice_produtos(req.session.shopping);
 		var api_categorias = new webservice_categorias();
 		//var consulta = api_produtos.list().then(function (resultados) {
 		var consulta = api_produtos.listGQL().then(function (resultados) {
@@ -99,7 +99,7 @@ module.exports = function (app){
 	
 	app.get("/lojas/loja-online/:segmento", function(req,res){
 		var segmento = req.params.segmento;
-		var api_produtos = new webservice_produtos('');
+		var api_produtos = new webservice_produtos(req.session.shopping);
 		//var consulta = api_produtos.segmento(segmento).then(function (resultados) {
 		var consulta = api_produtos.listGQLSegment(segmento).then(function (resultados) {
 			//dados = api_produtos.montar(resultados.dados.data);
@@ -119,7 +119,7 @@ module.exports = function (app){
 	
 	app.post("/lojas/loja-online/:segmento", function(req,res){
 		var segmento = req.params.segmento;
-		var api_produtos = new webservice_produtos('');
+		var api_produtos = new webservice_produtos(req.session.shopping);
 		var consulta = api_produtos.listGQLSegment(segmento).then(function (resultados) {
 			var categorias = ListarCategoriasMock();
 			//dados = api_produtos.montar(resultados.dados.data);
@@ -137,7 +137,7 @@ module.exports = function (app){
 			if (typeof resultados.dados.fantasy_name === undefined) {
 				res.status(500).redirect('/erro/500');
 			} else {
-				var api_produtos = new webservice_produtos('');
+				var api_produtos = new webservice_produtos(req.session.shopping);
 				//var consulta2 = api_produtos.list().then(function (resultados2) {
 				var consulta2 = api_produtos.listGQLStore(nomedaloja).then(function (resultados2) {	
 					//var produtos = api_produtos.montar(resultados2.dados.data);
