@@ -503,7 +503,6 @@ produtosAPI.prototype.montarAtributo = function(resultados, tipo){
 				if (tipo == "CORES"){
 					
 					if (obj.color != null && obj.color != ""){
-						console.log(obj.color);
 						//var atributo = {"atributo": "COR", "tamanho":obj.size, "cor":obj.color, "estoque": obj.stock, "slug": obj.slug, "nome": obj.name, "de":preco_inicial, "por": preco_final, "imagens": imagens};
 						var atributo = {"atributo": "COR", "cor":obj.color};
 						var existe = false;
@@ -574,14 +573,11 @@ produtosAPI.prototype.variation = function(produto){
          'Content-Type': 'application/json'
 		}
 	}
-	console.log(this.url + "/graphql?" + query);
 	return rp(opcoes).then((data, res) => {
-		console.log('a');
 		var tmp = JSON.parse(data);
 		resposta = {"resultado":"OK", "dados": tmp.data.products, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
-		console.log('b');
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
 		return resposta;
 	});

@@ -13,8 +13,6 @@ module.exports = function (app){
 		}
 		total = parseFloat(total).toFixed(2);
 		req.session.total_carrinho = req.session.carrinho.length;
-		console.log('estou no carrinho');
-		console.log(req.session.carrinho);
 		res.render("carrinho/index", {resultados:req.session.carrinho, total: total});
 	});
 	
@@ -27,7 +25,6 @@ module.exports = function (app){
 		var produto = req.body.produto;
 		var quantidade = 1;
 		if (req.body.quantidade){
-			console.log(req.body.quantidade);
 			if (!req.body.quantidade ==""){
 				quantidade = req.body.quantidade;
 			}

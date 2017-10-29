@@ -277,7 +277,6 @@ module.exports = function (app){
 		} else {
 			dados_cliente.aniversario = "1970-01-01";
 		}
-		console.log(dados_cliente);
 		api_clearsale.sendOrders(dados_cliente, dadosCompra, fingerprint, dados_pedido);
 		//Precisa capturar o retorno....
 		

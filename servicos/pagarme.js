@@ -162,6 +162,69 @@ pagarmeAPI.prototype.verTransacao = function(id_transacao){
 		//O erro sera tratado pela pagina que fez a chamada!
 	});
 }
+
+pagarmeAPI.prototype.montarSplitRules = function(carrinho){
+	var retorno = [];
+	var lojas = [];
+	//No endpoint de stores precisa ter o recipient_id do lojista
+	//No endpoint de stores precisa ter a informacao de qual o percentual da loja que vai ser retido por CCP (de 5,4%, 6% ou 6,4% no começo e 8% para os demais)
+	
+	for (index = 0; index < carrinho.length; ++index) {
+				
+		var tmp_item = {};
+		tmp_item.mall =  ""; //Atualizar programacao do carrinho
+		tmp_item.store = carrinho[index].loja;
+		tmp_item.total_price = parseFloat(carrinho[index].total) * 1000;
+		//Adicionar recipient_id e porcentagem a pagar ccp
+		
+		var novo = true;
+		//Verificar se ja adicionou aquela loja
+		for (z = 0; z < lojas.length; ++z) {
+			var tmp_loja = lojas[z]
+			if (tmp_loja.store == tmp_item.store && tmp_loja.mall == tmp_item.mall){
+				novo = false;
+				//Atualizar valor daquela loja
+				lojas[z].total_price = parseFloat(lojas[z].total_price) + parseFloat(tmp_item.total_price);
+			}
+		}
+		if (novo){
+			lojas.push(tmp_item);
+		}
+	}
+	//Pegar o total da compra para calcular valor CCP
+	//Tem que ser depois de montar o objeto já que cada lojista pode ter percentual diferente
+	//O total price da loja vai ter que ser reduzido e a diferenca vai entrar no total que vai para CCP
+	var total = 0;
+	for (index = 0; index < lojas.length; ++index) {
+		//Reduzir total_price de acordo com percentual lojista
+		total += parseFloat(lojas[index].total_price)
+	}
+	total = parseFloat(total) * 0.08;
+	
+	
+	//No exemplo abaixo apliquei 8% sobre tudo (NAO VAI SER ASSIM EM PRODUCAO)
+	var tmp_ccp = {
+		"recipient_id": "re_civb4o6zr003u3m6e8dezzja6",
+		"amount": total,
+		"liable": true, //indica se o recebedor atrelado assumirá os riscos de chargeback da transação
+		"charge_processing_fee": true //Vai pagar as taxas
+	};
+	retorno.push(tmp_ccp);
+	//Depois de adicionar a conta CCP, adicionar os demais lojistas
+	for (index = 0; index < lojas.length; ++index) {
+		var tmp_loja = lojas[index];
+		var tmp_pagarme = {
+			"recipient_id": "re_civb4o6zr003u3m6e8dezzja6", //Vira do endpoitn do lojista e vai estar dentro de carrinho
+			"amount": tmp_loja.total_price,
+			"liable": true, //indica se o recebedor atrelado assumirá os riscos de chargeback da transação
+			"charge_processing_fee": false //Vai pagar as taxas
+		};	
+		retorno.push(tmp_pagarme);
+	}
+	
+	//"split_rules":[items de split]
+	return retorno;
+}			
 	
 module.exports = pagarmeAPI;
 

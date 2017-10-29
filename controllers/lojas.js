@@ -107,7 +107,6 @@ module.exports = function (app){
 			var categorias = ListarCategoriasMock();
 			res.render("lojas/online", {produtos: dados, categorias: categorias});
 		}).catch(function (erro){
-			console.log(erro);
 			res.status(500).redirect('/erro/500');
 		});		
 	});
