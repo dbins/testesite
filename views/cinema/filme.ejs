@@ -167,27 +167,43 @@
 
                         <% 
 						if (sessoes[0]){
-						sessoes[0].rooms.forEach(function(resultado) { 
+						sessoes[0].shopping.forEach(function(resultado) { 
 						%>
 							<a href="" class="cine" target="_blank">
-                        	<p><%=resultado.name%></p>
+                        	<p><%=resultado.nome%></p>
 							<%
-							if (resultado.sessions){
-							resultado.sessions.forEach(function(resultado2) { 
-							%>	
-                            <span><%=resultado2.date.hour%></span>
-							<%
-							});
-							}
+							if (resultado.sessoes){
+							if (resultado.sessoes.length>0){
+							resultado.sessoes.forEach(function(resultado2) { 
+							if (resultado2.length>0){
+							resultado2.forEach(function(resultado3) { 
 							%>
-                            <div class="linecine"></div>
-
-							</a>
+							<p><%=resultado3.name%></p>
+							<%
+							resultado3.sessions.forEach(function(resultado4) { 
+							%>
+							<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
+							<%
+							});	
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							
+							%>
 						<%
+						} 
 						});
 						}
 						%>
-                       
 
                        	
 
@@ -203,25 +219,42 @@
 
                      <div id="cine2">
 
-                        <% 
+                       <% 
 						if (sessoes[1]){
-						sessoes[1].rooms.forEach(function(resultado) { 
+						sessoes[1].shopping.forEach(function(resultado) { 
 						%>
 							<a href="" class="cine" target="_blank">
-                        	<p><%=resultado.name%></p>
+                        	<p><%=resultado.nome%></p>
 							<%
-							if (resultado.sessions){
-							resultado.sessions.forEach(function(resultado2) { 
-							%>	
-                            <span><%=resultado2.date.hour%></span>
-							<%
-							});
-							}
+							if (resultado.sessoes){
+							if (resultado.sessoes.length>0){
+							resultado.sessoes.forEach(function(resultado2) { 
+							if (resultado2.length>0){
+							resultado2.forEach(function(resultado3) { 
 							%>
-                            <div class="linecine"></div>
-
-							</a>
+							<p><%=resultado3.name%></p>
+							<%
+							resultado3.sessions.forEach(function(resultado4) { 
+							%>
+							<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
+							<%
+							});	
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							
+							%>
 						<%
+						} 
 						});
 						}
 						%>
@@ -236,26 +269,44 @@
 
                     	<% 
 						if (sessoes[2]){
-						sessoes[2].rooms.forEach(function(resultado) { 
+						sessoes[2].shopping.forEach(function(resultado) { 
 						%>
 							<a href="" class="cine" target="_blank">
-                        	<p><%=resultado.name%></p>
+                        	<p><%=resultado.nome%></p>
 							<%
-							if (resultado.sessions){
-							resultado.sessions.forEach(function(resultado2) { 
-							%>	
-                            <span><%=resultado2.date.hour%></span>
-							<%
-							});
-							}
+							if (resultado.sessoes){
+							if (resultado.sessoes.length>0){
+							resultado.sessoes.forEach(function(resultado2) { 
+							if (resultado2.length>0){
+							resultado2.forEach(function(resultado3) { 
 							%>
-                            <div class="linecine"></div>
-
-							</a>
+							<p><%=resultado3.name%></p>
+							<%
+							resultado3.sessions.forEach(function(resultado4) { 
+							%>
+							<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
+							<%
+							});	
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							
+							%>
 						<%
+						} 
 						});
 						}
 						%>
+
 
                       </div>
 
@@ -265,26 +316,42 @@
 
                      <div id="cine4">
 
-                     
 						<% 
 						if (sessoes[3]){
-						sessoes[3].rooms.forEach(function(resultado) { 
+						sessoes[3].shopping.forEach(function(resultado) { 
 						%>
 							<a href="" class="cine" target="_blank">
-                        	<p><%=resultado.name%></p>
+                        	<p><%=resultado.nome%></p>
 							<%
-							if (resultado.sessions){
-							resultado.sessions.forEach(function(resultado2) { 
-							%>	
-                            <span><%=resultado2.date.hour%></span>
-							<%
-							});
-							}
+							if (resultado.sessoes){
+							if (resultado.sessoes.length>0){
+							resultado.sessoes.forEach(function(resultado2) { 
+							if (resultado2.length>0){
+							resultado2.forEach(function(resultado3) { 
 							%>
-                            <div class="linecine"></div>
-
-							</a>
+							<p><%=resultado3.name%></p>
+							<%
+							resultado3.sessions.forEach(function(resultado4) { 
+							%>
+							<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
+							<%
+							});	
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							
+							%>
 						<%
+						} 
 						});
 						}
 						%>
@@ -298,31 +365,46 @@
                      <div id="cine5">
 
                      
-
-                        	<% 
+						<% 
 						if (sessoes[4]){
-						sessoes[4].rooms.forEach(function(resultado) { 
+						sessoes[4].shopping.forEach(function(resultado) { 
 						%>
 							<a href="" class="cine" target="_blank">
-                        	<p><%=resultado.name%></p>
+                        	<p><%=resultado.nome%></p>
 							<%
-							if (resultado.sessions){
-							resultado.sessions.forEach(function(resultado2) { 
-							%>	
-                            <span><%=resultado2.date.hour%></span>
-							<%
-							});
-							}
+							if (resultado.sessoes){
+							if (resultado.sessoes.length>0){
+							resultado.sessoes.forEach(function(resultado2) { 
+							if (resultado2.length>0){
+							resultado2.forEach(function(resultado3) { 
 							%>
-                            <div class="linecine"></div>
-
-							</a>
+							<p><%=resultado3.name%></p>
+							<%
+							resultado3.sessions.forEach(function(resultado4) { 
+							%>
+							<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
+							<%
+							});	
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							
+							%>
 						<%
+						} 
 						});
 						}
 						%>
 
-                       
 
                      </div>
 
@@ -331,29 +413,46 @@
                      <div id="cine6">
 
                      
-
-                       	<% 
+						<% 
 						if (sessoes[5]){
-						sessoes[5].rooms.forEach(function(resultado) { 
+						sessoes[5].shopping.forEach(function(resultado) { 
 						%>
 							<a href="" class="cine" target="_blank">
-                        	<p><%=resultado.name%></p>
+                        	<p><%=resultado.nome%></p>
 							<%
-							if (resultado.sessions){
-							resultado.sessions.forEach(function(resultado2) { 
-							%>	
-                            <span><%=resultado2.date.hour%></span>
-							<%
-							});
-							}
+							if (resultado.sessoes){
+							if (resultado.sessoes.length>0){
+							resultado.sessoes.forEach(function(resultado2) { 
+							if (resultado2.length>0){
+							resultado2.forEach(function(resultado3) { 
 							%>
-                            <div class="linecine"></div>
-
-							</a>
+							<p><%=resultado3.name%></p>
+							<%
+							resultado3.sessions.forEach(function(resultado4) { 
+							%>
+							<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
+							<%
+							});	
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							
+							%>
 						<%
+						} 
 						});
 						}
 						%>
+
 
                        
 
@@ -365,25 +464,42 @@
 
                      
 
-                        <% 
+                      <% 
 						if (sessoes[6]){
-						sessoes[6].rooms.forEach(function(resultado) { 
+						sessoes[6].shopping.forEach(function(resultado) { 
 						%>
 							<a href="" class="cine" target="_blank">
-                        	<p><%=resultado.name%></p>
+                        	<p><%=resultado.nome%></p>
 							<%
-							if (resultado.sessions){
-							resultado.sessions.forEach(function(resultado2) { 
-							%>	
-                            <span><%=resultado2.date.hour%></span>
-							<%
-							});
-							}
+							if (resultado.sessoes){
+							if (resultado.sessoes.length>0){
+							resultado.sessoes.forEach(function(resultado2) { 
+							if (resultado2.length>0){
+							resultado2.forEach(function(resultado3) { 
 							%>
-                            <div class="linecine"></div>
-
-							</a>
+							<p><%=resultado3.name%></p>
+							<%
+							resultado3.sessions.forEach(function(resultado4) { 
+							%>
+							<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
+							<%
+							});	
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							
+							%>
 						<%
+						} 
 						});
 						}
 						%>
@@ -396,26 +512,42 @@
 
                      <div id="cine8">
 
-                     
 						<% 
 						if (sessoes[7]){
-						sessoes[7].rooms.forEach(function(resultado) { 
+						sessoes[7].shopping.forEach(function(resultado) { 
 						%>
 							<a href="" class="cine" target="_blank">
-                        	<p><%=resultado.name%></p>
+                        	<p><%=resultado.nome%></p>
 							<%
-							if (resultado.sessions){
-							resultado.sessions.forEach(function(resultado2) { 
-							%>	
-                            <span><%=resultado2.date.hour%></span>
-							<%
-							});
-							}
+							if (resultado.sessoes){
+							if (resultado.sessoes.length>0){
+							resultado.sessoes.forEach(function(resultado2) { 
+							if (resultado2.length>0){
+							resultado2.forEach(function(resultado3) { 
 							%>
-                            <div class="linecine"></div>
-
-							</a>
+							<p><%=resultado3.name%></p>
+							<%
+							resultado3.sessions.forEach(function(resultado4) { 
+							%>
+							<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
+							<%
+							});	
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							});	
+							} else {
+							%>
+							<p>Não existem sessões neste dia</p>
+							<%
+							}
+							
+							%>
 						<%
+						} 
 						});
 						}
 						%>

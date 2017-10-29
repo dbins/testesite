@@ -200,7 +200,7 @@ ingressoAPI.prototype.listFilmeSessoes = function(cidade, shopping, filme){
 			var resultados_dia = {"shopping":shopping, "date": obj.date, "dateFormatted": obj.dateFormatted, "dayOfWeek": obj.dayOfWeek, "rooms": rooms};
 			sessoes.push(resultados_dia);
 		});
-	
+		
 		resposta = {"resultado":"OK", "shopping": shopping, "sessoes": sessoes};	
 		return resposta;
 	}).catch((err) => {
@@ -209,7 +209,7 @@ ingressoAPI.prototype.listFilmeSessoes = function(cidade, shopping, filme){
 	});
 }
 
-ingressoAPI.prototype.montarSessoes = function(resultados, datas){
+ingressoAPI.prototype.montarSessoes = function(resultados, datas, shopping_selecionado){
 	var sessoes = [];	
 	
 	for (var i = 0; i <datas.length; i++) {
@@ -225,7 +225,17 @@ ingressoAPI.prototype.montarSessoes = function(resultados, datas){
 				}
 				
 			}
-			tmp_shopping.push({shopping: resultados[x].shopping, sessoes: tmp_sessoes});
+			if (resultados[x].shopping !=""){
+				if (shopping_selecionado == ''){
+					
+					tmp_shopping.push({shopping: resultados[x].shopping, nome: this.nomeShopping(resultados[x].shopping), sessoes: tmp_sessoes});
+				} else {
+					if (shopping_selecionado == resultados[x].shopping){
+						
+						tmp_shopping.push({shopping: resultados[x].shopping, nome: this.nomeShopping(resultados[x].shopping), sessoes: tmp_sessoes});
+					}
+				}
+			}			
 		}
 		var tmp_dia = {data_ymd: datas[i].data_ymd, dia: datas[i].dia , data: datas[i].data, shopping: tmp_shopping};
 		sessoes.push(tmp_dia);
@@ -243,7 +253,31 @@ ingressoAPI.prototype.montarSessoes = function(resultados, datas){
 	}
 	return sessoes;
 }
-	
+
+ingressoAPI.prototype.nomeShopping = function(id_ingresso){
+	var retorno = '';
+	switch (id_ingresso) {
+    case '154':
+        retorno = "Shopping D";
+        break;
+    case '350':
+        retorno = "Grand Plaza Shopping";
+        break;
+    case '1210':
+        retorno = "Shopping Metropolitano Barra";
+        break;
+    case '1295':
+        retorno = "Tiete Plaza Shopping";
+        break;
+    case '1313':
+        retorno = "Shopping Cidade São Paulo";
+        break;
+    case '1389':
+        retorno = "Shopping Cerrado";
+        break;
+	}
+	return retorno;
+}	
 
 module.exports = ingressoAPI;
 

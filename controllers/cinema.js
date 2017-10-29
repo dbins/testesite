@@ -43,7 +43,19 @@ function DayAsString(dayIndex) {
 }
 
 function retornaIDIngresso(shoppings, shopping){
-	var retorno = 1313;
+	var retorno = '';
+	if (shoppings){
+		shoppings.forEach(function(item){
+		   if (item.url_title == shopping){
+			  retorno = item.ingresso;
+		   }
+		});
+	}
+	return retorno;
+}
+
+function retornaIDIngresso2(shoppings, shopping){
+	var retorno =1313;
 	if (shoppings){
 		shoppings.forEach(function(item){
 		   if (item.url_title == shopping){
@@ -73,7 +85,7 @@ module.exports = function (app){
 	app.get("/cinema", function(req,res){
 		res.locals.csrfToken = req.csrfToken();
 		
-		req.session.id_do_shopping_ingresso =  retornaIDIngresso(app.locals.shoppings, req.session.shopping);
+		req.session.id_do_shopping_ingresso =  retornaIDIngresso2(app.locals.shoppings, req.session.shopping);
 		
 		var api_ingresso = new ingresso(req.session.id_do_shopping_ingresso);
 		//var api = new webservice(req.session.shopping);
@@ -217,7 +229,7 @@ module.exports = function (app){
 			id_do_filme = resultados.dados.id;
 		//var consulta = api_ingresso.view(id_do_filme).then(function (resultados) {
 			//var consulta2 = api.list().then(function (resultados2) {
-				var lista_sessoes = api_ingresso.sessoes(resposta_completa, id_do_filme);
+				//var lista_sessoes = api_ingresso.sessoes(resposta_completa, id_do_filme);
 				if (JSON.stringify(resultados.dados) === "{}"){
 					res.status(500).redirect('/erro/500');
 				} else {
@@ -248,11 +260,9 @@ module.exports = function (app){
 								tmp_array_itens.push(results[index]);
 							  }
 							  
-							  //TO DO
-							  var novas_sessoes = api_ingresso.montarSessoes(tmp_array_itens, diasDeExibicao);
-							  //console.log(novas_sessoes);
-							  //Precisa tratar o retorno para imprimir as sessoes na view
-							  res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": resultados3.dados, datas: diasDeExibicao, sessoes: []});
+							  var novas_sessoes = api_ingresso.montarSessoes(tmp_array_itens, diasDeExibicao, req.session.id_do_shopping_ingresso);
+							  //imprimir as sessoes na view
+							  res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": resultados3.dados, datas: diasDeExibicao, sessoes: novas_sessoes});
 							  
 							}).catch((err) => {
 							//	//problema....
