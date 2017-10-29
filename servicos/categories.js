@@ -125,7 +125,15 @@ categoriesAPI.prototype.montarCategorias = function(resultados){
 		var tmp = {"slug": obj.slug, "nome": obj.name};
 		retorno.push(tmp);
 	});
+	retorno = this.ordernarPorChave(retorno, "nome");
 	return retorno;
+}
+
+categoriesAPI.prototype.ordernarPorChave = function(array, key) {
+    return array.sort(function(a, b) {
+        var x = a[key]; var y = b[key];
+        return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
 }
 
 module.exports = categoriesAPI;

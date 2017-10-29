@@ -122,10 +122,20 @@ $(document).ready(function() {
 				console.log('estou no item');
                 retorno += '<a href="/produtos/' + item.url_title + '" class="prods">';
                 retorno += '        <section>';
+				
+				<%
+				if(usuario != '') {
+				%>
+				
                 retorno += '            <div class="favs">';
                 retorno += '                <span>' + item.desconto + ' %</span>';
                 retorno += '                <button value="" id=""></button>';
                 retorno += '            </div>';
+				
+				<%
+				} 
+				%>
+				
                 retorno += '            <img src="' + item.imagem + ' " title="' +   item.produto + '" class="img">';
                 retorno += '            <h2>' + item.loja + '</h2>';
                 retorno += '            <h3>' + item.produto + '</h3>';

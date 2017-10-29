@@ -63,6 +63,9 @@
 		   %>
          </div> 
          
+		 <%
+ 		 if (cores.length > 0) { 
+ 		 %>
          <div class="cor">
          	<span>Cor</span>
             <%
@@ -73,7 +76,13 @@
  			}
  			%>
          </div> 
-         
+       	<%
+ 		}
+ 		%>
+		
+		<%
+ 		if (tamanhos.length > 0) { 
+ 		%>
          <div class="tamanho">
          	<span>Tamanho</span>
            <%
@@ -85,7 +94,9 @@
  			%>
 			<div id="aviso_tamanho" style="display:none">Por favor selecione a cor desejada</div>
          </div> 
-   
+		<%
+ 		}
+ 		%>
          <div class="qtd">
             <span>Quantidade</span>
             <a href="" id="minus">-</a>
@@ -231,6 +242,8 @@
 			$('.tamanhoBtn').css("background-color", "black");
 			$(this).css("background-color", "red");
 			$('#btn_sacola').attr('href', '/carrinho/add/' + $(this).attr("data-produto") + '/' + $('#quantidade').val());
+			var objTamanho = <%-JSON.stringify(tamanhos)%>;
+			atualizarImagens(objTamanho, $(this).attr("data-produto"));
 		});
 		
 		<%
@@ -253,9 +266,23 @@
 		});
 		
 	});
+	
+	function atualizarImagens(produtos, produto){
+		var tmp1 = "";
+		var tmp2 = "";
+		for (z = 0; z < produtos.length; z++) { 
+			var produto_selecionado = produtos[z];
+			if (produto_selecionado.slug == produto){
+				for (i = 0; i < produto_selecionado.imagens.length; i++) { 
+					tmp1 += '<a class="buttons"><img src="' + produto_selecionado.imagens[i] + '" class="img" id="foto"' + i + '"></a>';
+					tmp2 += '<div class="galery foto"' + i + '"><img src="' + produto_selecionado.imagens[i] + '" class="img"></div>';
+				}
+			}
+		}
+		$('#foto fleft').html(tmp1);
+		$('#foto fright').html(tmp2);
+	}
 </script>	
-
-
 
 <script> (function (a, b, c, d, e, f, g) { a['CsdmObject'] = e; a[e] = a[e] || function () { (a[e].q = a[e].q || []).push(arguments) }, a[e].l = 1 * new Date(); f = b.createElement(c), g = b.getElementsByTagName(c)[0]; f.async = 1; f.src = d; g.parentNode.insertBefore(f, g) })(window, document, 'script', '//device.clearsale.com.br/m/cs.js', 'csdm'); 
 csdm('app', '9d416234de'); 
