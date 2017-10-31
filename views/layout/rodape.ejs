@@ -53,8 +53,7 @@
 <script src="/js/jquery.maskMoney.js"></script>
 <script type="text/javascript">
 //DEIXAR ESTE CODIGO AQUI
-$(document).ready(function() {
-	function favoritar_produto(produto, event){
+function favoritar_produto(produto, event){
 			event.preventDefault();
 			$.ajax({
 			  type: 'POST',
@@ -94,6 +93,9 @@ $(document).ready(function() {
 		   });
 		}	
 		
+
+$(document).ready(function() {
+	
 		$('#campobusca').on('keyup', function(e) {
 		 if (e.which !== 32) {
 			var value = $(this).val();

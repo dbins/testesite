@@ -63,6 +63,7 @@ module.exports = function (app){
 			return;
 		}
 		
+	
 		var favoritos_produtos = [];
 		var favoritos_promocoes = [];
 		var favoritos_lojas = [];

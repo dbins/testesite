@@ -71,15 +71,7 @@ module.exports = function (app){
 	
 	app.post("/produtos/favoritar", function(req,res){
 		var nomedoproduto = req.body.produto;
-		var tmp = {};
-
-		if (req.session.produtos){
-			for (index = 0; index < req.session.produtos.length; ++index) {
-				if (req.session.produtos[index].id == nomedoproduto){
-					tmp= req.session.produtos[index];
-				}
-			}
-		}
+		
 		var adicionar = true;
 		if (req.session.favoritos_produtos){
 			for (index = 0; index < req.session.favoritos_produtos.length; ++index) {
@@ -90,10 +82,23 @@ module.exports = function (app){
 		}
 		var retorno = 0;
 		if (adicionar){
-			var tmp2 = req.session.favoritos_produtos;
-			tmp2.push(tmp);
-			req.session.favoritos_produtos = tmp2;
-			retorno = 1;
+			if(!req.session.favoritos_produtos){
+				req.session.favoritos_produtos = [];
+			}
+			var consulta = api.viewGQL(nomedoproduto).then(function (resultados) {	
+				
+				var tmp_dados = resultados.dados;
+				var tmp = api.montarProdutoGQL(tmp_dados);
+				var tmp2 = req.session.favoritos_produtos;
+				tmp2.push(tmp);
+				req.session.favoritos_produtos = tmp2;
+				retorno = 1;
+				req.session.save(function (err) {
+					if (err) return next(err)
+				});			
+			}).catch(function (erro){
+				retorno = 2;
+			});
 		}
 		res.json({resultado:retorno});
 	});
@@ -101,12 +106,10 @@ module.exports = function (app){
 	app.post("/produtos/desfavoritar", function(req,res){
 		var nomedoproduto = req.body.produto;
 		var retorno = 0;
-		if (req.session.produtos){
-			for (index = 0; index < req.session.produtos.length; ++index) {
-				if (req.session.produtos[index].id == nomedoproduto){
-					var tmp2 = req.session.favoritos_produtos;
-					tmp2.splice(index, 1);
-					req.session.favoritos_produtos = tmp2;
+		if(req.session.favoritos_produtos){
+			for (index = 0; index < req.session.favoritos_produtos.length; ++index) {
+				if (req.session.favoritos_produtos[index].id == nomedoproduto){
+					req.session.favoritos_produtos.splice(index, 1);
 					retorno = 1;
 				}
 			}
