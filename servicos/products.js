@@ -205,8 +205,9 @@ produtosAPI.prototype.montar = function(resultados){
 			preco_final = parseFloat(obj.price/100).toFixed(2);
 		}
 		var imagem = "/imagens/sapato.jpg";
+		var desconto = 0;
 		
-		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "promocao": promocao, "store": store};
+		var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "promocao": promocao, "store": store};
 		retorno.push(item);
 		
 	});
@@ -250,7 +251,10 @@ produtosAPI.prototype.montarGQL = function(resultados){
 		if (obj.size){
 			tamanho = obj.size;
 		}
-		var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "categoria": categoria};
+		//var desconto = this.produtoDesconto(obj);
+		var desconto = 0;
+		var favorito = "NAO";
+		var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "categoria": categoria, "favorito": favorito};
 		retorno.push(item);
 		
 	});
@@ -283,7 +287,8 @@ produtosAPI.prototype.montarProduto = function(obj){
 		}
 	}
 	var categoria = "";
-	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "store": obj.store, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "descricao": obj.long_description, "categoria": categoria};
+	var desconto = 0;
+	var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "store": obj.store, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "descricao": obj.long_description, "categoria": categoria};
 	return item;
 }
 
@@ -329,8 +334,8 @@ produtosAPI.prototype.montarProdutoGQL = function(obj){
 	if (obj.store.category.slug){
 		categoria = obj.store.category.slug;
 	}
-		
-	var item = {"id": obj._id,"url_title": obj.slug, "desconto":"0", "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "descricao": obj.long_description, "imagens": imagens, "categoria": categoria};
+	var desconto = 0;
+	var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "descricao": obj.long_description, "imagens": imagens, "categoria": categoria};
 	return item;
 }
 
@@ -606,6 +611,60 @@ produtosAPI.prototype.prepararResultado = function(resultados){
 			}
 		}
 	});
+	return retorno;
+}
+
+produtosAPI.prototype.produtoFavorito = function(produto){
+	var retorno = "NAO";
+	if (req.session.favoritos_produtos){
+		for (index = 0; index < req.session.favoritos_produtos.length; ++index) {
+			if (req.session.favoritos_produtos[index].id == produto){
+				retorno = "SIM";	
+			}	
+		}
+	}
+	return retorno;
+}
+
+produtosAPI.prototype.produtoDesconto = function(dados){
+	var retorno = 0;
+	var preco = 0;
+	var preco_inicial = 0;
+	var preco_final = 0;
+	if (dados.price){
+		if (dados.price != null && dados.price != ""){
+			preco = dados.price;	
+		}
+	}
+	if (dados.price_start){
+		if (dados.price_start != null && dados.price_start != ""){
+			preco_inicial = dados.price_start;	
+		}
+	}
+	if (dados.price_final){
+		if (dados.price_final != null && dados.price_final != ""){
+			preco_final = dados.price_final;
+		}
+	}
+	
+	if (parseFloat(preco) == parseFloat(preco_final)){
+		//Nao faz nada
+	} else {
+		if (parseFloat(preco)>0){
+			if (parseFloat(preco) > parseFloat(preco_final)){
+				var porcento = 	parseFloat(preco/100);	
+				retorno = 	parseFloat(preco_final) / parseFloat(porcento);
+				retorno = parseInt(retorno);			
+			}
+		}
+		if (parseFloat(preco_inicial)>0){
+			if (parseFloat(preco_inicial) >  parseFloat(preco_final)){
+				var porcento = 	parseFloat(preco_inicial/100);	
+				retorno = 	parseFloat(preco_final) / parseFloat(porcento);
+				retorno = parseInt(retorno);
+			}
+		}
+	}
 	return retorno;
 }
 
