@@ -113,16 +113,20 @@
 	%>    
     <a href="/produtos/<%=produto.url_title%>" class="prods" data-nome="<%=produto.produto%>" data-categoria="<%=produto.categoria%>" data-valor="<%=produto.por%>" data-promocao="<%=produto.promocao%>" data-loja="<%=produto.store%>">
         <section>
-			<%
-			if(usuario != '') {
-			%>  
-        	<div class="favs">
+			<div class="favs">
+				<%
+				if (parseInt(produto.desconto)>0){
+				%>
             	<span> <%=produto.desconto%> %</span>
-                <button value="" id=""></button>
+				<%
+				}
+				if(usuario != '') {
+				%> 
+                <button type="button" value="" id="" onclick="favoritar_produto('<%=produto.url_title%>', event)"></button>
+				<%
+				}
+				%>
             </div>
-            <%
-			}
-			%>
        		<img src="<%=produto.imagem%>" title="<%=produto.produto%>" class="img">
             <h2><%=produto.loja%></h2>
             <div class="shop"><%=produto.shopping%></div>

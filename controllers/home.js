@@ -7,8 +7,11 @@ module.exports = function (app){
 	app.get("/home", function(req,res){
 		var lista_produtos = [];
 		var api_produtos = new webservice_produtos('');
+		if (req.session.favoritos_produtos){
+			api_produtos.guardarFavoritos(req.session.favoritos_produtos);
+		}
+		
 		var consulta = api_produtos.listGQL().then(function (resultados) {
-			
 			var lista_produtos = api_produtos.montarGQL(resultados);
 			var api_banners = new webservice_banners('');
 			var consulta = api_banners.list().then(function (resultados) {
