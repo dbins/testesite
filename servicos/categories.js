@@ -1,7 +1,7 @@
 const rp = require('request-promise'); 
 //As categorias sao iguais para todos os shoppings
 var categoriesAPI = function () {
-	this.url = "https://api.onstores.com.br";
+	this.url = "https://concierge-api-v1.herokuapp.com";
 	this.pagina = 1;
 	this.paginas = 0;
 	this.limite = 10;

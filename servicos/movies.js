@@ -1,7 +1,7 @@
 const rp = require('request-promise'); 
 
 var moviesAPI = function (shopping_selecionado) {
-	this.url = "https://api.onstores.com.br";
+	this.url = "https://concierge-api-v1.herokuapp.com";
 	this.pagina = 1;
 	this.paginas = 0;
 	this.limite = 10;

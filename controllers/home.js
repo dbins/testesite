@@ -14,18 +14,21 @@ module.exports = function (app){
 		var consulta = api_produtos.listGQL().then(function (resultados) {
 			var lista_produtos = api_produtos.montarGQL(resultados);
 			var api_banners = new webservice_banners('');
-			var consulta = api_banners.list().then(function (resultados) {
+			var consulta = api_banners.listGQL().then(function (resultados2) {
+				
 				var banners = [];
 				if (JSON.stringify(resultados.dados) === "{}"){
 					//Nao retornou banners
 				} else {
-					banners = resultados.dados.data;	
+					banners = api_banners.montarGQL(resultados2);	
 				}
 				res.render("home/index", {banners:banners, shopping:'', produtos: lista_produtos, imagens_shopping: imagens_shopping });
 			}).catch(function (erro){
+				console.log(erro.stack);
 				res.render("home/index", {banners:[], shopping:'', produtos: lista_produtos, imagens_shopping: imagens_shopping });
 			});	
 		}).catch(function (erro){
+			console.log(erro.stack);
 			res.render("home/index", {banners:[], shopping:'', produtos: lista_produtos, imagens_shopping: imagens_shopping});
 		});		
 		
@@ -52,12 +55,12 @@ module.exports = function (app){
 			var consulta = api_produtos.listGQL().then(function (resultados) {
 				var lista_produtos = api_produtos.montarGQL(resultados);
 				var api_banners = new webservice_banners(nomedoshopping);
-				var consulta = api_banners.list(nomedoshopping).then(function (resultados) {
+				var consulta = api_banners.listGQL().then(function (resultados2) {
 					var banners = [];
 					if (JSON.stringify(resultados.dados) === "{}"){
 						//Nao retornou banners
 					} else {
-						banners = resultados.dados.data;	
+						banners = api_banners.montarGQL(resultados2);	
 					}
 					res.render("home/index", {banners:banners, shopping:nomedoshopping, produtos: lista_produtos, imagens_shopping: imagens_shopping});
 					

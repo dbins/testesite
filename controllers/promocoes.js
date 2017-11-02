@@ -6,29 +6,25 @@ module.exports = function (app){
 	
 	app.get("/promocoes", function(req,res){
 		var api = new webservice(req.session.shopping);
-		var consulta = api.list().then(function (resultados) {
+		var consulta = api.listGQL().then(function (resultados) {
 			
-			var promocoes = [];
-			if (JSON.stringify(resultados.dados) === "{}"){
-				//Nao retornou banners
-			} else {
-				promocoes = resultados.dados.data;
-			}
-			
+			promocoes = api.montarGQL(resultados);	
 			
 			res.render("promocoes/index", {resultados:promocoes});
 		}).catch(function (erro){
+			console.log(erro.stack);
 			res.status(500).redirect('/erro/500');
 		});
 		
 	});
-	app.post("/promocoes", function(req,res){
-		var consulta = api.list().then(function (resultados) {
-			res.render("promocoes/index", {resultados:resultados});
-		}).catch(function (erro){
-			res.render("promocoes/index", {resultados:{}});
-		});
-	});
+	
+	//app.post("/promocoes", function(req,res){
+	//	var consulta = api.list().then(function (resultados) {
+	//		res.render("promocoes/index", {resultados:resultados});
+	//	}).catch(function (erro){
+	//		res.render("promocoes/index", {resultados:{}});
+	//	});
+	//});
 	
 	app.get("/promocoes/promocao/:nomedapromocao", function(req,res){
 		var nomedapromocao = req.params.nomedapromocao;

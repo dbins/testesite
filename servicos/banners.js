@@ -1,7 +1,7 @@
 const rp = require('request-promise'); 
 
 function bannersAPI (shopping_selecionado) {
-	this.url = "https://api.onstores.com.br";
+	this.url = "https://concierge-api-v1.herokuapp.com";
 	this.pagina = 1;
 	this.paginas = 0;
 	this.limite = 10;
@@ -106,7 +106,59 @@ bannersAPI.prototype.view = function(registro){
 		return resposta;
 	});
 }
+
+bannersAPI.prototype.listGQL = function(){
+	const q_group = '';
+	var q_filtro_mall = '';
 	
+	if (this.api_nome_do_shopping != ''){
+		q_filtro_mall = '(mall:"' + this.api_nome_do_shopping + '")';
+	}
+	
+	
+    const q_images= `image{path, type, order}`;
+	var query =`query={banners ${q_filtro_mall}{ _id slug title_1 title_2 main_title url, segments mall  ${q_images}}}`;
+	var resposta = "";
+	var opcoes = {  
+	    method: 'GET',
+		uri: this.url + "/graphql?" + query,
+		headers: {
+         'Content-Type': 'application/json'
+		}
+	}
+	
+	return rp(opcoes).then((data, res) => {
+		var tmp = JSON.parse(data);
+		
+		var resultados = tmp.data.banners;
+		resposta = {"resultado":"OK", "dados": resultados, "status": "OK"};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+		return resposta;
+	});
+}	
+
+
+bannersAPI.prototype.montarGQL = function(resultados){
+	var retorno = [];
+	var tmp = resultados.dados;
+	var classe_atual = this;
+	
+	tmp.forEach(function(obj) {
+		
+		if (obj.image){
+		var imagem = obj.image.path;
+		var nome = obj.main_title;
+		var link_banner = obj.url;
+		
+		
+		var item = {"id": obj._id,"": obj.slug, "nome":nome, "link":link_banner, "imagem":imagem, "mall": obj.mall};
+		retorno.push(item);
+		}
+	});
+	return retorno;
+}
 
 module.exports = bannersAPI;
 

@@ -8,37 +8,15 @@
               <div id="owl-demo" class="owl-carousel">
 
 				
-				<% if (shopping == ''){ %>
-				<div class="item">
-					<img src="/banner/banner-geral.jpg" title="ZARA" class="img">
-					<section>
-						<span>30% OFF</span>
-						<span>Zara</span>
-						<span>Promoção</span>
-					</section>
-				</div>
-				
-				<%	} else { %>
-				<div class="item">
-					<img src="/banner/banner-shopping.jpg" title="Animale" class="img">
-					<section>
-						<span>50% OFF</span>
-						<span>Animale</span>
-						<span>Bolsas em promoção</span>
-					</section>
-				</div>
-				
-				<%  } %>
+			
 				
 				
-				
-			    <!--
-				  <% 
+				   <% 
 				   if (banners.length>0){
 				   banners.forEach(function(resultado) { 
 				   %>
 					<div class="item">
-						<img src="/banner/banner.jpg" title="<%=resultado.main_title%>" width="1365" height="600">
+						<img src="<%=resultado.imagem%>" title="<%=resultado.main_title%>" width="1365" height="600">
 						<section>
 							<span>30% OFF</span>
 							<span><%=resultado.main_title%></span>
@@ -47,9 +25,19 @@
 					</div>
 					<%
 					});
+					} else {
+					%>
+					<div class="item">
+						<img src="/banner/banner-geral.jpg" title="ZARA" class="img">
+						<section>
+							<span>30% OFF</span>
+							<span>Zara</span>
+							<span>Promoção</span>
+						</section>
+					</div>
+					<%
 					}
 					%>
-				-->
 				
             
               </div><!--owl demo-->
