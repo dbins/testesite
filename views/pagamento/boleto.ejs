@@ -1,3 +1,84 @@
 <% layout("../layout/index") -%>
 <% block("title", "Boleto"); -%>
 <h1>Pagamentos - Boleto</h1>
+
+<body id="login">
+
+<div class="full">  
+    
+    <header>
+   
+   	<!---mosrar quando nao estiver comprando--->
+    <div id="titcar">Pagamento <img src="imagens/bag.png" width="60" height="35"></div>
+    
+    <!---mosrar o passo a passo quando estiver comprando--->
+    	<nav class="rota">
+        	<a href="" class="rts">
+            	<span>1</span><br>
+                Minha Sacola
+            </a>
+            <a href="" class="rts">
+            	<span>2</span><br>
+                Identificação
+            </a>
+            <a href="" class="rts ativo">
+            	<span>3</span><br>
+                Pagamento
+            </a>
+            <a href="" class="rts">
+            	<span>4</span><br>
+                Confirmação
+            </a>            
+        </nav>
+        
+    </header>
+    
+	<div class="clear"></div>
+
+	<div class="boleto">
+        <h1>Pagamento por boleto Bancário</h1>
+       
+   	  <div class="paper">
+            <div class="bl">
+              <img src="imagens/boleto-print.jpg" width="88" height="70"> <br>
+              Imprima o boleto e pague no banco
+            </div>
+            
+              <div class="bl">
+            	<img src="imagens/boleto-barras.jpg" width="88" height="70"> <br>
+                Se preferir pague pela internet utilizando o código de barras.
+            </div>
+            
+              <div class="bl">
+            	<img src="imagens/boleto-calendar.jpg" width="88" height="70"> <br>
+                O prazo de validade do boleto é de 2 dia util.
+            </div>
+     
+      <div class="clear"></div><br>
+      <p>A confirmação do seu pagamento pode demorar até 48hs.<br>
+		Após a confirmação, você receberá um email com todas as informações do seu pedido.</p>
+     
+     
+      </div><!--paper-->
+        
+   	<div id="geraboleto">
+    	<h2>Importante</h2>
+        <p>Só emitimos boleto do Banco Brasdesco. Confira os dados antes de pagá-lo.</p>
+    	<span>*Caso o pagamento não seja realizado, seu pedido será cancelado.</span>
+    </div>
+   
+     <div class="clear"></div><br>
+   
+    <div class="finaliza">      
+         <a href=""> Imprimir boleto</a> 
+   
+      </div>
+   
+    </div><!--boleto-->
+    
+    
+    
+</div><!--full-->
+
+
+</body>

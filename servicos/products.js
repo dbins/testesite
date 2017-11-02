@@ -221,7 +221,8 @@ produtosAPI.prototype.montar = function(resultados){
 //Foi alterado
 produtosAPI.prototype.montarGQL = function(resultados){
 	var retorno = [];
-	var tmp = resultados.dados;
+	//var tmp = resultados.dados;
+	var tmp = resultados.dados.filter(p => !!p.store);
 	var classe_atual = this;
 	
 	tmp.forEach(function(obj) {
