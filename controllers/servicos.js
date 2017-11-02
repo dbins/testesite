@@ -1,11 +1,11 @@
 var webservice = require('./../servicos/services.js');
-var tmp_resultados = [];
+
 module.exports = function (app){
 	app.get("/servicos", function(req,res){
 		var api = new webservice(req.session.shopping);
-		var consulta = api.list().then(function (resultados) {
-			tmp_resultados = resultados.dados.data;
-			res.render("servicos/index", {resultados:resultados.dados.data});
+		var consulta = api.listGQL().then(function (resultados) {
+			var tmp_resultados = api.montarGQL(resultados);
+			res.render("servicos/index", {resultados:tmp_resultados});
 		}).catch(function (erro){
 			res.status(500).redirect('/erro/500');
 		});

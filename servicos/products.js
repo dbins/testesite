@@ -137,6 +137,7 @@ produtosAPI.prototype.listGQL = function(){
 		}
 	}
 	
+	
 	return rp(opcoes).then((data, res) => {
 		var tmp = JSON.parse(data);
 		var resultados = this.prepararResultado(tmp.data.products);

@@ -23,9 +23,22 @@
 
     <div class="titevents">
 
-    	<h1>Promoção dia das mães</h1>
+    	<h1><%=resultados.nome%></h1>
 
-    	<p>Início <span>20/08/2017</span> </p> <p> Término <span>23/08/2017</span></p>
+    	<%
+		if (resultados.data_inicial !=""){
+		%>
+    	<p>Início <span><%=moment(resultados.data_inicial).format( 'DD-MM-YYYY')%> </span> </p> 
+		<%
+		}
+		%>
+		<%
+		if (resultados.data_final !=""){
+		%>
+		<p> Término <span><%=moment(resultados.data_final).format( 'DD-MM-YYYY')%></span></p>
+		<%
+		}
+		%>
 
     </div>
 
@@ -39,7 +52,7 @@
 
    		<h2>Descrição da Promoção</h2>
 
-        <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.</p>
+        <%-resultados.descricao_detalhada%>
 
         <p>Acesse os <a href="termos.php">termos e condições</a></p>    
 
@@ -51,7 +64,7 @@
 
       <!--<h2> Horários</h2>-->
 
-       <img src="/imagens/promo1.png" class="img" title="Promoção dia das mães">
+       <img src="<%=resultados.imagem%>" class="img" title="<%=resultados.nome%>">
 
 		<div class="clear"></div><br><br>
 
@@ -77,21 +90,28 @@
 
         </h3>
 
-         <a href="/promocoes/promocao/promocao_dia" class="promo">
-         	<div>
-            	<span class="purple"></span>
-   	     		<img src="/imagens/promo1.png" class="img" title="Promoção dia das mães">
-                <p>Promoção dia<br> das mães</p>
-       		</div>	
-      	</a>
-        
-        <a href="/promocoes/promocao/promocao_programa_completo" class="promo">
-         	<div>
-            	<span class="purple"></span>
-   	     		<img src="/imagens/promo2.png" class="img" title="Promoção Programa Completo">
-                <p>Promoção Programa Completo</p>
-       		</div>	
-      	</a>
+       <% 
+			if (outros.length>0){
+			var contador = 0;
+			outros.forEach(function(resultado) { 
+			if (resultado.url_title != resultados.url_title){
+			contador++;
+			%>
+			<a href="/eventos/evento/<%=resultado.url_title%>" class="eventos">
+				<img src="<%=resultado.imagem%>"  class="img"  title="<%=resultado.nome%>"> 
+				<div class="eline"></div>
+				<p><%=resultado.nome%></p>		
+			</a>
+			<% 
+			}
+			}); 
+			}
+			if (contador ==0){
+			%>
+			<p>Não existem outras promoções</p>
+			<% 
+			}
+			%>
 
         <div class="clear"></div><br><br>
 

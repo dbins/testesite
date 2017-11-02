@@ -28,23 +28,18 @@ module.exports = function (app){
 	
 	app.get("/promocoes/promocao/:nomedapromocao", function(req,res){
 		var nomedapromocao = req.params.nomedapromocao;
-		//var api = new webservice(req.session.shopping);
-		//var consulta = api.view(nomedapromocao).then(function (resultados) {
-		//	var consulta2 = api.list().then(function (resultados2) {
-		//		if (typeof resultados.dados.info.title === undefined) {
-					//res.status(500).redirect('/erro/500');
-		//		} else {
-					//res.render("promocoes/promocao", {resultados:resultados.dados, outros:resultados2.dados.data,moment: moment});
-					res.render("promocoes/promocao", {resultados:{}, outros:{}, moment: moment});
-					
-		//		}
-				
-		//	}).catch(function (erro){
-		//		res.status(500).redirect('/erro/500');
-		//	});
-		//}).catch(function (erro){
-		//	res.status(500).redirect('/erro/500');
-		//});
+		var api = new webservice(req.session.shopping);
+		var consulta = api.viewGQL(nomedapromocao).then(function (resultados) {
+			var consulta2 = api.listGQL().then(function (resultados2) {
+				var outros = api.montarGQL(resultados2);	
+				var resultado = api.montarViewGQL(resultados.dados)
+				res.render("promocoes/promocao", {resultados:resultado, outros:outros,moment: moment});
+			}).catch(function (erro){
+				res.status(500).redirect('/erro/500');
+			});
+		}).catch(function (erro){
+			res.status(500).redirect('/erro/500');
+		});
 	});
 	
 	app.get("/promocoes/favoritar/:nomedapromocao", function(req,res){

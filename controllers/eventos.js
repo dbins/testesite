@@ -22,15 +22,11 @@ module.exports = function (app){
 	app.get("/eventos/evento/:nomedoevento", function(req,res){
 		var nomedoevento = req.params.nomedoevento;
 		var api = new webservice(req.session.shopping);
-		var consulta = api.view(nomedoevento).then(function (resultados) {
-			var consulta2 = api.list().then(function (resultados2) {
-				
-				if (typeof resultados.dados.name === undefined) {
-					res.status(500).redirect('/erro/500');
-				} else {
-					res.render("eventos/evento", {resultados:resultados.dados, outros:resultados2.dados.data,moment: moment});
-				}
-				
+		var consulta = api.viewGQL(nomedoevento).then(function (resultados) {
+			var consulta2 = api.listGQL().then(function (resultados2) {
+				var outros = api.montarGQL(resultados2);	
+				var resultado = api.montarViewGQL(resultados.dados)
+				res.render("eventos/evento", {resultados:resultado, outros:outros,moment: moment});
 			}).catch(function (erro){
 				res.status(500).redirect('/erro/500');
 			});

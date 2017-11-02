@@ -6,7 +6,7 @@
     
       <aside class="bannerint">
         	<img src="/imagens/banner-eventos.png" class="img" title="Eventos On Stores">
-			<!--<img src="#" class="img" title="<%=resultados.name%>">-->
+			<!--<img src="#" class="img" title="<%=resultados.nome%>">-->
             <section>Eventos</section>
         </aside> <!--banner-->
    
@@ -14,16 +14,28 @@
   	<a href="/eventos" class="back"><span class="seta-esquerda"></span> Voltar para eventos</a>
     
     <div class="titevents">
-    	<h1>Evento teste 1<!--<%=resultados.name%>--></h1>
-    	<p>Início <span><%=moment(resultados.start_at).format( 'DD-MM-YYYY')%> </span> </p> <p> Término <span><%=moment(resultados.stop_at).format( 'DD-MM-YYYY')%></span></p>
+    	<h1><%=resultados.nome%></h1>
+		<%
+		if (resultados.data_inicial !=""){
+		%>
+    	<p>Início <span><%=moment(resultados.data_inicial).format( 'DD-MM-YYYY')%> </span> </p> 
+		<%
+		}
+		%>
+		<%
+		if (resultados.data_final !=""){
+		%>
+		<p> Término <span><%=moment(resultados.data_final).format( 'DD-MM-YYYY')%></span></p>
+		<%
+		}
+		%>
     </div>
     
     <div class="clear"></div><br><br>
     
     <section id="sobrecine">
    		<h2>Descrição do Eventos</h2>
-        <!--<%=resultados.short_description%>-->
-		<p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado.</p>
+        <%=resultados.descricao_resumida%>
             
     </section>
   
@@ -67,7 +79,7 @@
               </tr>
 			</table>    
 			
-           <!--- <%-resultados.detailed_descrition%>---!>
+           <%-resultados.descricao_detalhada%>
           	</div><!--event-->
             
 			<div class="clear"></div><br><br><br>
@@ -87,46 +99,31 @@
         
         <div class="clear"></div><br><br>
         
-		<a href="#" class="eventos">
-            <img src="/imagens/event1.png" class="img" title="Nome do evento"> 
-            <div class="eline"></div>
-            <p>Evento teste 1<br>
-            R$ 130</p>
-        </a>
-        
-        <a href="#" class="eventos">
-             <img src="/imagens/event2.png" class="img" title="Nome do evento">  
-            <div class="eline"></div>
-            <p>Evento teste 2<br>
-            R$ 130</p>
-        </a>
-        
-        <a href="#" class="eventos">
-             <img src="/imagens/event3.png" class="img" title="Nome do evento"> 
-            <div class="eline"></div>
-            <p>Evento teste 3<br>
-            R$ 130</p>
-        </a>
-		
-		<!--
+
 		
 			<% 
 			if (outros.length>0){
+			var contador = 0;
 			outros.forEach(function(resultado) { 
-			if (resultado.slug != resultados.slug){
+			if (resultado.url_title != resultados.url_title){
+			contador++;
 			%>
-			<a href="/eventos/evento/<%=resultado.slug%>" class="eventos">
-				<img src="#" width="385" height="265" title="<%=resultado.name%>"> 
+			<a href="/eventos/evento/<%=resultado.url_title%>" class="eventos">
+				<img src="<%=resultado.imagem%>"  class="img"  title="<%=resultado.nome%>"> 
 				<div class="eline"></div>
-				<p><%=resultado.name%><br>			
-				R$ ????</p>
+				<p><%=resultado.nome%></p>		
 			</a>
 			<% 
 			}
 			}); 
 			}
+			if (contador ==0){
 			%>
-		-->
+			<p>Não existem outros eventos</p>
+			<% 
+			}
+			%>
+	
         
        <div class="clear"></div><br><br>
       <!-- <a href="" class="botao">Carregar mais</a>-->

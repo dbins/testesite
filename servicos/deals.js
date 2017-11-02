@@ -188,7 +188,7 @@ dealssAPI.prototype.viewGQL = function(registro){
 
 	
     const q_images= `image{path, type, order}`;
-	var query = `query={event(id:"${registro}")){ _id slug title short_description detailed_descrition start_at stop_at  ${q_store} ${q_mall} ${q_images}}}`;
+	var query = `query={event(id:"${registro}"){ _id slug title short_description detailed_descrition start_at stop_at  ${q_store} ${q_mall} ${q_images}}}`;
 	
 	var resposta = "";
 	var opcoes = {  
@@ -198,15 +198,59 @@ dealssAPI.prototype.viewGQL = function(registro){
          'Content-Type': 'application/json'
 		}
 	}
+	console.log(this.url + "/graphql?" + query);
 	
 	return rp(opcoes).then((data, res) => {
 		var tmp = JSON.parse(data);
-		resposta = {"resultado":"OK", "dados": tmp.data.product, "status": "OK"};	
+		resposta = {"resultado":"OK", "dados": tmp.data.event, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
 		return resposta;
 	});
+}
+
+dealssAPI.prototype.montarViewGQL = function(obj){
+	var nome_do_Shopping = "";
+	var slug_shopping = "";
+	if (obj.mall){
+		var nome_do_Shopping = obj.mall.name;
+		slug_shopping = obj.mall.slug;
+	}
+		
+	var slug_loja = "";
+	var nome_da_Loja = "";
+	if (obj.store){
+		nome_da_Loja = obj.store.real_name||obj.store.title||obj.store.fantasy_name;
+		slug_loja = obj.store.slug;
+	}
+		
+	var descricao_resumida = obj.short_description;
+	var descricao_detalhada = obj.detailed_descrition;
+	var imagem = "/imagens/lojas-padrao.jpg";
+	if (obj.image){
+		imagem = obj.image.path;	
+	}
+	
+	var data_inicial = "";
+	if (obj.start_at){
+		data_inicial = obj.start_at;
+	}
+	var data_final = "";
+	if (obj.stop_at){
+		data_final = obj.stop_at;
+	}	
+	
+	var data_final = "";
+	var categoria = "";
+	if (obj.store){
+		if (obj.store.category.slug){
+			categoria = obj.store.category.slug;
+		}
+	}
+	var favorito = "NAO";
+	var item = {"id": obj._id,"url_title": obj.slug, "imagem":imagem, "nome":obj.title, "shopping":nome_do_Shopping, "mall": slug_shopping, "loja": nome_da_Loja, "store": slug_loja, "categoria": categoria, "favorito": favorito, "descricao_resumida":descricao_resumida, "descricao_detalhada":descricao_detalhada, "data_inicial":data_inicial, "data_final":data_final};
+	return item;
 }
 
 

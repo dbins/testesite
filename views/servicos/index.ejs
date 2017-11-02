@@ -33,58 +33,26 @@
  <!------------------Lojas---------------------->  
 
    <div id="servicos">   
+	
 		
-		
-			<div class="serv">
-            <img src="imagens/servico1.jpg" title="Nome do evento"> 
-            <h2>Descrição do serviço</h2>
-            <div class="lineserv"></div>
-            <span> <img src="imagens/icon-fone.jpg" width="39" height="39"> 011. 5567.7890</span>
-            <span><img src="imagens/icon-location.jpg" width="39" height="39">  Piso Térreo</span>
-            <p> Texto do conteudo menor que vem do dashboard.Texto do conteudo menor que vem do dashboard.</p>
-            
-        </div>
-        
-       <div class="serv">
-            <img src="imagens/servico2.jpg" title="Nome do evento"> 
-            <h2>Descrição do serviço</h2>
-            <div class="lineserv"></div>
-            <span> <img src="imagens/icon-fone.jpg" width="39" height="39"> 011. 5567.7890</span>
-            <span><img src="imagens/icon-location.jpg" width="39" height="39">  Piso Térreo</span>
-            <p> Texto do conteudo menor que vem do dashboard.</p>
-            
-        </div>
-        
-        <div class="serv">
-            <img src="imagens/servico3.jpg" title="Nome do evento"> 
-            <h2>Descrição do serviço</h2>
-            <div class="lineserv"></div>
-            <span> <img src="imagens/icon-fone.jpg" width="39" height="39"> 011. 5567.7890</span>
-            <span><img src="imagens/icon-location.jpg" width="39" height="39">  Piso Térreo</span>
-            <p> Texto do conteudo menor que vem do dashboard.Texto do conteudo menor que vem do dashboard.</p>
-            
-       </div>
-		
-		<!--
 		<% 
 		if (resultados.length>0){
 		resultados.forEach(function(resultado) { 
 		%> 
     	<div class="serv">
-			<span style="background-color:#000000">
-            <img src="<%=caminho_imagem(resultado.mall)%><%=resultado.media.images.logo%>" title="<%=resultado.info.title%>"></span> 
-            <h2>Descrição do serviço</h2>
+			<img src="<%=resultado.imagem%>" title="<%=resultado.titulo%>">
+            <h2><%=resultado.titulo%></h2>
             <div class="lineserv"></div>
-            <span> <img src="imagens/icon-fone.jpg" width="39" height="39"> <%=resultado.contacts.telephone%></span>
-            <span><img src="imagens/icon-location.jpg" width="39" height="39"> <%=resultado.position.floor%></span>
-            <p><%=resultado.info.description%></p>
+            <span> <img src="imagens/icon-fone.jpg" width="39" height="39"> <%=resultado.telefone%></span>
+            <span><img src="imagens/icon-location.jpg" width="39" height="39"> <%=resultado.piso%></span>
+            <p><%=resultado.descricao%></p>
             
         </div>
          <% 
 		}); 
 		}
 		%>
-		-->
+
 		
    
    </div><!--produtos--> 

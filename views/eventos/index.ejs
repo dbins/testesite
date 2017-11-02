@@ -14,41 +14,14 @@
 
    <div id="events">  
    
-		<a href="/eventos/evento/evento_teste_1" class="eventos">
-            <img src="imagens/event1.png" class="img" title="Evento teste 1"> 
-            <div class="eline"></div>
-            <p>Evento teste 1<br>
-            R$ 130</p>
-        </a>
-        
-        <a href="/eventos/evento/evento_teste_2" class="eventos">
-             <img src="imagens/event2.png" class="img" title="Evento teste 2">  
-            <div class="eline"></div>
-            <p>Evento teste 2<br>
-            R$ 130</p>
-        </a>
-        
-        <a href="/eventos/evento/evento_teste3" class="eventos">
-             <img src="imagens/event3.png" class="img" title="Evento teste 3"> 
-            <div class="eline"></div>
-            <p>Evento teste 3<br>
-            R$ 130</p>
-        </a>
-        
-
-	
-	
-		
-		<!--
 			<% 
 			if (resultados.length>0){
 			resultados.forEach(function(resultado) { 
 			%>
-			<a href="/eventos/evento/<%=resultado.slug%>" class="eventos">
-				<img src="#" width="385" height="265" title="<%=resultado.name%>"> 
+			<a href="/eventos/evento/<%=resultado.url_title%>" class="eventos">
+				<img src="<%=resultado.imagem%>"  class="img"  title="<%=resultado.nome%>"> 
 				<div class="eline"></div>
-				<p><%=resultado.name%><br>		
-				R$ ????</p>
+				<p><%=resultado.nome%></p>		
 			</a>
 			<% 
 			}); 
@@ -58,8 +31,7 @@
 			<%
 			}
 			%>		
-		-->
-           
+	       
    </div><!--events--> 
    
  </div><!--full-->
