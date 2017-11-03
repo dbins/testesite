@@ -7,7 +7,7 @@ function servicesAPI (shopping_selecionado) {
 	this.limite = 10;
 	this.total_registros = 0;
 	this.posicao = 0;
-	this.config();
+	//this.config();
 	this.metodo = "services";
 	this.api_nome_do_shopping = '';
 	if (shopping_selecionado !== undefined){

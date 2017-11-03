@@ -25,6 +25,74 @@ pagarmeAPI.prototype.captura = function(token, valor, dados_da_captura){
 	});
 }
 
+pagarmeAPI.prototype.autorizaBoleto = function(valor, dados_do_cliente){
+	var resposta = "";
+	var dados_da_captura = {};
+	dados_da_captura.amount =  valor;  //"100" //FIXO PARA TESTES!
+	dados_da_captura.api_key = this.api_key;
+	dados_da_captura.payment_method = "boleto";
+	dados_da_captura.customer = dados_do_cliente; //Retornados por API Pagarme
+	
+	var opcoes = {  
+	    method: 'POST',
+		uri: this.url + "/transactions",
+		body: dados_da_captura,
+	    json: true
+	}
+	return rp(opcoes).then((data, res) => {
+		resposta = {"resultado":"OK", "dados": data, "status": "OK"};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+		return resposta;
+	});
+}
+
+
+pagarmeAPI.prototype.autorizaCartao = function(cardHash, valor, dados_do_cliente){
+	var resposta = "";
+	var dados_da_captura = {};
+	dados_da_captura.amount =  valor;  //"100" //FIXO PARA TESTES!
+	dados_da_captura.api_key = this.api_key;
+	dados_da_captura.capture = "false"; //A captura deve ser feita em ate 5 dias...
+	dados_da_captura.card_hash = cardHash;
+	dados_da_captura.customer = dados_do_cliente; //Retornados por API Pagarme
+	var opcoes = {  
+	    method: 'POST',
+		uri: this.url + "/transactions",
+		body: dados_da_captura,
+	    json: true
+	}
+	return rp(opcoes).then((data, res) => {
+		resposta = {"resultado":"OK", "dados": data, "status": "OK"};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+		return resposta;
+	});
+}
+
+//Pode ser feito ate 5 dias depois da autorizacao...
+pagarmeAPI.prototype.capturaTransacao = function(id_transacao){
+	var resposta = "";
+	var dados_da_captura = {};
+	dados_da_captura.api_key = this.api_key;
+	
+	var opcoes = {  
+	    method: 'POST',
+		uri: this.url + "/transactions/" + id_transacao + "/capture",
+		body: dados_da_captura,
+	    json: true
+	}
+	return rp(opcoes).then((data, res) => {
+		resposta = {"resultado":"OK", "dados": data, "status": "OK"};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+		return resposta;
+	});
+}
+
 pagarmeAPI.prototype.pedidos = function(cpf){
 	var dados_pesquisa = {
 			
