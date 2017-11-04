@@ -1,5 +1,6 @@
 var webservice_banners = require('./../servicos/banners.js');
 var webservice_produtos = require('./../servicos/products.js');
+var webservice_eventos = require('./../servicos/events.js');
 var rp2 = require('request-promise'); 
 var imagens_shopping = ["foto-shopping-granplaza.png","foto-shopping-tiete.png","foto-shopping-cerrado.png","foto-shopping-cidadesp.png","foto-shopping-cidadesp.png","foto-shopping-d.png"];
 module.exports = function (app){
@@ -22,6 +23,7 @@ module.exports = function (app){
 				} else {
 					banners = api_banners.montarGQL(resultados2);	
 				}
+				console.log(banners);
 				res.render("home/index", {banners:banners, shopping:'', produtos: lista_produtos, imagens_shopping: imagens_shopping });
 			}).catch(function (erro){
 				console.log(erro.stack);
@@ -52,6 +54,7 @@ module.exports = function (app){
 			req.session.nome_do_shopping_barra_titulo = " | " + tmp ;
 			
 			var api_produtos = new webservice_produtos(nomedoshopping);
+			var api_eventos = new webservice_eventos(nomedoshopping);
 			var consulta = api_produtos.listGQL().then(function (resultados) {
 				var lista_produtos = api_produtos.montarGQL(resultados);
 				var api_banners = new webservice_banners(nomedoshopping);
@@ -62,14 +65,19 @@ module.exports = function (app){
 					} else {
 						banners = api_banners.montarGQL(resultados2);	
 					}
-					res.render("home/index", {banners:banners, shopping:nomedoshopping, produtos: lista_produtos, imagens_shopping: imagens_shopping});
+					var consulta_eventos = api_eventos.listGQL().then(function (resultados3) {
+						var tmp_eventos = api_eventos.montarGQL(resultados3);	
+						res.render("home/index", {banners:banners, eventos: tmp_eventos, shopping:nomedoshopping, produtos: lista_produtos, imagens_shopping: imagens_shopping});
+					}).catch(function (erro3){
+						res.render("home/index", {banners:[],  eventos: [], shopping:nomedoshopping, produtos: lista_produtos, imagens_shopping: imagens_shopping});
+					});	
 					
-				}).catch(function (erro){
-					res.render("home/index", {banners:[], shopping:nomedoshopping, produtos: lista_produtos, imagens_shopping: imagens_shopping});
+				}).catch(function (erro2){
+					res.render("home/index", {banners:[],  eventos: [], shopping:nomedoshopping, produtos: lista_produtos, imagens_shopping: imagens_shopping});
 				});	
 		
 			}).catch(function (erro){
-				res.render("home/index", {banners:[], shopping:'', produtos: [], imagens_shopping: imagens_shopping});
+				res.render("home/index", {banners:[], shopping:'', produtos: [], eventos: [], imagens_shopping: imagens_shopping});
 			});		
 			
 		}

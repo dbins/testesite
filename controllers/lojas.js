@@ -35,23 +35,20 @@ module.exports = function (app){
 		//var api = new webservice(req.session.shopping);
 		var api = new webservice(req.session.shopping);
 		var api_categorias = new webservice_categorias();
-		var consulta = api.list().then(function (resultados) {
+		var consulta = api.listGQL().then(function (resultados) {
 			var consulta2 = api_categorias.All().then(function (resultados2) {
 				//var categorias = ListarCategorias(resultados.dados.data, req.session.shopping);
 				//var categorias = ListarCategoriasMock();
 				var categorias = api_categorias.montarCategorias(resultados2.dados.data);
-				dados_temporarios = resultados.dados.data;
-				if (typeof categorias === undefined) {
-					res.status(500).redirect('/erro/500');
-				} else {
-					res.render("lojas/index", {resultados:resultados.dados.data, categorias: categorias});	
-					
-				}
-			}).catch(function (erro){
+				var tmp_resultados = api.montarGQL(resultados);
+				res.render("lojas/index", {resultados:tmp_resultados, categorias: categorias});	
+			}).catch(function (erro2){
+				console.log(erro2.stack);
 				res.status(500).redirect('/erro/500');
 			});
 			
 		}).catch(function (erro){
+			console.log(erro.stack);
 			res.status(500).redirect('/erro/500');
 		});
 		

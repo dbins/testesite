@@ -304,7 +304,12 @@ module.exports = function (app){
 				res.redirect("/");
 				return;
 			}
-			res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+			
+			if (tmp_pedido.cpf=="Boleto"){
+				res.render("pagamento/boleto", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+			} else {
+				res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+			}	
 		}).catch(function (erro){
 			//res.redirect("/erro/500");
 		});
@@ -336,6 +341,9 @@ module.exports = function (app){
 		var retorno =  0;
 		var token_pagarme = req.body.token;
 		var tipo_pagamento = req.body.tipo;
+		//console.log('pagamento - gravar');
+		//console.log(req.body.dados_transacao);
+		
 		var identificador = req.body.identificador;
 		if (req.session.usuario){
 			//Gravar a transacao, guardar o token e redirecionar

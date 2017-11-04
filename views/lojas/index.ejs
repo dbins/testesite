@@ -5,7 +5,7 @@
      <div class="full">
     
         <aside class="bannerint">
-        	<img src="/imagens/bannerloja.jpg" width="1366" height="285" title="Loja online">
+        	<img src="/imagens/bannerloja.jpg" class="img" title="Loja online">
             <section>Lojas</section>          
         </aside> <!--banner-->
    
@@ -58,10 +58,10 @@
 		if (resultados.length>0){
 		resultados.forEach(function(resultado) { 
 		%>
-		<div class="lojaItem" data-size="<%=resultado.fantasy_name.toLowerCase()%>" data-categoria="<%=resultado.category.toLowerCase()%>" data-cat2="*">	
-    	<a href="/lojas/loja/<%=resultado.slug%>" class="store" >
-            <img src="/imagens/lojas-padrao.jpg" width="350" height="185" title="<%=resultado.fantasy_name%>"> 
-            <p class="nomeloja"><%=resultado.fantasy_name%></p>
+		<div class="lojaItem" data-size="<%=resultado.loja.toLowerCase()%>" data-categoria="<%=resultado.categoria.toLowerCase()%>" data-cat2="*">	
+    	<a href="/lojas/loja/<%=resultado.url_title%>" class="store" >
+            <img src="<%=resultado.imagem%>" class="img" title="<%=resultado.loja%>"> 
+            <p class="nomeloja"><%=resultado.loja%></p>
 			<div class="line"></div>
         </a>
 		</div>

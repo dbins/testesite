@@ -1,23 +1,14 @@
 <!doctype html>
-
 <html lang="pt-BR">
-
 <head>
 
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-
 <meta http-equiv="X-UA-Compatible" content="IE=5; IE=8; IE=7; IE=9; IE=10; IE=11" >
-
 <title>ON STORES | Carrinho </title>
-
 <meta name="description" content="ON STORES - O Market Place da CCP para você!"/>
-
 <meta name="keywords" content="" />
-
 <link rel="shortcut icon" href="favicon.ico">
-
 <link rel=canonical href="http://www.onstores.com.br/"/>
-
 	
 
 <link href="/css/estilo.css" rel="stylesheet" type="text/css" />
@@ -33,7 +24,6 @@
 
 <style type="text/css">
 .adicionar_carrinho {	background-color: #9966CC; padding:2px 2px;   margin-top:5%; float:right; color:#fff; border:none; 	font-size: 18px; width:220px;  height:60px;	font-style: italic; 	font-weight: bold; 	font-family: Lora;}
-
 </style>
 </head>
 
@@ -49,42 +39,30 @@
 
         <header> 
 
-    		<!--<div id="titcar">Minha sacola <img src="/imagens/bag.png" width="60" height="35"></div>-->
+		<div id="titcar">Minha sacola <img src="/imagens/bag.png" width="60" height="35"></div>
 
     		
 
             	<nav class="rota">
 
                     <a href="" class="rts ativo">
-
                         <span>1</span><br>
-
                         Minha Sacola
-
                     </a>
 
                     <a href="" class="rts ">
-
                         <span>2</span><br>
-
                         Identificação
-
                     </a>
 
                     <a href="" class="rts">
-
                         <span>3</span><br>
-
                         Pagamento
-
                     </a>
 
                     <a href="" class="rts">
-
                         <span>4</span><br>
-
                         Confirmação
-
                     </a>            
 
                 </nav>
@@ -93,28 +71,18 @@
 
     	</header>
 
-			
-
-            
-
-
 
 <form action="/carrinho" method="POST" autocomplete="off">
 
+<div class="carrinho">
 	<table class="sacola">
 
       <tr>
-
         <th>Produto</th>
-
         <th>Shopping</th>
-
         <th>Quantidade</th>
-
         <th>Valor Unitário</th>
-
         <th>Total</th>
-
       </tr>
 	  
 	<% 
@@ -123,17 +91,14 @@
 	%> 
 
       <tr>
-
-        <td>
-
-        	
+        <td>       	
 
             <img src="<%=resultado.imagem%>" width="150" height="104">
 
         	<div class="carprod">
 
                 <h3><%=resultado.produto%></h3>
-				Cor:<%=resultado.cor%> <br/>
+				Cor: <span class="colorBtn" style="background:#333"><%=resultado.cor%> </span><br>				
 				Tamanho:<%=resultado.tamanho%> <br/>
                 <span><%=resultado.loja%></span>
 
@@ -157,15 +122,11 @@
         </td>
 
         <td>
-
             <img src="/imagens/icon-location.jpg" width="37" height="37">
-
             <%=resultado.shopping%>
-
         </td>
 
         <td>
-
             <div class="qtdcar">
 				<%
 				if (resultado.qtde > 1){
@@ -181,23 +142,17 @@
                 <input type="text" value=" <%=resultado.qtde%> " maxlength="2" readonly=readonly>
 
                 <a href="/carrinho/altera/<%=resultado.id%>/<%=parseInt(resultado.qtde)+1%>">+</a>
-
              </div>
 
         </td>
 
         <td>
-
         	<input type="text" value="<%=resultado.por%>" readonly=readonly>
-
         </td>
 
         <td>
-
         	<input type="text" value=" <%=resultado.total%>"  readonly=readonly>
-
             <a onClick="return confirmarClique();" href="/carrinho/remove/<%=resultado.id%>/"> x </a>
-
         </td>
 
       </tr>
@@ -219,7 +174,7 @@
 	%>
 
 	</table>
-
+</div><!--carrinho-->
     <div class="clear"></div>
 
     

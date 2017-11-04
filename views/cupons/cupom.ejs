@@ -1,5 +1,5 @@
 <% layout("../layout/index") -%>
-<% block("title", "ON Market Place | Cupons " + nome_do_shopping_barra_titulo + " | Nome do cupon"); -%>
+<% block("title", "ON Market Place | Cupons " + nome_do_shopping_barra_titulo + " | " + resultado.cupom); -%>
 <div class="full">
     
   <article id="conteudo">
@@ -8,7 +8,7 @@
     <section class="detail">
        
         <div id="foto">
-            <div><img src="/imagens/cupon-adiano.jpg" title="nome do Produto" class="img"></div>
+            <div><img src="<%=resultado.imagem%>" title="<%=resultado.cupom%>" class="img"></div>
         </div><!--foto-->
          
     </section> 
@@ -17,17 +17,25 @@
     <div id="infocupon">
      <form action="">
        	<div class="compartilha"><img src="/imagens/compartilha.png" width="30" height="30"></div> 
-        <p>Andiamo</p> 
-        <% if (shopping == ''){ %>
-		<p>Shopping Cidade São Paulo</p>
-		<%  } %>
+        <p><%=resultado.loja%></p>
+        <p><%=resultado.shopping%></p>
         <br> <br>
-        <h1>Filé com Fetuccini
+        <h1><%=resultado.cupom%>
         <div class="pline"></div>
         </h1>   
      	<div class="preco">
-           <span class="de">De R$ 95,40</span>
-            <span class="por">Por 40,00</span>
+		    <%
+			if (resultado.de == resultado.por){
+			%>	
+				<span class="por">R$ <%=resultado.por%></span>
+			<%
+			} else {
+			%>
+				<span class="de">De R$ <%=resultado.de%></span>
+				<span class="por">Por <%=resultado.por%></span>
+			<%
+			}
+			%>
          </div> 
          <br><br>
          <input type="submit" value=" Gerar Cupom ">         
@@ -54,66 +62,53 @@
         
         <div class="clear"></div><br><br>
         
-        <a href="/cupons/" class="prods" data-nome="Espaguete ao pesto" data-categoria="categoria2" data-valor="60.00" data-tipo="produto" data-loja="andiamo">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/cupon-adiano2.jpg" title="nome do Produto" class="img">
-            <h2>Andiamo</h2>
-            <% if (shopping == ''){ %>
-			<div class="shop">Shopping Cidade São Paulo</div>
-            <%  } %>
-			<h3>Espaguete ao pesto</h3>			
-            <div class="valor">
-            	<span class="de">De R$ 55,40</span>
-                <span class="por">Por 35,00</span>
-            </div>
-       </section>  
-   </a> 
-
-     <a href="/cupons/" class="prods" data-nome="Bolo de nozes" data-categoria="categoria3" data-valor="35.00"  data-tipo="produto" data-loja="amor aos pedaços">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/cupon-amor.jpg" title="nome do Produto" class="img">
-            <h2>Amor aos pedaços</h2>
-            <% if (shopping == ''){ %>
-			<div class="shop">Shopping Cidade São Paulo</div>
-            <%	} else { %>
-			
-			<%  } %>
-			<h3>Bolo de nozes</h3>			
-            <div class="valor">
-            	<span class="de">De R$ 55,40</span>
-                <span class="por">Por 35,00</span>
-            </div>
-       </section>  
-   </a> 
- 
-     <a href="/cupons/" class="prods" data-nome="Bloomin Onion" data-categoria="categoria4" data-valor="30.00" data-tipo="promocao" data-loja="outback">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/cupon-amor.jpg" title="nome do Produto" class="img">
-            <h2>Outback</h2>
-            <% if (shopping == ''){ %>
-			<div class="shop">Shopping Cidade São Paulo</div>
-            <%	} else { %>
-			
-			<%  } %>
-			<h3>Bloomin Onion</h3>			
-            <div class="valor">
-            	<span class="de">De R$ 55,40</span>
-                <span class="por">Por 35,00</span>
-            </div>
-       </section>  
-   </a>        
+           <% 
+		   if (relacionados.length>0){
+				relacionados.forEach(function(produto) { 
+		   %> 
+		   <a href="/cupons/<%=produto.url_title%>" class="prods"  data-nome="<%=produto.cupom%>" data-categoria="<%=produto.categoria%>" data-valor="<%=produto.por%>" data-tipo="promocao" data-loja="<%=produto.store%>">
+				<section>
+					<div class="favs">
+						<%
+						if (parseInt(produto.desconto)>0){
+						%>
+						<span> <%=produto.desconto%> %</span>
+						<%
+						}
+						%>
+						<button value="" id=""></button>
+					</div>
+					<img src="<%=produto.imagem%>" title="<%=produto.cupom%>" class="img">
+					<h2><%=produto.loja%></h2>
+					<div class="shop"><%=produto.shopping%></div>
+					<h3><%=produto.cupom%></h3>
+					<div class="valor">
+						<%
+						if (produto.de == produto.por){
+						%>
+						<span class="por">R$ <%=produto.por%></span>
+						<%
+						} else {
+						%>
+						<span class="de">De R$ <%=produto.de%></span>
+						<span class="por">Por <%=produto.por%></span>
+						
+						<%
+						}
+						%>
+					</div>
+			   </section>  
+		   </a> 
+		   <%
+		   });
+		   } else {
+		   %>
+		   
+		   <h3>Não existem cupons!</h3>
+		   <%
+		   }
+		   %>
+   
        
        <div class="clear"></div><br><br>
       <!-- <a href="/cupons" class="botao">Ver todas as promoções</a>-->

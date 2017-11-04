@@ -11,7 +11,7 @@
 				banners.forEach(function(resultado) { 
 				%>
                 <div class="item">
-                	<img src="<%=resultado.images[1].url%>" title="<%=resultado.title%>">
+                	<img src="<%=resultado.images[1].url%>" title="<%=resultado.title%>" class="img">
                 	<section>
                         <span>20 de agosto</span>
                         <span><%=resultado.title%></span>
@@ -69,7 +69,7 @@
 		resultados.forEach(function(resultado) { 
 		%>
 		 <a href="/cinema/filme/<%=resultado.urlKey%>" class="filmes"  data-nome="<%=resultado.title.toLowerCase()%>" data-categoria="<%=resultado.genres.toString().toLowerCase()%>" data-exibicao="<%=resultado.datas.toLowerCase()%>">
-			<img src="<%=resultado.images[0].url%>"  title="<%=resultado.title%>" width=200> 
+			<img src="<%=resultado.images[0].url%>"  title="<%=resultado.title%>" class="img"> 
 			<div class="fline"></div>
 			<p><%=resultado.title%></p>
 		</a>

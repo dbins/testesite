@@ -31,29 +31,29 @@
             <select class="minimal" name="categoria" id="categoria">
             	<option value="">Todas</option>
 				<% 
-				//if (categorias.length>0){
-				//categorias.forEach(function(item) { 
-				%>
-				<!---
-                <option value=""><%//=item%></option>
-				--->
+				if (categorias.length>0){
+				categorias.forEach(function(item) { 
+				%> 
+                <option value="<%=item.slug%>"><%=item.nome%></option>
 				<% 
-				//}); 
-				//}
+				}); 
+				}
 				%>
-				<option value="categoria1">Categoria 1</option>
-				<option value="categoria2">Categoria 2</option>
-				<option value="categoria3">Categoria 3</option>
-				<option value="categoria4">Categoria 4</option>
             </select>
         </div>
          <div>
         	<label>Loja</label>
             <select class="minimal" name="loja" id="loja">
             	<option value="">Todas</option>
-                <option value="andiamo">Andiamo</option>
-                <option value="amor aos pedaços">Amor aos Pedaços</option>
-                <option value="outback">Outback</option>
+                <% 
+				if (lojas.length>0){
+				lojas.forEach(function(item) { 
+				%> 
+                <option value="<%=item.store%>"><%=item.loja%></option>
+				<% 
+				}); 
+				}
+				%>
             </select>
         </div>
 		<input type="hidden" name="_csrf" value="<%= csrfToken %>">		
@@ -68,26 +68,33 @@
    if (resultados.length>0){
 		resultados.forEach(function(produto) { 
    %> 
-   <a href="/cupons/<%=produto.slug%>" class="prods">
+   <a href="/cupons/<%=produto.url_title%>" class="prods"  data-nome="<%=produto.cupom%>" data-categoria="<%=produto.categoria%>" data-valor="<%=produto.por%>" data-tipo="promocao" data-loja="<%=produto.store%>">
         <section>
         	<div class="favs">
-            	<span>30%</span>
+				<%
+				if (parseInt(produto.desconto)>0){
+				%>
+            	<span> <%=produto.desconto%> %</span>
+				<%
+				}
+				%>
                 <button value="" id=""></button>
             </div>
-       		<img src="/imagens/sapato.jpg" title="<%=produto.title%>" class="img">
-            <h2><%=produto.store%></h2>
-            <div class="shop"><%=produto.mall%></div>
-            <h3><%=produto.title%></h3>
+       		<img src="<%=produto.imagem%>" title="<%=produto.cupom%>" class="img">
+            <h2><%=produto.loja%></h2>
+            <div class="shop"><%=produto.shopping%></div>
+            <h3><%=produto.cupom%></h3>
             <div class="valor">
 				<%
-				if (produto.price_start == produto.price_end){
+				if (produto.de == produto.por){
 				%>
-            	<span class="de">De R$ <%=produto.price_start%></span>
-                <span class="por">Por <%=produto.price_end%></span>
-				<%
+				<span class="por">R$ <%=produto.por%></span>
+            	<%
 				} else {
 				%>
-				<span class="por">R$ <%=produto.price%></span>
+				<span class="de">De R$ <%=produto.de%></span>
+                <span class="por">Por <%=produto.por%></span>
+				
 				<%
 				}
 				%>
@@ -99,93 +106,7 @@
    } else {
    %>
    
-   <!---
    <h3>Não existem cupons!</h3>
-   --->
-   
-   <a href="/cupons/cupom" class="prods" data-nome="Filé com Fetuccini" data-categoria="categoria1" data-valor="40.00" data-tipo="promocao" data-loja="andiamo">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/cupon-adiano.jpg" title="nome do Produto" class="img">
-            <h2>Andiamo</h2>
-            <% if (shopping == ''){ %>
-			<div class="shop">Shopping Cidade São Paulo</div>
-            <%	} else { %>
-			
-			<%  } %>
-			<h3>Filé com Fetuccini</h3>			
-            <div class="valor">
-            	<span>De R$ 95,40</span>
-                <span>Por 40,00</span>
-            </div>
-       </section>  
-   </a> 
-   
-   <a href="/cupons/" class="prods" data-nome="Espaguete ao pesto" data-categoria="categoria2" data-valor="60.00" data-tipo="produto" data-loja="andiamo">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/cupon-adiano2.jpg" title="nome do Produto" class="img">
-            <h2>Andiamo</h2>
-            <% if (shopping == ''){ %>
-			<div class="shop">Shopping Cidade São Paulo</div>
-            <%	} else { %>
-			
-			<%  } %>
-			<h3>Espaguete ao pesto</h3>			
-            <div class="valor">
-            	<span>De R$ 75,40</span>
-                <span>Por 60,00</span>
-            </div>
-       </section>  
-   </a> 
-
-     <a href="/cupons/" class="prods" data-nome="Bolo de nozes" data-categoria="categoria3" data-valor="35.00"  data-tipo="produto" data-loja="amor aos pedaços">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/cupon-amor.jpg" title="nome do Produto" class="img">
-            <h2>Amor aos pedaços</h2>
-            <% if (shopping == ''){ %>
-			<div class="shop">Shopping Cidade São Paulo</div>
-            <%	} else { %>
-			
-			<%  } %>
-			<h3>Bolo de nozes</h3>			
-            <div class="valor">
-            	<span>De R$ 55,40</span>
-                <span>Por 35,00</span>
-            </div>
-       </section>  
-   </a> 
- 
-     <a href="/cupons/" class="prods" data-nome="Bloomin Onion" data-categoria="categoria4" data-valor="30.00" data-tipo="promocao" data-loja="outback">
-        <section>
-        	<div class="favs">
-            	<span>30%</span>
-                <button value="" id=""></button>
-            </div>
-       		<img src="/imagens/cupon-amor.jpg" title="nome do Produto" class="img">
-            <h2>Outback</h2>
-            <% if (shopping == ''){ %>
-			<div class="shop">Shopping Cidade São Paulo</div>
-            <%	} else { %>
-			
-			<%  } %>
-			<h3>Bloomin Onion</h3>			
-            <div class="valor">
-            	<span>De R$ 45,40</span>
-                <span>Por 30,00</span>
-            </div>
-       </section>  
-   </a>
    
    
    <%
