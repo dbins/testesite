@@ -1,10 +1,10 @@
 <% layout("../layout/index") -%>
-<% block("title", "ON Market Place | Lojas " + nome_do_shopping_barra_titulo + " | " + resultados.fantasy_name); -%>
+<% block("title", "ON Market Place | Lojas " + nome_do_shopping_barra_titulo + " | " + resultados.loja); -%>
 
  <div class="full">
     
         <aside class="bannerint">
-        	<img src="/imagens/banner-loja.jpg" class="img" title="<%=resultados.fantasy_name%>">
+        	<img src="/imagens/banner-loja.jpg" class="img" title="<%=resultados.loja%>">
            <!-- <section>Lojas</section>-->
             <div class="thumb"><img src="/imagens/thumb-loja2.jpg" class="img"> </div>
         </aside> <!--banner-->
@@ -13,11 +13,11 @@
   	<a href="/lojas" class="back"><span class="seta-esquerda"></span> Voltar para lojas</a>
     
     <section id="sobre">
-    	 <h2><img src="/imagens/icon-fone.jpg" width="39" height="39"> 011 <%=resultados.responsible_phone%></h2>
+    	 <h2><img src="/imagens/icon-fone.jpg" width="39" height="39"> 011 <%=resultados.telefone%></h2>
          
-    		<img src="/imagens/lojas-padrao.jpg" class="img" title=""> 
+    		<img src=" <%=resultados.imagem%>" class="img" title=""> 
     		<h3>Sobre a marca</h3>
-            <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos </p>
+            <%=resultados.descricao%>
             
     </section>
   
@@ -56,7 +56,7 @@
             </div> 
             
         </div><!--mright-->
-       <div class="piso">Piso <%=resultados.floor%></div>
+       <div class="piso">Piso <%=resultados.piso%></div>
        
 	   <%	} 	else {	%>	
 	   
@@ -71,7 +71,7 @@
            		 <img src="/imagens/mapa.jpg" class="img">
             </div>           
         </div><!--mright-->
-       <div class="pisoloja">Piso <%=resultados.floor%></div>
+       <div class="pisoloja">Piso <%=resultados.piso%></div>
 	   
 	   
 	   

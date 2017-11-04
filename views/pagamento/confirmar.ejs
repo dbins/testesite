@@ -114,7 +114,7 @@
 
             	<nav class="rota">
 
-                    <a href="" class="rts">
+                    <a href="/carrinho" class="rts">
 
                         <span>1</span><br>
 
@@ -192,8 +192,20 @@
         	<div class="carprod">
 
                 <h3><%=resultado.produto%></h3>
-				Cor:<%=resultado.cor%> <br/>
+				<%
+				if (resultado.cor != ""){
+				%>
+				Cor: <span class="colorBtn" style="background:#333" data-cor="<%=resultado.cor%>">&nbsp;&nbsp;&nbsp;</span><br>		
+				<%
+				}
+				%>
+				<%
+				if (resultado.tamanho != ""){
+				%>
 				Tamanho:<%=resultado.tamanho%> <br/>
+				<%
+				}
+				%>
                 <span><%=resultado.loja%></span>
 
                 <div class="valorcar">
@@ -291,7 +303,15 @@
 
 
 </div>
-
+<script src="/js/colorpicker/eight-bit-color-picker.js"></script>
+<script type="text/javascript">
+$(function(){
+	const colors = EightBitColorPicker.getDefaultPalette();
+	$('.colorBtn').each(function(){
+		$(this).css('background-color', colors[parseInt($(this).attr("data-cor"))]);
+	});
+});		
+</script>
 
 
 <script> (function (a, b, c, d, e, f, g) { a['CsdmObject'] = e; a[e] = a[e] || function () { (a[e].q = a[e].q || []).push(arguments) }, a[e].l = 1 * new Date(); f = b.createElement(c), g = b.getElementsByTagName(c)[0]; f.async = 1; f.src = d; g.parentNode.insertBefore(f, g) })(window, document, 'script', '//device.clearsale.com.br/m/cs.js', 'csdm'); 

@@ -23,14 +23,11 @@ module.exports = function (app){
 				} else {
 					banners = api_banners.montarGQL(resultados2);	
 				}
-				console.log(banners);
 				res.render("home/index", {banners:banners, shopping:'', produtos: lista_produtos, imagens_shopping: imagens_shopping });
 			}).catch(function (erro){
-				console.log(erro.stack);
 				res.render("home/index", {banners:[], shopping:'', produtos: lista_produtos, imagens_shopping: imagens_shopping });
 			});	
 		}).catch(function (erro){
-			console.log(erro.stack);
 			res.render("home/index", {banners:[], shopping:'', produtos: lista_produtos, imagens_shopping: imagens_shopping});
 		});		
 		

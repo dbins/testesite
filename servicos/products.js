@@ -431,7 +431,44 @@ produtosAPI.prototype.listGQLSegment = function(segment){
 	
 	return rp(opcoes).then((data, res) => {
 		var tmp = JSON.parse(data);
+	
 		resposta = {"resultado":"OK", "dados": tmp.data.products, "status": "OK"};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+		return resposta;
+	});
+}
+
+
+produtosAPI.prototype.listGQLSegmentStore = function(store, array_segments){
+	for (i = 0; i < array_segments.length; i++) { 
+		array_segments[i] = '"' + array_segments[i] + '"';
+	};
+	
+	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
+	const q_mall  = `mall{_id, slug, domain, name}`;
+	const q_parent  = `parent{slug}`;
+	const q_cheapest =  `cheapest {_id,slug,name,price,price_start, price_final, stock,color, size,images{path, type, order}}`;
+    //const q_group = `group{slug name}`;
+	const q_group = '';
+    const q_images= `images{path, type, order}`;
+	var query = `query={products(store: "` + store + `", parent:null, segments:  [` + array_segments+ `]){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_parent}  ${q_images} ${q_cheapest}}}`;
+	var resposta = "";
+	var opcoes = {  
+	    method: 'GET',
+		uri: this.url + "/graphql?" + query,
+		headers: {
+         'Content-Type': 'application/json'
+		}
+	}
+	
+	
+	
+	return rp(opcoes).then((data, res) => {
+		var tmp = JSON.parse(data);
+		var tmp_produtos = this.prepararResultado(tmp.data.products);
+		resposta = {"resultado":"OK", "dados": tmp_produtos, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	

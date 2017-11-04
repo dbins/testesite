@@ -9,7 +9,7 @@
 <meta name="keywords" content="" />
 <link rel="shortcut icon" href="favicon.ico">
 <link rel=canonical href="http://www.onstores.com.br/"/>
-	
+<script src="/js/jquery.min.js"></script>	
 
 <link href="/css/estilo.css" rel="stylesheet" type="text/css" />
 	<script type="text/javascript">
@@ -45,7 +45,7 @@
 
             	<nav class="rota">
 
-                    <a href="" class="rts ativo">
+                    <a href="/carrinho" class="rts ativo">
                         <span>1</span><br>
                         Minha Sacola
                     </a>
@@ -98,8 +98,21 @@
         	<div class="carprod">
 
                 <h3><%=resultado.produto%></h3>
-				Cor: <span class="colorBtn" style="background:#333"><%=resultado.cor%> </span><br>				
+				<%
+				if (resultado.cor != ""){
+				%>
+				Cor: <span class="colorBtn" style="background:#333" data-cor="<%=resultado.cor%>">&nbsp;&nbsp;&nbsp;</span><br>				
+				<%
+				} 
+				%>
+				<%
+				if (resultado.tamanho != ""){
+				%>
 				Tamanho:<%=resultado.tamanho%> <br/>
+				<%
+				} 
+				%>
+				
                 <span><%=resultado.loja%></span>
 
                 <div class="valorcar">
@@ -231,7 +244,16 @@
 
 </div>
 
-
+<script src="/js/colorpicker/eight-bit-color-picker.js"></script>
+<script type="text/javascript">
+$(function(){
+	const colors = EightBitColorPicker.getDefaultPalette();
+	$('.colorBtn').each(function(){
+		$(this).css('background-color', colors[parseInt($(this).attr("data-cor"))]);
+	});
+});		
+</script>
+		
 <script> (function (a, b, c, d, e, f, g) { a['CsdmObject'] = e; a[e] = a[e] || function () { (a[e].q = a[e].q || []).push(arguments) }, a[e].l = 1 * new Date(); f = b.createElement(c), g = b.getElementsByTagName(c)[0]; f.async = 1; f.src = d; g.parentNode.insertBefore(f, g) })(window, document, 'script', '//device.clearsale.com.br/m/cs.js', 'csdm'); 
 csdm('app', '9d416234de'); 
 csdm('mode', 'manual');

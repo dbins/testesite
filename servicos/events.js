@@ -198,7 +198,6 @@ eventsAPI.prototype.viewGQL = function(registro){
          'Content-Type': 'application/json'
 		}
 	}
-	console.log(this.url + "/graphql?" + query);
 	
 	return rp(opcoes).then((data, res) => {
 		var tmp = JSON.parse(data);

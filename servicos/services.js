@@ -126,7 +126,6 @@ servicesAPI.prototype.listGQL = function(){
          'Content-Type': 'application/json'
 		}
 	}
-	console.log(this.url + "/graphql?" + query);
 	return rp(opcoes).then((data, res) => {
 		var tmp = JSON.parse(data);
 		var resultados = tmp.data.services;

@@ -18,7 +18,6 @@ module.exports = function (app){
 			});
 			
 		}).catch(function (erro){
-			console.log(erro.stack);
 			res.status(500).redirect('/erro/500');
 		});
 	});
@@ -32,12 +31,10 @@ module.exports = function (app){
 				var tmp_relacionados = api.montarGQL(resultados2);
 				res.render("cupons/cupom",{resultado:cupom, relacionados: tmp_relacionados});	
 			}).catch(function (erro2){
-				console.log(erro2.stack);
 				res.redirect("/erro/500");
 			});	
 			
 		}).catch(function (erro){
-			console.log(erro.stack);
 			res.redirect("/erro/500");
 		});
 		

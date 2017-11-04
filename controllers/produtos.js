@@ -37,7 +37,7 @@ module.exports = function (app){
 			var tmp = resultados.dados;
 			//var teste = api.montarProduto(tmp);
 			var teste = api.montarProdutoGQL(resultados.dados);
-			var consulta2 = api.listGQLStore(resultados.dados.store.slug).then(function (resultados2) {
+			var consulta2 = api.listGQLSegmentStore(resultados.dados.store.slug, resultados.dados.segments).then(function (resultados2) {
 				var produto_pai = 'no_product';
 				if (resultados.dados.parent === undefined || resultados.dados.parent === null){
 					//Nao existe vinculo

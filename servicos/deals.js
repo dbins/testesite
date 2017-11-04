@@ -131,7 +131,6 @@ dealssAPI.prototype.listGQL = function(){
 	return rp(opcoes).then((data, res) => {
 		var tmp = JSON.parse(data);
 		var resultados = tmp.data.events;
-		console.log(resultados);
 		resposta = {"resultado":"OK", "dados": resultados, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
@@ -198,7 +197,6 @@ dealssAPI.prototype.viewGQL = function(registro){
          'Content-Type': 'application/json'
 		}
 	}
-	console.log(this.url + "/graphql?" + query);
 	
 	return rp(opcoes).then((data, res) => {
 		var tmp = JSON.parse(data);

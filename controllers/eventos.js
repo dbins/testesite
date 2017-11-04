@@ -10,7 +10,6 @@ module.exports = function (app){
 			var eventos = api.montarGQL(resultados);	
 			res.render("eventos/index", {resultados:eventos, shoppings: app.locals.shoppings});
 		}).catch(function (erro){
-			console.log(erro.stack);
 			res.status(500).redirect('/erro/500');
 		});
 		
