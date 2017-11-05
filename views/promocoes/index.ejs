@@ -45,3 +45,49 @@
 
  
  </div><!--full-->
+ 
+<script type="text/javascript">
+
+ function favoritar_promocao(promocao, event){
+	event.preventDefault();
+	$.ajax({
+	  type: 'POST',
+	  url: '/promocoes/favoritar/',
+	  dataType : 'json',
+	  data: { 
+		'promocao': promocao, 
+		'_csrf': '<%= csrfToken %>'
+	  },
+	  success: function (response) {
+		alert('Promoção selecionada com sucesso!');
+		return false;
+	  },
+	  error: function () {
+		//
+	  }
+   });
+}
+	
+function remover_promocao(promocao, event){
+	event.preventDefault();
+	$.ajax({
+	  type: 'POST',
+	  url: '/promocoes/desfavoritar/',
+	  dataType : 'json',
+	  data: { 
+		'promocao': promocao, 
+		'_csrf': '<%= csrfToken %>'
+	  },
+	  success: function (response) {
+		$("#lk" +  promocao).remove();
+		alert('Promoção removida com sucesso!');
+	  },
+	  error: function () {
+		//
+	  }
+   });
+}	
+
+ 
+</script> 
+ 

@@ -34,14 +34,52 @@ module.exports = function (app){
 		});
 	});
 	
-	app.get("/eventos/favoritar/:nomedoevento", function(req,res){
-		var nomedoevento = req.params.nomedoevento;
-		res.render("eventos/evento");
+	app.post("/eventos/favoritar", function(req,res){
+		var nomedoevento = req.body.evento;
+		var api = new webservice(req.session.shopping);
+		var adicionar = true;
+		if (req.session.favoritos_eventos){
+			for (index = 0; index < req.session.favoritos_eventos.length; ++index) {
+				if (req.session.favoritos_eventos[index].id == nomedoevento){
+					adicionar = false;	
+				}	
+			}
+		}
+		var retorno = 0;
+		if (adicionar){
+			if(!req.session.favoritos_eventos){
+				req.session.favoritos_eventos = [];
+			}
+			var consulta = api.viewGQL(nomedoevento).then(function (resultados) {	
+				
+				var tmp_dados = resultados.dados;
+				var tmp = api.montarProdutoGQL(tmp_dados);
+				var tmp2 = req.session.favoritos_eventos;
+				tmp2.push(tmp);
+				req.session.favoritos_eventos = tmp2;
+				retorno = 1;
+				req.session.save(function (err) {
+					if (err) return next(err)
+				});			
+			}).catch(function (erro){
+				retorno = 2;
+			});
+		}
+		res.json({resultado:retorno});
 	});
 	
-	app.get("/eventos/desfavoritar/:nomedoevento", function(req,res){
-		var nomedoevento = req.params.nomedoevento;
-		res.render("eventos/evento");
+	app.post("/eventos/desfavoritar", function(req,res){
+		var nomedoevento = req.body.evento;
+		var retorno = 0;
+		if(req.session.favoritos_eventos){
+			for (index = 0; index < req.session.favoritos_eventos.length; ++index) {
+				if (req.session.favoritos_eventos[index].id == nomedoevento){
+					req.session.favoritos_eventos.splice(index, 1);
+					retorno = 1;
+				}
+			}
+		}
+		res.json({resultado:retorno});
 	});
 	
 }

@@ -280,7 +280,6 @@ module.exports = function (app){
 		api_clearsale.sendOrders(dados_cliente, dadosCompra, fingerprint, dados_pedido);
 		//Precisa capturar o retorno....
 		
-		
 		req.session.carrinho = "";
 		req.session.total_carrinho = 0; 
 		//Gerar Token
@@ -304,8 +303,7 @@ module.exports = function (app){
 				res.redirect("/");
 				return;
 			}
-			
-			if (tmp_pedido.cpf=="Boleto"){
+			if (tmp_pedido.tipo=="Boleto"){
 				res.render("pagamento/boleto", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
 			} else {
 				res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
@@ -341,8 +339,7 @@ module.exports = function (app){
 		var retorno =  0;
 		var token_pagarme = req.body.token;
 		var tipo_pagamento = req.body.tipo;
-		//console.log('pagamento - gravar');
-		//console.log(req.body.dados_transacao);
+		var dados_cliente_pagarme = req.body.dados_transacao;
 		
 		var identificador = req.body.identificador;
 		if (req.session.usuario){
@@ -363,7 +360,7 @@ module.exports = function (app){
 				req.session.carrinho[index].total = (parseFloat(req.session.carrinho[index].por) * parseFloat(req.session.carrinho[index].qtde));
 				//Formato API
 				//tmp_item.mall =  req.session.carrinho[index].mall;
-				tmp_item.mall =  "NAO TEM NO ENDPOINT DE SHOPPINGS";
+				tmp_item.mall =  req.session.carrinho[index].mall;
 				tmp_item.store = req.session.carrinho[index].loja;
 				tmp_item.product = req.session.carrinho[index].url_title;
 				//tmp_item.bought_at: Date,
@@ -445,12 +442,21 @@ module.exports = function (app){
 				//array_items_API.push(tmp_item_API);	
 			}
 			
+			
 			dados.items = array_items;
 			var objeto_metadata = {};
 			objeto_metadata.id = 0;
 			objeto_metadata.produtos = req.session.carrinho;
 			dados.metadata = objeto_metadata;
-			var consulta = apiPagarme.captura(token_pagarme, total, dados).then(function (resultados) {
+			
+			//Acrescentar no retorno Pagarme nossas informacoes.
+			dados_cliente_pagarme.items = array_items;
+			dados_cliente_pagarme.metadata = objeto_metadata;
+			
+			//Antes autorizava e capturava ao mesmo tempo, agora apenas autoriza.
+			//Neste caso, o envio de dados depende do tipo de pagamento!
+			//var consulta = apiPagarme.captura(token_pagarme, total, dados).then(function (resultados) {
+			var consulta = apiPagarme.autorizaTransacao(total, dados_cliente_pagarme).then(function (resultados) {
 				//Somente volta resposta depois da captura!
 				req.session.ultima_transacao = resultados.dados.id;
 				transacao.transaction_id = resultados.dados.id; //ID NA PAGARME!

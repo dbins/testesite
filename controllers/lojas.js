@@ -122,14 +122,52 @@ module.exports = function (app){
 		//Retornar JSON
 	});
 	
-	app.get("/lojas/favoritar/:nomedaloja", function(req,res){
-		var nomedaloja = req.params.nomedaloja;
-		res.render("lojas/loja");
+	app.post("/lojas/favoritar", function(req,res){
+		var api = new webservice(req.session.shopping);
+		var nomedaloja = req.body.loja;
+		var adicionar = true;
+		if (req.session.favoritos_lojas){
+			for (index = 0; index < req.session.favoritos_lojas.length; ++index) {
+				if (req.session.favoritos_lojas[index].id == nomedaloja){
+					adicionar = false;	
+				}	
+			}
+		}
+		var retorno = 0;
+		if (adicionar){
+			if(!req.session.favoritos_lojas){
+				req.session.favoritos_lojas = [];
+			}
+			var consulta = api.viewGQL(nomedaloja).then(function (resultados) {	
+				
+				var tmp_dados = resultados.dados;
+				var tmp = api.montarProdutoGQL(tmp_dados);
+				var tmp2 = req.session.favoritos_lojas;
+				tmp2.push(tmp);
+				req.session.favoritos_lojas = tmp2;
+				retorno = 1;
+				req.session.save(function (err) {
+					if (err) return next(err)
+				});			
+			}).catch(function (erro){
+				retorno = 2;
+			});
+		}
+		res.json({resultado:retorno});
 	});
 	
-	app.get("/lojas/desfavoritar/:nomedaloja", function(req,res){
-		var nomedaloja = req.params.nomedaloja;
-		res.render("lojas/loja");
+	app.post("/lojas/desfavoritar", function(req,res){
+		var nomedaloja = req.body.loja;
+		var retorno = 0;
+		if(req.session.favoritos_lojas){
+			for (index = 0; index < req.session.favoritos_lojas.length; ++index) {
+				if (req.session.favoritos_lojas[index].id == nomedaloja){
+					req.session.favoritos_lojas.splice(index, 1);
+					retorno = 1;
+				}
+			}
+		}
+		res.json({resultado:retorno});
 	});
 	
 }

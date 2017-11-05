@@ -23,7 +23,9 @@
         <script>
 			function finalizar(data){
 				var temp = data;
-				var token = temp.token;
+				//var token = temp.token;
+				var token = "";
+				var dados_transacao = data;
 				var tipo = temp.payment_method;
 				$.ajax({
 				  type: 'POST',
@@ -32,6 +34,7 @@
 				  data: { 
 					'token': token, 
 					'tipo': tipo, 
+					'dados_transacao': dados_transacao,
 					'identificador': $('#identificador').val(),
 					'_csrf': '<%= csrfToken %>'
 				  },
@@ -64,7 +67,7 @@
                     // DEFINIR AS OPÇÕES
                     // e abrir o modal
                     // É necessário passar os valores boolean em "var params" como string
-                    var params = {"customerData":"false", "amount":"<%=total_carrinho%>", "createToken": "true", "interestRate": 0, "postbackUrl":"", "customerName":"<%=cliente.nome%> <%=cliente.sobrenome%>", "customerDocumentNumber":"<%=cliente.CPF%>", "customerEmail":"<%=cliente.email%>", "customerAddressStreet":"<%=endereco.rua%>", "customerAddressStreetNumber":"<%=endereco.numero%>", "customerAddressComplementary":"<%=endereco.complemento%>", "customerAddressNeighborhood":"<%=endereco.bairro%>", "customerAddressCity":"<%=endereco.cidade%>", "customerAddress-State":"<%=endereco.estado%>", "customerAddressZipcode":"<%=endereco.cep%>", "customerPhoneDdd":"<%=cliente.ddd%>", "customerPhoneNumber":"<%=cliente.telefone%>","disableZeroDocumentNumber":"true", "freeInstallments":"0", "defaultInstallment":"1",
+                    var params = {"customerData":"false", "amount":"<%=total_carrinho%>", "createToken": "false", "interestRate": 0, "postbackUrl":"", "customerName":"<%=cliente.nome%> <%=cliente.sobrenome%>", "customerDocumentNumber":"<%=cliente.CPF%>", "customerEmail":"<%=cliente.email%>", "customerAddressStreet":"<%=endereco.rua%>", "customerAddressStreetNumber":"<%=endereco.numero%>", "customerAddressComplementary":"<%=endereco.complemento%>", "customerAddressNeighborhood":"<%=endereco.bairro%>", "customerAddressCity":"<%=endereco.cidade%>", "customerAddress-State":"<%=endereco.estado%>", "customerAddressZipcode":"<%=endereco.cep%>", "customerPhoneDdd":"<%=cliente.ddd%>", "customerPhoneNumber":"<%=cliente.telefone%>","disableZeroDocumentNumber":"true", "freeInstallments":"0", "defaultInstallment":"1",
                       
 					  //Texto mostrado no botão de pagamento.
 					  "buttonText":"Pagar",

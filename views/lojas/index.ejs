@@ -119,4 +119,46 @@ $('#categoria').on('change', function() {
          return regex.test($(this).data('categoria'))
      }).show();
  }
+ 
+ function favoritar_loja(loja, event){
+	event.preventDefault();
+	$.ajax({
+	  type: 'POST',
+	  url: '/lojas/favoritar/',
+	  dataType : 'json',
+	  data: { 
+		'loja': loja, 
+		'_csrf': '<%= csrfToken %>'
+	  },
+	  success: function (response) {
+		alert('Loja selecionada com sucesso!');
+		return false;
+	  },
+	  error: function () {
+		//
+	  }
+   });
+}
+	
+function remover_loja(loja, event){
+	event.preventDefault();
+	$.ajax({
+	  type: 'POST',
+	  url: '/lojas/desfavoritar/',
+	  dataType : 'json',
+	  data: { 
+		'loja': loja, 
+		'_csrf': '<%= csrfToken %>'
+	  },
+	  success: function (response) {
+		$("#lk" +  loja).remove();
+		alert('Loja removido com sucesso!');
+	  },
+	  error: function () {
+		//
+	  }
+   });
+}	
+
+ 
 </script>

@@ -35,3 +35,48 @@
    </div><!--events--> 
    
  </div><!--full-->
+ 
+<script type="text/javascript">
+
+ function favoritar_evento(evento, event){
+	event.preventDefault();
+	$.ajax({
+	  type: 'POST',
+	  url: '/eventos/favoritar/',
+	  dataType : 'json',
+	  data: { 
+		'evento': evento, 
+		'_csrf': '<%= csrfToken %>'
+	  },
+	  success: function (response) {
+		alert('Evento selecionado com sucesso!');
+		return false;
+	  },
+	  error: function () {
+		//
+	  }
+   });
+}
+	
+function remover_evento(evento, event){
+	event.preventDefault();
+	$.ajax({
+	  type: 'POST',
+	  url: '/eventos/desfavoritar/',
+	  dataType : 'json',
+	  data: { 
+		'evento': evento, 
+		'_csrf': '<%= csrfToken %>'
+	  },
+	  success: function (response) {
+		$("#lk" +  evento).remove();
+		alert('Evento removido com sucesso!');
+	  },
+	  error: function () {
+		//
+	  }
+   });
+}	
+
+ 
+</script> 

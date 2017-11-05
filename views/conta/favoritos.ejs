@@ -171,14 +171,14 @@
 				if (promocoes.length>0){
 					promocoes.forEach(function(produto) { 
 				%>    
-				<a href="/promocoes/<%=produto.url_title%>" class="prods">
+				<a id="lk<%=produto.id%>" href="/promocoes/<%=produto.url_title%>" class="prods">
 					<section>
 						<%
 						if(usuario != '') {
 						%>  
 						<div class="favs">
 							<span> <%=produto.desconto%> %</span>
-							<button value="" id=""></button>
+							<button type="button" title="Desfavoritar Promoção" id="" onclick="remover_promocao('<%=produto.url_title%>', event)"></button>
 						</div>
 						<%
 						}
@@ -232,14 +232,14 @@
 				if (lojas.length>0){
 					lojas.forEach(function(produto) { 
 				%>    
-				<a href="/lojas/<%=produto.url_title%>" class="prods">
+				<a id="lk<%=produto.id%>" href="/lojas/<%=produto.url_title%>" class="prods">
 					<section>
 						<%
 						if(usuario != '') {
 						%>  
 						<div class="favs">
 							<span> <%=produto.desconto%> %</span>
-							<button value="" id=""></button>
+							<button type="button" title="Desfavoritar Produto" id="" onclick="remover_loja('<%=produto.url_title%>', event)"></button>
 						</div>
 						<%
 						}
@@ -292,14 +292,14 @@
 				if (eventos.length>0){
 					eventos.forEach(function(produto) { 
 				%>    
-				<a href="/eventos/<%=produto.url_title%>" class="prods">
+				<a id="lk<%=produto.id%>" href="/eventos/<%=produto.url_title%>" class="prods">
 					<section>
 						<%
 						if(usuario != '') {
 						%>  
 						<div class="favs">
 							<span> <%=produto.desconto%> %</span>
-							<button value="" id=""></button>
+							<button type="button" title="Desfavoritar Evento" id="" onclick="remover_evento('<%=produto.url_title%>', event)"></button>
 						</div>
 						<%
 						}
@@ -350,3 +350,66 @@
 
 
 <!------------------Fim produtos---------------------->
+<script type="text/javascript">
+function remover_loja(loja, event){
+	event.preventDefault();
+	$.ajax({
+	  type: 'POST',
+	  url: '/lojas/desfavoritar/',
+	  dataType : 'json',
+	  data: { 
+		'loja': loja, 
+		'_csrf': '<%= csrfToken %>'
+	  },
+	  success: function (response) {
+		$("#lk" +  loja).remove();
+		alert('Loja removido com sucesso!');
+	  },
+	  error: function () {
+		//
+	  }
+   });
+}	
+
+
+function remover_evento(evento, event){
+	event.preventDefault();
+	$.ajax({
+	  type: 'POST',
+	  url: '/eventos/desfavoritar/',
+	  dataType : 'json',
+	  data: { 
+		'evento': evento, 
+		'_csrf': '<%= csrfToken %>'
+	  },
+	  success: function (response) {
+		$("#lk" +  evento).remove();
+		alert('Evento removido com sucesso!');
+	  },
+	  error: function () {
+		//
+	  }
+   });
+}	
+
+function remover_promocao(promocao, event){
+	event.preventDefault();
+	$.ajax({
+	  type: 'POST',
+	  url: '/promocoes/desfavoritar/',
+	  dataType : 'json',
+	  data: { 
+		'promocao': promocao, 
+		'_csrf': '<%= csrfToken %>'
+	  },
+	  success: function (response) {
+		$("#lk" +  promocao).remove();
+		alert('Promoção removida com sucesso!');
+	  },
+	  error: function () {
+		//
+	  }
+   });
+}	
+
+</script>

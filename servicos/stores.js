@@ -176,7 +176,7 @@ storesAPI.prototype.montarGQL = function(resultados){
 		}
 		
 		var categoria = "";
-		if (obj.category.slug){
+		if (obj.category){
 			categoria = obj.category.slug;
 		}
 		var favorito = "NAO";
@@ -242,7 +242,7 @@ storesAPI.prototype.montarLojaGQL = function(obj){
 	var piso = obj.floor;
 	var descricao = obj.description;
 	var categoria = "";
-	if (obj.category.slug){
+	if (obj.category){
 		categoria = obj.category.slug;
 	}
 	var favorito = "NAO";

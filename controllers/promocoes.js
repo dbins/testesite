@@ -42,13 +42,51 @@ module.exports = function (app){
 		});
 	});
 	
-	app.get("/promocoes/favoritar/:nomedapromocao", function(req,res){
-		var nomedapromocao = req.params.nomedapromocao;
-		res.render("promocoes/promocao");
+	app.post("/promocoes/favoritar", function(req,res){
+		var nomedapromocao = req.body.promocao;
+		var api = new webservice(req.session.shopping);
+		var adicionar = true;
+		if (req.session.favoritos_promocoes){
+			for (index = 0; index < req.session.favoritos_promocoes.length; ++index) {
+				if (req.session.favoritos_promocoes[index].id == nomedapromocao){
+					adicionar = false;	
+				}	
+			}
+		}
+		var retorno = 0;
+		if (adicionar){
+			if(!req.session.favoritos_promocoes){
+				req.session.favoritos_promocoes = [];
+			}
+			var consulta = api.viewGQL(nomedapromocao).then(function (resultados) {	
+				
+				var tmp_dados = resultados.dados;
+				var tmp = api.montarProdutoGQL(tmp_dados);
+				var tmp2 = req.session.favoritos_promocoes;
+				tmp2.push(tmp);
+				req.session.favoritos_promocoes = tmp2;
+				retorno = 1;
+				req.session.save(function (err) {
+					if (err) return next(err)
+				});			
+			}).catch(function (erro){
+				retorno = 2;
+			});
+		}
+		res.json({resultado:retorno});
 	});
 	
-	app.get("/promocoes/desfavoritar/:nomedapromocao", function(req,res){
-		var nomedapromocao = req.params.nomedapromocao;
-		res.render("promocoes/promocao");
+	app.post("/promocoes/desfavoritar", function(req,res){
+		var nomedapromocao = req.body.promocao;
+		var retorno = 0;
+		if(req.session.favoritos_promocoes){
+			for (index = 0; index < req.session.favoritos_promocoes.length; ++index) {
+				if (req.session.favoritos_promocoes[index].id == nomedapromocao){
+					req.session.favoritos_promocoes.splice(index, 1);
+					retorno = 1;
+				}
+			}
+		}
+		res.json({resultado:retorno});
 	});
 }
