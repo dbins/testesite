@@ -141,7 +141,7 @@ module.exports = function (app){
 			var consulta = api.viewGQL(nomedaloja).then(function (resultados) {	
 				
 				var tmp_dados = resultados.dados;
-				var tmp = api.montarProdutoGQL(tmp_dados);
+				var tmp = api.montarLojaGQL(tmp_dados);
 				var tmp2 = req.session.favoritos_lojas;
 				tmp2.push(tmp);
 				req.session.favoritos_lojas = tmp2;

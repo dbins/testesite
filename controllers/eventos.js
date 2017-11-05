@@ -53,7 +53,7 @@ module.exports = function (app){
 			var consulta = api.viewGQL(nomedoevento).then(function (resultados) {	
 				
 				var tmp_dados = resultados.dados;
-				var tmp = api.montarProdutoGQL(tmp_dados);
+				var tmp = api.montarViewGQL(tmp_dados);
 				var tmp2 = req.session.favoritos_eventos;
 				tmp2.push(tmp);
 				req.session.favoritos_eventos = tmp2;
