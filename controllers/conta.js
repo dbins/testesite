@@ -155,6 +155,8 @@ module.exports = function (app){
 			res.redirect("/");
 			return;
 		}
+		
+		//console.log(req.body);
 		//Gravar os dados
 		var dados_do_cliente = {};
 		dados_do_cliente._id = req.session.cliente.id;

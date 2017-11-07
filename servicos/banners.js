@@ -153,7 +153,7 @@ bannersAPI.prototype.montarGQL = function(resultados){
 		var link_banner = obj.url;
 		
 		
-		var item = {"id": obj._id,"": obj.slug, "nome":nome, "link":link_banner, "imagem":imagem, "mall": obj.mall};
+		var item = {"id": obj._id,"": obj.slug, "nome":nome, "titulo1":obj.title_1, "titulo2":obj.title_2, "link":link_banner, "imagem":imagem, "mall": obj.mall};
 		retorno.push(item);
 		}
 	});

@@ -9,6 +9,7 @@ var eventsAPI = function (shopping_selecionado) {
 	this.posicao = 0;
 	//this.config();
 	this.metodo = "events";
+	this.favoritos = [];
 	this.api_nome_do_shopping = '';
 	if (shopping_selecionado !== undefined){
 		if (shopping_selecionado != ''){
@@ -247,9 +248,25 @@ eventsAPI.prototype.montarViewGQL = function(obj){
 			categoria = obj.store.category.slug;
 		}
 	}
-	var favorito = "NAO";
+	var favorito = this.eventoFavorito(obj.slug);
 	var item = {"id": obj._id,"url_title": obj.slug, "imagem":imagem, "nome":obj.title, "shopping":nome_do_Shopping, "mall": slug_shopping, "loja": nome_da_Loja, "store": slug_loja, "categoria": categoria, "favorito": favorito, "descricao_resumida":descricao_resumida, "descricao_detalhada":descricao_detalhada, "data_inicial":data_inicial, "data_final":data_final};
 	return item;
+}
+
+eventsAPI.prototype.guardarFavoritos = function(favoritos){
+	this.favoritos = favoritos;
+}
+
+eventsAPI.prototype.eventoFavorito = function(evento){
+	var retorno = "NAO";
+	if (this.favoritos){
+		for (index = 0; index < this.favoritos.length; ++index) {
+			if (this.favoritos[index].url_title == evento){
+				retorno = "SIM";	
+			}	
+		}
+	}
+	return retorno;
 }
 
 

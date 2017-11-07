@@ -1,9 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/source/jquery.fancybox.css" media="screen" />
 <style type="text/css">
-.fancybox-overlay {
-    z-index: 1000 !important;
-}
-
+.fancybox-overlay {    z-index: 1000 !important;}
 </style>
 
 	<header>
@@ -16,9 +13,11 @@
 
 			<nav id="menu">
 
-					<%	if (shopping == ''){   %>
+					<%	
+					if (shopping == ''){ 
+					%>
 						<ul class="dropdown"> 					
-					<%	} 	else {	%>					
+					<%	} else {	%>					
 						<ul class="dropshp"> 
 					<%  } %>
 				   
@@ -52,12 +51,11 @@
 					<%
 					}
 					%>
-
+					
                     <li><a href="/lojas/loja-online">LOJA ON LINE</a></li>
                     <li><a href="/lojas">LOJAS</a></li>
-                    <li><a href="/cupons">CUPONS</a> </li>
-
-                     
+                    <li><a href="/cupons">CUPONS</a> </li> 
+                    
 					<%
 					if (shopping != ''){
 				    %>
@@ -74,8 +72,7 @@
 						</li>
                     <%
 					}
-					%>
-					
+					%>					
                     
 					
 					<%
@@ -99,10 +96,105 @@
                 </ul>
 
        		
+			<!--------------Menu mobile-------------------->
+			
+			<div id="menu-mobile">
+				  <div class="container demo-1">
+					<div class="main clearfix">
+					  <div class="column">
+						<div id="dl-menu" class="dl-menuwrapper">
+						  <button class="dl-trigger">Menu</button>
+						 
+						  	<ul class="dl-menu">
+						   <li><a href="/">HOME</a></li>
+							<%
+							if (shopping != ''){
+							%>				  
+						   <!------- Mostrar no shopping---->
+						  <!-- <li id="shp"><a href=""><img src="/imagens/<%=shopping%>.png" width="90" height="69" title="<%=nome_shopping(shopping)%>"></a></li>-->
+						   <li ><a href=""><%=nome_shopping(shopping)%></a></li>
+						   <%
+						   }
+						   %>
+
+						   <%
+						   if (shopping == ''){
+						   %>
+					   <!------- Mostrar na visão geral---->
+					   <li><a>SHOPPINGS </a>
+							<ul class="dl-submenu">
+								<% 
+								if (shoppings.length>0){
+								shoppings.forEach(function(resultado) { %>
+								<li><a href="/home/<%=resultado.url_title%>"><%=resultado.title%></a></li>
+								<% 
+								}); 
+								}
+								%>
+								
+								
+							</ul>
+						</li>
+							<%
+							}
+							%>
+							
+							<li><a href="/lojas/loja-online">LOJA ON LINE</a></li>
+							<li><a href="/lojas">LOJAS</a></li>
+							<li><a href="/cupons">CUPONS</a> </li> 
+							
+							<%
+							if (shopping != ''){
+							%>
+								<li><a>ACONTECE </a>
+									<ul class="dl-submenu">
+										<li><a href="/eventos">Eventos</a></li>
+										<li><a href="/promocoes">Promoções do Shopping</a></li>
+									 </ul>
+								</li>
+								<li><a>LAZER </a>
+									<ul class="dl-submenu">
+										<li><a href="/cinema">Cinema</a> </li>
+									 </ul>
+								</li>
+							<%
+							}
+							%>					
+							
+							
+							<%
+							if (shopping == ''){
+							%>
+							<!---MOSTRAR SOMENTE NO SITE GERAL ---->
+							<li><a href="/eventos">EVENTOS</a> </li>
+							<%
+							}
+							%>
+							
+							<%
+							if (shopping != ''){
+							%>
+							<!---MOSTRAR SOMENTE QUANDO TIVER NO SHOPPING ---->
+							<li><a href="/servicos">SERVIÇOS</a> </li>
+							<%
+							}
+							%>
+									
+							
+							
+						  </ul>
+						</div> <!-- /dl-menuwrapper -->
+					  </div><!--colum-->
+					</div><!--main-->
+				  </div><!-- /container -->
+				</div>
+							
+			
 				
                 
                 <div class="log">
-                    <a href="" class="lupa" id="lupa"><img src="/imagens/lupa.png" width="25" height="25" title="Busca"></a>
+                   
+				   <a href="" class="lupa" id="lupa"><img src="/imagens/lupa.png" width="25" height="25" title="Busca"></a>
 				                  
 				   <!--Mostrar logado-->
 				   <a class="bt fancybox fancybox.iframe" id="btn_carrinho" href="/carrinho"><img src="/imagens/bag.png" width="20" height="20" title="Sacola"> <%=total_carrinho%></a>
@@ -122,25 +214,20 @@
                   <!----mostrar logado----->
 
                   <div class="bt" id="conta">
-
                		  <div class="icon"><%=letras%></div>
-
-                           Minha conta <span class="seta-baixo2"></span>                       
-
-                    </div><!--conta-->                    
+                           Minha conta <span class="seta-baixo2"></span>
+                  </div><!--conta-->                    
 
                     
 
                        <div id="conta2" class="conta2">
 
                             <ul class="conta"> 
-
                                 <li><a href="/compras">Minhas Compras</a></li>
                                 <li><a href="/favoritos">Meus Favoritos</a></li>
                                 <li><a href="/configuracoes">Configurações</a></li>
                                 <li><a href="/logout">Sair</a></li>   
-
-                            </ul>
+                           </ul>
 
                         </div>
 

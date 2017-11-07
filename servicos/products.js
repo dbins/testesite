@@ -115,7 +115,7 @@ produtosAPI.prototype.listGQL = function(){
 	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
 	const q_parent  = `parent{slug}`;
-	const q_cheapest =  `cheapest {_id,slug,name,price, stock,color, size,images{path, type, order}}`;
+	const q_cheapest =  `cheapest {_id,slug,name,price, stock,color, size,approved_status,images{path, type, order}}`;
 	
     // const q_group = `group{slug name}`;
 	const q_group = '';
@@ -127,7 +127,7 @@ produtosAPI.prototype.listGQL = function(){
 	
 	
     const q_images= `images{path, type, order}`;
-	var query = `query={products(parent:null ${q_filtro_mall}){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_parent}  ${q_images}  ${q_cheapest}}}`;
+	var query = `query={products(parent:null ${q_filtro_mall}){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price approved_status ${q_store} ${q_mall} ${q_group} ${q_parent}  ${q_images}  ${q_cheapest}}}`;
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -152,7 +152,7 @@ produtosAPI.prototype.listGQL = function(){
 produtosAPI.prototype.viewGQL = function(registro){
 	
 	//var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price store{slug, real_name, fantasy_name, floor, title, category{slug,name}} mall{_id, slug, domain, name}  images{path, type, order} group{slug,name}}}';
-	var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price color size store{slug, real_name, fantasy_name, floor, title, category{slug,name}} mall{_id, slug, domain, name} parent{slug} images{path, type, order}}}';
+	var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price color size approved_status store{slug, real_name, fantasy_name, floor, title, category{slug,name}} mall{_id, slug, domain, name} parent{slug} images{path, type, order}}}';
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -384,11 +384,11 @@ produtosAPI.prototype.listGQLStore = function(store){
 	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
 	const q_parent  = `parent{slug}`;
-	const q_cheapest =  `cheapest {_id,slug,name,price, stock,color, size,images{path, type, order}}`;
+	const q_cheapest =  `cheapest {_id,slug,name,price, stock,color, size,approved_status,images{path, type, order}}`;
     //const q_group = `group{slug name}`;
 	const q_group = '';
     const q_images= `images{path, type, order}`;
-	var query = `query={products(store: "` + store + `", parent:null){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group}${q_parent}   ${q_images} ${q_cheapest}}}`;
+	var query = `query={products(store: "` + store + `", parent:null){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price approved_status ${q_store} ${q_mall} ${q_group}${q_parent}   ${q_images} ${q_cheapest}}}`;
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -401,7 +401,8 @@ produtosAPI.prototype.listGQLStore = function(store){
 	
 	return rp(opcoes).then((data, res) => {
 		var tmp = JSON.parse(data);
-		resposta = {"resultado":"OK", "dados": tmp.data.products, "status": "OK"};	
+		var resultados = this.prepararResultado(tmp.data.products);
+		resposta = {"resultado":"OK", "dados": resultados, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
@@ -414,11 +415,11 @@ produtosAPI.prototype.listGQLSegment = function(segment){
 	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
 	const q_parent  = `parent{slug}`;
-	const q_cheapest =  `cheapest {_id,slug,name,price,price_start, price_final, stock,color, size,images{path, type, order}}`;
+	const q_cheapest =  `cheapest {_id,slug,name,price,price_start, price_final, stock,color, size,approved_status,images{path, type, order}}`;
     //const q_group = `group{slug name}`;
 	const q_group = '';
     const q_images= `images{path, type, order}`;
-	var query = `query={products(segments: ["` + segment + `"], parent:null){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_parent}  ${q_images} ${q_cheapest}}}`;
+	var query = `query={products(segments: ["` + segment + `"], parent:null){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price approved_status ${q_store} ${q_mall} ${q_group} ${q_parent}  ${q_images} ${q_cheapest}}}`;
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -431,8 +432,8 @@ produtosAPI.prototype.listGQLSegment = function(segment){
 	
 	return rp(opcoes).then((data, res) => {
 		var tmp = JSON.parse(data);
-	
-		resposta = {"resultado":"OK", "dados": tmp.data.products, "status": "OK"};	
+		var resultados = this.prepararResultado(tmp.data.products);
+		resposta = {"resultado":"OK", "dados": resultados, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
@@ -449,11 +450,11 @@ produtosAPI.prototype.listGQLSegmentStore = function(store, array_segments){
 	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
 	const q_parent  = `parent{slug}`;
-	const q_cheapest =  `cheapest {_id,slug,name,price,price_start, price_final, stock,color, size,images{path, type, order}}`;
+	const q_cheapest =  `cheapest {_id,slug,name,price,price_start, price_final, stock,color, size,approved_status,images{path, type, order}}`;
     //const q_group = `group{slug name}`;
 	const q_group = '';
     const q_images= `images{path, type, order}`;
-	var query = `query={products(store: "` + store + `", parent:null, segments:  [` + array_segments+ `]){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_parent}  ${q_images} ${q_cheapest}}}`;
+	var query = `query={products(store: "` + store + `", parent:null, segments:  [` + array_segments+ `]){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price approved_status ${q_store} ${q_mall} ${q_group} ${q_parent}  ${q_images} ${q_cheapest}}}`;
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -484,8 +485,8 @@ produtosAPI.prototype.search = function(produto){
     //const q_group = `group{slug name}`;
 	const q_group = '';
     const q_images= `images{path, type, order}`;
-	const q_cheapest =  `cheapest {_id,slug,name,price,price_start, price_final, stock,color, size,images{path, type, order}}`;
-	var query = `query={products(name: "/` + produto + `/", parent:null){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price ${q_store} ${q_mall} ${q_group} ${q_parent} ${q_images} ${q_cheapest}}}`;
+	const q_cheapest =  `cheapest {_id,slug,name,price,price_start, price_final, stock,color, size,approved_status,images{path, type, order}}`;
+	var query = `query={products(name: "/` + produto + `/", parent:null){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price approved_status ${q_store} ${q_mall} ${q_group} ${q_parent} ${q_images} ${q_cheapest}}}`;
 	
 	
 	
@@ -500,7 +501,8 @@ produtosAPI.prototype.search = function(produto){
 	
 	return rp(opcoes).then((data, res) => {
 		var tmp = JSON.parse(data);
-		resposta = {"resultado":"OK", "dados": tmp.data.products, "status": "OK"};	
+		var resultados = this.prepararResultado(tmp.data.products);
+		resposta = {"resultado":"OK", "dados": resultados, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
@@ -537,7 +539,7 @@ produtosAPI.prototype.montarAtributo = function(resultados, tipo){
 	
 	if (Array.isArray(resultados)){
 		resultados.forEach(function(obj) {
-			if (obj.stock != null  &&  obj.stock > 0){
+			if (obj.stock != null  &&  obj.stock > 0 && obj.approved_status =="APPROVED"){
 				var preco_inicial = 0;
 				var preco_final = 0;
 				if (obj.price_start){
@@ -580,7 +582,7 @@ produtosAPI.prototype.montarAtributo = function(resultados, tipo){
 			}
 		});
 	} else {
-		if (resultados.stock != null  &&  resultados.stock > 0){
+		if (resultados.stock != null  &&  resultados.stock > 0 && resultados.approved_status =="APPROVED"){
 			var preco_inicial = 0;
 			var preco_final = 0;
 			if (resultados.price_start){
@@ -624,8 +626,8 @@ produtosAPI.prototype.variation = function(produto){
 	const q_mall  = `mall{_id, slug, domain, name}`;
 	const q_parent  = "";
     const q_images= `images{path, type, order}`;
-	const q_cheapest =  `cheapest {_id,slug,name,price,price_start, price_final, stock,color, size,images{path, type, order}}`;
-	var query = `query={products(parent: "` + produto + `"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price color size ${q_store} ${q_mall} ${q_parent}  ${q_images} ${q_cheapest}}}`;
+	const q_cheapest =  `cheapest {_id,slug,name,price,price_start, price_final, stock,color, size,approved_status,images{path, type, order}}`;
+	var query = `query={products(parent: "` + produto + `"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price color size approved_status ${q_store} ${q_mall} ${q_parent}  ${q_images} ${q_cheapest}}}`;
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -679,7 +681,7 @@ produtosAPI.prototype.produtoFavorito = function(produto){
 	var retorno = "NAO";
 	if (this.favoritos){
 		for (index = 0; index < this.favoritos.length; ++index) {
-			if (this.favoritos[index].id == produto){
+			if (this.favoritos[index].url_title == produto){
 				retorno = "SIM";	
 			}	
 		}
