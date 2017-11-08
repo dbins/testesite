@@ -145,7 +145,7 @@ nav{ float:left; width:90%; padding: 55px 10px;  position:relative; height:110px
 #shp{background-color: #fff; float:left; padding:20px 0px; text-align:center;	border-right: 1px solid #e9e9e9; margin:-45px 0 0 0}
 #shp img{ max-width:90px;}
 .log{ float:right; position:relative; top:-15px; height:50px; min-width:20%; }
-.bt{ padding:15px 20px; height:50px;  font-family: 'Droid Sans', sans-serif; text-transform:uppercase; border: 1px solid #979797; text-align:center; text-decoration:none; color:#242424; margin-left:-1px; float:right; position:relative; cursor: pointer}
+.bt{ padding:15px 10px; height:50px;  font-family: 'Droid Sans', sans-serif; text-transform:uppercase; border: 1px solid #979797; text-align:center; text-decoration:none; color:#242424; margin-left:-1px; float:right; position:relative; cursor: pointer}
 .bt:hover{ text-decoration:none}
 .lupa{ position:relative; top:10px; right:0; padding:10px;}
 #busca{ width:100%; position:absolute; left:0; top:170px; background:#fff; display:none; z-index:100}
@@ -1406,13 +1406,13 @@ nav{ width:80%}
 
 .filmes{min-height: 330px;}
 
-.boc{ padding:15px 10px; font-size:15px;}
+.boc{ width:100%; padding:30px 10px; font-size:15px;}
 .boc span{ width:65px; height:65px; padding:10px; font-size: 30px;}
-.lateral a{padding: 50px 5px; font-size:15px;}
-
+.lateral a{padding:30px 5px; font-size:15px; width:100%; border-bottom:1px #ddd solid}
+.lateral{ border:none}
 .tabinator label{ margin-left:5px;}
 .config label{margin-left: 50px}
-
+.ink:nth-child(4){ border-bottom:1px #ddd solid}
 
 }
 
@@ -1475,9 +1475,9 @@ ul.rodape li a{ padding:15px 10px; float:left; width:50%;}
 .lateral a{padding: 40px 5px; }
 
 .tabinator label{ padding:10px 5px}
-.config label{margin-left: 5px}
+.config label{margin-left: 0px}
 .config button{ width:60%; margin-left:20%}
-
+.config label{padding: 15px;}
 
 
 }

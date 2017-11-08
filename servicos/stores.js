@@ -118,7 +118,7 @@ storesAPI.prototype.listGQL = function(){
 	
 	
     const q_images= `images{path, type, order}`;
-	var query = `query={stores ${q_filtro_mall}{ _id slug real_name fantasy_name title phone description floor ${q_mall}  ${q_category} ${q_images} }}`;
+	var query = `query={stores ${q_filtro_mall}{ _id slug real_name fantasy_name title phone description floor pagarme_id tax on_stores_status ${q_mall}  ${q_category} ${q_images} }}`;
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -145,52 +145,53 @@ storesAPI.prototype.montarGQL = function(resultados){
 	var tmp = resultados.dados;
 	var classe_atual = this;
 	
+	//Somente listar lojas aprovadas
 	tmp.forEach(function(obj) {
-		
-		var nome_do_Shopping = "";
-		var nome_da_Loja = "";
-		var slug_Shopping = "";
-		var slug_Loja = "";
-			
-		if (obj.mall){
-			nome_do_Shopping = obj.mall.name;
-			slug_Shopping = obj.mall.slug;
-		}
-		nome_da_Loja = obj.real_name||obj.title||obj.fantasy_name;
-		slug_Loja = obj.slug;
-		
-		
-		var imagem = "/imagens/lojas-padrao.jpg";
-		var img_principal = false;
-		for (i = 0; i < obj.images.length; i++) { 
-			if (obj.images[i].type == "main"){
-				img_principal = true;
-				imagem = obj.images[i].path;	
+		if (obj.on_stores_status == "ACTIVE"){
+			var nome_do_Shopping = "";
+			var nome_da_Loja = "";
+			var slug_Shopping = "";
+			var slug_Loja = "";
+				
+			if (obj.mall){
+				nome_do_Shopping = obj.mall.name;
+				slug_Shopping = obj.mall.slug;
 			}
-		}
-		if (!img_principal){
+			nome_da_Loja = obj.real_name||obj.title||obj.fantasy_name;
+			slug_Loja = obj.slug;
+			
+			
+			var imagem = "/imagens/lojas-padrao.jpg";
+			var img_principal = false;
 			for (i = 0; i < obj.images.length; i++) { 
-				if (i == 0){
+				if (obj.images[i].type == "main"){
+					img_principal = true;
 					imagem = obj.images[i].path;	
 				}
-			}	
-		}
-		
-		var categoria = "";
-		if (obj.category){
-			categoria = obj.category.slug;
-		}
-		var favorito = "NAO";
-		var item = {"id": obj._id,"url_title": obj.slug, "imagem":imagem,  "loja":nome_da_Loja, "shopping":nome_do_Shopping, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja, "categoria": categoria, "favorito": favorito};
-		retorno.push(item);
-		
+			}
+			if (!img_principal){
+				for (i = 0; i < obj.images.length; i++) { 
+					if (i == 0){
+						imagem = obj.images[i].path;	
+					}
+				}	
+			}
+			
+			var categoria = "";
+			if (obj.category){
+				categoria = obj.category.slug;
+			}
+			var favorito = "NAO";
+			var item = {"id": obj._id,"url_title": obj.slug, "imagem":imagem,  "loja":nome_da_Loja, "shopping":nome_do_Shopping, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja, "categoria": categoria, "favorito": favorito};
+			retorno.push(item);
+		}	
 	});
 	return retorno;
 }
 
 storesAPI.prototype.viewGQL = function(registro){
 	
-	var query = 'query={store(id:"' + registro  + '"){ _id slug real_name fantasy_name title phone description floor category{slug,name} mall{_id, slug, domain, name} images{path, type, order}}}';
+	var query = 'query={store(id:"' + registro  + '"){ _id slug real_name fantasy_name title phone description floor pagarme_id tax on_stores_status category{slug,name} mall{_id, slug, domain, name} images{path, type, order}}}';
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',

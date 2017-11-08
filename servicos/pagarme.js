@@ -275,15 +275,23 @@ pagarmeAPI.prototype.verTransacao = function(id_transacao){
 pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 	var retorno = [];
 	var lojas = [];
+	var total_carrinho = 0;
 	//No endpoint de stores precisa ter o recipient_id do lojista
 	//No endpoint de stores precisa ter a informacao de qual o percentual da loja que vai ser retido por CCP (de 5,4%, 6% ou 6,4% no começo e 8% para os demais)
 	
+	
 	for (index = 0; index < carrinho.length; ++index) {
-				
+		
+		//Somar todo o carrinho
+		total_carrinho = parseFloat(total_carrinho) + (parseFloat(carrinho[index].total) * 1000);
 		var tmp_item = {};
-		tmp_item.mall =  ""; //Atualizar programacao do carrinho
+		tmp_item.mall =  carrinho[index].mall;
 		tmp_item.store = carrinho[index].loja;
+		tmp_item.taxa = carrinho[index].taxa;
+		tmp_item.id_pagarme = carrinho[index].pagarme;
 		tmp_item.total_price = parseFloat(carrinho[index].total) * 1000;
+		tmp_item.total_price = parseFloat(tmp_item.total_price) - (parseFloat(tmp_item.total_price) * 0.08);//Aplicar a taxa do lojista
+		
 		//Adicionar recipient_id e porcentagem a pagar ccp
 		
 		var novo = true;
@@ -293,7 +301,8 @@ pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 			if (tmp_loja.store == tmp_item.store && tmp_loja.mall == tmp_item.mall){
 				novo = false;
 				//Atualizar valor daquela loja
-				lojas[z].total_price = parseFloat(lojas[z].total_price) + parseFloat(tmp_item.total_price);
+				//Sempre retirar a taxa de cada item
+				lojas[z].total_price = parseFloat(lojas[z].total_price) + (parseFloat(tmp_item.total_price)- (parseFloat(tmp_item.total_price) * 0.08));
 			}
 		}
 		if (novo){
@@ -303,18 +312,19 @@ pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 	//Pegar o total da compra para calcular valor CCP
 	//Tem que ser depois de montar o objeto já que cada lojista pode ter percentual diferente
 	//O total price da loja vai ter que ser reduzido e a diferenca vai entrar no total que vai para CCP
-	var total = 0;
+	var total_ccp = 0;
+	var total_lojistas = 0;
 	for (index = 0; index < lojas.length; ++index) {
 		//Reduzir total_price de acordo com percentual lojista
-		total += parseFloat(lojas[index].total_price)
+		total_lojistas += parseFloat(lojas[index].total_price)
 	}
-	total = parseFloat(total) * 0.08;
+	total_ccp =  parseFloat(total_carrinho) - parseFloat(total_lojistas);
 	
 	
-	//No exemplo abaixo apliquei 8% sobre tudo (NAO VAI SER ASSIM EM PRODUCAO)
+	//Total da CCP
 	var tmp_ccp = {
-		"recipient_id": "re_civb4o6zr003u3m6e8dezzja6",
-		"amount": total,
+		"recipient_id": "re_civb4o6zr003u3m6e8dezzja6", //FIXO
+		"amount": total_ccp,
 		"liable": true, //indica se o recebedor atrelado assumirá os riscos de chargeback da transação
 		"charge_processing_fee": true //Vai pagar as taxas
 	};
@@ -324,7 +334,7 @@ pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 		var tmp_loja = lojas[index];
 		var tmp_pagarme = {
 			"recipient_id": "re_civb4o6zr003u3m6e8dezzja6", //Vira do endpoitn do lojista e vai estar dentro de carrinho
-			"amount": tmp_loja.total_price,
+			"amount": tmp_loja.total_price, //Subtrair da taxa da loja!
 			"liable": true, //indica se o recebedor atrelado assumirá os riscos de chargeback da transação
 			"charge_processing_fee": false //Vai pagar as taxas
 		};	

@@ -112,7 +112,7 @@ produtosAPI.prototype.view = function(registro){
 }
 //AQUI TEVE ALTERACAO
 produtosAPI.prototype.listGQL = function(){
-	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
+	const q_store = `store{slug, real_name, fantasy_name, floor, title, pagarme_id, tax, on_stores_status, category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
 	const q_parent  = `parent{slug}`;
 	const q_cheapest =  `cheapest {_id,slug,name,price, stock,color, size,approved_status,images{path, type, order}}`;
@@ -152,7 +152,7 @@ produtosAPI.prototype.listGQL = function(){
 produtosAPI.prototype.viewGQL = function(registro){
 	
 	//var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price store{slug, real_name, fantasy_name, floor, title, category{slug,name}} mall{_id, slug, domain, name}  images{path, type, order} group{slug,name}}}';
-	var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price color size approved_status store{slug, real_name, fantasy_name, floor, title, category{slug,name}} mall{_id, slug, domain, name} parent{slug} images{path, type, order}}}';
+	var query = 'query={product(id:"' + registro  + '"){ _id slug name short_description long_description start_at end_at approved_status active promotion segments stock price_start price_final price color size approved_status store{slug, real_name, fantasy_name, floor, title,pagarme_id, tax, on_stores_status, category{slug,name}} mall{_id, slug, domain, name} parent{slug} images{path, type, order}}}';
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -210,8 +210,10 @@ produtosAPI.prototype.montar = function(resultados){
 		var imagem = "/imagens/sapato.jpg";
 		var desconto = classe_atual.produtoDesconto(obj);
 		var favorito = classe_atual.produtoFavorito(obj.slug);
+		var taxa = 0;
+		var pagarme = 0;
 		
-		var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "promocao": promocao, "store": store, "favorito": favorito};
+		var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "promocao": promocao, "store": store, "favorito": favorito, "taxa": taxa, "pagarme": pagarme};
 		retorno.push(item);
 		
 	});
@@ -270,7 +272,16 @@ produtosAPI.prototype.montarGQL = function(resultados){
 		}
 		var desconto = classe_atual.produtoDesconto(obj);
 		var favorito = classe_atual.produtoFavorito(obj.slug);
-		var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "categoria": categoria, "favorito": favorito};
+		var taxa = 0;
+		var pagarme = 0;
+		if (obj.store.tax != null){
+			taxa = obj.store.tax;
+		}
+		if (obj.store.pagarme_id != null){
+			taxa = obj.store.pagarme_id;
+		}
+		
+		var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "categoria": categoria, "favorito": favorito, "taxa": taxa, "pagarme": pagarme};
 		retorno.push(item);
 		
 	});
@@ -305,7 +316,15 @@ produtosAPI.prototype.montarProduto = function(obj){
 	var categoria = "";
 	var desconto = classe_atual.produtoDesconto(obj);
 	var favorito = classe_atual.produtoFavorito(obj.slug);
-	var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "store": obj.store, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "descricao": obj.long_description, "categoria": categoria, "favorito": favorito};
+	var taxa = 0;
+	var pagarme = 0;
+	if (obj.store.tax != null){
+		taxa = obj.store.tax;
+	}
+	if (obj.store.pagarme_id != null){
+		taxa = obj.store.pagarme_id;
+	}
+	var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "store": obj.store, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "descricao": obj.long_description, "categoria": categoria, "favorito": favorito, "taxa": taxa, "pagarme": pagarme};
 	return item;
 }
 
@@ -354,7 +373,15 @@ produtosAPI.prototype.montarProdutoGQL = function(obj){
 	}
 	var desconto = this.produtoDesconto(obj);
 	var favorito = this.produtoFavorito(obj.slug);
-	var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "descricao": obj.long_description, "imagens": imagens, "categoria": categoria, "favorito": favorito};
+	var taxa = 0;
+	var pagarme = 0;
+	if (obj.store.tax != null){
+		taxa = obj.store.tax;
+	}
+	if (obj.store.pagarme_id != null){
+		taxa = obj.store.pagarme_id;
+	}
+	var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "descricao": obj.long_description, "imagens": imagens, "categoria": categoria, "favorito": favorito, "taxa": taxa, "pagarme": pagarme};
 	return item;
 }
 
@@ -381,7 +408,7 @@ produtosAPI.prototype.segmento = function(segmento){
 
 //Mais alteracao
 produtosAPI.prototype.listGQLStore = function(store){
-	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
+	const q_store = `store{slug, real_name, fantasy_name, floor, title, pagarme_id, tax, on_stores_status, category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
 	const q_parent  = `parent{slug}`;
 	const q_cheapest =  `cheapest {_id,slug,name,price, stock,color, size,approved_status,images{path, type, order}}`;
@@ -412,7 +439,7 @@ produtosAPI.prototype.listGQLStore = function(store){
 
 //Mais alteracao
 produtosAPI.prototype.listGQLSegment = function(segment){
-	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
+	const q_store = `store{slug, real_name, fantasy_name, floor, title, pagarme_id, tax, on_stores_status, category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
 	const q_parent  = `parent{slug}`;
 	const q_cheapest =  `cheapest {_id,slug,name,price,price_start, price_final, stock,color, size,approved_status,images{path, type, order}}`;
@@ -428,7 +455,6 @@ produtosAPI.prototype.listGQLSegment = function(segment){
          'Content-Type': 'application/json'
 		}
 	}
-	
 	
 	return rp(opcoes).then((data, res) => {
 		var tmp = JSON.parse(data);
@@ -447,7 +473,7 @@ produtosAPI.prototype.listGQLSegmentStore = function(store, array_segments){
 		array_segments[i] = '"' + array_segments[i] + '"';
 	};
 	
-	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
+	const q_store = `store{slug, real_name, fantasy_name, floor, title,  pagarme_id, tax, on_stores_status, category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
 	const q_parent  = `parent{slug}`;
 	const q_cheapest =  `cheapest {_id,slug,name,price,price_start, price_final, stock,color, size,approved_status,images{path, type, order}}`;
@@ -479,7 +505,7 @@ produtosAPI.prototype.listGQLSegmentStore = function(store, array_segments){
 
 
 produtosAPI.prototype.search = function(produto){
-	const q_store = `store{slug, real_name, fantasy_name, floor, title, category{slug name}}`;
+	const q_store = `store{slug, real_name, fantasy_name, floor, title, pagarme_id, tax, on_stores_status, category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
 	const q_parent  = `parent{slug}`;
     //const q_group = `group{slug name}`;
@@ -622,7 +648,7 @@ produtosAPI.prototype.montarAtributo = function(resultados, tipo){
 
 produtosAPI.prototype.variation = function(produto){
 	
-	const q_store = `store{slug, real_name, fantasy_name, floor, title}`;
+	const q_store = `store{slug, real_name, fantasy_name, floor, title,pagarme_id, tax, on_stores_status}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
 	const q_parent  = "";
     const q_images= `images{path, type, order}`;
@@ -651,23 +677,30 @@ produtosAPI.prototype.prepararResultado = function(resultados){
 	//Remover produtos sem estoque
 	var retorno = [];
 	resultados.forEach(function(obj) {
-		if (obj.cheapest != null){
-			if (obj.cheapest.stock != null && obj.cheapest.stock > 0){
-				//Mover as imagens do mais barato para o produto pai, apenas para exibicao
-				obj.images = obj.cheapest.images;
-				//Mover os valores
-				obj.price = obj.cheapest.price;
-				obj.price_start = obj.cheapest.price_start;
-				obj.price_final = obj.cheapest.price_final;
-				obj.slug = obj.cheapest.slug;
-				//obj.name = obj.cheapest.name;
-				retorno.push(obj);
-			}
-		} else {
-			if (obj.stock != null && obj.stock > 0){
-				retorno.push(obj);
+		//Remover produtos de lojas nao aprovadas!
+		if (obj.store != null){
+			if (obj.store.on_stores_status == "ACTIVE"){
+				if (obj.cheapest != null){
+					if (obj.cheapest.stock != null && obj.cheapest.stock > 0){
+						//Mover as imagens do mais barato para o produto pai, apenas para exibicao
+						obj.images = obj.cheapest.images;
+						//Mover os valores
+						obj.price = obj.cheapest.price;
+						obj.price_start = obj.cheapest.price_start;
+						obj.price_final = obj.cheapest.price_final;
+						obj.slug = obj.cheapest.slug;
+						//obj.name = obj.cheapest.name;
+						retorno.push(obj);
+					}
+				} else {
+					if (obj.stock != null && obj.stock > 0){
+						retorno.push(obj);
+					}
+				
+				}
 			}
 		}
+		
 	});
 	return retorno;
 }

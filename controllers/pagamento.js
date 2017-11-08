@@ -277,42 +277,44 @@ module.exports = function (app){
 		} else {
 			dados_cliente.aniversario = "1970-01-01";
 		}
-		api_clearsale.sendOrders(dados_cliente, dadosCompra, fingerprint, dados_pedido);
-		//Precisa capturar o retorno....
 		
-		req.session.carrinho = "";
-		req.session.total_carrinho = 0; 
-		//Gerar Token
-		//Disparar e-mail
-		//Gerar QRCode
-		var min = 10000;
-		var max = 50000;
-		//var pedido = Math.floor(Math.random()*(max-min+1)+min);
-		req.session.pgtk = Math.floor(Math.random()*(max-min+1)+min); //SOMENTE PARA TESTES
-		
-		
-		
-		var iddacompra = req.session.ultima_transacao;
-		var pedido = iddacompra;
-		var apiPagarme = new servicoPagarme();
-		var consulta = apiPagarme.verTransacao(iddacompra).then(function (resultados) {
-			var tmp_pedido = apiPagarme.montarPedido(resultados.dados);
-			if (req.session.cliente.CPF == tmp_pedido.cpf){
-				//OK
-			} else {
-				res.redirect("/");
-				return;
-			}
-			if (tmp_pedido.tipo=="Boleto"){
-				res.render("pagamento/boleto", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
-			} else {
-				res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
-			}	
-		}).catch(function (erro){
-			//res.redirect("/erro/500");
-		});
-		
-		
+		api_clearsale.sendOrders(dados_cliente, dadosCompra, fingerprint, dados_pedido).then(function (resultados) {
+			//Se for retorno APA, entao capturar...
+			//Precisa capturar o retorno....
+			req.session.carrinho = "";
+			req.session.total_carrinho = 0; 
+			//Gerar Token
+			//Disparar e-mail
+			//Gerar QRCode
+			var min = 10000;
+			var max = 50000;
+			//var pedido = Math.floor(Math.random()*(max-min+1)+min);
+			req.session.pgtk = Math.floor(Math.random()*(max-min+1)+min); //SOMENTE PARA TESTES
+			
+			
+			
+			var iddacompra = req.session.ultima_transacao;
+			var pedido = iddacompra;
+			var apiPagarme = new servicoPagarme();
+			var consulta = apiPagarme.verTransacao(iddacompra).then(function (resultados) {
+				var tmp_pedido = apiPagarme.montarPedido(resultados.dados);
+				if (req.session.cliente.CPF == tmp_pedido.cpf){
+					//OK
+				} else {
+					res.redirect("/");
+					return;
+				}
+				if (tmp_pedido.tipo=="Boleto"){
+					res.render("pagamento/boleto", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+				} else {
+					res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+				}	
+			}).catch(function (erro){
+				//res.redirect("/erro/500");
+			});
+		}).catch(function (erro3){
+			//
+		});		
 		
 	});
 	
@@ -448,6 +450,7 @@ module.exports = function (app){
 			objeto_metadata.id = 0;
 			objeto_metadata.produtos = req.session.carrinho;
 			dados.metadata = objeto_metadata;
+			dados.split_rules = apiPagarme.montarSplitRules(req.session.carrinho);
 			
 			//Acrescentar no retorno Pagarme nossas informacoes.
 			dados_cliente_pagarme.items = array_items;
