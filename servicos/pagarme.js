@@ -2,8 +2,12 @@ const rp = require('request-promise');
 
 var pagarmeAPI = function () {
 	this.url = "https://api.pagar.me/1";
-	this.api_key = "ak_test_EhzfPXYgAt8N9FAblqarhrpd181Tgu";
+	this.api_key = "ak_test_5hYMjf8xaXVJQtYBSCuJ2co158zM2l";
 };
+
+//Documentacao API CCP
+//https://docs.pagar.me/v2017-08-28/docs/overview-principal
+//https://docs.pagar.me/v2017-08-28/reference
 
 pagarmeAPI.prototype.captura = function(token, valor, dados_da_captura){
 	var resposta = "";
@@ -79,13 +83,15 @@ pagarmeAPI.prototype.autorizaCartao = function(cardHash, valor, dados_do_cliente
 pagarmeAPI.prototype.autorizaTransacao = function(valor, dados_do_cliente){
 	var resposta = "";
 	var dados_da_captura = {};
+	//Api versao 1
 	if (dados_do_cliente.payment_method=="boleto"){
 		dados_da_captura.amount =  valor; 
 		dados_da_captura.api_key = this.api_key;
 		dados_da_captura.payment_method = "boleto";
 		dados_da_captura.installments = dados_do_cliente.installments; //Parcelas!
-		dados_da_captura.customer = dados_do_cliente.customer; //Retornados por API Pagarme		
+		//dados_da_captura.customer = dados_do_cliente.customer; //Retornados por API Pagarme		
 		dados_da_captura.metadata = dados_do_cliente.metadata; //Nosso carrinho
+		dados_da_captura.split_rules = dados_do_cliente.split_rules; //Nosso carrinho
 	} else {
 		dados_da_captura.amount =  valor; 
 		dados_da_captura.api_key = this.api_key;	
@@ -93,9 +99,35 @@ pagarmeAPI.prototype.autorizaTransacao = function(valor, dados_do_cliente){
 		dados_da_captura.payment_method = "credit_card";
 		dados_da_captura.card_hash = dados_do_cliente.card_hash;
 		dados_da_captura.installments = dados_do_cliente.installments; //Parcelas!
-		dados_da_captura.customer = dados_do_cliente.customer; //Retornados por API Pagarme
+		//dados_da_captura.customer = dados_do_cliente.customer; //Retornados por API Pagarme
 		dados_da_captura.metadata = dados_do_cliente.metadata; //Nosso carrinho
 	}
+	
+	//Api versao 2
+	var novo_objeto_customer = {};
+	novo_objeto_customer.external_id = dados_do_cliente.customer.document_number;
+	novo_objeto_customer.name = dados_do_cliente.customer.name;
+    novo_objeto_customer.type = "individual";
+    novo_objeto_customer.country = "br";
+    novo_objeto_customer.email =  dados_do_cliente.customer.email;
+    novo_objeto_customer.birthday = "1970-04-01";
+	
+	var tmp_array_documents = [];
+	var tmp_docs = {"type": "cpf", "number": dados_do_cliente.customer.document_number};
+	tmp_array_documents.push(tmp_docs);
+	
+	var tmp_array_telefones = [];
+	var tmp_telefone = '+55' + dados_do_cliente.customer.phone.ddd + dados_do_cliente.customer.phone.number;
+	tmp_array_telefones.push(tmp_telefone);
+	
+	//dados_da_captura.customer.type = "individual";
+    //dados_da_captura.customer.country = "br";
+	//dados_da_captura.customer.documents = tmp_array_documents;
+	novo_objeto_customer.documents = tmp_array_documents;
+	novo_objeto_customer.phone_numbers = tmp_array_telefones;
+	
+	dados_da_captura.customer = novo_objeto_customer;
+	
 	var opcoes = {  
 	    method: 'POST',
 		uri: this.url + "/transactions",
@@ -114,15 +146,15 @@ pagarmeAPI.prototype.autorizaTransacao = function(valor, dados_do_cliente){
 
 
 //Pode ser feito ate 5 dias depois da autorizacao...
-pagarmeAPI.prototype.capturaTransacao = function(id_transacao){
+pagarmeAPI.prototype.capturaTransacao = function(id_transacao, dados_captura){
 	var resposta = "";
-	var dados_da_captura = {};
-	dados_da_captura.api_key = this.api_key;
+	//var dados_captura = {};
+	dados_captura.api_key = this.api_key;
 	
 	var opcoes = {  
 	    method: 'POST',
 		uri: this.url + "/transactions/" + id_transacao + "/capture",
-		body: dados_da_captura,
+		body: dados_captura,
 	    json: true
 	}
 	return rp(opcoes).then((data, res) => {
@@ -143,7 +175,8 @@ pagarmeAPI.prototype.pedidos = function(cpf){
 		
 		"query":{"filtered": {"query": {"match_all": {}},
 		  "filter": {
-			"term": { "customer.document_number": cpf }
+			//"term": { "customer.document_number": cpf }
+			"term": { "customer.external_id": cpf }
 		  }
 		}
 	  }
@@ -156,6 +189,7 @@ pagarmeAPI.prototype.pedidos = function(cpf){
 	  
 	};
 	
+	
 	var opcoes = {  
 	  method: 'GET',
 	  uri: 'https://api.pagar.me/1/search',
@@ -165,6 +199,8 @@ pagarmeAPI.prototype.pedidos = function(cpf){
 		query : JSON.stringify(dados_pesquisa)
 	  }
 	} 
+	
+	
 	//Objetos da API que podem ser pesquisados
 	//customer https://docs.pagar.me/v2013-03-01/reference#objeto-cliente
 	//recipient https://docs.pagar.me/v2013-03-01/reference#objeto-recebedor-1
@@ -176,7 +212,6 @@ pagarmeAPI.prototype.pedidos = function(cpf){
 	
 	return rp(opcoes).then((data) => {
 		var tmp = JSON.parse(data);
-		//console.log(tmp.hits.hits);
 		var resposta = {"resultado":"OK", "dados": tmp.hits.hits};	
 		return resposta;
 	}).catch((err) => {
@@ -212,6 +247,8 @@ pagarmeAPI.prototype.montarPedido = function(resultado){
 			array_items.push(obj);
 		});
 	}
+	
+	
 	var bandeira = "";
 	var cartao_comeco = "";
 	var cartao_fim = "";
@@ -242,7 +279,14 @@ pagarmeAPI.prototype.montarPedido = function(resultado){
 		boleto_vencimento = resultado.boleto_expiration_date;
 	}
 	
-	var item = {"cpf": resultado.customer.document_number, "pedido":resultado.id, "tid":resultado.id, "nsu":resultado.id, "data":resultado.date_created, "valor": resultado.amount, "tipo": tipo, "items": array_items, "status": resultado.status, "cartao_comeco": cartao_comeco, "cartao_fim": cartao_fim, "bandeira":bandeira, boleto_barcode: boleto_barcode, boleto_link: boleto_link, boleto_vencimento : boleto_vencimento};
+	var cpf = "";
+	if (resultado.customer.documents){
+		resultado.customer.documents.forEach(function(obj2) {
+			cpf = obj2.number;
+		});
+	}	
+	
+	var item = {"cpf": cpf, "pedido":resultado.id, "tid":resultado.id, "nsu":resultado.id, "data":resultado.date_created, "valor": resultado.amount, "tipo": tipo, "items": array_items, "status": resultado.status, "cartao_comeco": cartao_comeco, "cartao_fim": cartao_fim, "bandeira":bandeira, boleto_barcode: boleto_barcode, boleto_link: boleto_link, boleto_vencimento : boleto_vencimento};
 	return item;
 }
 
@@ -279,7 +323,6 @@ pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 	//No endpoint de stores precisa ter o recipient_id do lojista
 	//No endpoint de stores precisa ter a informacao de qual o percentual da loja que vai ser retido por CCP (de 5,4%, 6% ou 6,4% no começo e 8% para os demais)
 	
-	
 	for (index = 0; index < carrinho.length; ++index) {
 		
 		//Somar todo o carrinho
@@ -287,10 +330,10 @@ pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 		var tmp_item = {};
 		tmp_item.mall =  carrinho[index].mall;
 		tmp_item.store = carrinho[index].loja;
-		tmp_item.taxa = carrinho[index].taxa;
+		tmp_item.taxa = parseFloat(carrinho[index].taxa)/1000000;
 		tmp_item.id_pagarme = carrinho[index].pagarme;
 		tmp_item.total_price = parseFloat(carrinho[index].total) * 1000;
-		tmp_item.total_price = parseFloat(tmp_item.total_price) - (parseFloat(tmp_item.total_price) * 0.08);//Aplicar a taxa do lojista
+		tmp_item.total_price = parseFloat(tmp_item.total_price) - (parseFloat(tmp_item.total_price) * parseFloat(tmp_item.taxa));//Aplicar a taxa do lojista
 		
 		//Adicionar recipient_id e porcentagem a pagar ccp
 		
@@ -309,6 +352,8 @@ pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 			lojas.push(tmp_item);
 		}
 	}
+	
+	
 	//Pegar o total da compra para calcular valor CCP
 	//Tem que ser depois de montar o objeto já que cada lojista pode ter percentual diferente
 	//O total price da loja vai ter que ser reduzido e a diferenca vai entrar no total que vai para CCP
@@ -333,7 +378,7 @@ pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 	for (index = 0; index < lojas.length; ++index) {
 		var tmp_loja = lojas[index];
 		var tmp_pagarme = {
-			"recipient_id": "re_civb4o6zr003u3m6e8dezzja6", //Vira do endpoitn do lojista e vai estar dentro de carrinho
+			"recipient_id": tmp_loja.id_pagarme, //Vira do endpoitn do lojista e vai estar dentro de carrinho
 			"amount": tmp_loja.total_price, //Subtrair da taxa da loja!
 			"liable": true, //indica se o recebedor atrelado assumirá os riscos de chargeback da transação
 			"charge_processing_fee": false //Vai pagar as taxas

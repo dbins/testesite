@@ -217,6 +217,97 @@ module.exports = function (app){
 		res.render("pagamento/erro");
 	});
 	
+	//Este endpoint vai capturar a transacao que foi enviada para a ClearSale por /pagamento/finalizar
+	app.get("/pagamento/concluido", function(req,res){
+		
+		//Fazer a captura, em caso de sucesso, avisar ClearSale!
+		var api_clearsale = new servicoClearSale();
+		var apiPagarme = new servicoPagarme();
+		var iddacompra = req.session.ultima_transacao;
+		var pedido = iddacompra;
+		
+		var total = 0;
+		for (index = 0; index < req.session.carrinho.length; ++index) {
+			total += parseFloat((req.session.carrinho[index].por) * parseFloat(req.session.carrinho[index].qtde));
+		}
+		total = parseFloat(total) * 100;
+		
+		if (req.session.tipo_pagamento =="credit_card"){
+			var dados_captura = {};
+			dados_captura.amount = total;
+			
+			//Por enquanto sem o split!
+			//dados_captura.split_rules = apiPagarme.montarSplitRules(req.session.carrinho);
+			apiPagarme.capturaTransacao(iddacompra, dados_captura).then(function (resultados2) {
+				var consulta = apiPagarme.verTransacao(iddacompra).then(function (resultados) {
+					//Verificar resultados.dados.status, por enquanto nos testes retorna PAID.
+					//Se houver problema na captura, temos que mandar para outro lugar!
+					
+					var tmp_pedido = apiPagarme.montarPedido(resultados.dados);
+					if (req.session.cliente.CPF == tmp_pedido.cpf){
+							//OK
+					} else {
+						res.redirect("/");
+						return;
+					}
+					
+					//Vamos devolver para a ClearSale como APROVADO! (por enquanto)
+					//26 PAGAMENTO APROVADO
+					//27 PAGAMENTO REPROVADO
+					api_clearsale.UpdateOrderStatus(req.session.id_clearsale, 26, "");
+					//Retirar da fila!
+					api_clearsale.SetOrderAsReturned(req.session.id_clearsale);
+						
+					//Apagando o carrinho!
+					req.session.carrinho = "";
+					req.session.total_carrinho = 0; 
+					req.session.id_clearsale = "";
+					
+					if (tmp_pedido.tipo=="Boleto"){
+						res.render("pagamento/boleto", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+					} else {
+						res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+					}	
+				}).catch(function (erro){
+					res.redirect("/erro/500");
+				});
+			}).catch(function (erro2){
+				res.redirect("/erro/500");
+			});	
+		} else {
+			//Boleto nao tem captura!
+			var consulta = apiPagarme.verTransacao(iddacompra).then(function (resultados) {
+				var tmp_pedido = apiPagarme.montarPedido(resultados.dados);
+				if (req.session.cliente.CPF == tmp_pedido.cpf){
+						//OK
+				} else {
+					res.redirect("/");
+					return;
+				}
+				
+				//Vamos devolver para a ClearSale como APROVADO! (por enquanto)
+				//26 PAGAMENTO APROVADO
+				//27 PAGAMENTO REPROVADO
+				api_clearsale.UpdateOrderStatus(req.session.id_clearsale, 26, "");
+				//Retirar da fila!
+				api_clearsale.SetOrderAsReturned(req.session.id_clearsale);
+				
+				//Apagando o carrinho!
+				req.session.carrinho = "";
+				req.session.total_carrinho = 0; 
+				req.session.id_clearsale = "";
+					
+				if (tmp_pedido.tipo=="Boleto"){
+					res.render("pagamento/boleto", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+				} else {
+					res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+				}	
+			}).catch(function (erro){
+				res.redirect("/erro/500");
+			});
+		}
+	});
+	
 	app.get("/pagamento/finalizar", function(req,res){
 		if (!req.session.usuario){
 			res.redirect("/");
@@ -281,39 +372,47 @@ module.exports = function (app){
 		api_clearsale.sendOrders(dados_cliente, dadosCompra, fingerprint, dados_pedido).then(function (resultados) {
 			//Se for retorno APA, entao capturar...
 			//Precisa capturar o retorno....
-			req.session.carrinho = "";
-			req.session.total_carrinho = 0; 
+			//req.session.carrinho = "";
+			//req.session.total_carrinho = 0; 
 			//Gerar Token
 			//Disparar e-mail
 			//Gerar QRCode
+		
+			//ID na ClearSale (???)
+			req.session.id_clearsale = resultados.id;
+			
+			
 			var min = 10000;
 			var max = 50000;
 			//var pedido = Math.floor(Math.random()*(max-min+1)+min);
 			req.session.pgtk = Math.floor(Math.random()*(max-min+1)+min); //SOMENTE PARA TESTES
 			
+			//Movido para outra rota...
+			//var iddacompra = req.session.ultima_transacao;
+			//var pedido = iddacompra;
+			//var apiPagarme = new servicoPagarme();
+			//var consulta = apiPagarme.verTransacao(iddacompra).then(function (resultados) {
+			//	var tmp_pedido = apiPagarme.montarPedido(resultados.dados);
+			//	if (req.session.cliente.CPF == tmp_pedido.cpf){
+			//		//OK
+			//	} else {
+			//		res.redirect("/");
+			//		return;
+			//	}
+			//	if (tmp_pedido.tipo=="Boleto"){
+			//		res.render("pagamento/boleto", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+			//	} else {
+			//		res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+			//	}	
+			//}).catch(function (erro){
+			//	res.redirect("/erro/500");
+			//});
 			
-			
-			var iddacompra = req.session.ultima_transacao;
-			var pedido = iddacompra;
-			var apiPagarme = new servicoPagarme();
-			var consulta = apiPagarme.verTransacao(iddacompra).then(function (resultados) {
-				var tmp_pedido = apiPagarme.montarPedido(resultados.dados);
-				if (req.session.cliente.CPF == tmp_pedido.cpf){
-					//OK
-				} else {
-					res.redirect("/");
-					return;
-				}
-				if (tmp_pedido.tipo=="Boleto"){
-					res.render("pagamento/boleto", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
-				} else {
-					res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
-				}	
-			}).catch(function (erro){
-				//res.redirect("/erro/500");
-			});
+			//TUDO MUDOU PARA OUTRA ROTA!
+			res.redirect("/pagamento/concluido");
 		}).catch(function (erro3){
-			//
+			console.log(erro3.stack);
+			res.redirect("/erro/500");
 		});		
 		
 	});
@@ -450,11 +549,12 @@ module.exports = function (app){
 			objeto_metadata.id = 0;
 			objeto_metadata.produtos = req.session.carrinho;
 			dados.metadata = objeto_metadata;
-			dados.split_rules = apiPagarme.montarSplitRules(req.session.carrinho);
+			//Fazer o split na autorizacao (????)
 			
 			//Acrescentar no retorno Pagarme nossas informacoes.
 			dados_cliente_pagarme.items = array_items;
 			dados_cliente_pagarme.metadata = objeto_metadata;
+			//dados_cliente_pagarme.split_rules = apiPagarme.montarSplitRules(req.session.carrinho);
 			
 			//Antes autorizava e capturava ao mesmo tempo, agora apenas autoriza.
 			//Neste caso, o envio de dados depende do tipo de pagamento!

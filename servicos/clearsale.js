@@ -29,7 +29,7 @@ var xml2js = require('xml2js');
 
 var clearSaleAPI = function () {
 	this.url = "http://homologacao.clearsale.com.br/integracaov2/service.asmx?WSDL";
-	this.url2 = "https://homologacao.clearsale.com.br/integracaov2/ExtendedService.asmx";
+	this.url2 = "https://homologacao.clearsale.com.br/integracaov2/ExtendedService.asmx?WSDL";
 	this.entityCode = "A1232877-9D20-4281-B81C-9C9339BA2B10";
 };
 
@@ -436,7 +436,8 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 								resposta_clearsale = item.Status[0];
 								console.log(item.Score[0]); 
 								//return resposta_clearsale;
-								resolve(item);
+								var objeto_resposta = {"id": item.ID[0], "status": item.Status[0]};
+								resolve(objeto_resposta);
 						});
 					});
 				}
@@ -653,16 +654,29 @@ clearSaleAPI.prototype.UpdateOrderStatus = function(orderId, newStatusId, obs){
 		"obs":obs
 	}
 	
+	var soapOptions = {
+		forceSoap12Headers: true
+		//connection: 'keep-alive',
+		///suppressStack: true,
+		//returnFault: false
+	};
 	
-	soap.createClient(this.url2, function(err, client) {
-    client.UpdateOrderStatus(args, function(err, result) {
-		if (err){
-			console.log('erro');
-			console.log(err);
-		}
-		console.log('sucesso');
-        console.log(result);
+	
+	soap2.createClient(this.url2, soapOptions, function(err, client) {
+		//console.log(client);
 		
+		if (err){
+			console.log('erro ao criar cliente');
+			console.log(err.stack);
+		}	
+		client.UpdateOrderStatus(args, function(err, result, body,soapHeader) {
+			console.log(client.lastRequest);
+			if (err){
+				console.log('erro');
+				console.log(err.stack);
+			}
+			//console.log('sucesso');
+			//console.log(result);
 		});
 	});
 }
@@ -685,14 +699,14 @@ clearSaleAPI.prototype.OrderChargeBack = function(Conteudo, Obs){
 		"Note": Obs,
 	}
 
-	soap.UpdateOrderStatus(this.url, function(err, client) {
+	soap.createClient(this.url, function(err, client) {
     client.GetAnalystComments(this.entityCode, Conteudo, Obs, function(err, result) {
 		if (err){
 			console.log('erro');
 			console.log(err);
 		}
-		console.log('sucesso');
-        console.log(result);
+		//console.log('sucesso');
+        //console.log(result);
 		
 		});
 	});

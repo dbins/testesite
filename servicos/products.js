@@ -278,7 +278,7 @@ produtosAPI.prototype.montarGQL = function(resultados){
 			taxa = obj.store.tax;
 		}
 		if (obj.store.pagarme_id != null){
-			taxa = obj.store.pagarme_id;
+			pagarme = obj.store.pagarme_id;
 		}
 		
 		var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "categoria": categoria, "favorito": favorito, "taxa": taxa, "pagarme": pagarme};
@@ -322,7 +322,7 @@ produtosAPI.prototype.montarProduto = function(obj){
 		taxa = obj.store.tax;
 	}
 	if (obj.store.pagarme_id != null){
-		taxa = obj.store.pagarme_id;
+		pagarme = obj.store.pagarme_id;
 	}
 	var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall, "loja": nome_da_Loja, "store": obj.store, "estoque": obj.stock, "tamanho": obj.size, "cor": obj.color, "descricao": obj.long_description, "categoria": categoria, "favorito": favorito, "taxa": taxa, "pagarme": pagarme};
 	return item;
@@ -379,7 +379,7 @@ produtosAPI.prototype.montarProdutoGQL = function(obj){
 		taxa = obj.store.tax;
 	}
 	if (obj.store.pagarme_id != null){
-		taxa = obj.store.pagarme_id;
+		pagarme = obj.store.pagarme_id;
 	}
 	var item = {"id": obj._id,"url_title": obj.slug, "desconto":desconto, "imagem":imagem, "marca":"Arezzo", "produto":obj.name, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": obj.mall.slug, "loja": nome_da_Loja, "store": obj.store.slug, "estoque": obj.stock, "tamanho": tamanho, "cor": cor, "descricao": obj.long_description, "imagens": imagens, "categoria": categoria, "favorito": favorito, "taxa": taxa, "pagarme": pagarme};
 	return item;
