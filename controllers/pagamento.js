@@ -254,9 +254,9 @@ module.exports = function (app){
 					//Vamos devolver para a ClearSale como APROVADO! (por enquanto)
 					//26 PAGAMENTO APROVADO
 					//27 PAGAMENTO REPROVADO
-					api_clearsale.UpdateOrderStatus(req.session.id_clearsale, 26, "");
+					api_clearsale.UpdateOrderStatus(req.session.id_marketplace, 26, "");
 					//Retirar da fila!
-					api_clearsale.SetOrderAsReturned(req.session.id_clearsale);
+					api_clearsale.SetOrderAsReturned(req.session.id_marketplace);
 						
 					//Apagando o carrinho!
 					req.session.carrinho = "";
@@ -288,9 +288,9 @@ module.exports = function (app){
 				//Vamos devolver para a ClearSale como APROVADO! (por enquanto)
 				//26 PAGAMENTO APROVADO
 				//27 PAGAMENTO REPROVADO
-				api_clearsale.UpdateOrderStatus(req.session.id_clearsale, 26, "");
+				api_clearsale.UpdateOrderStatus(req.session.id_marketplace, 26, "");
 				//Retirar da fila!
-				api_clearsale.SetOrderAsReturned(req.session.id_clearsale);
+				api_clearsale.SetOrderAsReturned(req.session.id_marketplace);
 				
 				//Apagando o carrinho!
 				req.session.carrinho = "";
