@@ -110,7 +110,39 @@ pagarmeAPI.prototype.autorizaTransacao = function(valor, dados_do_cliente){
     novo_objeto_customer.type = "individual";
     novo_objeto_customer.country = "br";
     novo_objeto_customer.email =  dados_do_cliente.customer.email;
-    novo_objeto_customer.birthday = "1970-04-01";
+	
+	if (dados_do_cliente.aniversario){
+		if (dados_do_cliente.aniversario == null){ 
+			novo_objeto_customer.birthday = "1970-04-01";
+		} else {
+			if (dados_do_cliente.aniversario.length === 0){
+				novo_objeto_customer.birthday = "1970-04-01";
+			} else {
+				var tmp_data1 = new Date(dados_do_cliente.aniversario);
+				var tmp_data =  new Date(tmp_data1.getTime() + Math.abs(tmp_data1.getTimezoneOffset()*60000));
+				ano = tmp_data.getFullYear();
+				mes = tmp_data.getMonth()+1;
+				dia = tmp_data.getDate();
+
+				if (dia < 10) {
+				  dia = '0' + dia;
+				}
+				if (mes < 10) {
+				  mes = '0' + mes;
+				}
+				var data_aniversario =  ano +'-' + mes + '-'+dia;
+				
+				novo_objeto_customer.birthday = data_aniversario;
+				
+				
+			}
+		}	
+		
+	} else {
+		novo_objeto_customer.birthday = "1970-04-01";
+	}
+	
+    
 	
 	var tmp_array_documents = [];
 	var tmp_docs = {"type": "cpf", "number": dados_do_cliente.customer.document_number};
@@ -127,7 +159,7 @@ pagarmeAPI.prototype.autorizaTransacao = function(valor, dados_do_cliente){
 	novo_objeto_customer.phone_numbers = tmp_array_telefones;
 	
 	dados_da_captura.customer = novo_objeto_customer;
-	
+	console.log(dados_da_captura);
 	var opcoes = {  
 	    method: 'POST',
 		uri: this.url + "/transactions",
@@ -136,9 +168,11 @@ pagarmeAPI.prototype.autorizaTransacao = function(valor, dados_do_cliente){
 	}
 	
 	return rp(opcoes).then((data, res) => {
+		console.log(data);
 		resposta = {"resultado":"OK", "dados": data, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
 		return resposta;
 	});
@@ -326,13 +360,13 @@ pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 	for (index = 0; index < carrinho.length; ++index) {
 		
 		//Somar todo o carrinho
-		total_carrinho = parseFloat(total_carrinho) + (parseFloat(carrinho[index].total) * 1000);
+		total_carrinho = parseFloat(total_carrinho) + (parseFloat(carrinho[index].total) * 100);
 		var tmp_item = {};
 		tmp_item.mall =  carrinho[index].mall;
 		tmp_item.store = carrinho[index].loja;
 		tmp_item.taxa = parseFloat(carrinho[index].taxa)/1000000;
 		tmp_item.id_pagarme = carrinho[index].pagarme;
-		tmp_item.total_price = parseFloat(carrinho[index].total) * 1000;
+		tmp_item.total_price = parseFloat(carrinho[index].total) * 100;
 		tmp_item.total_price = parseFloat(tmp_item.total_price) - (parseFloat(tmp_item.total_price) * parseFloat(tmp_item.taxa));//Aplicar a taxa do lojista
 		
 		//Adicionar recipient_id e porcentagem a pagar ccp
@@ -368,7 +402,7 @@ pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 	
 	//Total da CCP
 	var tmp_ccp = {
-		"recipient_id": "re_civb4o6zr003u3m6e8dezzja6", //FIXO
+		"recipient_id": "re_cj7j43wo70e834r6e7k3tjmgn", //FIXO somente para testes - legal name: CONTA BANCARIA DE TESTES
 		"amount": total_ccp,
 		"liable": true, //indica se o recebedor atrelado assumirá os riscos de chargeback da transação
 		"charge_processing_fee": true //Vai pagar as taxas
@@ -385,7 +419,7 @@ pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 		};	
 		retorno.push(tmp_pagarme);
 	}
-	
+	console.log(retorno);
 	//"split_rules":[items de split]
 	return retorno;
 }			

@@ -1303,7 +1303,7 @@ ul.dropdown li a {font-size: 16px; padding:0 20px}
 
 @media only screen and  (max-width: 801px) {
 body{padding: 115px 0 0 0;}
-nav{padding: 25px 10px; height:75px;}
+nav{padding: 25px 10px; height:120px;}
 #menu-mobile{ display:block}
 .dropdown, .dropshp{ display:none}
 
@@ -1368,6 +1368,8 @@ nav{padding: 25px 10px; height:75px;}
 .area{ width:100%; margin:0; padding:10px;}
 .config label{ margin-left:90px;}
 
+.area section{ padding:10px;}
+.det{ width:140%}
 }
 
 /**********MOBILE HORIZONTAL*************/
@@ -1375,8 +1377,8 @@ nav{padding: 25px 10px; height:75px;}
 #menu-mobile{ left:-110px}
 #on{ width:20%; padding:0}
 #on img{ max-width:75px;}
-nav{ width:80%}
-
+nav{ width:80%; height:80px;}
+.fach{ padding:10px;}
 .cat{ width:50%; height:300px; overflow:hidden }
 .cat span{ top:40%}
 .prods{ width:50%;  min-height: 300px}
@@ -1479,6 +1481,9 @@ ul.rodape li a{ padding:15px 10px; float:left; width:50%;}
 .config button{ width:60%; margin-left:20%}
 .config label{padding: 15px;}
 
+.det{ width:200%}
+.order, .token{ width:100%; margin:5px 0}
+
 
 }
 
@@ -1489,19 +1494,19 @@ ul.rodape li a{ padding:15px 10px; float:left; width:50%;}
 #menu-mobile{ left:-60px;}	
 .mall div p{  font-size: 20px;   line-height:20px;}	
 .bannerint section{ top15%; font-size:35px;}
-.rts{ line-height:40px; font-size:12px; line-height:30px;}
+.rts{ line-height:40px; font-size:10px; line-height:30px;}
 .filmes{min-height: 350px; }
 .item iframe{  height:130px}
 .thumbcine{ bottom: -50px;    left: 15px;    width: 90px;}
 .titcine h1{ line-height:35px;}	
-.boc{ width:50%}
-.lateral a{padding: 50px 5px; width:50%}
 
+.rts span{margin-left: 25%;width: 30px; height:30px;}
+.rota{ margin:0 0 24px; padding:2px 5px}
 .tabinator label{ padding:10px 20px; text-align:center}
 .config label{ padding:10px 20px; font-size:14px;}
 #conf1, #conf2, #conf3, #conf4, #conf5{ padding:0}
 .config button {    margin-left: 5%;    width: 90%;}
-
+.bl{ margin:10px 40px}
 
 }
 @media only screen and  (max-width: 320px) {

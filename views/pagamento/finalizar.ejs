@@ -197,47 +197,29 @@
 
    	
 
-      	<section style="border:none">        
+      	<section style="border:none" class="overflow">        
 
         <table class="det">
 
              <tr>
-
                 <th>
-
                 	<span>Pedido</span>
-
                 	<br>
-
                   	<strong>#<%=pedido%> </strong>
-
                 </th>
-
                 <th>&nbsp;</th>
-
                 <th colspan="5" rowspan="3" align="center" valign="middle">
-
                 <p align="center"><img src="/compras/detalhes/qrcode/<%=pedido%>" width="155" height="170"></p>
-
                 </th>
-
             </tr>
-
              <tr>
-
                 <td><span>Data</span><br><%=moment().format('DD-MM-YYYY')%></td>
-
                 <td><span>Horario de retirada</span><br> 15:00hs</td>
-
             </tr>
-
             <tr>
-
                 <td>
-				<span>Forma de pagamento</span><br> 
-				
-				<%=pagarme.tipo%><br/><br/>
-				
+				<span>Forma de pagamento</span><br> 				
+				<%=pagarme.tipo%><br/><br/>				
 				<%
 				if (pagarme.tipo == "Cartão de Crédito"){
 				%>
@@ -249,49 +231,47 @@
 				<span>Vencimento:</span> <br/><%=moment(pagarme.boleto_vencimento).format('DD-MM-YYYY')%><br/>
 				<%
 				}
-				%>
-				
+				%>				
 				</td>
-
                 <td><span>Token</span><br>  000 000 000 </td>
-
                 </tr>
-
              <tr>
 
                 <td colspan="7">
-
                 <div></div>
-
-                </td>               
-
+                </td>
               </tr>
-
               <tr>
-
                 <td colspan="7"><b>Itens comprados</b></td>
-
               </tr>
 			<% 
 			if (resultados.length>0){
 			resultados.forEach(function(resultado) { 
 			%> 	
               <tr class="lin">
-
                 <td><%=resultado.produto%></td>
-
-                <td> <%=resultado.shopping%></td>
-
-                <td>FARM</td>
-
-                <td>Cor Azul</td>
-
-                <td>Tamanho P</td>
-
+                <td><%=resultado.shopping%></td>
+                <td><%=resultado.loja%></td>
+                <td>
+				<%
+				if (resultado.cor != ""){
+				%>
+				Cor: <span class="colorBtn" style="background:#333" data-cor="<%=resultado.cor%>">&nbsp;&nbsp;&nbsp;</span><br>				
+				<%
+				} 
+				%>
+				</td>
+                <td>
+				<%
+				if (resultado.tamanho != ""){
+				%>
+				Tamanho <%=resultado.tamanho%> <br/>
+				<%
+				} 
+				%>
+				</td>
                 <td>0<%=resultado.qtde%> Unidade(s)</td>
-
                 <td>R$ <%=resultado.total%></td>
-
               </tr>
 			<% 
 			}); 
@@ -305,10 +285,6 @@
        <div class="clear"></div>
 
         </section>
-
-     
-
-      
 
       
 
@@ -331,6 +307,15 @@
 </div><!--full-->
 
 
+<script src="/js/colorpicker/eight-bit-color-picker.js"></script>
+<script type="text/javascript">
+$(function(){
+	const colors = EightBitColorPicker.getDefaultPalette();
+	$('.colorBtn').each(function(){
+		$(this).css('background-color', colors[parseInt($(this).attr("data-cor"))]);
+	});
+});		
+</script>
 
 
 

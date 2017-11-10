@@ -23,9 +23,11 @@ usuariosAPI.prototype.gravar = function(dados_da_transacao){
 		}
 	}
 	return rp(opcoes).then((data, res) => {
+		console.log(data);
 		resposta = {"resultado":"OK", "id": data._id};	
 		return resposta;
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO", "id": "0"};	
 		return resposta;
 	});

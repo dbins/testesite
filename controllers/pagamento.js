@@ -219,7 +219,7 @@ module.exports = function (app){
 	
 	//Este endpoint vai capturar a transacao que foi enviada para a ClearSale por /pagamento/finalizar
 	app.get("/pagamento/concluido", function(req,res){
-		
+		console.log('estou no pagamento concluido!');
 		//Fazer a captura, em caso de sucesso, avisar ClearSale!
 		var api_clearsale = new servicoClearSale();
 		var apiPagarme = new servicoPagarme();
@@ -259,19 +259,22 @@ module.exports = function (app){
 					api_clearsale.SetOrderAsReturned(req.session.id_marketplace);
 						
 					//Apagando o carrinho!
+					var dados_carrinho = req.session.carrinho;
 					req.session.carrinho = "";
 					req.session.total_carrinho = 0; 
 					req.session.id_clearsale = "";
 					
 					if (tmp_pedido.tipo=="Boleto"){
-						res.render("pagamento/boleto", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+						res.render("pagamento/boleto", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
 					} else {
-						res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+						res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
 					}	
 				}).catch(function (erro){
+					console.log(erro.stack);
 					res.redirect("/erro/500");
 				});
 			}).catch(function (erro2){
+				console.log(erro2.stack);
 				res.redirect("/erro/500");
 			});	
 		} else {
@@ -303,6 +306,7 @@ module.exports = function (app){
 					res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
 				}	
 			}).catch(function (erro){
+				console.log(erro.stack);
 				res.redirect("/erro/500");
 			});
 		}
@@ -554,7 +558,8 @@ module.exports = function (app){
 			//Acrescentar no retorno Pagarme nossas informacoes.
 			dados_cliente_pagarme.items = array_items;
 			dados_cliente_pagarme.metadata = objeto_metadata;
-			//dados_cliente_pagarme.split_rules = apiPagarme.montarSplitRules(req.session.carrinho);
+			dados_cliente_pagarme.split_rules = apiPagarme.montarSplitRules(req.session.carrinho);
+			dados_cliente_pagarme.aniversario = req.session.cliente.aniversario;
 			
 			//Antes autorizava e capturava ao mesmo tempo, agora apenas autoriza.
 			//Neste caso, o envio de dados depende do tipo de pagamento!
@@ -590,10 +595,12 @@ module.exports = function (app){
 						
 					   });
 					}).catch((err) => {
+						console.log(err.stack);
 						//problema....
 					});
 				//return res.json(retorno);	
 			}).catch(function (erro){
+				console.log(erro.stack);
 				return res.json(retorno);	
 			});
 	

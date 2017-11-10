@@ -1,3 +1,35 @@
+function validatePassword (pw) {
+
+	// enforce the no sequential, identical characters rule
+	//if (/([\S\s])\1/.test(pw))
+		//return false;
+		
+	if (/([\S\s])\1\1/.test(pw))
+	return false;
+
+	// enforce alphanumeric/qwerty sequence ban rules
+		var	lower   = "abcdefghijklmnopqrstuvwxyz",
+			badSequenceLength  = 0,
+			upper   = lower.toUpperCase(),
+			numbers = "0123456789",
+			qwerty  = "qwertyuiopasdfghjklzxcvbnm",
+			start   = badSequenceLength - 1,
+			seq     = "_" + pw.slice(0, start);
+		for (i = start; i < pw.length; i++) {
+			seq = seq.slice(1) + pw.charAt(i);
+			if (
+				lower.indexOf(seq)   > -1 ||
+				upper.indexOf(seq)   > -1 ||
+				numbers.indexOf(seq) > -1 ||
+				qwerty.indexOf(seq) > -1) {
+				return false;
+			}
+		}
+
+	// great success!
+	return true;
+}
+
 function verifica_data_valida (campo) { 
 
 	dia = parseInt(campo.substring(0,2)); 
@@ -362,13 +394,46 @@ function checkform_senha (form) {
 		form.senha.style.backgroundColor='#FFFF99';
 		continuar = false;
 	} else {
-		if (alphanumeric(form.senha)){
+		//if (alphanumeric(form.senha)){
 			//Nao faz nada
+		//} else {
+		//	mensagem = mensagem + 'A nova senha deve possuir apenas letras ou números!\n';
+		//	form.senha.style.backgroundColor='#FFFF99';
+		//	continuar = false;
+		//}
+		
+				
+		var regex = /[^\w\s]/gi;
+		if(regex.test(form.senha.value) == true) {
+			//Possui caracteres especiais
 		} else {
-			mensagem = mensagem + 'A nova senha deve possuir apenas letras ou números!\n';
+			mensagem = mensagem + 'A nova senha deve possuir um caractere especial!\n';
 			form.senha.style.backgroundColor='#FFFF99';
 			continuar = false;
 		}
+		
+		var re = /[a-z]/;
+		if(!re.test(form.senha.value)) {
+			mensagem = mensagem + 'A nova senha deve conter pelo menos 1 letra minúscula!\n';
+			form.senha.style.backgroundColor='#FFFF99';
+			continuar = false;
+		}
+		 
+		var re = /[A-Z]/;
+		if(!re.test(form.senha.value)) {
+			mensagem = mensagem + 'A nova senha deve conter pelo menos 1 letra maiúscula!\n';
+			form.senha.style.backgroundColor='#FFFF99';
+			continuar = false;
+		}
+		//Nao pode repetir 3 vezes
+		if (validatePassword (form.senha.value)){
+			//OK
+		} else {
+			mensagem = mensagem + 'A nova senha não pode ter 3 ou mais caracteres repetidos!\n';
+			form.senha.style.backgroundColor='#FFFF99';
+			continuar = false;
+		}
+		
 	}
 		
 	if (form.confirmar_senha.value == "") {
@@ -513,6 +578,39 @@ function checkform_login (form) {
 		mensagem = mensagem + 'A  senha deve ter pelo menos 6 caracteres\n';
 		form.senha.style.backgroundColor='#FFFF99';
 		continuar = false;
+	} else {
+				
+		var regex = /[^\w\s]/gi;
+		if(regex.test(form.senha.value) == true) {
+			//Possui caracteres especiais
+		} else {
+			mensagem = mensagem + 'A senha deve possuir um caractere especial!\n';
+			form.senha.style.backgroundColor='#FFFF99';
+			continuar = false;
+		}
+		
+		var re = /[a-z]/;
+		if(!re.test(form.senha.value)) {
+			mensagem = mensagem + 'A senha deve conter pelo menos 1 letra minúscula!\n';
+			form.senha.style.backgroundColor='#FFFF99';
+			continuar = false;
+		}
+		 
+		var re = /[A-Z]/;
+		if(!re.test(form.senha.value)) {
+			mensagem = mensagem + 'A senha deve conter pelo menos 1 letra maiúscula!\n';
+			form.senha.style.backgroundColor='#FFFF99';
+			continuar = false;
+		}
+		//Nao pode repetir 3 vezes
+		if (validatePassword (form.senha.value)){
+			//OK
+		} else {
+			mensagem = mensagem + 'A senha não pode ter 3 ou mais caracteres repetidos!\n';
+			form.senha.style.backgroundColor='#FFFF99';
+			continuar = false;
+		}
+		
 	}
 	
 	if (continuar) {
@@ -652,30 +750,61 @@ function checkform_novo_cadastro (form){
 		form.senha.style.backgroundColor='#FFFF99';
 		continuar = false;
 	} else {
-		if (alphanumeric(form.senha)){
+		//if (alphanumeric(form.senha)){
 			//Nao faz nada
+		//} else {
+		//	mensagem = mensagem + 'A nova senha deve possuir apenas letras ou números!\n';
+		//	form.senha.style.backgroundColor='#FFFF99';
+		//	continuar = false;
+		//}
+		
+		var regex = /[^\w\s]/gi;
+		if(regex.test(form.senha.value) == true) {
+			//Possui caracteres especiais
 		} else {
-			mensagem = mensagem + 'A nova senha deve possuir apenas letras ou números!\n';
+			mensagem = mensagem + 'A senha deve possuir um caractere especial!\n';
+			form.senha.style.backgroundColor='#FFFF99';
+			continuar = false;
+		}
+		
+		var re = /[a-z]/;
+		if(!re.test(form.senha.value)) {
+			mensagem = mensagem + 'A senha deve conter pelo menos 1 letra minúscula!\n';
+			form.senha.style.backgroundColor='#FFFF99';
+			continuar = false;
+		}
+		 
+		var re = /[A-Z]/;
+		if(!re.test(form.senha.value)) {
+			mensagem = mensagem + 'A senha deve conter pelo menos 1 letra maiúscula!\n';
+			form.senha.style.backgroundColor='#FFFF99';
+			continuar = false;
+		}
+		//Nao pode repetir 3 vezes
+		if (validatePassword (form.senha.value)){
+			//OK
+		} else {
+			mensagem = mensagem + 'A senha não pode ter 3 ou mais caracteres repetidos!\n';
 			form.senha.style.backgroundColor='#FFFF99';
 			continuar = false;
 		}
 	}
 		
 	if (form.confirmar_senha.value == "") {
-		mensagem = mensagem + 'Informe a confirmação da nova senha\n';
+		mensagem = mensagem + 'Informe a confirmação da senha\n';
 		form.confirmar_senha.style.backgroundColor='#FFFF99';
 		continuar = false;
 	}
 
 	if (form.senha.value == form.confirmar_senha.value) {
 		if (form.senha.value.length < 6) {
-			mensagem = mensagem + 'A nova senha deve ter pelo menos 6 caracteres\n';
+			mensagem = mensagem + 'A senha deve ter pelo menos 6 caracteres\n';
 			form.senha.style.backgroundColor='#FFFF99';
 			form.confirmar_senha.style.backgroundColor='#FFFF99';
 			continuar = false;
 		}
 	} else {
-		mensagem = mensagem + 'A nova senha e a confirmação da senha devem ser iguais\n';
+		mensagem = mensagem + 'A senha e a confirmação da senha devem ser iguais\n';
 		form.senha.style.backgroundColor='#FFFF99';
 		form.confirmar_senha.style.backgroundColor='#FFFF99';
 		continuar = false;

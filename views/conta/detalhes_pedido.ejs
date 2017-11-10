@@ -114,9 +114,25 @@
 
                 <td><%=resultado.loja%></td>
 
-                <td>Cor <%=resultado.cor%></td>
+                <td>
+				<%
+				if (resultado.cor != ""){
+				%>
+				Cor: <span class="colorBtn" style="background:#333" data-cor="<%=resultado.cor%>">&nbsp;&nbsp;&nbsp;</span><br>				
+				<%
+				} 
+				%>
+				</td>
 
-                <td>Tamanho <%=resultado.tamanho%><td>
+                <td>
+				<%
+				if (resultado.tamanho != ""){
+				%>
+				Tamanho <%=resultado.tamanho%> <br/>
+				<%
+				} 
+				%>
+				<td>
 
                 <td><%=resultado.qtde%> Unidade(s)</td>
 
@@ -162,6 +178,15 @@
  </div><!--full-->
 
 
+<script src="/js/colorpicker/eight-bit-color-picker.js"></script>
+<script type="text/javascript">
+$(function(){
+	const colors = EightBitColorPicker.getDefaultPalette();
+	$('.colorBtn').each(function(){
+		$(this).css('background-color', colors[parseInt($(this).attr("data-cor"))]);
+	});
+});		
+</script>
 
 <!------------------Fim produtos---------------------->
 
