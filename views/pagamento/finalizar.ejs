@@ -18,7 +18,7 @@
 <script src="/js/ccp.js"></script>
 <script src="/js/jquery.maskedinput.2015.js"></script>
 <style type="text/css">
-.adicionar_carrinho {	background-color: #9966CC; padding:10px;   margin-top:13%; float:right; color:#fff; border:none; 	font-size: 18px; width:100%; height:60px;	font-style: italic; 	font-weight: bold; 	font-family: Lora;}
+.adicionar_carrinho {	background-color: #9966CC; padding:10px;   margin-top:13%; float:right; color:#fff; border:none; 	font-size: 18px; width:100%; height:60px;	font-style: italic; 	font-weight: bold; 	font-family: Lora; cursor:pointer	}
 </style>
 </head>
 
@@ -33,10 +33,7 @@
     <header>
 
 
-
-    <!---mosrar o passo a passo quando estiver comprando--->
-
-    	<nav class="rota">
+		<nav class="rota">
         	<a href="" class="rts">
             	<span>1</span><br>
                 Minha Sacola
@@ -71,19 +68,6 @@
 
   <div class="confirmacao">
 
-
-
-    <!---   
-	<!--------- mostrar quando tiver a recusa por alguma motivo que nao gravou na api---->
-	<div id="erro">
-   	 		<img src="/imagens/pena.jpg" width="78" height="77">
-          	<h2>Ops...</h2>
-            <h3>O pagamento não foi realizado.</h3> 
-            <a href="/carrinho">Tente novamente</a>
-      <div class="clear"></div>
-      </div>
-	  ---->
-
       
 
       <!-----------quando a compra for aprovada---------------->
@@ -92,9 +76,9 @@
 
       <div id="confirmation">
 
-      	<h1>Oba!</h1>
+      	<h1>Compra Concluída!</h1>
 
-      	 <h2>Seus produtos estarão disponíveis para serem retirados na loja nos próximos 30 minutos.</h2>
+      	 <h2>Seus produtos estarão disponíveis para serem retirados na loja em 1 hora.</h2>
 
       	<h3>*Uma cópia dos detalhes da sua compra foi enviada para <strong><%=email%></strong>. Você também pode acessá-los através da sua <a href="/compras/detalhes/<%=pedido%>"> <strong>Área de Cliente</strong></a>.</h3>
 

@@ -6,8 +6,8 @@
 	<header>
 
     	<div class="full">
-			<div id="ccp"><a href=""><img src="/imagens/CCP.png" class="img" title="CCP - Cirella"></a></div>
-        	<div id="on"><a href="/"><img src="/imagens/onstores-alone.png" class="img" title="ON Stores"></a></div>
+			<div id="ccp"><a href="http://www.ccpsa.com.br/pb/" target="_blank"><img src="/imagens/CCP.png" class="img" title="CCP - Cirella"></a></div>
+        	<div id="on"><a href="/"><img src="/imagens/onstores-white.png" class="img" title="ON Stores"></a></div>
 
             
 
@@ -38,6 +38,13 @@
                         <ul class="submenu">
 							<% 
 							if (shoppings.length>0){
+							
+							shoppings.sort(function(a, b) {
+								var x = a["title"]; 
+								var y = b["title"];
+								return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+							});
+							
 							shoppings.forEach(function(resultado) { %>
                             <li><a href="/home/<%=resultado.url_title%>"><%=resultado.title%></a></li>
 							<% 

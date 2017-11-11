@@ -12,6 +12,31 @@ module.exports = function (app){
 		res.render("site/contato", {aviso: ''});
 	});
 	app.post("/contato", function(req,res){
+		var email_padrao = "contato@onstores.com.br";
+		if (req.session.shopping){
+			switch(req.session.shopping) {
+				case "grand_plaza_shopping":
+					email_padrao = "contato@onstores.com.br";
+					break;
+				case "tiete_plaza_shopping":
+					email_padrao = "contato@onstores.com.br";
+					break;
+				case "shopping_cerrado":
+					email_padrao = "contato@onstores.com.br";
+					break;
+				case "shopping_metropolitano_barra":
+					email_padrao = "contato@onstores.com.br";
+					break;
+				case "shopping_cidade_sao_paulo":
+					email_padrao = "contato@onstores.com.br";
+					break;	
+				case "shopping_d":
+					email_padrao = "contato@onstores.com.br";
+					break;		
+				default:
+					email_padrao = "contato@onstores.com.br";
+			}
+		}
 		
 		var envioEmail = new servicoEmail();
 		var dados_email = '';
@@ -22,7 +47,7 @@ module.exports = function (app){
 		dados_email += '<p>Tipo de Atendimento:' + req.body.tipo + "</p>";
 		dados_email += '<p>Mensagem:' + req.body.mensagem + "</p>";
 					
-		envioEmail.contatoSite('letonon@gmail.com', dados_email);
+		envioEmail.contatoSite(email_padrao, dados_email);
 		
 		res.render("site/contato", {aviso: 'OK'});
 	});

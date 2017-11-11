@@ -254,19 +254,33 @@ module.exports = function (app){
 								}
 								array_promisses.push(api_ingresso.listFilmeSessoes(id_cidade, item.ingresso, id_do_filme));		
 							});
-							Promise.all(array_promisses).then(function(results) {
-							  var tmp_array_itens = []
-							 for (index = 0; index < results.length; ++index) {
-								tmp_array_itens.push(results[index]);
-							  }
-							  
-							  var novas_sessoes = api_ingresso.montarSessoes(tmp_array_itens, diasDeExibicao, req.session.id_do_shopping_ingresso);
-							  //imprimir as sessoes na view
-							  res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": resultados3.dados, datas: diasDeExibicao, sessoes: novas_sessoes});
-							  
+							
+							api_ingresso.listarFilmesNOVO(id_do_filme).then(function(novos_resultados) {
+								
+								var novas_sessoes = api_ingresso.montarSessoesNOVO(novos_resultados.dados, diasDeExibicao, req.session.id_do_shopping_ingresso);
+								res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": resultados3.dados, datas: diasDeExibicao, sessoes: novas_sessoes});
+								 
 							}).catch((err) => {
-							//	//problema....
+								console.log(err.stack);
+								//problema....
 							});
+							
+							
+							//Promise.all(array_promisses).then(function(results) {
+							//  var tmp_array_itens = []
+							// for (index = 0; index < results.length; ++index) {
+						//		tmp_array_itens.push(results[index]);
+							//  }
+							  
+							 // var novas_sessoes = api_ingresso.montarSessoes(tmp_array_itens, diasDeExibicao, req.session.id_do_shopping_ingresso);
+							  //imprimir as sessoes na view
+							//  res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": resultados3.dados, datas: diasDeExibicao, sessoes: novas_sessoes});
+							  
+							//}).catch((err) => {
+							//	//problema....
+							//});
+							
+							
 							
 							//res.render("cinema/filme", {resultados:resultados.dados, "em_cartaz": resultados3.dados, datas: diasDeExibicao, sessoes: lista_sessoes.sessoes});
 						}).catch(function (erro){

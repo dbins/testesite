@@ -84,10 +84,8 @@ $(document).ready(function() {
 					topRatio    : 0
 				  });
 				  
-				  
-			  
+		
 	
-
 
 	 $("#btn_login").fancybox({
 		type : 'iframe',

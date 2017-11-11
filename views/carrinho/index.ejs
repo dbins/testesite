@@ -39,11 +39,11 @@
     	
 
         <header> 
-
+		<%	if (total_carrinho > 0){ %>
 		<div id="titcar">Minha sacola <img src="/imagens/bag.png" width="60" height="35"></div>
-
+		<%	}	%>
     		
-
+		<%	if(usuario != '') {	%>
             	<nav class="rota">
 
                     <a href="/carrinho" class="rts ativo">
@@ -67,7 +67,7 @@
                     </a>            
 
                 </nav>
-
+			<%	}	%>
                 
 
     	</header>
@@ -102,30 +102,32 @@
 				<%
 				if (resultado.cor != ""){
 				%>
-				Cor: <span class="colorBtn" style="background:#333" data-cor="<%=resultado.cor%>">&nbsp;&nbsp;&nbsp;</span><br>				
+				<div>Cor: <span class="colorBtn"  data-cor="<%=resultado.cor%>"></span></div>				
 				<%
 				} 
 				%>
 				<%
 				if (resultado.tamanho != ""){
 				%>
-				Tamanho:<%=resultado.tamanho%> <br/>
+				<div>Tamanho: <span style="font-size:16px"><%=resultado.tamanho%></span> </div>
 				<%
 				} 
 				%>
 				
-                <span><%=resultado.loja%></span>
+               <div class="carstore"><span><%=resultado.loja%></span></div>
 
                 <div class="valorcar">
 					<%
 					if (resultado.de == resultado.por) {
 					%>
-					<span class="por">R$ <%=resultado.por%></span>
+					<div class="carprice"><span>R$ <%=resultado.por%></span></div>
 					<%
 					} else {
 					%>
-                    <span class="de">De R$ <%=resultado.de%></span>
+                    <div>
+					<span class="de">De R$ <%=resultado.de%></span>
 					<span class="por">Por <%=resultado.por%></span>
+					</div>
 					<%
 					}
 					%>
@@ -137,7 +139,7 @@
 
         <td>
             <img src="/imagens/icon-location.jpg" width="37" height="37">
-            <%=resultado.shopping%>
+            <span class="droid"><%=resultado.shopping%></span>
         </td>
 
         <td>
@@ -149,7 +151,7 @@
 				<%
 				} else {
 				%>
-				<a href="#">&nbsp;</a>
+				<a href="#"> - </a>
 				<%
 				}
 				%>
@@ -199,15 +201,9 @@
 
         <h3>Importante</h3>
 
-        <p>Lembre-se que após a compra, você deverá retirar os itens adquiridos  diretamente na loja do shopping. <br> Seu pedido estará disponível  para retirada em 30 minutos  após  a confirmação  de seu pagamento.</p>
+        <p>Lembre-se que após a compra, você deverá retirar os itens adquiridos  diretamente na loja do shopping. <br> Seu pedido estará disponível  para retirada em <strong>1 hora </strong> após  a confirmação  de seu pagamento.</p>
 
-       <!--
-	   <a href="">Dúvidas</a>
-
-        <a href="">Trocas</a>
-
-        <a href="/contato">Contato</a>  
-		-->		
+  
 
      </section><!--aviso-->
 	<%

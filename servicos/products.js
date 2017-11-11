@@ -561,10 +561,9 @@ produtosAPI.prototype.grupo = function(grupo){
 
 produtosAPI.prototype.montarAtributo = function(resultados, tipo){
 	var retorno = [];
-	var imagens = ["/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg"];
-	
 	if (Array.isArray(resultados)){
 		resultados.forEach(function(obj) {
+			var imagens = ["/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg"];
 			if (obj.stock != null  &&  obj.stock > 0 && obj.approved_status =="APPROVED"){
 				var preco_inicial = 0;
 				var preco_final = 0;
@@ -580,6 +579,7 @@ produtosAPI.prototype.montarAtributo = function(resultados, tipo){
 				for (i = 0; i < obj.images.length; i++) { 
 					imagens[i] = obj.images[i].path;	
 				}
+			
 				if (tipo == "TAMANHOS"){
 					if (obj.size != null && obj.size != ""){
 						if (obj.color != null && obj.color != ""){
@@ -605,10 +605,12 @@ produtosAPI.prototype.montarAtributo = function(resultados, tipo){
 						}
 					}
 				}
+				
 			}
 		});
 	} else {
 		if (resultados.stock != null  &&  resultados.stock > 0 && resultados.approved_status =="APPROVED"){
+			var imagens = ["/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg", "/imagens/lojas-padrao.jpg"];
 			var preco_inicial = 0;
 			var preco_final = 0;
 			if (resultados.price_start){
@@ -662,6 +664,9 @@ produtosAPI.prototype.variation = function(produto){
          'Content-Type': 'application/json'
 		}
 	}
+	
+
+	
 	return rp(opcoes).then((data, res) => {
 		var tmp = JSON.parse(data);
 		resposta = {"resultado":"OK", "dados": tmp.data.products, "status": "OK"};	

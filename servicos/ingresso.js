@@ -279,5 +279,60 @@ ingressoAPI.prototype.nomeShopping = function(id_ingresso){
 	return retorno;
 }	
 
+ingressoAPI.prototype.listarFilmesNOVO = function(id_filme){
+	var resposta = "";
+	var opcoes = {  
+	    method: 'GET',
+		uri: "http://www.dbins.com.br/ferramentas/ingresso/filme.php?filme=" + id_filme
+		
+	}
+	console.log("http://www.dbins.com.br/ferramentas/ingresso/filme.php?filme=" + id_filme);
+	return rp(opcoes).then((data, res) => {
+		resposta = {"resultado":"OK", "dados": JSON.parse(data)};	
+		return resposta;
+	}).catch((err) => {
+		console.log(err.stack);
+		resposta = {"resultado":"ERRO DE COMUNICACAO 2", "dados":[]};	
+		return resposta;
+	});	
+}
+
+ingressoAPI.prototype.montarSessoesNOVO = function(resultados, datas, shopping_selecionado){
+	var sessoes = [];	
+	for (var i = 0; i <datas.length; i++) {
+		var tmp = []
+		var tmp_shopping = [];
+		//console.log(resultados.length);
+		//Para dia vai ter um objeto para cada shopping
+		for (var x = 0; x <resultados.length; x++) {
+			//console.log('cada registro');
+			var tmp_resultados = resultados[x];
+			console.log(datas[i].data_ymd);
+			console.log(tmp_resultados.data);
+			if (datas[i].data_ymd == tmp_resultados.data){
+				console.log('achei o dia');
+				var tmp_shopping2 = tmp_resultados.shopping;
+				console.log(tmp_resultados.shopping);
+				tmp_resultados.shopping.forEach(function(obj) {
+					if (shopping_selecionado != ''){
+						if (shopping_selecionado == obj.shopping){
+							tmp_shopping.push(obj);
+						}
+					} else {
+						tmp_shopping.push(obj);
+					}
+				});
+			}
+		}
+		var tmp_dia = {data_ymd: datas[i].data_ymd, dia: datas[i].dia , data: datas[i].data, shopping:tmp_shopping};
+		sessoes.push(tmp_dia);
+	}
+	console.log(sessoes[0]);
+	console.log(sessoes[0].shopping[0].sessoes[0]);
+	return sessoes;
+}
+
+
+
 module.exports = ingressoAPI;
 

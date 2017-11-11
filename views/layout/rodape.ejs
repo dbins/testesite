@@ -1,10 +1,12 @@
 <footer>
 <div class="full">
+	<!--
 	<p class="icons">
       <a href="" target="_blank" title="Facebook"><img src="/imagens/facebook.png" class="img" title="Facebook"></a>
       <a href="" target="_blank" title="Instagram"><img src="/imagens/instagram.png" class="img" title="Instagram"></a>
       <a href="" target="_blank" title="You Tube"><img src="/imagens/youtube.png" class="img" title="You Tube"></a>      
     </p>
+	-->
     <p><a href="" target="_blank"><img src="/imagens/CCP.png" width="91" height="25"></a></p>
     <div class="newsletter">
     	<h6>Inscreva-se para saber das novidades</h6>
@@ -100,6 +102,7 @@ function favoritar_produto(produto, event){
 		}	
 		
 
+
 $(document).ready(function() {
 	
 		$('#campobusca').on('keyup', function(e) {
@@ -112,6 +115,12 @@ $(document).ready(function() {
 			}
 		}
 		});
+		
+		 $('#campobusca').keypress(function (e) {
+				var code = null;
+				code = (e.keyCode ? e.keyCode : e.which);                
+				return (code == 13) ? false : true;
+		   });
 			
 	function pesquisar_produto(produto){
 		$.ajax({
@@ -124,7 +133,8 @@ $(document).ready(function() {
 		  },
 		  
 		  success: function (response) {
-		    var retorno = '';
+		    var retorno = "";
+			
 			$.each(response, function( index, value ) {
 				var item = value;
 				console.log('estou no item');
@@ -161,10 +171,25 @@ $(document).ready(function() {
                 retorno += '   </a>';
 				
 			});
+			
+			if (retorno == ""){
+				retorno += ' <div id="erro">';
+				retorno += '<img src="/imagens/pena.jpg" width="78" height="77">';
+				retorno += '<h2>Ops...</h2>';
+				retorno += '<h3>Não achamos nada para esta busca!</h3>';
+				retorno += '<div class="clear"></div>';
+				retorno += '</div>';
+			}
 			$("#result").html(retorno);
 		  },
 		  error: function () {
-			$("#result").html('');
+				var retorno = ' <div id="erro">';
+				retorno += '<img src="/imagens/pena.jpg" width="78" height="77">';
+				retorno += '<h2>Ops...</h2>';
+				retorno += '<h3>Não achamos nada para esta busca!</h3>';
+				retorno += '<div class="clear"></div>';
+				retorno += '</div>';
+			$("#result").html(retorno);
 		  }
 	   });
 	}	

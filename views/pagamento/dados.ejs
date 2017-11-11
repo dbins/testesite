@@ -2,10 +2,10 @@
 <html lang="pt-BR">
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0,  user-scalable=0">
 		<meta http-equiv="X-UA-Compatible" content="IE=5; IE=8; IE=7; IE=9; IE=10; IE=11" >
 		<title>ON STORES | Endereço  </title>
 		<meta name="description" content="ON STORES - O Market Place da CCP para você!"/>
-		<meta name="keywords" content="" />
 		<link rel="shortcut icon" href="favicon.ico">
 		<link rel=canonical href="http://www.onstores.com.br/"/>
 		<link href="/css/estilo.css" rel="stylesheet" type="text/css" />
@@ -71,52 +71,36 @@
 
     <header>
 
-   
 
-   	<!---mosrar quando nao estiver comprando--->
-
-    <div id="titcar">Pagamento <img src="/imagens/bag.png" width="60" height="35"></div>
-
+	<!--<div id="titcar">Pagamento <img src="/imagens/bag.png" width="60" height="35"></div>-->
     
 
     <!---mosrar o passo a passo quando estiver comprando--->
-
+	<%	if(usuario != '') {	%>
     	<nav class="rota">
 
         	<a href="" class="rts">
-
             	<span>1</span><br>
-
                 Minha Sacola
-
             </a>
 
             <a href="" class="rts">
-
             	<span>2</span><br>
-
                 Identificação
-
             </a>
 
             <a href="" class="rts ativo">
-
             	<span>3</span><br>
-
                 Pagamento
-
             </a>
 
             <a href="" class="rts">
-
             	<span>4</span><br>
-
                 Confirmação
-
             </a>            
 
         </nav>
-
+	<%	}	%>
         
 
     </header>
@@ -136,45 +120,31 @@
           
 
           <div class="campos20">
-
           	<input type="text" value="<%=endereco.cep%>"  placeholder="CEP" name="CEP" maxlength="8" onkeypress="return isNumberKey(event)" onblur="validar_cep(this.value);">
-
           </div>
 
           <div class="campos60">
-
           	<input type="text" value="<%=endereco.rua%>" placeholder="Rua" name="endereco" readonly="true">
-
           </div>
 
            <div class="campos20">
-
           	<input type="text" value="<%=endereco.numero%>" placeholder="Número" name="numero">
-
           </div>
 
            <div class="campos20">
-
           	<input type="text" value="<%=endereco.complemento%>" placeholder="Complemento" name="complemento">
-
           </div>
 
            <div class="campos30">
-
           	<input type="text" value="<%=endereco.bairro%>" placeholder="Bairro" name="bairro" readonly="true">
-
           </div>
 
           <div class="campos30">
-
           	<input type="text" value="<%=endereco.cidade%>" placeholder="Cidade" name="cidade" readonly="true">
-
           </div>         
 
            <div class="campos20">
-
           	<input type="text" value="<%=endereco.estado%>" placeholder="UF" name="estado" maxlength="2" readonly="true">
-
           </div>         
 
           
@@ -183,20 +153,17 @@
 
           
              <section class="avisocar2">
+               
+			   <h3>Importante</h3>
+               <p>Lembre-se que após a compra, você deverá retirar os itens adquiridos  diretamente na loja do shopping.  Seu pedido estará disponível  para retirada em <strong>1 hora</strong>  após  a confirmação  de seu pagamento.</p>
 
-                <h3>Importante</h3>
+               </section><!--aviso-->
 
-                <p>Lembre-se que após a compra, você deverá retirar os itens adquiridos  diretamente na loja do shopping.  Seu pedido estará disponível  para retirada em 30 minutos  após  a confirmação  de seu pagamento.</p>
-
-  
-
-             </section><!--aviso-->
-
-          <div class="campos100" style="text-align:left; font-size:18px">
+          <div class="campos100" style="text-align:left; font-size:18px;">
 
             <input type="checkbox" id="c1" name="aceite">
             <label for="c1">
-            Estou ciente que devo retirar a compra diretamente nas lojas dos shoppings que comprei.
+				<span class="droid">Estou ciente que devo retirar a compra diretamente nas lojas dos shoppings que comprei.</span>
             </label>
 
          </div>

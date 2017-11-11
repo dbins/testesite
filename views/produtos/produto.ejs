@@ -239,6 +239,9 @@
 			$('.tamanhoBtn[data-cor=' + selected + ']').show();
 			$(".colorBtn").removeClass('borderClass');
 			$(this).addClass('borderClass'); 
+			if ($('.tamanhoBtn[data-cor=' + selected + ']').length==1){
+				$('.tamanhoBtn[data-cor=' + selected + ']').click();
+			}
 			
 		});
 		$(".tamanhoBtn").click(function(event) {
@@ -274,17 +277,23 @@
 	function atualizarImagens(produtos, produto){
 		var tmp1 = "";
 		var tmp2 = "";
-		for (z = 0; z < produtos.length; z++) { 
+		for (z = 0; z < produtos.length; z++) {
 			var produto_selecionado = produtos[z];
 			if (produto_selecionado.slug == produto){
 				for (i = 0; i < produto_selecionado.imagens.length; i++) { 
-					tmp1 += '<a class="buttons"><img src="' + produto_selecionado.imagens[i] + '" class="img" id="foto"' + i + '"></a>';
-					tmp2 += '<div class="galery foto"' + i + '"><img src="' + produto_selecionado.imagens[i] + '" class="img"></div>';
+					var complemento = ' style="display:none"';
+					if (i==0){
+						 complemento = '';
+					}
+					tmp1 += '<a class="buttons"><img src="' + produto_selecionado.imagens[i] + '" class="img" id="foto' + i + '"></a>';
+					tmp2 += '<div class="galery foto' + i + '"><img src="' + produto_selecionado.imagens[i] + '" class="img"' + complemento + '></div>';
 				}
 			}
 		}
-		$('#foto fleft').html(tmp1);
-		$('#foto fright').html(tmp2);
+		
+		$('#foto .fleft').html(tmp1);
+		$('#foto .fright').html(tmp2);
+		
 	}
 </script>	
 

@@ -94,19 +94,15 @@
 <body id="login">
 
 
-
 <div class="full">  
 
-    
-
     <header>
-
    
 	<%
 	if (total_carrinho > 0){
 	%>
-   	<!---mosrar quando nao o carrinho tiver vazio --->
-    <!--<div id="titcar">Login <img src="/imagens/bag.png" width="60" height="35"></div>-->
+   	<!---mosrar quando o carrinho tiver vazio --->
+	<div id="titcar">Login <img src="/imagens/bag.png" width="60" height="35"></div>
 	<%
 	}
 	%>
@@ -119,35 +115,23 @@
     	<nav class="rota">
 
         	<a href="" class="rts">
-
             	<span>1</span><br>
-
                 Minha Sacola
-
             </a>
 
             <a href="" class="rts ativo">
-
             	<span>2</span><br>
-
                 Identificação
-
             </a>
 
             <a href="" class="rts">
-
             	<span>3</span><br>
-
                 Pagamento
-
             </a>
 
             <a href="" class="rts">
-
             	<span>4</span><br>
-
                 Confirmação
-
             </a>            
 
         </nav>
@@ -158,11 +142,7 @@
 
     </header>
 
-    
-
 	<div class="clear"></div>
-
-
 
 	<div class="soucliente" id="logar">
 		<!---Quando o carrinho tiver vazio leva-lo para a home logado depois de se logar--->
@@ -171,7 +151,7 @@
 			<h1>Sou cliente</h1> 
 
           <div class="campos100">
-          	<input type="text" value="" placeholder="cpf"  id="Login" name="CPF" maxlength="14" onKeyPress="return isNumberKey(event);">
+          	<input type="text" value="" placeholder="cpf"  id="Login" name="CPF" onKeyPress="return isNumberKey(event);">
           </div>
 
           <div class="campos100">
@@ -201,19 +181,14 @@
           <h1>Esqueci minha senha</h1>
 
           <div class="campos100">
-
-          	<input type="text" value="" placeholder="Informe seu CPF" name="CPF" id="CPF2" maxlength="14" onKeyPress="return isNumberKey(event);" onblur="validar_cliente_esqueci(this.value);">
-
+          	<input type="text" value="" placeholder="Informe seu CPF" name="CPF" id="CPF2"  onKeyPress="return isNumberKey(event);" onblur="validar_cliente_esqueci(this.value);">
           </div>
 
           <div class="campos100">
-
           	<a href="" class="buttons2"> Voltar ao login</a>
-
           </div>
 
           <div class="campos100">
-
           	<input type="submit" id="btn_submit_esqueci" value=" Enviar Senha ">
 			<input type="hidden" name="_csrf" value="<%= csrfToken %>">	
           </div>
@@ -235,7 +210,7 @@
     	<form action="/login/cadastrar" method="POST" autocomplete="off"  onSubmit="return checkform_novo_cadastro(this);">
 
         <div class="campos50">
-          	<input type="text" value="" placeholder="cpf" name="CPF" id="CPF" maxlength="14" onKeyPress="return isNumberKey(event);" onblur="validar_cliente(this.value);">
+          	<input type="text" value="" placeholder="cpf" name="CPF" id="CPF"  onKeyPress="return isNumberKey(event);" onblur="validar_cliente(this.value);">
          </div>
 
          <div class="campos50">
@@ -253,27 +228,22 @@
         <div class="campos50">
 
           	<select class="minimal" name="genero">
-
                 <option value="male">Masculino</option>
-
-                <option value="female">Feminino</option>
-
+                <option value="female">Feminino</option>				
             </select>  
 
          </div>
 		 <div class="campos50">
-
-          	<input type="text" value="" placeholder="Aniversário" id="aniversario" name="aniversario" maxlength="10">
+          	<input type="text" value="" placeholder="Aniversário" id="aniversario" name="aniversario" >
          </div>
 		 
 		 <div class="campos50">
           	<input type="text" value="" placeholder="DDD" name="ddd" maxlength="2" onKeyPress="return isNumberKey(event);">
          </div>
+		 
          <div class="campos50">
-
           	<input type="text" value="" placeholder="Telefone Celular" name="telefone" maxlength="10" onKeyPress="return isNumberKey(event);">
          </div>
-
 
          <div class="campos50">
           	<input type="password" value="" placeholder="senha" name="senha">
@@ -282,7 +252,6 @@
          <div class="campos50">
           	<input type="password" value="" placeholder="confirmar senha" name="confirmar_senha">
          </div>
-
     	
 
         <div class="campos100">
@@ -294,7 +263,7 @@
 
             <div class="campos50">
                 <input type="checkbox" id="c2" name="aceite">
-                <label for="c2"> Aceito os <a href="">Termos e condições</a></label>
+                <label for="c2"> Aceito os <a href="/termos" target="_blank">Termos e condições</a></label>
             </div>        
 
         </div>
