@@ -91,7 +91,8 @@ pagarmeAPI.prototype.autorizaTransacao = function(valor, dados_do_cliente){
 		dados_da_captura.installments = dados_do_cliente.installments; //Parcelas!
 		//dados_da_captura.customer = dados_do_cliente.customer; //Retornados por API Pagarme		
 		dados_da_captura.metadata = dados_do_cliente.metadata; //Nosso carrinho
-		dados_da_captura.split_rules = dados_do_cliente.split_rules; //Nosso carrinho
+		dados_da_captura.split_rules = dados_do_cliente.split_rules; //Nossas regras
+		dados_da_captura.postback_url = dados_do_cliente.postback_url; //URL Site
 	} else {
 		dados_da_captura.amount =  valor; 
 		dados_da_captura.api_key = this.api_key;	
@@ -100,7 +101,8 @@ pagarmeAPI.prototype.autorizaTransacao = function(valor, dados_do_cliente){
 		dados_da_captura.card_hash = dados_do_cliente.card_hash;
 		dados_da_captura.installments = dados_do_cliente.installments; //Parcelas!
 		//dados_da_captura.customer = dados_do_cliente.customer; //Retornados por API Pagarme
-		dados_da_captura.metadata = dados_do_cliente.metadata; //Nosso carrinho
+		dados_da_captura.metadata = dados_do_cliente.metadata; //Nossas regras
+		dados_da_captura.postback_url = dados_do_cliente.postback_url; //URL Site
 	}
 	
 	//Api versao 2

@@ -773,6 +773,22 @@ margin:5px;  font-family: "Droid Sans";}
 #erro h2{ font-weight:bold; font-size:40px; 	line-height: 47px;}
 #erro h3{	font-size: 30px;	line-height: 35px;}
 #erro p{	font-size: 14px;}
+#erro a{  
+	background-color: #9966cc;
+    border: medium none;
+    color: #fff;
+    cursor: pointer;
+    float: right;
+    font-family: "Lora",serif;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+    padding: 15px 10px;
+    text-align: center;
+    width:100%; 
+
+}
+
 
 
 /*==========================Meus favoritos=========================*/
@@ -874,6 +890,36 @@ margin:5px;  font-family: "Droid Sans";}
 .termos h2{	font-size: 18px;	font-style: italic;	font-weight: bold;}
 .termos p{	font-size: 16px;	font-family: "Droid Sans"; line-height:25px;}
 
+
+/*=======================AGUARDANDO APROVAÇÃO====================*/
+.aguardo{ float:right; width:40%; padding:20px;}
+.aguardo span{
+background-color: #333333;
+    border: 1px solid #333333;
+    color: #fff;
+    font-family: Lora;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+    padding: 15px 80px;
+    text-align: center;
+    max-width:300px; float:right;	
+	}
+.aguardo a{  
+	background-color: #9966cc;
+    border: medium none;
+    color: #fff;
+    cursor: pointer;
+    float: right;
+    font-family: "Lora",serif;
+    font-size: 20px;
+    font-style: italic;
+    font-weight: bold;
+    padding: 15px 10px;
+    text-align: center;
+    width: 80%; 
+	margin:10px 0 0 0
+}
 
 /*=======================================Footer===================================*/
 footer{ float:left; width:100%; background-color: #242424; color:#fff; font-size:12px;  font-family: "Droid Sans"; border-top: 5px #9966CC solid; }

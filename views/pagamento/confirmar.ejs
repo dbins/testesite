@@ -39,7 +39,12 @@
 					'_csrf': '<%= csrfToken %>'
 				  },
 				  success: function (response) {
-					window.location.href = "/pagamento/finalizar";
+				  console.log(response);
+				   if (response.retorno == 1){
+						window.location.href = "/pagamento/finalizar";
+				   } else {
+						window.location.href = "/pagamento/aviso/erro";
+				   }
 				  },
 				  error: function () {
 					window.location.href = "/erro/500";

@@ -236,6 +236,13 @@ module.exports = function (app){
 			var dados_captura = {};
 			dados_captura.amount = total;
 			
+			//O bloco abaixo vai precisar ficar dentro do IF para fazer captura
+			//if (req.session.status_clearsale == "APA"){
+				//Mover a programacao de captura
+			//} else {
+				//Ir para a programacao de aguardando...
+			//}
+			
 			//Por enquanto sem o split!
 			//dados_captura.split_rules = apiPagarme.montarSplitRules(req.session.carrinho);
 			apiPagarme.capturaTransacao(iddacompra, dados_captura).then(function (resultados2) {
@@ -265,9 +272,9 @@ module.exports = function (app){
 					req.session.id_clearsale = "";
 					
 					if (tmp_pedido.tipo=="Boleto"){
-						res.render("pagamento/boleto", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
+						res.render("pagamento/boleto", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
 					} else {
-						res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
+						res.render("pagamento/finalizar", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
 					}	
 				}).catch(function (erro){
 					console.log(erro.stack);
@@ -296,14 +303,15 @@ module.exports = function (app){
 				api_clearsale.SetOrderAsReturned(req.session.id_marketplace);
 				
 				//Apagando o carrinho!
+				var dados_carrinho = req.session.carrinho;
 				req.session.carrinho = "";
 				req.session.total_carrinho = 0; 
 				req.session.id_clearsale = "";
 					
 				if (tmp_pedido.tipo=="Boleto"){
-					res.render("pagamento/boleto", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+					res.render("pagamento/boleto", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
 				} else {
-					res.render("pagamento/finalizar", {pagarme: tmp_pedido, email: req.session.cliente.email, pedido: pedido, resultados: req.session.carrinho,moment: moment});
+					res.render("pagamento/finalizar", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
 				}	
 			}).catch(function (erro){
 				console.log(erro.stack);
@@ -384,7 +392,7 @@ module.exports = function (app){
 		
 			//ID na ClearSale (???)
 			req.session.id_clearsale = resultados.id;
-			
+			req.session.status_clearsale = resultados.status;
 			
 			var min = 10000;
 			var max = 50000;
@@ -441,7 +449,7 @@ module.exports = function (app){
 	});
 	
 	app.post("/pagamento/gravar", function(req,res){
-		var retorno =  0;
+		var retorno =  0; //O - Nao esta logado * 1 - Sucesso ao gravar - 2 - Problema ao gravar
 		var token_pagarme = req.body.token;
 		var tipo_pagamento = req.body.tipo;
 		var dados_cliente_pagarme = req.body.dados_transacao;
@@ -560,6 +568,7 @@ module.exports = function (app){
 			dados_cliente_pagarme.metadata = objeto_metadata;
 			dados_cliente_pagarme.split_rules = apiPagarme.montarSplitRules(req.session.carrinho);
 			dados_cliente_pagarme.aniversario = req.session.cliente.aniversario;
+			dados_cliente_pagarme.postback_url = "https://concierge-front.herokuapp.com/callback/pagarme";
 			
 			//Antes autorizava e capturava ao mesmo tempo, agora apenas autoriza.
 			//Neste caso, o envio de dados depende do tipo de pagamento!
@@ -591,25 +600,39 @@ module.exports = function (app){
 						//ALINHAR O OPERACIONAL CORRETO DEPOIS!
 						//ID DO SALES TRANSACTION
 						req.session.id_marketplace = resultados.id;
-						return res.json(retorno);	
+						if (resultados.id == 0){
+							retorno = 2;
+							
+						}
+						return res.json({"retorno": retorno});	
 						
 					   });
 					}).catch((err) => {
+						retorno = 2;
+						return res.json({"retorno": retorno});	
 						console.log(err.stack);
 						//problema....
 					});
 				//return res.json(retorno);	
 			}).catch(function (erro){
+				retorno = 2;
 				console.log(erro.stack);
-				return res.json(retorno);	
+				return res.json({"retorno": retorno});	
 			});
 	
 		} else {
-			return res.json(retorno);	
+			return res.json({"retorno": retorno});	
 		}
 		
 		
 	});
 	
+	app.get("/pagamento/aviso/erro", function(req,res){
+		//if (!req.session.usuario){
+			//res.redirect("/");
+			//return;
+		//}
+		res.render("pagamento/erro");
+	});
 	
 }
