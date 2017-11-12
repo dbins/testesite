@@ -156,27 +156,23 @@
 									if (resultado.sessoes){
 									if (resultado.sessoes.length>0){
 									resultado.sessoes.forEach(function(resultado2) { 
-									if (resultado2.length>0){
-									resultado2.forEach(function(resultado3) { 
 								%>
-								<p><%=resultado3.name%></p>
-									<%
-										resultado3.sessions.forEach(function(resultado4) { 
-									%>
-								<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
+								<p><%=resultado2.name%></p>
+								<%	
+									resultado2.sessions.forEach(function(resultado3) { 
+								%>
+								
+									
+								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
 							
 								<%
 									});	
-									});	
-								} else {
 								%>
-								<p>Não existem sessões neste dia</p>
 								<%
-								}
 								});	
 								} else {
 								%>
-								<p>Não existem sessões neste dia</p>
+								<p>(2) Não existem sessões neste dia</p>
 								<%
 								}
 								
@@ -193,41 +189,37 @@
     
                      <div id="cine2">
 
-                       <% 
+                        <% 
 						if (sessoes[1]){
 						sessoes[1].shopping.forEach(function(resultado) { 
 						%>
 							<div class="cine">
-								<p><%=resultado.nome%></p>
+                        	<p><%=resultado.nome%></p>
 								<%
-								if (resultado.sessoes){
-								if (resultado.sessoes.length>0){
-								resultado.sessoes.forEach(function(resultado2) { 
-								if (resultado2.length>0){
-								resultado2.forEach(function(resultado3) { 
+									if (resultado.sessoes){
+									if (resultado.sessoes.length>0){
+									resultado.sessoes.forEach(function(resultado2) { 
 								%>
-								<p><%=resultado3.name%></p>
+								<p><%=resultado2.name%></p>
+								<%	
+									resultado2.sessions.forEach(function(resultado3) { 
+								%>
+								
+									
+								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
+							
 								<%
-								resultado3.sessions.forEach(function(resultado4) { 
+									});	
 								%>
-								<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
-							
-							<%
-							});	
-							});	
-							} else {
-							%>
-							<p>Não existem sessões neste dia</p>
-							<%
-							}
-							});	
-							} else {
-							%>
-							<p>Não existem sessões neste dia</p>
-							<%
-							}
-							
-							%>
+								<%
+								});	
+								} else {
+								%>
+								<p>(2) Não existem sessões neste dia</p>
+								<%
+								}
+								
+								%>
 							</div>
 						<%
 						} 
@@ -245,32 +237,28 @@
 						sessoes[2].shopping.forEach(function(resultado) { 
 						%>
 							<div class="cine">
-								<p><%=resultado.nome%></p>
+                        	<p><%=resultado.nome%></p>
 								<%
-								if (resultado.sessoes){
-								if (resultado.sessoes.length>0){
-								resultado.sessoes.forEach(function(resultado2) { 
-								if (resultado2.length>0){
-								resultado2.forEach(function(resultado3) { 
+									if (resultado.sessoes){
+									if (resultado.sessoes.length>0){
+									resultado.sessoes.forEach(function(resultado2) { 
 								%>
-								<p><%=resultado3.name%></p>
-								<%
-								resultado3.sessions.forEach(function(resultado4) { 
+								<p><%=resultado2.name%></p>
+								<%	
+									resultado2.sessions.forEach(function(resultado3) { 
 								%>
-								<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
 								
+									
+								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
+							
 								<%
-								});	
+									});	
+								%>
+								<%
 								});	
 								} else {
 								%>
-								<p>Não existem sessões neste dia</p>
-								<%
-								}
-								});	
-								} else {
-								%>
-								<p>Não existem sessões neste dia</p>
+								<p>(2) Não existem sessões neste dia</p>
 								<%
 								}
 								
@@ -293,38 +281,32 @@
 						sessoes[3].shopping.forEach(function(resultado) { 
 						%>
 							<div class="cine">
-								<p><%=resultado.nome%></p>
+                        	<p><%=resultado.nome%></p>
 								<%
 									if (resultado.sessoes){
 									if (resultado.sessoes.length>0){
 									resultado.sessoes.forEach(function(resultado2) { 
-									if (resultado2.length>0){
-								resultado2.forEach(function(resultado3) { 
 								%>
-								<p><%=resultado3.name%></p>
+								<p><%=resultado2.name%></p>
+								<%	
+									resultado2.sessions.forEach(function(resultado3) { 
+								%>
+								
+									
+								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
+							
 								<%
-									resultado3.sessions.forEach(function(resultado4) { 
+									});	
 								%>
-							
-							<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
-							
-							
-							<%
-							});	
-							});	
-							} else {
-							%>
-							<p>Não existem sessões neste dia</p>
-							<%
-							}
-							});	
-							} else {
-							%>
-							<p>Não existem sessões neste dia</p>
-							<%
-							}
-							
-							%>
+								<%
+								});	
+								} else {
+								%>
+								<p>(2) Não existem sessões neste dia</p>
+								<%
+								}
+								
+								%>
 							</div>
 						<%
 						} 
@@ -347,35 +329,31 @@
 						%>
 							<div class="cine">
                         	<p><%=resultado.nome%></p>
-							<%
-							if (resultado.sessoes){
-							if (resultado.sessoes.length>0){
-							resultado.sessoes.forEach(function(resultado2) { 
-							if (resultado2.length>0){
-							resultado2.forEach(function(resultado3) { 
-							%>
-							<p><%=resultado3.name%></p>
-							<%
-							resultado3.sessions.forEach(function(resultado4) { 
-							%>
-							<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
+								<%
+									if (resultado.sessoes){
+									if (resultado.sessoes.length>0){
+									resultado.sessoes.forEach(function(resultado2) { 
+								%>
+								<p><%=resultado2.name%></p>
+								<%	
+									resultado2.sessions.forEach(function(resultado3) { 
+								%>
+								
+									
+								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
 							
-							<%
-							});	
-							});	
-							} else {
-							%>
-							<p>Não existem sessões neste dia</p>
-							<%
-							}
-							});	
-							} else {
-							%>
-							<p>Não existem sessões neste dia</p>
-							<%
-							}
-							
-							%>
+								<%
+									});	
+								%>
+								<%
+								});	
+								} else {
+								%>
+								<p>(2) Não existem sessões neste dia</p>
+								<%
+								}
+								
+								%>
 							</div>
 						<%
 						} 
@@ -391,41 +369,37 @@
                      <div id="cine6">
 
                      
-						<% 
+						 <% 
 						if (sessoes[5]){
 						sessoes[5].shopping.forEach(function(resultado) { 
 						%>
 							<div class="cine">
-								<p><%=resultado.nome%></p>
+                        	<p><%=resultado.nome%></p>
 								<%
 									if (resultado.sessoes){
 									if (resultado.sessoes.length>0){
 									resultado.sessoes.forEach(function(resultado2) { 
-									if (resultado2.length>0){
-									resultado2.forEach(function(resultado3) { 
 								%>
-								<p><%=resultado3.name%></p>
+								<p><%=resultado2.name%></p>
+								<%	
+									resultado2.sessions.forEach(function(resultado3) { 
+								%>
+								
+									
+								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
+							
 								<%
-									resultado3.sessions.forEach(function(resultado4) { 
+									});	
 								%>
-								<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
-							
-							<%
-							});	
-							});	
-							} else {
-							%>
-							<p>Não existem sessões neste dia</p>
-							<%
-							}
-							});	
-							} else {
-							%>
-							<p>Não existem sessões neste dia</p>
-							<%
-							}
-							
-							%>
+								<%
+								});	
+								} else {
+								%>
+								<p>(2) Não existem sessões neste dia</p>
+								<%
+								}
+								
+								%>
 							</div>
 						<%
 						} 
@@ -450,35 +424,31 @@
 						%>
 							<div class="cine">
                         	<p><%=resultado.nome%></p>
-							<%
-							if (resultado.sessoes){
-							if (resultado.sessoes.length>0){
-							resultado.sessoes.forEach(function(resultado2) { 
-							if (resultado2.length>0){
-							resultado2.forEach(function(resultado3) { 
-							%>
-							<p><%=resultado3.name%></p>
-							<%
-							resultado3.sessions.forEach(function(resultado4) { 
-							%>
-							<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
+								<%
+									if (resultado.sessoes){
+									if (resultado.sessoes.length>0){
+									resultado.sessoes.forEach(function(resultado2) { 
+								%>
+								<p><%=resultado2.name%></p>
+								<%	
+									resultado2.sessions.forEach(function(resultado3) { 
+								%>
+								
+									
+								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
 							
-							<%
-							});	
-							});	
-							} else {
-							%>
-							<p>Não existem sessões neste dia</p>
-							<%
-							}
-							});	
-							} else {
-							%>
-							<p>Não existem sessões neste dia</p>
-							<%
-							}
-							
-							%>
+								<%
+									});	
+								%>
+								<%
+								});	
+								} else {
+								%>
+								<p>(2) Não existem sessões neste dia</p>
+								<%
+								}
+								
+								%>
 							</div>
 						<%
 						} 

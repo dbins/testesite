@@ -52,12 +52,12 @@
 			<%
 			if (teste.de == teste.por) {
 			%>
-			<span class="por">R$ <%=teste.por%></span>
+			<span class="por">R$ <span id="preco_por"><%=teste.por%></span></span>
 			<%
 			} else {
 			%>
-           <span class="de">De: R$ <%=teste.de%></span>
-           <span class="por">Por: <%=teste.por%></span>
+           <span class="de">De: R$ <span id="preco_de"><%=teste.de%></span></span>
+           <span class="por">Por: <span id="preco_por"><%=teste.por%></span></span>
 		   <%
 		   }
 		   %>
@@ -214,10 +214,12 @@
  </div><!--full-->
  <script src="/js/colorpicker/eight-bit-color-picker.js"></script>
 <script type="text/javascript">
+	var estoque = <%=teste.estoque%>;
 	$(function(){
+		
 		$("#plus").click(function(event) {
 		   event.preventDefault();
-		   if ((parseInt($("#quantidade").val())+1) - parseInt(<%=teste.estoque%>)){
+		   if ((parseInt($("#quantidade").val())+1) <= parseInt(estoque)){
 			$('#quantidade').val(parseInt($("#quantidade").val())+1);	
 		   }
 		   $('#btn_sacola').attr('href', '/carrinho/add/<%=teste.url_title%>/' + $('#quantidade').val());
@@ -277,9 +279,15 @@
 	function atualizarImagens(produtos, produto){
 		var tmp1 = "";
 		var tmp2 = "";
+		var estoque_produto = 0;
+		var preco_de = "";
+		var preco_por = "";
 		for (z = 0; z < produtos.length; z++) {
 			var produto_selecionado = produtos[z];
 			if (produto_selecionado.slug == produto){
+				preco_de = produto_selecionado.de;
+				preco_por = produto_selecionado.por;
+				estoque_produto = produto_selecionado.estoque;
 				for (i = 0; i < produto_selecionado.imagens.length; i++) { 
 					var complemento = ' style="display:none"';
 					if (i==0){
@@ -291,6 +299,9 @@
 			}
 		}
 		
+		estoque = estoque_produto;
+		$('#preco_de').html(preco_de);
+		$('#preco_por').html(preco_por);
 		$('#foto .fleft').html(tmp1);
 		$('#foto .fright').html(tmp2);
 		

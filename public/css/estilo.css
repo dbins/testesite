@@ -89,7 +89,7 @@ select.minimal {
     5px 5px,
     5px 5px,
     5px 0;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; border-radius:none
 }
 
 select.minimal:focus {
@@ -106,7 +106,7 @@ select.minimal:focus {
     5px 5px,
     1px 0;
   background-repeat: no-repeat;
-  outline: 0;
+  outline: 0;border-radius:none
 }
 
 .botao{ padding:10px 20px; border:1px #000000 solid; font-size:20px; font-weight:bold; font-style:italic; color:#242424;}
@@ -323,7 +323,7 @@ ul.dropdown2 li:hover > ul { visibility: visible; }
 .online input[type="text"]{	border: 1px solid #242424; width:95px;  padding:15px; float:left; 
 margin:5px;  font-family: "Droid Sans";}
 .online div:nth-child(1){ width:150px; margin:18px 0 0 0}
-.online div:nth-child(2){ width:150px; margin:18px 0 0 0}
+.online div:nth-child(2){ width:150px;}
 .online div:nth-child(3){ width:300px; line-height:55px;}
 .online div:nth-child(4){ width:300px; line-height:55px;}
 .online div:nth-child(5){ width:300px; line-height:55px;}
@@ -548,10 +548,9 @@ margin:5px;  font-family: "Droid Sans";}
 .online input[type="text"]{	border: 1px solid #242424; width:95px;  padding:15px; float:left; 
 margin:5px;  font-family: "Droid Sans";}
 .online div:nth-child(1){ width:12%; margin:18px 0 0 0}
-.online div:nth-child(2){ width:12%; margin:18px 0 0 0}
-.online div:nth-child(3){ width:23%; line-height:55px;}
-.online div:nth-child(4){ width:31%; line-height:55px;}
-.online div:nth-child(5){ width:21%; line-height:55px;}
+.online div:nth-child(2){ width:23%; line-height:55px;}
+.online div:nth-child(3){ width:31%; line-height:55px;}
+.online div:nth-child(4){ width:21%; line-height:55px;}
 
 
 /*===========================Eventos===================================*/
@@ -1375,10 +1374,9 @@ nav{padding: 25px 10px; height:120px;}
 .bannerint section{ top:30%; font-size:50px;}
 .filtro{padding: 22px 10px;}
 .online div:nth-child(1){ width:25%;}
-.online div:nth-child(2){ width:25%;}
+.online div:nth-child(2){ width:35%;}
 .online div:nth-child(3){ width:50%;}
 .online div:nth-child(4){ width:50%;}
-.online div:nth-child(5){ width:50%;}
 
 #lojas{ padding:10px;}
 .filtroloja{ padding:10px;}
@@ -1508,11 +1506,10 @@ ul.rodape li a{ padding:0 10px;}
 .bannerint section{ top:20%; font-size:40px;}
 
 .filtro{ padding:10px}
-.online div:nth-child(1){ width:50%;}
-.online div:nth-child(2){ width:50%;}
+.online div:nth-child(1){ width:100%;}
+.online div:nth-child(2){ width:100%;}
 .online div:nth-child(3){ width:100%;}
 .online div:nth-child(4){ width:100%;}
-.online div:nth-child(5){ width:100%;}
 .online input[type="text"]{ width:40%}
 select{ margin:0; width:100%}
 

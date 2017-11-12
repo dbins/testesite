@@ -1,4 +1,6 @@
 var nodemailer = require('nodemailer');
+var handlebars = require('handlebars');
+var fs = require('fs');
 
 function emailAPI () {
 	this.remetente = "contato@dbins.com.br";
@@ -16,6 +18,18 @@ function emailAPI () {
 	  } 
 	});
 }
+
+var readHTMLFile = function(path, callback) {
+    fs.readFile(path, {encoding: 'utf-8'}, function (err, html) {
+        if (err) {
+            throw err;
+            callback(err);
+        }
+        else {
+            callback(null, html);
+        }
+    });
+};
 
 emailAPI.prototype.esqueceuSenha = function(destinatario, dados){
 	var email = {
@@ -90,6 +104,114 @@ emailAPI.prototype.contatoSite = function(destinatario, dados){
 		return 1; //OK
 	  }	
 	});
+};
+
+emailAPI.prototype.pagamentoBoleto = function(destinatario, dados){
+	var transporte = this.transporte;
+	var remetente = this.remetente;
+	readHTMLFile(__dirname + '/emails/boleto-pagamento-aguardando-pagamento.html', function(err, html) {
+		var template = handlebars.compile(html);
+		var substituir = {
+			 nome: dados.nome,
+			 tabela: dados.tabela
+		};
+		var htmlEmail = template(substituir);
+		var email = {
+		  from: remetente,
+		  to: destinatario,
+		  subject: 'ON Stores - Confirmacao de pedido de compra',
+		   html : htmlEmail
+		};
+		transporte.sendMail(email, function (err, response) {
+			 if(err) {
+				return 2;
+			}	else {
+				return 1; //OK
+			}	
+		});
+	});
+	
+};
+
+emailAPI.prototype.pagamentoCartaoAguardando = function(destinatario, dados){
+	var transporte = this.transporte;
+	var remetente = this.remetente;
+	readHTMLFile(__dirname + '/emails/aguardando-aprovacao.html', function(err, html) {
+		var template = handlebars.compile(html);
+		var substituir = {
+			 nome: dados.nome,
+			 tabela: dados.tabela
+		};
+		var htmlEmail = template(substituir);
+		var email = {
+		  from: remetente,
+		  to: destinatario,
+		  subject: 'ON Stores - Confirmacao de pedido de compra',
+		   html : htmlEmail
+		};
+		transporte.sendMail(email, function (err, response) {
+			 if(err) {
+				return 2;
+			}	else {
+				return 1; //OK
+			}	
+		});
+	});
+	
+};
+
+emailAPI.prototype.pagamentoCartaoCaptura = function(destinatario, dados){
+	var transporte = this.transporte;
+	var remetente = this.remetente;
+	readHTMLFile(__dirname + '/emails/pagamento-aprovado.html', function(err, html) {
+		var template = handlebars.compile(html);
+		var substituir = {
+			 nome: dados.nome,
+			 tabela: dados.tabela
+		};
+		var htmlEmail = template(substituir);
+		var email = {
+		  from: remetente,
+		  to: destinatario,
+		  subject: 'ON Stores - Confirmacao de pedido de compra',
+		   html : htmlEmail
+		};
+		transporte.sendMail(email, function (err, response) {
+			 if(err) {
+				return 2;
+			}	else {
+				return 1; //OK
+			}	
+		});
+	});
+	
+};
+
+emailAPI.prototype.pagamentoCartaoReprovado = function(destinatario, dados){
+	var transporte = this.transporte;
+	var remetente = this.remetente;
+	readHTMLFile(__dirname + '/emails/pagamento-reprovada.html', function(err, html) {
+		var template = handlebars.compile(html);
+		var substituir = {
+			 nome: dados.nome,
+			 tabela: dados.tabela
+		};
+		var htmlEmail = template(substituir);
+		var email = {
+		  from: remetente,
+		  to: destinatario,
+		  subject: 'ON Stores - Seu pedido de compra foi reprovado',
+		   html : htmlEmail
+		};
+		transporte.sendMail(email, function (err, response) {
+			 if(err) {
+				return 2;
+			}	else {
+				return 1; //OK
+			}	
+		});
+	});
+	
 };
 
 module.exports = emailAPI;

@@ -10,6 +10,27 @@ var objectid = require('objectid');
 var crypto = require('crypto');
 var servicoClearSale = require('./../servicos/clearsale.js');
 
+function montarTabelaPedido(carrinho){
+	var retorno = '';
+	for (index = 0; index < carrinho.length; ++index) {
+		//carrinho[index].por
+		retorno += '<tr>';
+        retorno += '    <td width="19%">' + carrinho[index].produto + '</td>';
+        retorno += '    <td width="20%">' + carrinho[index].shopping + '</td>';
+        retorno += '    <td width="12%">' + carrinho[index].loja + '</td>';
+        retorno += '    <td width="11%">' + carrinho[index].cor + '</td>';
+        retorno += '    <td width="10%">Tam ' + carrinho[index].tamanho + '</td>';
+        retorno += '    <td width="16%">' + carrinho[index].qtde + ' Unidade(s)</td>';
+        retorno += '    <td width="12%">R$' + carrinho[index].total + '</td>';
+        retorno += '</tr>';
+		retorno += '<tr>';
+        retorno += '    <td colspan="7"><div style="border-bottom:1px #ddd solid; width:100%; height:2px"></div></td>';
+        retorno += ' </tr>';
+	}
+	
+	return retorno;
+}
+
 function retornaIDShopping(shoppings, shopping){
 	var retorno = 0;
 	shoppings.forEach(function(item){
@@ -271,6 +292,37 @@ module.exports = function (app){
 					req.session.total_carrinho = 0; 
 					req.session.id_clearsale = "";
 					
+					//ESSE E O EMAIL PARA QUANDO NAO HOUVER CAPTURA
+					var envioEmail = new servicoEmail();
+					var dados_email ={};
+					dados_email.nome = req.session.cliente.nome;
+					dados_email.tabela = montarTabelaPedido(dados_carrinho);
+					envioEmail.pagamentoCartaoAguardando(req.session.cliente.email,dados_email);
+					
+					
+					//ESSE E O EMAIL PARA QUANDO HOUVER CAPTURA
+					//var envioEmail = new servicoEmail();
+					//var dados_email ={};
+					//dados_email.nome = req.session.cliente.nome;
+					//dados_email.tabela = montarTabelaPedido(dados_carrinho);
+					//dados_email.pedido = "";
+					//dados_email.token = "";
+					//dados_email.data = "";
+					//dados_email.hora = "";
+					//dados_email.loja = "";
+					//dados_email.shopping = "";
+					//dados_email.QRCODE = "";
+					//envioEmail.pagamentoCartaoCaptura(req.session.cliente.email,dados_email);
+					
+					//ESSE E O EMAIL SE HOUVER PROBLEMA NA CAPTURA
+					//var envioEmail = new servicoEmail();
+					//var dados_email ={};
+					//dados_email.nome = req.session.cliente.nome;
+					//dados_email.tabela = montarTabelaPedido(dados_carrinho);
+					//envioEmail.pagamentoCartaoReprovado(req.session.cliente.email,dados_email);
+					
+					
+					
 					if (tmp_pedido.tipo=="Boleto"){
 						res.render("pagamento/boleto", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
 					} else {
@@ -307,6 +359,12 @@ module.exports = function (app){
 				req.session.carrinho = "";
 				req.session.total_carrinho = 0; 
 				req.session.id_clearsale = "";
+				
+				var envioEmail = new servicoEmail();
+				var dados_email ={};
+				dados_email.nome = req.session.cliente.nome;
+				dados_email.tabela = montarTabelaPedido(dados_carrinho);
+				envioEmail.pagamentoBoleto(req.session.cliente.email,dados_email);
 					
 				if (tmp_pedido.tipo=="Boleto"){
 					res.render("pagamento/boleto", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
@@ -326,8 +384,8 @@ module.exports = function (app){
 			return;
 		}
 		
-		var envioEmail = new servicoEmail();
-		envioEmail.finalizarCompra(req.session.cliente.email,{});
+		//var envioEmail = new servicoEmail();
+		//envioEmail.finalizarCompra(req.session.cliente.email,{});
 		
 		
 		//Ao chegar nesta parte, a transacao foi autorizada e capturada
