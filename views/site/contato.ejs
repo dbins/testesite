@@ -16,8 +16,56 @@
     <form method="POST" action=""  onSubmit="return checkform_contato(this);">	
    <div class="contato">   
        	<h2>Fale Conosco</h2> 
+        <%	
+		if (shopping == ''){ 
+		%>
        	<p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
 		que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>contato@onstores.com.br</strong></p>
+		<%
+		} else{
+		%>
+			<%
+			if (shopping == "grand_plaza_shopping"){ 
+			%>
+				<p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
+				que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>**contato@onstores.com.br</strong></p>
+			<%
+			}		
+			if (shopping == "tiete_plaza_shopping"){ 
+			%>
+				<p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
+				que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>**contato@onstores.com.br</strong></p>
+			<%
+			}
+			if (shopping == "shopping_cerrado"){ 
+			%>
+				<p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
+				que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>**contato@onstores.com.br</strong></p>
+			<%
+			}
+			if (shopping == "shopping_metropolitano_barra"){ 
+			%>
+				<p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
+				que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>**contato@onstores.com.br</strong></p>
+			<%
+			}
+			if (shopping ==  "shopping_cidade_sao_paulo"){ 
+			%>
+				<p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
+				que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>**contato@onstores.com.br</strong></p>
+			<%
+			}
+			if (shopping == "shopping_d"){ 
+			%>
+				<p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
+				que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>**contato@onstores.com.br</strong></p>
+			<%
+			}
+			%>
+		<%	
+		}
+		%>
+		
         <div class="ctc">
             <div class="campos100">
                 <input type="text" value="" placeholder=" Nome " name="nome">

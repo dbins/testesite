@@ -33,7 +33,7 @@ autenticacaoAPI.prototype.config = function(){
 		var dados_usuario = {
 			"level": "app",
 			"strategy": "local", 
-			"email": "concierge_frontend@adlib.com.br", 
+			"user": "concierge_frontend@adlib.com.br", 
 			"password": "8902de078cc1aa843c0b91b5f6e2aed9c5c15272e1adf6264fb0ec9cf35df421"
 		};
 		
