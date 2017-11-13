@@ -191,6 +191,8 @@ $("#valor_final").focusout(function(){
 function filtrarIntervalo(){
 	if (parseFloat($("#valor_final").val()) >= parseFloat($("#valor_inicial").val())){
 		filter();
+	} else {
+		 $('.prods').show();
 	}
 }
 function filter() {

@@ -42,9 +42,9 @@
     
     <!-----------infos cores, tamanho, shopping--------->
     <div id="info">
-       	<div class="compartilha"><img src="/imagens/compartilha.png" width="30" height="30"></div> 
+       <!--	<div class="compartilha"><img src="/imagens/compartilha.png" width="30" height="30"></div>--> 
         <p><%=teste.loja%></p> 
-        <p><%=teste.shopping%></p>
+        <p><img src="/imagens/loc.png" width="15" heigh="20"><%=teste.shopping%></p>
         <h1><%=teste.produto%>
         <div class="pline"></div>
         </h1>   
@@ -104,7 +104,7 @@
             <a href="" id="plus">+</a>
          </div> 
      
-		 <a id="btn_sacola" href="/carrinho/add/<%=teste.url_title%>/1" class="adicionar_sacola fancybox fancybox.iframe">Adicionar ao carrinho</a>
+		 <a id="btn_sacola" href="/carrinho/add/<%=teste.url_title%>/1" class="adicionar_sacola fancybox fancybox.iframe">Adicionar a sacola</a>
 	
    </div><!--info-->
     
@@ -122,40 +122,16 @@
         
         <div class="aviso">
         	<h3>Importante</h3>
-            <p>Lembre-se que após a compra, você deverá retirar os itens adquiridos diretamente na loja do shopping. Seu pedido estará disponível para retirada em 30 minutos após a confirmação de seu pagamento.</p>
+            <p>Lembre-se que após a compra, você deverá retirar os itens adquiridos diretamente na loja do shopping. Seu pedido estará disponível para retirada em 1 hora após a confirmação de seu pagamento.</p>
             <a href="http://ajuda.adlib.com.br" target="_blank">Dúvidas</a>
             <a href="http://ajuda.adlib.com.br" target="_blank">Trocas</a>
             <a href="/contato" class="fancybox">Contato</a>
-           
-           <!--
-		   <div id="a-duvidas" class="danger">
-                <h3>Dúvidas</h3>
-                <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. </p>            	
-            </div>
-            
-            <div id="a-trocas" class="danger">
-            	<h3>Trocas</h3>
-            <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. </p>
-            </div>
-            
-            <div id="a-contact" class="danger">
-            	<h3>Contato</h3>
-            <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. </p>
-            </div>
-			-->
-            
+        
         </div><!--aviso-->
         
-        
-        
-  
+
     
     <div id="more">
-   		<h3 class="titles">
-       		<span class="twhite" style="left: 13%;">Veja também</span>
-        </h3>
-        <div class="clear"></div><br><br>
-		
 		
 		<% 
 		if (relacionados.length>0){
@@ -163,6 +139,11 @@
 			if (resultado.url_title != teste.url_title){
 		%> 
 		
+		<h3 class="titles">
+       		<span class="twhite" style="left: 13%;">Veja também</span>
+        </h3>
+        <div class="clear"></div><br><br>
+
         <a href="/produtos/<%=resultado.url_title%>" class="prods">
 			
             <section>
@@ -289,21 +270,23 @@
 				preco_por = produto_selecionado.por;
 				estoque_produto = produto_selecionado.estoque;
 				for (i = 0; i < produto_selecionado.imagens.length; i++) { 
-					var complemento = ' style="display:none"';
-					if (i==0){
-						 complemento = '';
-					}
 					tmp1 += '<a class="buttons"><img src="' + produto_selecionado.imagens[i] + '" class="img" id="foto' + i + '"></a>';
-					tmp2 += '<div class="galery foto' + i + '"><img src="' + produto_selecionado.imagens[i] + '" class="img"' + complemento + '></div>';
+					tmp2 += '<div class="galery foto' + i + '"><img src="' + produto_selecionado.imagens[i] + '" class="img"></div>';
 				}
 			}
 		}
 		
 		estoque = estoque_produto;
+		$('#quantidade').val(1);
 		$('#preco_de').html(preco_de);
 		$('#preco_por').html(preco_por);
 		$('#foto .fleft').html(tmp1);
 		$('#foto .fright').html(tmp2);
+		$('.galery:gt(0)').hide();	
+		$('.buttons').on('click', function(e) {
+		$('.galery').fadeOut(1);
+			$('.' + $(e.target).attr('id') ).fadeIn(800);
+		});
 		
 	}
 </script>	

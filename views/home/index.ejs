@@ -7,10 +7,7 @@
            <div class="container">
               <div id="owl-demo" class="owl-carousel">
 
-				
-			
-				
-				
+
 				   <% 
 				   if (banners.length>0){
 				   banners.forEach(function(resultado) { 
@@ -28,9 +25,9 @@
 					} else {
 					%>
 					<div class="item">
-						<img src="/banner/banner-geral.jpg" title="ZARA" class="img">
+						<img src="/banner/banner-geral.jpg" title="ONTORES" class="img">
 						<section>
-							<span>Zara</span>
+							<span>ONTORES</span>
 						</section>
 					</div>
 					<%
@@ -46,9 +43,9 @@
   <!------------------produtos---------------------->
   
     <h1 class="cab-on">
-   	  <img src="/imagens/onstores-white.png" class="img" title="ON Stores"> 
-     
+   	  <img src="/imagens/onstores-white.png" class="img" title="ON Stores">      
     </h1>
+	
    <div id="produtos">
 
 	<% 
@@ -159,16 +156,12 @@
 	<div class="full">
     	
          
-		<% if (shopping == ''){ %>
-		
+		<% if (shopping == ''){ %>		
 			
 			<h5 class="titles">
 				<span class="twhite">Shoppings</span>
 			</h5>
-			<p class="sub-title"> simplesmente uma simulação de texto da indústria tipográfica e de impressos,
-			 e vem sendo utilizado desde o século XVI
-			</p>
-		
+			<div class"clear"></div><br>
 			<% 
 			var contador = 0;
 			shoppings.forEach(function(resultado) { %>
@@ -191,11 +184,7 @@
 		<h5 class="titles">
         	<span class="twhite" style="left:25%">Eventos</span>
         </h5>
-        <p class="sub-title"> simplesmente uma simulação de texto da indústria tipográfica e de impressos,
-         e vem sendo utilizado desde o século XVI
-		</p>
-		
-		
+       	<div class"clear"></div><br>	
 			<% 
 			var contador = 1;
 			if (eventos.length>0){

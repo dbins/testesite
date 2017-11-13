@@ -222,6 +222,7 @@ produtosAPI.prototype.montar = function(resultados){
 
 //Foi alterado
 produtosAPI.prototype.montarGQL = function(resultados){
+  
 	var retorno = [];
 	//var tmp = resultados.dados;
 	var tmp = resultados.dados.filter(p => !!p.store);
@@ -243,20 +244,9 @@ produtosAPI.prototype.montarGQL = function(resultados){
 			preco_final = parseFloat(obj.price/100).toFixed(2);
 		}
 		var imagem = "/imagens/lojas-padrao.jpg";
-		var img_principal = false;
-		for (i = 0; i < obj.images.length; i++) { 
-			if (obj.images[i].type == "main"){
-				img_principal = true;
-				imagem = obj.images[i].path;	
-			}
-		}
-		if (!img_principal){
-			for (i = 0; i < obj.images.length; i++) { 
-				if (i == 0){
-					imagem = obj.images[i].path;	
-				}
-			}	
-		}
+		
+		if(obj.images.length)
+		  imagem = obj.images[0].path;
 		
 		var categoria = "";
 		if (obj.store.category.slug){

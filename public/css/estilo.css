@@ -311,7 +311,7 @@ ul.dropdown2 li:hover > ul { visibility: visible; }
 #shoppings{ float:left; width:100%; padding:35px 0px;}
 .mall{ width:50%; float:left; position:relative;}
 .mall div{ padding:2px; position:relative;  margin-top:-5px;}
-.mall div p{color: #FFFFFF;	font-size: 48px;	font-style: italic;	font-weight: bold;	line-height: 56px;	text-align: center; position:absolute; top:22%; width:100%; z-index:2}
+.mall div p{color: #FFFFFF;	font-size: 48px;	font-style: italic;	font-weight: bold;	line-height: 56px;	text-align: center; position:absolute; top:22%; width:100%; z-index:2; padding:0 115px;}
 .purple{opacity:0; background: url(../imagens/purple.png) repeat; position:absolute; top:0; left:0; width:100%; height:98.5%; z-index:1; transition: 0.2s ease-in-out; -webkit-transition: 0.2s ease-in-out;}
 .mall:hover .purple{ opacity:1.0; transition: 0.2s ease-in-out; -webkit-transition: 0.2s ease-in-out; }
 .mall:hover{ text-decoration:none}
@@ -331,7 +331,7 @@ margin:5px;  font-family: "Droid Sans";}
 
 /*====================detalhe produto==========================*/
 .detail{ float:left; width:100%; 	background-color: #F8F8F8; padding:10px; min-height:450px;}
-#foto{ float:left; width:57%; padding:95px 0; text-align:center;}
+#foto{ float:left; width:57%; padding:23px 0; text-align:center;}
 .fleft{ float:left; width:20%; padding:5px}
 .fright{ float:right; width:80%; padding:5px 10px; position:relative}
 .fleft a { float:left; width:100%; padding:5px; cursor:pointer; }
@@ -344,9 +344,10 @@ margin:5px;  font-family: "Droid Sans";}
 #more{ float:left; padding:30px 70px; margin:20px 0 0 0; width:100%;  text-align:center}
 
 /*#info{ position:fixed;  left: 50%; margin-left: 130px; top:145px;  z-index:10;  width:525px; padding:20px 50px; background-color: #242424; min-height:450px; float:right;  	color: #FFFFFF; font-size:30px; line-height:10px }*/
-#info{ position:absolute;  right: 30px; top:70px;  z-index:10;  width:37%; padding:20px 50px; background-color: #242424; min-height:585px; float:right;  	color: #FFFFFF; font-size:30px; line-height:10px }
+#info{ position:absolute;  right: 30px; top:0px;  z-index:10;  width:37%; padding:20px 50px; background-color: #242424; min-height:480px; float:right;  	color: #FFFFFF; font-size:30px; line-height:10px }
 .compartilha{ position:absolute; top:10px; right:10px;}
-#info p:nth-child(2){ font-size:14px}
+#info p:nth-child(2){ font-size:14px; color:#9262c2; }
+#info p img{ margin:0 5px 0 0;}
 #info p:nth-child(3){ font-size:15px; color: #B57FEC; font-family: "Droid Sans";}
 #info h1{font-style: italic; font-weight: bold; line-height: 50px; margin:-5px 0 10px 0}
 #info input[type="submit"]{	background-color: #9966CC; width:80%; padding:20px; 	font-size: 20px; 	font-weight: bold; color:#fff; border:none; cursor:pointer; font-family: 'Lora', serif; font-style:italic; margin:8% 10%;}
@@ -381,9 +382,9 @@ margin:5px;  font-family: "Droid Sans";}
 .qtd a:hover{border:1px #9966CC solid;}
 .qtd input[type="text"]{width:40px; height:40px; border:1px #fff solid; background:none; color:#fff; padding:5px; text-align:center; float:left; margin:0 2px;}
 
-.aviso{ width:37%; background-color: #F1F1F1; margin:15% 0 0 0; 	border: 2px solid #9429FF; padding:10px; float:left; 	font-size: 18px; font-family: "Droid Sans"; 	line-height: 21px; }
+.aviso{ width:37%; background-color: #F1F1F1; margin:3% 0 0 0; 	border: 2px solid #9429FF; padding:10px; float:left; 	font-size: 18px; font-family: "Droid Sans"; 	line-height: 21px; text-align:justify }
 .aviso h3{	color: #333333;	font-size: 20px; font-weight: bold;}
-.aviso a{ padding:5px 30px; color: #333333; font-weight: bold; text-decoration:underline}
+.aviso a{ padding:5px 10px; color: #333333; font-weight: bold; text-decoration:underline}
 .danger{ display:none; width:600px; padding:10px; min-height:400px; font-size:20px; line-height:30px;}
 .danger h3{ color:#9966CC; font-size:30px; font-weight:bold; font-style:italic;}
 
@@ -629,13 +630,13 @@ margin:5px;  font-family: "Droid Sans";}
 .vazio{font-family: 'Lora', serif; color: #333; font-weight:bold; font-style:italic; font-size:25px; text-align:center} 
 .vazio img{ float:none!important}
 .sacola{ width:100%; border-spacing: 0;  border-collapse: collapse; float:left; }
-.sacola th{	font-family: 'Lora', serif;	font-size: 14px; 	color: #333;  padding:10px 0px; text-transform:uppercase; }
+.sacola th{	font-family: "Droid Sans";	font-size: 14px; 	color: #333;  padding:10px 0px; text-transform:uppercase; }
 .sacola tr{  border-bottom:1px #000 solid; padding:30px}
 .sacola td{  color: #000000;}
 
-.carrinho{ float:left; width:100%; overflow:auto; position:relative}
+.carrinho{ float:left; width:100%; overflow:auto; position:relative; margin-top:40px;}
 
-.sacola th:nth-child(1){ width:35%; text-align:left}
+.sacola th:nth-child(1){ width:35%; text-align:left; }
 .sacola th:nth-child(2){ width:20%; text-align:center}
 .sacola th:nth-child(3){ width:15%; text-align:center}
 .sacola th:nth-child(4){ width:15%; text-align:center}
@@ -677,7 +678,7 @@ margin:5px;  font-family: "Droid Sans";}
 .avisocar a{ padding:5px 30px; color: #333333; font-weight: bold; text-decoration:underline}
 
 .total{ float:left; padding:10px;  width:30%;}
-.total label{ float:left; width:50%; 	font-family: "Droid Sans"; color:#333;	font-weight: bold; padding:18px 0; 	font-size: 18px; text-align:center; }
+.total label{ float:left; width:50%; 	font-family: "Droid Sans"; color:#333;	font-weight: bold; padding:18px 0; 	font-size: 18px; text-align:center; cursor:default }
 .total input[type="text"]{	border: 1px solid #333333; 	background-color: #333333;  color:#fff; padding:15px 10px; text-align:center; 	font-family: Lora; font-weight: bold;font-style: italic; width:50%; 	font-size: 20px;}
 .total input[type="submit"]{	background-color: #9966CC; color:#fff; 	font-size: 20px; text-align:center; border:none; float:left; width:100%; padding:15px 10px; 	font-style: italic; 	font-weight: bold; font-family: 'Lora', serif; margin:50px 0 0 0; cursor:pointer}
 
