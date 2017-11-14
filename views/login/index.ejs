@@ -16,7 +16,7 @@
 		<script src="/js/jquery.maskedinput.2015.js"></script>
 		
 		<script type="text/javascript">
-	/*	function validar_cliente(CPF){
+		function validar_cliente(CPF){
 			var tmp_CPF = CPF;
 			if (!tmp_CPF==""){
 				tmp_CPF = tmp_CPF.replace(".", "");
@@ -39,6 +39,7 @@
 					} else {
 						if (resposta.resultado == "OK"){
 							alert('Este CPF já se encontra cadastrado!');
+							$("#CPF").val("");
 							$('#btn_submit').prop('disabled', true);
 						} else {
 							$('#btn_submit').prop('disabled', true);
@@ -87,7 +88,7 @@
 				  }
 			   });
 		   }
-		}  */
+		}  
 		</script>
 		
 	</head>

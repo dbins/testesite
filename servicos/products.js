@@ -231,7 +231,7 @@ produtosAPI.prototype.montarGQL = function(resultados){
 	tmp.forEach(function(obj) {
 		
 		var nome_do_Shopping = obj.mall.name;
-		var nome_da_Loja = obj.store.real_name||obj.store.title||obj.store.fantasy_name;
+		var nome_da_Loja = obj.store.fantasy_name||obj.store.title||obj.store.real_name;
 		var preco_inicial = 0;
 		var preco_final = 0;
 		if (obj.price_start){
@@ -321,7 +321,7 @@ produtosAPI.prototype.montarProduto = function(obj){
 //Foi alterado
 produtosAPI.prototype.montarProdutoGQL = function(obj){
 	var nome_do_Shopping = obj.mall.name;
-	var nome_da_Loja = obj.store.real_name||obj.store.title||obj.store.fantasy_name;
+	var nome_da_Loja = obj.store.fantasy_name||obj.store.title||obj.store.real_name;
 		
 		
 	var preco_inicial = 0;

@@ -157,7 +157,7 @@ storesAPI.prototype.montarGQL = function(resultados){
 				nome_do_Shopping = obj.mall.name;
 				slug_Shopping = obj.mall.slug;
 			}
-			nome_da_Loja = obj.real_name||obj.title||obj.fantasy_name;
+			nome_da_Loja = obj.fantasy_name||obj.title||obj.real_name;
 			slug_Loja = obj.slug;
 			
 			
@@ -221,7 +221,7 @@ storesAPI.prototype.montarLojaGQL = function(obj){
 		nome_do_Shopping = obj.mall.name;
 		slug_Shopping = obj.mall.slug;
 	}
-	nome_da_Loja = obj.real_name||obj.title||obj.fantasy_name;
+	nome_da_Loja = obj.fantasy_name||obj.title||obj.real_name;
 	slug_Loja = obj.slug;
 	
 	
