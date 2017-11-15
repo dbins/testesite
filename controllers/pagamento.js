@@ -258,15 +258,100 @@ module.exports = function (app){
 			dados_captura.amount = total;
 			
 			//O bloco abaixo vai precisar ficar dentro do IF para fazer captura
-			//if (req.session.status_clearsale == "APA"){
-				//Mover a programacao de captura
-			//} else {
-				//Ir para a programacao de aguardando...
-			//}
+			//Apenas para simular aprovacao ClearSale...
+			//req.session.status_clearsale = "APA";
 			
-			//Por enquanto sem o split!
-			//dados_captura.split_rules = apiPagarme.montarSplitRules(req.session.carrinho);
-			apiPagarme.capturaTransacao(iddacompra, dados_captura).then(function (resultados2) {
+			if (req.session.status_clearsale == "APA"){
+				//Mover a programacao de captura
+				//dados_captura.split_rules = apiPagarme.montarSplitRules(req.session.carrinho);
+				apiPagarme.capturaTransacao(iddacompra, dados_captura).then(function (resultados2) {
+					var consulta = apiPagarme.verTransacao(iddacompra).then(function (resultados) {
+						//Verificar resultados.dados.status, por enquanto nos testes retorna PAID.
+						//Se houver problema na captura, temos que mandar para outro lugar!
+						
+						var tmp_pedido = apiPagarme.montarPedido(resultados.dados);
+						if (req.session.cliente.CPF == tmp_pedido.cpf){
+								//OK
+						} else {
+							res.redirect("/");
+							return;
+						}
+						
+						//Status da transacao na Pagarme:
+						//processing - Transação está processo de autorização.
+						//authorized - Transação foi autorizada. Cliente possui saldo na conta e este valor foi reservado para futura captura, que deve acontecer em até 5 dias para transações criadas com api_key. Caso não seja capturada, a autorização é cancelada automaticamente pelo banco emissor, e o status da transação permanece authorized.
+						//paid - Transação paga. Foi autorizada e capturada com sucesso, e para boleto, significa que nossa API já identificou o pagamento de seu cliente.
+						//refunded - Transação estornada completamente.
+						//waiting_payment - Transação aguardando pagamento (status válido para boleto bancário).
+						//pending_refund - Transação do tipo boleto e que está aguardando para confirmação do estorno solicitado.
+						//refused - Transação recusada, não autorizada.
+						//chargedback - Transação sofreu chargeback. Mais em nossa central de ajuda
+						
+						if (tmp_pedido.status.toUpperCase() == "PAID"){
+							//Vamos devolver para a ClearSale como APROVADO! 
+							//26 PAGAMENTO APROVADO
+							//27 PAGAMENTO REPROVADO
+							api_clearsale.UpdateOrderStatus(req.session.id_marketplace, 26, "");
+							//Retirar da fila!
+							api_clearsale.SetOrderAsReturned(req.session.id_marketplace);
+								
+							//Apagando o carrinho!
+							var dados_carrinho = req.session.carrinho;
+							req.session.carrinho = "";
+							req.session.total_carrinho = 0; 
+							req.session.id_clearsale = "";
+							
+							
+							//ESSE E O EMAIL PARA QUANDO HOUVER CAPTURA
+							var envioEmail = new servicoEmail();
+							var dados_email ={};
+							dados_email.nome = req.session.cliente.nome;
+							dados_email.tabela = montarTabelaPedido(dados_carrinho);
+							dados_email.pedido = "";
+							dados_email.token = "";
+							dados_email.data = "";
+							dados_email.hora = "";
+							dados_email.loja = "";
+							dados_email.shopping = "";
+							dados_email.QRCODE = "";
+							envioEmail.pagamentoCartaoCaptura(req.session.cliente.email,dados_email);
+							
+							if (tmp_pedido.tipo=="Boleto"){
+								res.render("pagamento/boleto", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
+							} else {
+								res.render("pagamento/finalizar", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
+							}		
+							
+						} else {
+							//Se a transacao foi cartao, autorizou e nao retornou paid, algo ocorreu...
+							//Dos status ClearSale, o unico de erro que se aplica ao cartao nesta etapa seria o refused, os demais se referem a etapas anteriores ou futuras do processo de compra....
+							//Status da transacao na Pagarme:
+							if (tmp_pedido.status.toUpperCase() == "REFUSED"){
+								//ESSE E O EMAIL SE HOUVER PROBLEMA NA CAPTURA
+								var envioEmail = new servicoEmail();
+								var dados_email ={};
+								dados_email.nome = req.session.cliente.nome;
+								dados_email.tabela = montarTabelaPedido(dados_carrinho);
+								envioEmail.pagamentoCartaoReprovado(req.session.cliente.email,dados_email);
+								res.render("pagamento/erro");
+							} else {
+								//Demais status...
+								res.render("pagamento/erro");
+							}
+							
+							
+						}
+						
+					}).catch(function (erro){
+						console.log(erro.stack);
+						res.redirect("/erro/500");
+					});
+				}).catch(function (erro2){
+					console.log(erro2.stack);
+					res.redirect("/erro/500");
+				});
+			} else {
+				//Ir para a programacao de aguardando...
 				var consulta = apiPagarme.verTransacao(iddacompra).then(function (resultados) {
 					//Verificar resultados.dados.status, por enquanto nos testes retorna PAID.
 					//Se houver problema na captura, temos que mandar para outro lugar!
@@ -279,13 +364,7 @@ module.exports = function (app){
 						return;
 					}
 					
-					//Vamos devolver para a ClearSale como APROVADO! (por enquanto)
-					//26 PAGAMENTO APROVADO
-					//27 PAGAMENTO REPROVADO
-					api_clearsale.UpdateOrderStatus(req.session.id_marketplace, 26, "");
-					//Retirar da fila!
-					api_clearsale.SetOrderAsReturned(req.session.id_marketplace);
-						
+					//Nao vai haver retorno para ClearSale porque nao houve pagamento...
 					//Apagando o carrinho!
 					var dados_carrinho = req.session.carrinho;
 					req.session.carrinho = "";
@@ -299,43 +378,18 @@ module.exports = function (app){
 					dados_email.tabela = montarTabelaPedido(dados_carrinho);
 					envioEmail.pagamentoCartaoAguardando(req.session.cliente.email,dados_email);
 					
-					
-					//ESSE E O EMAIL PARA QUANDO HOUVER CAPTURA
-					//var envioEmail = new servicoEmail();
-					//var dados_email ={};
-					//dados_email.nome = req.session.cliente.nome;
-					//dados_email.tabela = montarTabelaPedido(dados_carrinho);
-					//dados_email.pedido = "";
-					//dados_email.token = "";
-					//dados_email.data = "";
-					//dados_email.hora = "";
-					//dados_email.loja = "";
-					//dados_email.shopping = "";
-					//dados_email.QRCODE = "";
-					//envioEmail.pagamentoCartaoCaptura(req.session.cliente.email,dados_email);
-					
-					//ESSE E O EMAIL SE HOUVER PROBLEMA NA CAPTURA
-					//var envioEmail = new servicoEmail();
-					//var dados_email ={};
-					//dados_email.nome = req.session.cliente.nome;
-					//dados_email.tabela = montarTabelaPedido(dados_carrinho);
-					//envioEmail.pagamentoCartaoReprovado(req.session.cliente.email,dados_email);
-					
-					
-					
 					if (tmp_pedido.tipo=="Boleto"){
 						res.render("pagamento/boleto", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
 					} else {
-						res.render("pagamento/finalizar", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
+						res.render("pagamento/aguardando", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
 					}	
 				}).catch(function (erro){
 					console.log(erro.stack);
 					res.redirect("/erro/500");
 				});
-			}).catch(function (erro2){
-				console.log(erro2.stack);
-				res.redirect("/erro/500");
-			});	
+				
+			}
+		
 		} else {
 			//Boleto nao tem captura!
 			var consulta = apiPagarme.verTransacao(iddacompra).then(function (resultados) {
@@ -350,9 +404,11 @@ module.exports = function (app){
 				//Vamos devolver para a ClearSale como APROVADO! (por enquanto)
 				//26 PAGAMENTO APROVADO
 				//27 PAGAMENTO REPROVADO
-				api_clearsale.UpdateOrderStatus(req.session.id_marketplace, 26, "");
+				
+				//Desativado - No caso do boleto, somente volta como aprovado se Callback Pagarme der OK
+				//api_clearsale.UpdateOrderStatus(req.session.id_marketplace, 26, "");
 				//Retirar da fila!
-				api_clearsale.SetOrderAsReturned(req.session.id_marketplace);
+				//api_clearsale.SetOrderAsReturned(req.session.id_marketplace);
 				
 				//Apagando o carrinho!
 				var dados_carrinho = req.session.carrinho;
@@ -451,6 +507,20 @@ module.exports = function (app){
 			//ID na ClearSale (???)
 			req.session.id_clearsale = resultados.id;
 			req.session.status_clearsale = resultados.status;
+
+			//Para estes dois status, consultar de novo...	
+			if (resultados.status=="AMA" || resultados.status=="NVO"){
+				console.log('fazendo uma nova consulta');
+				api_clearsale.GetOrderStatus(req.session.id_marketplace).then(function (resultados) {
+					console.log('segunda consulta ClearSale...');
+					//TUDO MUDOU PARA OUTRA ROTA!
+					res.redirect("/pagamento/concluido");
+				}).catch(function (erro4){
+					console.log(erro4.stack);
+					res.redirect("/erro/500");
+				});						
+					
+			}
 			
 			var min = 10000;
 			var max = 50000;
@@ -479,7 +549,7 @@ module.exports = function (app){
 			//});
 			
 			//TUDO MUDOU PARA OUTRA ROTA!
-			res.redirect("/pagamento/concluido");
+			//res.redirect("/pagamento/concluido");
 		}).catch(function (erro3){
 			console.log(erro3.stack);
 			res.redirect("/erro/500");

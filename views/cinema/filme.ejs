@@ -163,7 +163,8 @@
 								%>
 								
 									
-								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
+								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span><br/>
+								R$ <%=resultado3.price%>  - <a href="<%=resultado3.siteURL%>" target="_blank">Comprar</a>
 							
 								<%
 									});	
@@ -207,6 +208,8 @@
 								
 									
 								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
+								<br/>
+								R$ <%=resultado3.price%>  - <a href="<%=resultado3.siteURL%>" target="_blank">Comprar</a>
 							
 								<%
 									});	
@@ -250,6 +253,8 @@
 								
 									
 								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
+								<br/>
+								R$ <%=resultado3.price%>  - <a href="<%=resultado3.siteURL%>" target="_blank">Comprar</a>
 							
 								<%
 									});	
@@ -294,6 +299,8 @@
 								
 									
 								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
+								<br/>
+								R$ <%=resultado3.price%>  - <a href="<%=resultado3.siteURL%>" target="_blank">Comprar</a>
 							
 								<%
 									});	
@@ -341,6 +348,8 @@
 								
 									
 								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
+								<br/>
+								R$ <%=resultado3.price%>  - <a href="<%=resultado3.siteURL%>" target="_blank">Comprar</a>
 							
 								<%
 									});	
@@ -387,6 +396,8 @@
 								
 									
 								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
+								<br/>
+								R$ <%=resultado3.price%>  - <a href="<%=resultado3.siteURL%>" target="_blank">Comprar</a>
 							
 								<%
 									});	
@@ -436,6 +447,8 @@
 								
 									
 								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
+								<br/>
+								R$ <%=resultado3.price%>  - <a href="<%=resultado3.siteURL%>" target="_blank">Comprar</a>
 							
 								<%
 									});	
@@ -470,41 +483,40 @@
 						%>
 							<div class="cine">
                         	<p><%=resultado.nome%></p>
-							<%
-							if (resultado.sessoes){
-							if (resultado.sessoes.length>0){
-							resultado.sessoes.forEach(function(resultado2) { 
-							if (resultado2.length>0){
-							resultado2.forEach(function(resultado3) { 
-							%>
-							<p><%=resultado3.name%></p>
-							<%
-							resultado3.sessions.forEach(function(resultado4) { 
-							%>
-							<span><%=resultado4.date.hour%> (<%=resultado4.type[0]%> - <%=resultado4.type[1]%>)</span>
+								<%
+									if (resultado.sessoes){
+									if (resultado.sessoes.length>0){
+									resultado.sessoes.forEach(function(resultado2) { 
+								%>
+								<p><%=resultado2.name%></p>
+								<%	
+									resultado2.sessions.forEach(function(resultado3) { 
+								%>
+								
+									
+								<span><%=resultado3.date.hour%> (<%=resultado3.type[0]%> - <%=resultado3.type[1]%>)</span>
+								<br/>
+								R$ <%=resultado3.price%>  - <a href="<%=resultado3.siteURL%>" target="_blank">Comprar</a>
 							
-							<%
-							});	
-							});	
-							} else {
-							%>
-							<p>Não existem sessões neste dia</p>
-							<%
-							}
-							});	
-							} else {
-							%>
-							<p>Não existem sessões neste dia</p>
-							<%
-							}
-							
-							%>
-						</div>
+								<%
+									});	
+								%>
+								<%
+								});	
+								} else {
+								%>
+								<p>(2) Não existem sessões neste dia</p>
+								<%
+								}
+								
+								%>
+							</div>
 						<%
 						} 
 						});
 						}
 						%>
+
 
                      </div>
 

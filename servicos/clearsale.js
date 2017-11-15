@@ -401,9 +401,9 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 				//var resultados = JSON.stringify(result);
 				var resultados = result;
 				//Esses dados sao do PACOTE, que pode ter de 1 a 10 transacoes
-				console.log(resultados.PackageStatus.TransactionID[0]);  //IMPORTANTE
-				console.log(resultados.PackageStatus.StatusCode[0]); //IMPORTANTE
-				console.log(resultados.PackageStatus.Message[0]);
+				//console.log(resultados.PackageStatus.TransactionID[0]);  //IMPORTANTE
+				//console.log(resultados.PackageStatus.StatusCode[0]); //IMPORTANTE
+				//console.log(resultados.PackageStatus.Message[0]);
 				//Reenviar quando o StatusCode for 2, 3, 4, 5 e 6
 				//Pegar o ID do pacote de transacao na ClearSale
 				
@@ -427,14 +427,14 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 				if (resultados.PackageStatus.Orders){
 					var orders = resultados.PackageStatus.Orders;
 					orders.forEach(function(order) { 
-							console.log(order);
+							//console.log(order);
 							var tmp_order = order.Order;
 							tmp_order.forEach(function(item) { 
-								console.log(item);
-								console.log(item.ID[0]); //ID DA TRANSACAO EM NOSSO SISTEMA
-								console.log(item.Status[0]);  //STATUS NO SISTEMA CLEARSALE
-								resposta_clearsale = item.Status[0];
-								console.log(item.Score[0]); 
+								//console.log(item);
+								//console.log(item.ID[0]); //ID DA TRANSACAO EM NOSSO SISTEMA
+								//console.log(item.Status[0]);  //STATUS NO SISTEMA CLEARSALE
+								//resposta_clearsale = item.Status[0];
+								//console.log(item.Score[0]); 
 								//return resposta_clearsale;
 								var objeto_resposta = {"id": item.ID[0], "status": item.Status[0]};
 								resolve(objeto_resposta);
@@ -448,7 +448,7 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 			});
 			
 			client.on('response', function(envelope, message) {
-				console.log('testando...');
+				//console.log('testando...');
 				//console.log(envelope);
 				//console.log(message);
 				//console.log(message.headers);
@@ -563,20 +563,41 @@ clearSaleAPI.prototype.GetOrderStatus = function(orderID){
 		"entityCode": this.entityCode,
 		"orderID":orderID
 	}
-	soap.createClient(this.url, function(err, client) {
-		client.GetOrderStatus(args, function(err, result) {
-			if (err){
-				console.log('erro');
-				console.log(err);
-			}
-			console.log('sucesso');
-			//console.log(result);
+	var url = this.url;
+	return new Promise(function (resolve, reject) {
+		soap.createClient(url, function(err, client) {
+			client.GetOrderStatus(args, function(err, result) {
+				if (err){
+					console.log('erro');
+					console.log(err);
+					reject(err);
+				}
+				//convertendo a string XML em JSON
+				parseString(result.GetOrderStatusResult, function (err, result) {
+					var resultados = result;
+					console.log(resultados);
+					//Se ocorrer algum erro este campo nao vai existir
+					if (resultados.ClearSale.Orders){
+						var orders = resultados.ClearSale.Orders;
+						orders.forEach(function(order) { 
+								console.log(order);
+								var tmp_order = order.Order;
+								console.log(tmp_order);
+								tmp_order.forEach(function(item) { 
+									console.log(item);
+									console.log(item.ID[0]); //ID DA TRANSACAO EM NOSSO SISTEMA
+									console.log(item.Status[0]);  //STATUS NO SISTEMA CLEARSALE
+									resposta_clearsale = item.Status[0];
+									console.log(item.Score[0]); 
+									//return resposta_clearsale;
+									var objeto_resposta = {"id": item.ID[0], "status": item.Status[0]};
+									resolve(objeto_resposta);
+							});
+						});
+					}
+				});
 			
-			//convertendo a string XML em JSON
-			parseString(result.GetOrderStatusResult, function (err, result) {
-				console.dir(JSON.stringify(result));
 			});
-		
 		});
 	});
 }
