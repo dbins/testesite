@@ -55,7 +55,8 @@ function retornaIDIngresso(shoppings, shopping){
 }
 
 function retornaIDIngresso2(shoppings, shopping){
-	var retorno =1313;
+	//var retorno =1313;
+	var retorno = "";
 	if (shoppings){
 		shoppings.forEach(function(item){
 		   if (item.url_title == shopping){
@@ -90,33 +91,35 @@ module.exports = function (app){
 		var api_ingresso = new ingresso(req.session.id_do_shopping_ingresso);
 		//var api = new webservice(req.session.shopping);
 		//var consulta = api.list().then(function (resultados) {
-		var consulta = api_ingresso.list().then(function (resultados) {	
+		//var consulta = api_ingresso.list().then(function (resultados) {	
+		var consulta = api_ingresso.listNOVO().then(function (resultados) {	
 			//var consulta2 = api.categorias().then(function (resultados2) {
-			var resultados2 = api_ingresso.categorias(resultados.dados);
-			var resultados3 = api_ingresso.filmes(resultados.dados);
-			var resultados4 = api_ingresso.datas(resultados.dados);
+			//var resultados2 = api_ingresso.categorias(resultados.dados);
+			var resultados2 = api_ingresso.categoriasNOVO(resultados.dados);
+			//var resultados3 = api_ingresso.filmes(resultados.dados);
+			var resultados3 = api_ingresso.filmesNOVO(resultados.dados);
 			
-			
+			//Nao sera mais necessario porque a nova API ja faz isso :-)
+			//var resultados4 = api_ingresso.datas(resultados.dados);
 			
 			//Colando as datas na resposta :-)
-			for (index = 0; index < resultados3.dados.length; ++index) {
-				var tmp_datas=[];
-				item = resultados3.dados[index];
-				resultados4.dados.forEach(function(obj2) {
-					if (obj2.urlKey == item.urlKey){
-						var tmp_data_item = obj2.date.split("-").reverse().join("");
-						tmp_datas.push(tmp_data_item);
-					}
-				});
-				var string_datas = tmp_datas.join("|");
-				
-				resultados3.dados[index].datas = string_datas;
-			}
-			
+			//for (index = 0; index < resultados3.dados.length; ++index) {
+			//	var tmp_datas=[];
+			//	item = resultados3.dados[index];
+			//	resultados4.dados.forEach(function(obj2) {
+			//		if (obj2.urlKey == item.urlKey){
+			//			var tmp_data_item = obj2.date.split("-").reverse().join("");
+			//			tmp_datas.push(tmp_data_item);
+			//		}
+			//	});
+			//	var string_datas = tmp_datas.join("|");
+			//	
+			//	resultados3.dados[index].datas = string_datas;
+			//}
 			
 			resposta_completa = resultados.dados;
 			//req.session.dados_temp = resultados.dados;
-			categorias_temp = resultados2.categorias;
+			//categorias_temp = resultados2.categorias;
 			//req.session.dados_temp = resultados3.dados;
 			//req.session.datas_temp = resultados4.dados;
 			
@@ -237,23 +240,26 @@ module.exports = function (app){
 						res.status(500).redirect('/erro/500');
 					} else {
 						
-						var consulta2 = api_ingresso.emCartaz().then(function (resultados2) {	
-							var resultados3 = api_ingresso.filmesCartaz(resultados2.dados);
+						//var consulta2 = api_ingresso.emCartaz().then(function (resultados2) {	
+						var consulta2 = api_ingresso.listNOVO().then(function (resultados2) {	
+							//var resultados3 = api_ingresso.filmesCartaz(resultados2.dados);
+							var resultados3 = api_ingresso.filmesNOVO(resultados2.dados);
 							//req.session.dados_temp = resultados3.dados;
 							
 							//api_ingresso.todasAsSessoesDoFilme(app.locals.shoppings, id_do_filme);
 							//api_ingresso.listFilme(1,1313);
-							var array_promisses = [];
-							app.locals.shoppings.forEach(function(item){
-								var id_cidade = 1;	
-								if ( item.ingresso == 1210){
-									id_cidade = 2;
-								}
-								if ( item.ingresso == 1389){
-									id_cidade = 15;
-								}
-								array_promisses.push(api_ingresso.listFilmeSessoes(id_cidade, item.ingresso, id_do_filme));		
-							});
+							//Programacao desativada :-(
+							//var array_promisses = [];
+							//app.locals.shoppings.forEach(function(item){
+							//	var id_cidade = 1;	
+							//	if ( item.ingresso == 1210){
+							//		id_cidade = 2;
+							//	}
+							//	if ( item.ingresso == 1389){
+							//		id_cidade = 15;
+							//	}
+							//	array_promisses.push(api_ingresso.listFilmeSessoes(id_cidade, item.ingresso, id_do_filme));		
+							//});
 							
 							api_ingresso.listarFilmesNOVO(id_do_filme).then(function(novos_resultados) {
 								

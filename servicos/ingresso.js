@@ -135,6 +135,7 @@ ingressoAPI.prototype.viewURL = function(registro){
 	    method: 'GET',
 		uri: this.url + "/events/url-key/" + registro
 	}
+	console.log(this.url + "/events/url-key/" + registro);
 	return rp(opcoes).then((data, res) => {
 		resposta = {"resultado":"OK", "dados": JSON.parse(data), "status": "OK"};	
 		return resposta;
@@ -329,6 +330,59 @@ ingressoAPI.prototype.montarSessoesNOVO = function(resultados, datas, shopping_s
 	return sessoes;
 }
 
+ingressoAPI.prototype.listNOVO = function(){
+	
+	
+	var filtro = "";
+	if (this.id_shopping != ""){
+		filtro = "?shopping=" + this.id_shopping;
+	}
+	var resposta = "";
+	var opcoes = {  
+	    method: 'GET',
+		uri: "http://www.dbins.com.br/ferramentas/ingresso/filmes.php" + filtro
+		
+	}
+	return rp(opcoes).then((data, res) => {
+		resposta = {"resultado":"OK", "dados": JSON.parse(data)};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 2", "dados":{}};	
+		return resposta;
+	});
+}
+
+
+ingressoAPI.prototype.filmesNOVO = function(resultados){
+	var id_filmes = [];	
+	var resposta = "";
+	var filmes = [];	
+	var tmp = resultados;
+
+	tmp.forEach(function(obj) {
+		filmes.push(obj);
+	});
+	resposta = {"dados":filmes};	
+	return resposta;
+}
+
+
+ingressoAPI.prototype.categoriasNOVO = function(resultados){
+	var resposta = "";
+	var categorias = [];
+	var tmp = resultados;
+	tmp.forEach(function(obj) {
+		var tmp_array = obj.categorias.split("|");
+		for (var i = 0; i < tmp_array.length; i++) {
+			if (categorias.indexOf(tmp_array[i])<0){
+				categorias.push(tmp_array[i]);
+			}
+		};			
+	});
+	categorias.sort();
+	resposta = {"resultado":"OK", "categorias":categorias};	
+	return resposta;
+}
 
 
 module.exports = ingressoAPI;
