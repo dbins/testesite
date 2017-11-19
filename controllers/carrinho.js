@@ -22,6 +22,7 @@ module.exports = function (app){
 	});
 	
 	app.post("/carrinho/add", function(req,res){
+		
 		var produto = req.body.produto;
 		var quantidade = 1;
 		if (req.body.quantidade){
@@ -29,11 +30,14 @@ module.exports = function (app){
 				quantidade = req.body.quantidade;
 			}
 		}
+		var shopping_carrinho = "";
+		
 		var adicionar = true;
 		if(!req.session.carrinho)
 			req.session.carrinho = [];
 		
 		for (index = 0; index < req.session.carrinho.length; ++index) {
+			shopping_carrinho = req.session.carrinho[index].mall;
 			if (req.session.carrinho[index].url_title == produto){
 				adicionar = false;
 			}
@@ -46,10 +50,16 @@ module.exports = function (app){
 				var tmp = resultados.dados;
 				//var produto_adicionado = api.montarProduto(tmp);
 				var produto_adicionado = api.montarProdutoGQL(tmp);
-				produto_adicionado.qtde = quantidade;
-				req.session.carrinho.push(produto_adicionado);
-				res.redirect("/carrinho");
+				if (shopping_carrinho == "" ||  shopping_carrinho == produto_adicionado.mall){
+					produto_adicionado.qtde = quantidade;
+					req.session.carrinho.push(produto_adicionado);
+					res.redirect("/carrinho");
+				} else {
+					res.render("carrinho/erro");
+				}
 			}).catch(function (erro){
+				console.log("/carrinho/add (POST)");
+				console.log(erro.stack);
 				res.redirect("erro/500");
 			});
 		} else {
@@ -58,7 +68,7 @@ module.exports = function (app){
 	});
 	
 	app.get("/carrinho/add/:iddoproduto", function(req,res){
-			
+			var shopping_carrinho = "";
 			var produto = req.params.iddoproduto;
 			//var consulta = api.view(produto).then(function (resultados) {
 			var consulta = api.viewGQL(produto).then(function (resultados) {		
@@ -73,21 +83,30 @@ module.exports = function (app){
 					req.session.carrinho = [];
 				
 				for (index = 0; index < req.session.carrinho.length; ++index) {
+					shopping_carrinho = req.session.carrinho[index].mall;
 					if (req.session.carrinho[index].url_title == produto){
 						adicionar = false;
 					}
 				}
 				
 				if (adicionar){
-					produto_adicionado.qtde = 1;
-					req.session.carrinho.push(produto_adicionado);
-					res.redirect("/carrinho");
-					return;	
+					if (shopping_carrinho == "" || shopping_carrinho == produto_adicionado.mall){
+						produto_adicionado.qtde = 1;
+						req.session.carrinho.push(produto_adicionado);
+						res.redirect("/carrinho");
+						return;	
+					} else {
+						res.render("carrinho/erro");
+					}
+					
 				} else {
 					res.redirect("/carrinho");
 					return;	
 				}
 			}).catch(function (erro){
+				console.log("erro /carrinho/add/" + produto);
+				console.log(erro.stack);
+				res.redirect("erro/500");
 				//res.redirect("erro/500");
 				//return;
 			});
@@ -104,7 +123,7 @@ module.exports = function (app){
 	});
 	
 	app.get("/carrinho/add/:iddoproduto/:qtde", function(req,res){
-			
+			var shopping_carrinho = "";
 			var produto = req.params.iddoproduto;
 			var quantidade = req.params.qtde;
 			//var consulta = api.view(produto).then(function (resultados) {
@@ -120,23 +139,29 @@ module.exports = function (app){
 					req.session.carrinho = [];
 				
 				for (index = 0; index < req.session.carrinho.length; ++index) {
+					shopping_carrinho = req.session.carrinho[index].mall;
 					if (req.session.carrinho[index].url_title == produto){
 						adicionar = false;
 					}
 				}
 				
 				if (adicionar){
-					produto_adicionado.qtde = quantidade;
-					req.session.carrinho.push(produto_adicionado);
-					res.redirect("/carrinho");
-					return;	
+					if (shopping_carrinho == "" || shopping_carrinho == produto_adicionado.mall){
+						produto_adicionado.qtde = quantidade;
+						req.session.carrinho.push(produto_adicionado);
+						res.redirect("/carrinho");
+						return;
+					} else {
+						res.render("carrinho/erro");
+					}					
 				} else {
 					res.redirect("/carrinho");
 					return;	
 				}
 			}).catch(function (erro){
+				console.log("/carrinho/add/" + produto + "/" + quantidade);
+				console.log(erro.stack);
 				res.redirect("erro/500");
-				return;
 			});
 		
 	});

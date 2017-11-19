@@ -47,7 +47,7 @@ usuariosAPI.prototype.consultar = function(cpf){
 	}
 	
 	return rp(opcoes).then((data, res) => {
-		
+		console.log(data);
 		var dados = JSON.parse(data);
 		if (dados.data.length == 0){
 			resposta = {"resultado":"NAO_LOCALIZADO", "dados": []};	
@@ -71,7 +71,9 @@ usuariosAPI.prototype.gravar = function(dados_do_cliente){
          'Authorization': this.token
 		}
 	}
+	console.log(dados_do_cliente);
 	return rp(opcoes).then((data, res) => {
+		console.log(data);
 		//var dados = JSON.parse(data);
 		//if (dados.data.length == 0){
 		//	resposta = {"resultado":"NAO_LOCALIZADO", "id": "0"};	
@@ -80,6 +82,8 @@ usuariosAPI.prototype.gravar = function(dados_do_cliente){
 		//}
 		return resposta;
 	}).catch((err) => {
+		console.log('erro atualizar');
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO", "id": "0"};	
 		return resposta;
 	});
@@ -96,16 +100,17 @@ usuariosAPI.prototype.atualizar = function(dados_do_cliente){
 		}
 	}
 	
-	
+	console.log(this.url + "/" + this.metodo + "/" + dados_do_cliente._id);
+	console.log(dados_do_cliente);
 	return rp(opcoes).then((data, res) => {
-		var dados = JSON.parse(data);
-		if (dados.data.length == 0){
-			resposta = {"resultado":"NAO_LOCALIZADO", "id": "0"};	
-		} else {
-			resposta = {"resultado":"OK", "id": dados.data._id};	
-		}
+		var dados = data;
+		console.log('sucesso');
+		console.log(data);
+		resposta = {"resultado":"OK", "id": data._id};	
 		return resposta;
 	}).catch((err) => {
+		console.log('erro');
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO", "id": "0"};	
 		return resposta;
 	});

@@ -84,7 +84,7 @@ autenticacaoAPI.prototype.validarUsuario = function(email, senha){
 		var dados_usuario = {
 			"level": "user",
 			"strategy":  "local", 
-			"email": email, 
+			"user": email,  // <IVAN> alterei o campo de email para user na API para que user seja email ou cnpj ou cpf
 			"password": senha
 		};
 		
@@ -95,13 +95,16 @@ autenticacaoAPI.prototype.validarUsuario = function(email, senha){
 		  json: true // JSON stringifies the body automatically
 		}
 		
+		console.log(dados_usuario);
 		
 		return rp(opcoes).then((data) => {
+			console.log(data);
 			this.token = data.accessToken;
 			var resposta = {"token" : data.accessToken};
 			return resposta;
 			
 		}).catch((err) => {
+			console.log(err.stack);
 			//A pagina vai tratar o erro
 		});
 };

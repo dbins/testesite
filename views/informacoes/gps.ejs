@@ -1,0 +1,95 @@
+
+
+        	
+         <section class="history">
+         
+       	  	<img src="/imagens/sho-gps.jpg" class="img">
+            
+            <h2>História do Grand Plaza Shopping </h2>
+             <p>O Grand Plaza Shopping é o principal centro de compras do Grande ABC e figura entre os maiores do país em ABL (Área Bruta Locável), 
+			 com 72 mil metros quadrados. Inaugurado em 23 de setembro de 1997, em Santo André, reúne parte das marcas mais sólidas do varejo nacional, com 340 Operações, 
+			 Boulevard Gastronômico, Estacionamento com vagas cobertas, Hipermercado, Home Center e Academia.</p>
+         
+		 </section><!--history-->
+        
+        <div class="funcionamento">
+        	<h3>Horários de Funcionamento</h3>
+           
+           <!--esta tabela é fixa e nao se repete--->
+            <table class="fnc">
+              <tr>
+                <th>Lojas</th>
+                <th>Horário</th>
+              </tr>
+              <tr>
+                <td>Seguna à Sábado</td>
+                <td>10:00 - 22:00 hrs</td>
+              </tr>
+              <tr>
+                <td>Domingos e Feriados</td>
+                <td>14:00 - 20:00 hrs</td>
+              </tr>
+            </table>
+
+        </div><!--funcionamento-->
+        
+        <div class="clear"></div>
+        
+        <div class="mapa">
+        	<h3>Como Chegar</h3>
+            <!--<span id="map"></span>	-->          
+<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14618.941413696859!2d-46.5313336!3d-23.6496469!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xd9bb1a8238ff865a!2sGrand+Plaza+Shopping!5e0!3m2!1spt-BR!2sbr!4v1510869408561" width="100%" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>       
+
+	   </div>
+        
+        <div class="mapa">
+        	<h3>Mapa do Shopping</h3>
+            <div>
+            	<img src="/imagens/shopping-gps.svg" class="img" title="Shopping cidade São Paulo">
+            </div>            
+        </div>
+		
+		 <div class="clear"></div>
+        
+        <div class="contato">   
+       	<h2>Fale Conosco</h2> 
+       <p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
+			que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>onstores@grandplazashopping.com.br</strong></p>   
+		<form method="POST" action=""  onSubmit="return checkform_informacoes(this);">
+          <div class="ctc">
+                <div class="campos100">
+                    <input name="nome" type="text" value="" placeholder=" Nome ">
+                </div>
+                
+                <div class="campos100">
+                    <input name="email" type="text" value="" placeholder=" E-mail ">
+                </div>
+                
+                <div class="campos100">
+                    <input name="telefone" type="text" value="" placeholder=" Telefone ">
+                </div>
+                
+                <div class="campos100">
+                    <input name="tipo" type="text" value="" placeholder=" Tipo de Atendimento ">
+                </div>
+            
+          </div><!--ctc-->
+          
+          <div class="ctc">
+                <div class="campos100">
+                   <textarea name="mensagem" rows="4" cols="50" placeholder=" Mensagem "></textarea>
+                </div>
+              
+               <input type="submit" value=" Enviar ">
+			   <input type="hidden" name="_csrf" value="<%= csrfToken %>">	
+          
+          </div><!--ctc-->
+   
+   		<div class="linkcont">
+        	<a href="http://vagas.intranetmall.com.br/grandplazashopping/" target="_blank">Trabalhe Conosco</a>
+            <a href="https://im.intranetmall.com.br/grandplazashopping/" target="_blank">Portal do Lojista</a>
+        </div>
+		
+		</form>
+        
+

@@ -132,17 +132,18 @@
 
     
     <div id="more">
-		
+		<h3 class="titles">
+       		<span class="twhite" style="left: 13%;">Veja também</span>
+        </h3>
+		<div class="clear"></div><br><br>
 		<% 
 		if (relacionados.length>0){
 			relacionados.forEach(function(resultado) { 
 			if (resultado.url_title != teste.url_title){
 		%> 
 		
-		<h3 class="titles">
-       		<span class="twhite" style="left: 13%;">Veja também</span>
-        </h3>
-        <div class="clear"></div><br><br>
+		
+        
 
         <a href="/produtos/<%=resultado.url_title%>" class="prods">
 			

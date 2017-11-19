@@ -64,7 +64,9 @@ select {
   display: inline-block;
   line-height: 1.5em;
   padding: 0.5em 3.5em 0.5em 1em;
-  min-width:150px; padding:15px;
+  /*min-width:150px; */
+  min-width:75%;
+  padding:15px;
   /* reset */
 
   margin: 0;      
@@ -250,7 +252,6 @@ ul.dropdown2 li:hover > ul { visibility: visible; }
 .banner span:nth-child(2){ float:left; text-align:center;  font-size:72px; font-weight:bold; line-height:75px; font-style:italic; float:left; width:100%; padding:40px;}
 .banner span:nth-child(3){ float:left; text-align:center; font-size:14px; font-weight:bold;  float:left; width:100%; font-family: 'Droid Sans', sans-serif; }
 
-
 .bannerevent{ float:left; width:100%; position:relative;  color:#fff; font-smooth: always; }
 .bannerevent .gif section{ position:absolute; z-index:1; top:25%;  width:100%; text-align:center; font-size: 48px; 	font-style: italic; 	 	font-weight: bold; color:#fff;}
 .bannerevent img{ max-width:450px;}
@@ -275,7 +276,7 @@ ul.dropdown2 li:hover > ul { visibility: visible; }
 .prods section:hover{ background-color: #E5E5E5; text-decoration:underline}
 .prods section:hover img:nth-child(2){/* border-radius:50%;*/ width:100%; height:auto;}
 .prods h2{ font-size:14px; text-align:left; font-weight:normal; text-transform:uppercase}
-.prods h3{ text-align:left}
+.prods h3{ text-align:left; text-transform: uppercase; font-size:20px;}
 
 .adapt{ width:33%}
 
@@ -443,12 +444,12 @@ margin:5px;  font-family: "Droid Sans";}
 .cinefilter div{ padding:5px; float:left}
 .cinefilter input[type="text"]{	border: 1px solid #242424; width:70%;  padding:15px; float:left; margin:5px;  font-family: "Droid Sans"; }
 .cinefilter button{ background:none; border:none;  font-style: italic;  font-size:15px; font-family: 'Lora', serif;}
-
+.btingresso{font-family: 'Lora', serif; font-weight:bold; font-style:italic; color:#a36bba;  padding:2px 10px;}
 .cinefilter select{ min-width:72%;}
-.cinefilter div:nth-child(1){ width:50%; line-height:55px;}
-.cinefilter div:nth-child(2){ width:50%; line-height:55px;}
-.cinefilter div:nth-child(3){ width:50%; line-height:55px;}
-.cinefilter div:nth-child(4){ width:50%; line-height:55px;}
+.cinefilter div:nth-child(1){ width:20%; line-height:55px;}
+.cinefilter div:nth-child(2){ width:30%; line-height:55px;}
+.cinefilter div:nth-child(3){ width:30%; line-height:55px;}
+.cinefilter div:nth-child(4){ width:20%; line-height:55px; text-align:center}
 .cinefilter :nth-child(4) img{ float:right; margin:-7px 0 0 10px}
 
 #movies{ float:left; width:100%; position:relative; padding:20px 60px;}
@@ -493,6 +494,7 @@ margin:5px;  font-family: "Droid Sans";}
 
 .cine{ float:left; position:relative; width:33%; margin:20px 0;  padding:5px; color:#000; font-family: "Droid Sans"; font-size:16px;}
 .cine span{ float:left; width:100%; color:#a6a6a6; font-size:14px;}
+.cine section{ padding:10px 0}
 .linecine{ position: absolute; bottom:-20px; left:0; width:50%; border-bottom:1px #666 solid;transition: 0.2s ease-in-out; -webkit-transition: 0.2s ease-in-out;}
 .cine:hover .linecine{ width:90%;transition: 0.2s ease-in-out; -webkit-transition: 0.2s ease-in-out; border-bottom: 1px solid #9429FF;}
 .warning{ position: absolute; 	font-size: 14px; 	font-family: "Droid Sans"; bottom:15px; left:0; padding:5px;}
@@ -542,16 +544,23 @@ margin:5px;  font-family: "Droid Sans";}
 /*=============================Termos e condições=======================*/
 #servicos{ float:left; width:100%; position:relative; padding:0px  80px;}
 
-
+/*=============================Lojas ===========================*/
+.loj div{ padding:5px; float:left}
+.loj input[type="text"]{	border: 1px solid #242424; width:95px;  padding:15px; float:left; 
+margin:5px;  font-family: "Droid Sans";}
+.loj div:nth-child(1){ width:12%; margin:18px 0 0 0}
+.loj div:nth-child(2){ width:25%; line-height:55px;}
+.loj div:nth-child(3){ width:31%; line-height:55px;}
+.loj div:nth-child(4){ width:30%; line-height:55px;}
 
 /*=============================Lojas online===========================*/
 .online div{ padding:5px; float:left}
 .online input[type="text"]{	border: 1px solid #242424; width:95px;  padding:15px; float:left; 
 margin:5px;  font-family: "Droid Sans";}
 .online div:nth-child(1){ width:12%; margin:18px 0 0 0}
-.online div:nth-child(2){ width:23%; line-height:55px;}
+.online div:nth-child(2){ width:25%; line-height:55px;}
 .online div:nth-child(3){ width:31%; line-height:55px;}
-.online div:nth-child(4){ width:21%; line-height:55px;}
+.online div:nth-child(4){ width:30%; line-height:55px;}
 
 
 /*===========================Eventos===================================*/
@@ -568,7 +577,7 @@ margin:5px;  font-family: "Droid Sans";}
 
 .event{ margin-top:-18px; width:100%;}
 
-.evn{ width:100%; float:left; border:1px #000 solid; text-align:left; 	font-family: "Droid Sans"; 	font-size: 16px; text-align:center }
+.evn{ width:100%; float:left; border:1px #000 solid; text-align:left; 	font-family: "Droid Sans"; 	font-size: 16px; text-align:center; display:none }
 .evn th{	border-right: 1px solid #979797; border-bottom:1px #000 solid; 	background-color: #fff;  	font-size: 18px; 	color: #666666; font-weight:normal; padding:25px 30px;}
 .evn tr{  border-bottom:1px #000 solid; padding:25px 30px;	background-color: #FAFAFA; }
 .evn td{color: #000000; padding:25px 30px; }
@@ -634,7 +643,7 @@ margin:5px;  font-family: "Droid Sans";}
 .sacola tr{  border-bottom:1px #000 solid; padding:30px}
 .sacola td{  color: #000000;}
 
-.carrinho{ float:left; width:100%; overflow:auto; position:relative; margin-top:40px;}
+.carrinho{ float:left; width:100%; overflow-x: scroll;  -webkit-overflow-scrolling: touch; position:relative; margin-top:40px; }
 
 .sacola th:nth-child(1){ width:35%; text-align:left; }
 .sacola th:nth-child(2){ width:20%; text-align:center}
@@ -680,8 +689,12 @@ margin:5px;  font-family: "Droid Sans";}
 .total{ float:left; padding:10px;  width:30%;}
 .total label{ float:left; width:50%; 	font-family: "Droid Sans"; color:#333;	font-weight: bold; padding:18px 0; 	font-size: 18px; text-align:center; cursor:default }
 .total input[type="text"]{	border: 1px solid #333333; 	background-color: #333333;  color:#fff; padding:15px 10px; text-align:center; 	font-family: Lora; font-weight: bold;font-style: italic; width:50%; 	font-size: 20px;}
-.total input[type="submit"]{	background-color: #9966CC; color:#fff; 	font-size: 20px; text-align:center; border:none; float:left; width:100%; padding:15px 10px; 	font-style: italic; 	font-weight: bold; font-family: 'Lora', serif; margin:50px 0 0 0; cursor:pointer}
-
+.total input[type="submit"]{	background-color: #9966CC; color:#fff; 	font-size: 20px; text-align:center; border:none; float:left; width:100%; padding:15px 10px; 	font-style: italic; 	font-weight: bold; font-family: 'Lora', serif; margin:50px 0 0 0; cursor:pointer; -webkit-appearance: none;}
+input {
+-webkit-appearance: none;
+-moz-appearance: none;
+appearance: none;
+}
 
 /*======================LOGIN===============================*/
 #login{ width:100%; padding:50px 10px; min-height:700px; float:left}
@@ -886,7 +899,7 @@ margin:5px;  font-family: "Droid Sans";}
 .mapa{ float:left; width:50%; padding:10px}
 .mapa h3{border-bottom: 1px #000 solid; padding:20px 0; font-size: 18px; 	font-style: italic; 	font-weight: bold;}
 .mapa div{ float:left; position:relative; width:100%; height:500px; border:1px #333 solid; overflow:hidden}
-
+.mapa img{ width:200%; margin-top:-40%; margin-left:-45%}
 .linkcont{ position:absolute; bottom:30px; left:35px; width:50%; padding:10px; 	font-size: 18px; 	font-style: italic; 	font-weight: bold;}
 .linkcont a{ text-decoration:none; padding:0 20px; color:#000}
 
@@ -955,7 +968,15 @@ ul.rodape ul li a:hover {  color:#9d69aa; border-bottom:2px #9d69aa solid  }
 ul.rodape li:hover > ul { visibility: visible; }
 
 
-
+/*=============================Cupon filtro===========================*/
+.cup div{ padding:5px; float:left}
+.cup input[type="text"]{	border: 1px solid #242424; width:95px;  padding:15px; float:left; 
+margin:5px;  font-family: "Droid Sans";}
+.cup div:nth-child(1){ width:12%; margin:18px 0 0 0}
+.cup div:nth-child(2){ width:12%; line-height:18px; margin:18px 0 0 0}
+.cup div:nth-child(3){ width:24%; line-height:55px;}
+.cup div:nth-child(4){ width:27%; line-height:55px;}
+.cup div:nth-child(5){ width:23%; line-height:55px;}
 
 
 
@@ -1532,7 +1553,7 @@ ul.rodape li a{ padding:15px 10px; float:left; width:50%;}
 
 .det{ width:200%}
 .order, .token{ width:100%; margin:5px 0}
-
+.carrinho{width:470px; }
 
 }
 
@@ -1557,10 +1578,14 @@ ul.rodape li a{ padding:15px 10px; float:left; width:50%;}
 .config button {    margin-left: 5%;    width: 90%;}
 .bl{ margin:10px 40px}
 
+.carrinho{width:370px; }
+
 }
 @media only screen and  (max-width: 320px) {
 
 .bt{padding: 15px 5px;}
 .tabinator label{ padding:10px;  text-align:center}
 .config label{ padding:10px 5px; }	
+.carrinho{width:310px; }
+
 }

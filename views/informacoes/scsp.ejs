@@ -1,0 +1,166 @@
+
+
+        	
+         <section class="history">
+         
+       	  	<img src="/imagens/sho-scsp.jpg" class="img">
+            
+            <h2>História do Shopping Cidade São Paulo</h2>
+             <p>Nascido em abril de 2015, o Shopping Cidade São Paulo reúne as mais importantes marcas do varejo e o que há de melhor em compras, lazer e gastronomia. 
+			 Além da sua planejada infraestrutura, incluindo jardim a céu aberto com 2,4 mil m², está num dos locais mais privilegiados da Capital, a Avenida Paulista, 
+			 próximo de destacados pontos de interesse e de vários meios de transporte coletivo. Sua arquitetura inovadora tem certificação LEED Gold, que atesta o atendimento 
+			 aos mais rigorosos requisitos de respeito ao meio ambiente e à ocupação sustentável.</p>
+         </section><!--history-->
+        
+        <div class="funcionamento">
+        	<h3>Horários de Funcionamento</h3>
+           
+           <!--esta tabela é fixa e nao se repete--->
+            <table class="fnc">
+              <tr>
+                <th>Lojas</th>
+                <th>Horário</th>
+              </tr>
+              <tr>
+                <td>Seguna à Sábado</td>
+                <td>10:00 - 22:00 hrs</td>
+              </tr>
+              <tr>
+                <td>Domingos e Feriados</td>
+                <td>14:00 - 20:00 hrs</td>
+              </tr>
+            </table>
+            
+             <!--esta tabela é fixa e nao se repete--->
+             <table class="fnc">
+              <tr>
+                <th>Alimentação</th>
+                <th>Horário</th>
+              </tr>
+              <tr>
+                <td>Seguna à Sábado</td>
+                <td>10:00 - 22:00 hrs</td>
+              </tr>
+              <tr>
+                <td>Domingos e Feriados</td>
+                <td>14:00 - 20:00 hrs</td>
+              </tr>
+            </table>
+            
+             <!---esta tabela é dinamica e vamos printar--->
+             <table class="fnc">
+              <tr>
+                <th colspan="2">Andiamo, Almanara e Johnny Rockets</th>
+              </tr>
+              <tr>
+                <td>Segunda à Sábado</td>
+                <td align="right" style="padding-right:50px">11:00 - 23:00 hrs</td>
+              </tr>
+            </table>
+			
+			 <!---esta tabela é dinamica e vamos printar--->
+             <table class="fnc">
+              <tr>
+                <th>Outback</th>
+				<th>Horário</th>
+              </tr>
+              <tr>
+                <td>Domingo à Quinta</td>
+                <td>11:00 - 23:00 hrs</td>
+              </tr>
+			   <tr>
+                <td>Sexta e sábado</td>
+                <td>11:00 - 24:00 hrs</td>
+              </tr>
+            </table>
+            
+            <!---esta tabela é dinamica e vamos printar--->
+             <table class="fnc">
+              <tr>
+                <th>Hiro</th>
+                <th>Horário</th>
+              </tr>
+              <tr>
+                <td>Domingo a quinta</td>
+                <td>11:30 - 22:00 hrs</td>
+              </tr>
+              <tr>
+                <td>Sexta a sábado</td>
+                <td>11:30 - 23:00 hrs</td>
+              </tr>
+            </table>
+			 <table class="fnc">
+              <tr>
+                <th>Lazer</th>
+                <th>Horário</th>
+              </tr>
+              <tr>
+                <td>Segunda a domingo</td>
+                <td>11:00 - 22:00 hrs</td>
+              </tr>
+
+            </table>
+
+        		
+        
+        </div><!--funcionamento-->
+        
+        <div class="clear"></div>
+        
+        <div class="mapa">
+        	<h3>Como Chegar</h3>
+            <!--<span id="map"></span>	-->
+<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14628.538915102708!2d-46.6526871!3d-23.5636042!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x6c2a8652e6e5b36a!2sShopping+Cidade+S%C3%A3o+Paulo!5e0!3m2!1spt-BR!2sbr!4v1507586194851" width="100%" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>            
+        </div>
+        
+        <div class="mapa">
+        	<h3>Mapa do Shopping</h3>
+            <div>
+            	<img src="/imagens/shopping-cidade-sp.svg" class="img" title="Shopping cidade São Paulo">
+            </div>            
+        </div>
+		
+		 <div class="clear"></div>
+        
+        <div class="contato">   
+       	<h2>Fale Conosco</h2> 
+       <p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
+			que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>onstores@shoppingcidadesp.com.br</strong></p>   
+		<form method="POST" action=""  onSubmit="return checkform_informacoes(this);">
+          <div class="ctc">
+                <div class="campos100">
+                    <input name="nome" type="text" value="" placeholder=" Nome ">
+                </div>
+                
+                <div class="campos100">
+                    <input name="email" type="text" value="" placeholder=" E-mail ">
+                </div>
+                
+                <div class="campos100">
+                    <input name="telefone" type="text" value="" placeholder=" Telefone ">
+                </div>
+                
+                <div class="campos100">
+                    <input name="tipo" type="text" value="" placeholder=" Tipo de Atendimento ">
+                </div>
+            
+          </div><!--ctc-->
+          
+          <div class="ctc">
+                <div class="campos100">
+                   <textarea name="mensagem" rows="4" cols="50" placeholder=" Mensagem "></textarea>
+                </div>
+              
+               <input type="submit" value=" Enviar ">
+			   <input type="hidden" name="_csrf" value="<%= csrfToken %>">	
+          
+          </div><!--ctc-->
+   
+   		<div class="linkcont">
+        	<a href="http://vagas.intranetmall.com.br/shoppingcidadesp/" target="_blank">Trabalhe Conosco</a>
+            <a href="https://im.intranetmall.com.br/shoppingcidadesp/" target="_blank">Portal do Lojista</a>
+        </div>
+		
+		</form>
+        
+

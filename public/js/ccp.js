@@ -573,44 +573,46 @@ function checkform_login (form) {
 		form.senha.style.backgroundColor='#FFFF99';
 		continuar = false;
 	} 
-		
-	if (form.senha.value.length < 6) {
-		mensagem = mensagem + 'A  senha deve ter pelo menos 6 caracteres\n';
-		form.senha.style.backgroundColor='#FFFF99';
-		continuar = false;
-	} else {
-				
-		var regex = /[^\w\s]/gi;
-		if(regex.test(form.senha.value) == true) {
-			//Possui caracteres especiais
+	
+	if (continuar){
+		if (form.senha.value.length < 6) {
+			mensagem = 'Senha Incorreta!\n';
+			form.senha.style.backgroundColor='#FFFF99';
+			continuar = false;
 		} else {
-			mensagem = mensagem + 'A senha deve possuir um caractere especial!\n';
-			form.senha.style.backgroundColor='#FFFF99';
-			continuar = false;
+					
+			var regex = /[^\w\s]/gi;
+			if(regex.test(form.senha.value) == true) {
+				//Possui caracteres especiais
+			} else {
+				mensagem = 'Senha Incorreta!\n';
+				form.senha.style.backgroundColor='#FFFF99';
+				continuar = false;
+			}
+			
+			var re = /[a-z]/;
+			if(!re.test(form.senha.value)) {
+				mensagem = 'Senha Incorreta!\n';
+				form.senha.style.backgroundColor='#FFFF99';
+				continuar = false;
+			}
+			 
+			var re = /[A-Z]/;
+			if(!re.test(form.senha.value)) {
+				mensagem = 'Senha Incorreta!\n';
+				form.senha.style.backgroundColor='#FFFF99';
+				continuar = false;
+			}
+			//Nao pode repetir 3 vezes
+			if (validatePassword (form.senha.value)){
+				//OK
+			} else {
+				mensagem = 'Senha Incorreta!\n';
+				form.senha.style.backgroundColor='#FFFF99';
+				continuar = false;
+			}
+			
 		}
-		
-		var re = /[a-z]/;
-		if(!re.test(form.senha.value)) {
-			mensagem = mensagem + 'A senha deve conter pelo menos 1 letra minúscula!\n';
-			form.senha.style.backgroundColor='#FFFF99';
-			continuar = false;
-		}
-		 
-		var re = /[A-Z]/;
-		if(!re.test(form.senha.value)) {
-			mensagem = mensagem + 'A senha deve conter pelo menos 1 letra maiúscula!\n';
-			form.senha.style.backgroundColor='#FFFF99';
-			continuar = false;
-		}
-		//Nao pode repetir 3 vezes
-		if (validatePassword (form.senha.value)){
-			//OK
-		} else {
-			mensagem = mensagem + 'A senha não pode ter 3 ou mais caracteres repetidos!\n';
-			form.senha.style.backgroundColor='#FFFF99';
-			continuar = false;
-		}
-		
 	}
 	
 	if (continuar) {

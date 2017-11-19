@@ -14,7 +14,6 @@
                 	<img src="<%=resultado.banner%>" title="<%=resultado.nome%>" class="img">
                 	<section>
                         <span><%=resultado.nome%></span>
-                        <span>*</span>
                     </section>
                 </div>
 				<%
@@ -36,7 +35,7 @@
         	<label>Nome do filme</label> 
             <input type="text" id="nomefilme" name="filme" value="" placeholder="" maxlength="50">            
         </div>
-                 <div>
+          <div>
         	<label>Categoria</label>
             <select id="categoria" name="categoria" class="minimal">
             	<option value="">Todas</option>
@@ -77,7 +76,11 @@
 		} else {
 		%>
 		
-		<h3>Em breve!</h3>
+		<div class="vazio">
+			<img src="/imagens/pena.jpg" value="" width="78" height="77">
+			<p>Não existem filmes para este Shopping!</p>
+		</div>
+   
 		<%
 		}
 		%>

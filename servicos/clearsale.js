@@ -284,8 +284,8 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 		//"ShippingPrice": "", //Valor do Frete
 
 		//Creio que estes dois devem ter o mesmo valor	
-		"TotalItems": "10", //Valor do Itens
-		"TotalOrder": "10", //Valor Total do Pedido
+		"TotalItems": dados_pedido.total, //Valor do Itens
+		"TotalOrder": dados_pedido.total, //Valor Total do Pedido
 
 		"QtyInstallments": "1", //Quantidade de Parcelas
 		//"DeliveryTimeCD": "", //Prazo de Entrega

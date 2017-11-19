@@ -141,6 +141,7 @@ module.exports = function (app){
 						//ERRO
 					//});
 				}).catch(function (erro){
+					console.log(erro.stack);
 					//ERRO
 				});
 				
@@ -148,7 +149,8 @@ module.exports = function (app){
 		} else {
 			//Fazer o update
 			dados_do_cliente._id = req.session.cliente.id;
-			dados_do_cliente.password = req.session.cliente.senha2;
+			//dados_do_cliente.password = req.session.cliente.senha2;
+			//dados_do_cliente.password = req.session.cliente.senha;
 			
 			dados_do_cliente.middlename = "";
 			dados_do_cliente.country =  "BR";
@@ -162,6 +164,7 @@ module.exports = function (app){
 			var consulta = apiUsuario.atualizar(dados_do_cliente).then(function (resultados) {
 				//Sucesso	
 			}).catch(function (erro){
+				console.log(erro.stack);
 				//ERRO
 			});
 			
@@ -173,6 +176,7 @@ module.exports = function (app){
 		var consulta = new webservice(req.body.cep).then(function (resultados) {
 			res.json(resultados);
 		}).catch(function (erro){
+			console.log(erro.stack);
 			res.json({"zipcode":null,"street":null,"neighborhood":null,"city":null,"state":null});
 		});
 	});
@@ -241,6 +245,8 @@ module.exports = function (app){
 	//Este endpoint vai capturar a transacao que foi enviada para a ClearSale por /pagamento/finalizar
 	app.get("/pagamento/concluido", function(req,res){
 		console.log('estou no pagamento concluido!');
+		console.log(req.session.id_marketplace);
+		
 		//Fazer a captura, em caso de sucesso, avisar ClearSale!
 		var api_clearsale = new servicoClearSale();
 		var apiPagarme = new servicoPagarme();
@@ -259,7 +265,7 @@ module.exports = function (app){
 			
 			//O bloco abaixo vai precisar ficar dentro do IF para fazer captura
 			//Apenas para simular aprovacao ClearSale...
-			//req.session.status_clearsale = "APA";
+			req.session.status_clearsale = "APA";
 			
 			if (req.session.status_clearsale == "APA"){
 				//Mover a programacao de captura
@@ -277,6 +283,9 @@ module.exports = function (app){
 							return;
 						}
 						
+						console.log('dados do pedido na Pagarme');
+						console.log(tmp_pedido);
+						
 						//Status da transacao na Pagarme:
 						//processing - Transação está processo de autorização.
 						//authorized - Transação foi autorizada. Cliente possui saldo na conta e este valor foi reservado para futura captura, que deve acontecer em até 5 dias para transações criadas com api_key. Caso não seja capturada, a autorização é cancelada automaticamente pelo banco emissor, e o status da transação permanece authorized.
@@ -286,6 +295,14 @@ module.exports = function (app){
 						//pending_refund - Transação do tipo boleto e que está aguardando para confirmação do estorno solicitado.
 						//refused - Transação recusada, não autorizada.
 						//chargedback - Transação sofreu chargeback. Mais em nossa central de ajuda
+						
+						//Gerar o token, atualizar sales transaction....
+						var dados_atualizados = {};
+						dados_atualizados.status_pagarme = tmp_pedido.status;
+						//dados_atualizados.clearsale_id = req.session.id_clearsale;
+						//dados_atualizados.status_clearsale = req.session.status_clearsale;
+						var apiVendas = new servicoSales(req.session.token_usuario);
+						//apiVendas.atualizar(req.session.id_marketplace, dados_atualizados);
 						
 						if (tmp_pedido.status.toUpperCase() == "PAID"){
 							//Vamos devolver para a ClearSale como APROVADO! 
@@ -302,6 +319,7 @@ module.exports = function (app){
 							req.session.id_clearsale = "";
 							
 							
+							
 							//ESSE E O EMAIL PARA QUANDO HOUVER CAPTURA
 							var envioEmail = new servicoEmail();
 							var dados_email ={};
@@ -316,10 +334,22 @@ module.exports = function (app){
 							dados_email.QRCODE = "";
 							envioEmail.pagamentoCartaoCaptura(req.session.cliente.email,dados_email);
 							
+							
+							//Gerar o token, atualizar sales transaction....
+							//var token_sales = (Math.floor(Math.random()*900000) + 100000);
+							//req.session.token_sales = token_sales;
+							//var dados_atualizados = {};
+							//dados_atualizados.status_pagarme = "paid";
+							//dados_atualizados.clearsale_id = req.session.id_clearsale;
+							//dados_atualizados.status_clearsale = req.session.status_clearsale;
+							//var apiVendas = new servicoSales(app.locals.token_api);
+							//apiVendas.atualizar(req.session.id_marketplace, dados_atualizados);
+							
 							if (tmp_pedido.tipo=="Boleto"){
 								res.render("pagamento/boleto", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
 							} else {
 								res.render("pagamento/finalizar", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
+								//res.render("pagamento/aguardando", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
 							}		
 							
 						} else {
@@ -343,10 +373,12 @@ module.exports = function (app){
 						}
 						
 					}).catch(function (erro){
+						console.log('*** 1 ****');
 						console.log(erro.stack);
 						res.redirect("/erro/500");
 					});
 				}).catch(function (erro2){
+					console.log('*** 2 ****');
 					console.log(erro2.stack);
 					res.redirect("/erro/500");
 				});
@@ -384,6 +416,7 @@ module.exports = function (app){
 						res.render("pagamento/aguardando", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
 					}	
 				}).catch(function (erro){
+					console.log('*** 3 ****');
 					console.log(erro.stack);
 					res.redirect("/erro/500");
 				});
@@ -448,14 +481,17 @@ module.exports = function (app){
 		//Inserir o ClearSale aqui, ja que a captura nao vai ser na hora
 		var api_clearsale = new servicoClearSale();
 		var dadosCompra = [];
+		var total_carrinho = 0;
 		for (index = 0; index < req.session.carrinho.length; ++index) {
+			//Domingo
+			total_carrinho = parseFloat(total_carrinho) + (parseFloat(req.session.carrinho[index].total) * 100);
 			//Formato PAGARME
 			var tmp_item = {};
 			tmp_item.slug= req.session.carrinho[index].url_title;
 			tmp_item.product= req.session.carrinho[index].produto;
 			tmp_item.unity_price = FormataNumero(req.session.carrinho[index].por);
 			tmp_item.quantity = req.session.carrinho[index].qtde;
-			tmp_item.total_price = parseFloat(req.session.carrinho[index].total) * 1000;
+			tmp_item.total_price = parseFloat(req.session.carrinho[index].total) * 100;
 			dadosCompra.push(tmp_item);	
 		}		
 		var fingerprint = req.session.fingerprint;
@@ -508,6 +544,15 @@ module.exports = function (app){
 			req.session.id_clearsale = resultados.id;
 			req.session.status_clearsale = resultados.status;
 
+			//Novidade!
+			//Guardando o retorno ClearSale!
+			var dados_atualizados = {};
+			dados_atualizados.clearsale_id = req.session.id_clearsale;
+			dados_atualizados.status_clearsale = req.session.status_clearsale;
+			var apiVendas = new servicoSales(req.session.token_usuario);
+			//apiVendas.atualizar(req.session.id_marketplace, dados_atualizados);
+		
+			
 			//Para estes dois status, consultar de novo...	
 			if (resultados.status=="AMA" || resultados.status=="NVO"){
 				console.log('fazendo uma nova consulta');
@@ -633,11 +678,11 @@ module.exports = function (app){
 			transacaostatus = 'WAITING_PAYMENT';
 			transacao.source = 'SITE';
 			//transacao.transaction_id: String, //ID NA PAGARME!
-			transacao.order_number = "0";
+			//transacao.order_number = "0";
 			transacao.price = total;
-			transacao.token = "0";
-			transacao.token_pagarme = token_pagarme;
-			transacao.status_pagarme = "paid"; //Alterar!
+			//transacao.token = "0";
+			//transacao.token_pagarme = token_pagarme;
+			//transacao.status_pagarme = "paid"; //Alterar!
 			//transacao.charge_back_details = "";
 			//transacao.status_clear_sale = "";
 			//transacao.clear_sale_id = "";
@@ -704,11 +749,15 @@ module.exports = function (app){
 			var consulta = apiPagarme.autorizaTransacao(total, dados_cliente_pagarme).then(function (resultados) {
 				//Somente volta resposta depois da captura!
 				req.session.ultima_transacao = resultados.dados.id;
-				transacao.transaction_id = resultados.dados.id; //ID NA PAGARME!
+				//transacao.transaction_id = resultados.dados.id; //ID NA PAGARME!
+				transacao.pagarme_id = resultados.dados.id; //ID NA PAGARME!
 				req.session.parcelas = resultados.dados.installments;
+				transacao.status_pagarme = resultados.dados.status;
+				transacao.status = "WAITING_PAYMENT";
 				
 				//Gravar os itens
-				var apiProdutosVendas = new servicoProdutoSales(app.locals.token_api);
+				//var apiProdutosVendas = new servicoProdutoSales(app.locals.token_api);
+				var apiProdutosVendas = new servicoProdutoSales(req.session.token_usuario);
 				//Toda gravacao de item é uma promisse. Gerar um array e executar tudo de uma vez
 				var array_promisses = [];
 				for (index = 0; index < array_itens.length; ++index) {
@@ -722,7 +771,8 @@ module.exports = function (app){
 						tmp_array_itens.push(results[index].id);
 					  }
 					  transacao.sale_transaction_products = tmp_array_itens; //TODOS OS ITENS DA COMPRA!
-					  var apiVendas = new servicoSales(app.locals.token_api);
+					  //var apiVendas = new servicoSales(app.locals.token_api);
+					  var apiVendas = new servicoSales(req.session.token_usuario);
 					  var gravar_vendas = apiVendas.gravar(transacao).then(function (resultados) {
 						//NAO ESPERAR O RETORNO PORQUE E TESTE.
 						//ALINHAR O OPERACIONAL CORRETO DEPOIS!
@@ -732,13 +782,16 @@ module.exports = function (app){
 							retorno = 2;
 							
 						}
+						console.log('GRAVOU A TRANSACAO...');
+						console.log(resultados);
 						return res.json({"retorno": retorno});	
 						
 					   });
 					}).catch((err) => {
 						retorno = 2;
-						return res.json({"retorno": retorno});	
+						console.log('pagamento gravar erro');
 						console.log(err.stack);
+						return res.json({"retorno": retorno});	
 						//problema....
 					});
 				//return res.json(retorno);	
@@ -762,5 +815,52 @@ module.exports = function (app){
 		//}
 		res.render("pagamento/erro");
 	});
+
+	app.get("/pagamento/qrcode", function(req,res){
+		var qr = require('qr-image');  
+		if (req.session.token_sales){
+			var iddacompra = req.session.token_sales;
+			var code = qr.image(iddacompra, { type: 'png' });  
+			res.type('png');
+			code.pipe(res);
+		}
+	});
 	
+	app.get("/pagamento/teste1", function(req,res){
+		var apiPagarme = new servicoPagarme();
+		apiPagarme.listarPostbacks(2424079).then(function (resultados) {
+			apiPagarme.enviarUltimoPostback(2424079, resultados.dados).then(function (resultados2) {
+				console.log(resultados2);
+				console.log('sucesso');
+			}).catch((err2) => {
+				console.log('erro2');
+				console.log(err2.stack);
+			});		
+		}).catch((err) => {
+			console.log('erro1');
+			console.log(err.stack);
+		});	
+	});
+	
+	app.get("/pagamento/teste2", function(req,res){
+		var apiVendas = new servicoSales(app.locals.token_api);
+		apiVendas.viewGQL(2424079).then(function (resultados) {
+			console.log(resultados);
+			var compra = apiVendas.montarVendaCQL(resultados.dados);
+			console.log(compra);
+		}).catch((err) => {
+			console.log('erro1');
+			console.log(err.stack);
+		});	
+	});	
+	
+	app.get("/pagamento/teste3", function(req,res){
+		var apiVendas = new servicoSales(app.locals.token_api);
+		apiVendas.listGQL("59f3d9499a7ca4002ce5ace6").then(function (resultados) {
+			console.log(resultados);
+		}).catch((err) => {
+			console.log('erro');
+			console.log(err.stack);
+		});	
+	});	
 }

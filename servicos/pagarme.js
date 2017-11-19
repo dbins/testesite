@@ -426,5 +426,55 @@ pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 	return retorno;
 }			
 	
+pagarmeAPI.prototype.listarPostbacks = function(id_transacao){
+	var opcoes = {  
+	  method: 'GET',
+	  uri: this.url + '/transactions/' + id_transacao + '/postbacks',
+	  qs: {
+		api_key: this.api_key
+	  }
+	}
+	console.log(this.url + '/transactions/' + id_transacao + "/postbacks");
+	return rp(opcoes).then((data) => {
+		//console.log(data);
+		resposta = {"resultado":"OK", "dados": JSON.parse(data), "status": "OK"};	
+		return resposta;
+	}).catch((err) => {
+		console.log(err.stack);
+		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+		return resposta;
+	});
+}	
+
+	
+pagarmeAPI.prototype.enviarUltimoPostback = function(id_transacao, lista_postbacks){
+	var dados_da_captura = {};
+	dados_da_captura.api_key = this.api_key;
+	
+	var ultimo_postback = 0;
+	lista_postbacks.forEach(function(obj) {
+		ultimo_postback = obj.id;
+	});
+	
+	var opcoes = {  
+	    method: 'POST',
+		uri: this.url + '/transactions/' + id_transacao + '/postbacks/' + ultimo_postback + '/redeliver',
+		body: dados_da_captura,
+	    json: true
+	}
+	
+	console.log(this.url + '/transactions/' + id_transacao + '/postbacks/' + ultimo_postback + '/redeliver');
+	return rp(opcoes).then((data) => {
+		//console.log(data);
+		resposta = {"resultado":"OK", "dados": data, "status": "OK"};	
+		return resposta;
+	}).catch((err) => {
+		console.log(err.stack);
+		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+		return resposta;
+	});
+}	
+
+	
 module.exports = pagarmeAPI;
 

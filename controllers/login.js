@@ -92,10 +92,13 @@ module.exports = function (app){
 						
 					
 					//Aguardar a senha voltar a funcionar
-					//var consulta = autentica.validarUsuario(dados.email, req.body.senha).then(function (resultados) {
+					//Antes do CPF ERA O EMAIL
+					var consulta = autentica.validarUsuario(tmp_CPF, req.body.senha).then(function (resultados) {
 						
 						//User o token do usuario
-					//	app.locals.tokenUsuario = resultados.token;
+						req.session.token_usuario = resultados.token;
+						console.log(resultados.token);
+						//app.locals.tokenUsuario = resultados.token;
 						
 						req.session.usuario = dados.firstname;
 						var cliente = {};
@@ -132,7 +135,7 @@ module.exports = function (app){
 						cliente.favorite_events = dados.favorite_events;
 						cliente.favorite_products = dados.favorite_products;
 						cliente.favorite_stores = dados.favorite_stores;
-						
+						console.log(dados._id);
 						req.session.cliente = cliente;
 						var tmp1 = dados.firstname;
 						var tmp2 = dados.lastname;
@@ -154,10 +157,11 @@ module.exports = function (app){
 								res.render("login/redirecionar");
 							}
 						});
-					//}).catch(function (erro){
-					//	res.render("login/index", {mensagem: "O login ou a senha informada não foram localizadas"});
-					//	return;
-					//});
+					}).catch(function (erro){
+						console.log(erro.stack);
+						res.render("login/index", {mensagem: "O login ou a senha informada não foram localizadas"});
+						return;
+					});
 				}
 				
 			}).catch(function (erro){
@@ -213,7 +217,7 @@ module.exports = function (app){
 		} else {
 			//Gravar o usuario novo:
 			var dados_do_cliente = {};
-			dados_do_cliente._id = id;
+			//dados_do_cliente._id = id;
 			dados_do_cliente.firstname = req.body.nome;
 			dados_do_cliente.lastname = req.body.sobrenome;
 			dados_do_cliente.middlename = "";
@@ -244,13 +248,20 @@ module.exports = function (app){
 				var tmp2 = dados_do_cliente.lastname;
 				req.session.usuario = dados_do_cliente.firstname + ' ' +  dados_do_cliente.lastname;
 				req.session.letras = tmp1.substring(0,1) + tmp2.substring(0,1);
-						
-				//SUCESSO
-				if (req.session.total_carrinho ==0){
-					res.render("login/redirecionar");
-				} else {
-					res.redirect("/pagamento/dados");
-				}
+				
+				//Se gravou o usuário, precisa autenticar para nao dar problema em rotas que precisem do token dele...
+				var consulta = autentica.validarUsuario(CPF, req.body.senha).then(function (resultados2) {
+					req.session.token_usuario = resultados2.token;
+					//SUCESSO
+					if (req.session.total_carrinho ==0){
+						res.render("login/redirecionar");
+					} else {
+						res.redirect("/pagamento/dados");
+					}
+				}).catch(function (erro2){
+					//ERRO
+				});
+				
 			}).catch(function (erro){
 				//ERRO
 			});

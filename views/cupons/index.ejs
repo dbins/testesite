@@ -10,7 +10,7 @@
         </aside> <!--banner-->
    
    <div class="filtro content">
-   	<form action="" method="POST" class="online"  autocomplete="off">
+   	<form action="" method="POST" class="cup"  autocomplete="off">
     	<div>
         	<input type="checkbox" id="c1" name="cb">
             <label for="c1">Promoções</label> 
@@ -18,7 +18,7 @@
         
         <div>
         	<input type="checkbox" id="c2" name="cb">
-            <label for="c2"> Produtos</label>
+            <label for="c2">Produtos</label>
         </div>
         
         <div>
@@ -106,7 +106,10 @@
    } else {
    %>
    
-   <h3>Não existem cupons!</h3>
+   <div class="vazio">
+	<img src="/imagens/pena.jpg" value="" width="78" height="77">
+	<p>Não existem Cupons!</p>
+</div>
    
    
    <%

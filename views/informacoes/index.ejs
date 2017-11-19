@@ -20,148 +20,34 @@
   
 	  <article id="informacoes">
         	
-         <section class="history">
-         
-       	  	<img src="/imagens/fachada-shopping.jpg" class="img">
-            
-            <h2>História do Cidade São Paulo</h2>
-           <p>Instalado no número 1.230 da Avenida Paulista, centro financeiro da Capital e uma das regiões mais valorizadas e frequentadas por públicos de variados perfis, o Shopping Cidade São Paulo foi inaugurado em 30 de abril de 2015. Desenvolvido e construído pela Cyrela Commercial Properties (CCP), tem área bruta locável de 17 mil m², com cinco pisos, 160 lojas e as mais importantes marcas do varejo.</p>
-            <p>Na área de entretenimento, oferece teatro (em breve) e cinema. Em gastronomia, reúne alguns dos mais prestigiados restaurantes de São Paulo, entre eles, Andiamo, Almanara, Outback e Hiro. São 1,5 mil vagas de estacionamento e uma série de serviços, como bicicletário com 150 vagas. Além de toda a infraestrutura, o visitante pode usufruir de um jardim de 2,4 mil m² a céu aberto, com árvores nativas, mesas, bancos e entrada livre. Localizado próximo ao Masp e ao Parque Trianon, é facilmente acessado por ônibus e metrô. Seu projeto arquitetônico inovador tem certificação LEED Gold, que atesta o atendimento a rigorosos requisitos de respeito ao meio ambiente e à ocupação sustentável.</p>
-         </section><!--history-->
+			<%	if (shopping ==  "shopping_cidade_sao_paulo"){ 	%>       
+				<%-partial("scsp")%>
+			<%	}	%>
+			
+			<%	if (shopping ==  "grand_plaza_shopping"){ 	%>       
+				<%-partial("gps")%>
+			<%	}	%>
+			
+			<%	if (shopping ==  "tiete_plaza_shopping"){ 	%>       
+				<%-partial("tps")%>
+			<%	}	%>
+			
+			<%	if (shopping ==  "shopping_cerrado"){ 	%>       
+				<%-partial("sc")%>
+			<%	}	%>
+			
+			<%	if (shopping ==  "shopping_metropolitano_barra"){ 	%>       
+				<%-partial("smb")%>
+			<%	}	%>
+			
+			<%	if (shopping ==  "shopping_d"){ 	%>       
+				<%-partial("sd")%>
+			<%	}	%>
         
-        <div class="funcionamento">
-        	<h3>Horários de Funcionamento</h3>
-           
-           <!--esta tabela é fixa e nao se repete--->
-            <table class="fnc">
-              <tr>
-                <th>Lojas</th>
-                <th>Horário</th>
-              </tr>
-              <tr>
-                <td>Seguna à Sábado</td>
-                <td>10:00 - 22:00 hrs</td>
-              </tr>
-              <tr>
-                <td>Domingos e Feriados</td>
-                <td>14:00 - 20:00 hrs</td>
-              </tr>
-            </table>
-            
-             <!--esta tabela é fixa e nao se repete--->
-             <table class="fnc">
-              <tr>
-                <th>Gastronomia / Praça de Alimentação</th>
-                <th>Horário</th>
-              </tr>
-              <tr>
-                <td>Seguna à Sábado</td>
-                <td>10:00 - 22:00 hrs</td>
-              </tr>
-              <tr>
-                <td>Domingos e Feriados</td>
-                <td>14:00 - 20:00 hrs</td>
-              </tr>
-            </table>
-            
-             <!---esta tabela é dinamica e vamos printar--->
-             <table class="fnc">
-              <tr>
-                <th>Outback</th>
-                <th>Horário</th>
-              </tr>
-              <tr>
-                <td>Seguna à Sábado</td>
-                <td>10:00 - 22:00 hrs</td>
-              </tr>
-              <tr>
-                <td>Domingos e Feriados</td>
-                <td>14:00 - 20:00 hrs</td>
-              </tr>
-            </table>
-            
-            <!---esta tabela é dinamica e vamos printar--->
-             <table class="fnc">
-              <tr>
-                <th>Hiro Sushi</th>
-                <th>Horário</th>
-              </tr>
-              <tr>
-                <td>Seguna à Sábado</td>
-                <td>10:00 - 22:00 hrs</td>
-              </tr>
-              <tr>
-                <td>Domingos e Feriados</td>
-                <td>14:00 - 20:00 hrs</td>
-              </tr>
-            </table>
-
-        		
-        
-        </div><!--funcionamento-->
-        
-        <div class="clear"></div>
-        
-        <div class="mapa">
-        	<h3>Como Chegar</h3>
-            <!--<span id="map"></span>	-->
-<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d14628.538915102708!2d-46.6526871!3d-23.5636042!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x6c2a8652e6e5b36a!2sShopping+Cidade+S%C3%A3o+Paulo!5e0!3m2!1spt-BR!2sbr!4v1507586194851" width="100%" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>            
-        </div>
-        
-        <div class="mapa">
-        	<h3>Mapa do Shopping</h3>
-            <div>
-            	<img src="/imagens/shopping-cidade-sp.svg" class="img" title="Shopping cidade São Paulo">
-            </div>    
-            
-        </div>
-        
-        <div class="clear"></div>
-        
-        <div class="contato">   
-       	<h2>Fale Conosco</h2> 
-       	<p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de realcionamento do ON.STORES que nossa equipe entrará em contato rapidamente com você.</p>     
-		<form method="POST" action=""  onSubmit="return checkform_informacoes(this);">
-          <div class="ctc">
-                <div class="campos100">
-                    <input name="nome" type="text" value="" placeholder=" Nome ">
-                </div>
-                
-                <div class="campos100">
-                    <input name="email" type="text" value="" placeholder=" E-mail ">
-                </div>
-                
-                <div class="campos100">
-                    <input name="telefone" type="text" value="" placeholder=" Telefone ">
-                </div>
-                
-                <div class="campos100">
-                    <input name="tipo" type="text" value="" placeholder=" Tipo de Atendimento ">
-                </div>
-            
-          </div><!--ctc-->
-          
-          <div class="ctc">
-                <div class="campos100">
-                   <textarea name="mensagem" rows="4" cols="50" placeholder=" Mensagem "></textarea>
-                </div>
-              
-               <input type="submit" value=" Enviar ">
-			   <input type="hidden" name="_csrf" value="<%= csrfToken %>">	
-          
-          </div><!--ctc-->
-   
-   		<div class="linkcont">
-        	<a href="http://vagas.intranetmall.com.br/grandplazashopping/" target="_blank">Trabalhe Conosco</a>
-            <a href="https://im.intranetmall.com.br/grandplazashopping/" target="_blank">Portal do Lojista</a>
-        </div>
-		</form>
+       
    <div class="clear"></div>
    </div><!--contato--> 
         
-      </article><!--informaçoes-->
- 	
+  </article><!--informaçoes-->
 
-   
-   </div><!--produtos--> 
  </div><!--full-->

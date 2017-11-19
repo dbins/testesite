@@ -316,7 +316,7 @@ module.exports = function (app){
 		dados_do_cliente.email = req.session.cliente.email;
 		
 		//Bug ao atualizar a senha!
-		//dados_do_cliente.password = req.session.cliente.senha2;
+		dados_do_cliente.password = req.body.senha;
 			
 		dados_do_cliente.middlename = "";
 		dados_do_cliente.country =  "BR";
@@ -325,6 +325,9 @@ module.exports = function (app){
         dados_do_cliente.favorite_events = req.session.cliente.favorite_events;
         dados_do_cliente.favorite_products = req.session.cliente.favorite_products;
         dados_do_cliente.favorite_stores = req.session.cliente.favorite_stores;
+		
+		console.log(dados_do_cliente);
+		
 		if (app.locals.token_api == ""){
 			//Sem token de app nao pode fazer isso
 		} else {	

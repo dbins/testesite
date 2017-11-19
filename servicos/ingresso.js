@@ -135,7 +135,7 @@ ingressoAPI.prototype.viewURL = function(registro){
 	    method: 'GET',
 		uri: this.url + "/events/url-key/" + registro
 	}
-	console.log(this.url + "/events/url-key/" + registro);
+	
 	return rp(opcoes).then((data, res) => {
 		resposta = {"resultado":"OK", "dados": JSON.parse(data), "status": "OK"};	
 		return resposta;

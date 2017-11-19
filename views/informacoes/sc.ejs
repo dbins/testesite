@@ -1,0 +1,114 @@
+
+
+        	
+         <section class="history">
+         
+       	  	<img src="/imagens/sho-tps.jpg" class="img">
+            
+            <h2>História do  Shopping Cerrado</h2>
+             <p>Inaugurado em abril de 2016, o Shopping Cerrado chegou para trazer conforto e comodidade para uma região em pleno desenvolvimento, adiantando-se às necessidades do
+			 público goianiense e oferecendo o melhor para garantir a satisfação de todos Tudo foi pensado em detalhes: a facilidade de acesso, o 
+			 respeito e integração com a natureza, o aconchego e os serviços, com diferenciais para agradar até os mais exigentes. Um projeto arquitetônico
+			 que impressiona e encanta o público, pensando nos mínimos detalhes traz uma excelente iluminação natural, proporcionada por amplos espaços envidraçados,
+			 além de um belo projeto paisagístico externo, permitindo que o consumidor sinta-se muito mais próximo à natureza e ao cerrado. O Shopping Cerrado já 
+			 virou referência de entretenimento, sempre realizando eventos inéditos, inusitados e inovadores. Espaços dedicados à interação e à descontração, uma área de alimentação completa e integrada e o cinema mais moderno da cidade fazem a diferença no convívio entre a família, com muita diversão para as crianças, jovens e adultos.</p>
+         </section><!--history-->
+        
+        <div class="funcionamento">
+        	<h3>Horários de Funcionamento</h3>
+           
+           <!--esta tabela é fixa e nao se repete--->
+            <table class="fnc">
+              <tr>
+                <th>Lojas</th>
+                <th>Horário</th>
+              </tr>
+              <tr>
+                <td>Seguna à Sábado</td>
+                <td>10:00 - 22:00 hrs</td>
+              </tr>
+              <tr>
+                <td>Domingos e Feriados</td>
+                <td>14:00 - 20:00 hrs</td>
+              </tr>
+            </table>
+			<table class="fnc">
+              <tr>
+                <th>Alimentação e Lazer</th>
+                <th>Horário</th>
+              </tr>
+              <tr>
+                <td>Seguna à Sábado</td>
+                <td>10:00 - 22:00 hrs</td>
+              </tr>
+              <tr>
+                <td>Domingos e Feriados</td>
+                <td>11:00 - 20:00 hrs</td>
+              </tr>
+            </table>
+            
+
+        		
+        
+        </div><!--funcionamento-->
+        
+        <div class="clear"></div>
+        
+        <div class="mapa">
+        	<h3>Como Chegar</h3>
+            <!--<span id="map"></span>	-->
+    
+<iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15288.885804917838!2d-49.3078342!3d-16.6657982!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x299cb10bcfda67a7!2sShopping+Cerrado!5e0!3m2!1spt-BR!2sbr!4v1510870385397" width="100%" height="500" frameborder="0" style="border:0" allowfullscreen></iframe>
+	 </div>
+        
+        <div class="mapa">
+        	<h3>Mapa do Shopping</h3>
+            <div>
+            	<img src="/imagens/shopping-sc.svg" class="img" title="Shopping Cerrado">
+            </div>            
+        </div>
+		
+		 <div class="clear"></div>
+        
+        <div class="contato">   
+       	<h2>Fale Conosco</h2> 
+       <p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
+			que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>onstores@shoppingcerrado.com.br</strong></p>   
+		<form method="POST" action=""  onSubmit="return checkform_informacoes(this);">
+          <div class="ctc">
+                <div class="campos100">
+                    <input name="nome" type="text" value="" placeholder=" Nome ">
+                </div>
+                
+                <div class="campos100">
+                    <input name="email" type="text" value="" placeholder=" E-mail ">
+                </div>
+                
+                <div class="campos100">
+                    <input name="telefone" type="text" value="" placeholder=" Telefone ">
+                </div>
+                
+                <div class="campos100">
+                    <input name="tipo" type="text" value="" placeholder=" Tipo de Atendimento ">
+                </div>
+            
+          </div><!--ctc-->
+          
+          <div class="ctc">
+                <div class="campos100">
+                   <textarea name="mensagem" rows="4" cols="50" placeholder=" Mensagem "></textarea>
+                </div>
+              
+               <input type="submit" value=" Enviar ">
+			   <input type="hidden" name="_csrf" value="<%= csrfToken %>">	
+          
+          </div><!--ctc-->
+   
+   		<div class="linkcont">
+        	<a href="http://vagas.intranetmall.com.br/shoppingcerrado/" target="_blank">Trabalhe Conosco</a>
+            <a href="http://www.intranetmall.com.br/shoppingcerrado/" target="_blank">Portal do Lojista</a>
+        </div>
+		
+		</form>
+        
+

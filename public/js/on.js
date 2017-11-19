@@ -3,6 +3,7 @@ $(document).ready(function() {
 	  $("#lupa").click(function(event){
 		  event.preventDefault();
 		  $("#busca").fadeToggle();
+		  $('#campobusca').focus();
 		});
 		$("#conta").click(function(event){
 		  event.preventDefault();
