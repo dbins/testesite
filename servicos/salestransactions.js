@@ -9,6 +9,13 @@ function salesAPI (token) {
 	this.posicao = 0;
 	this.metodo = "sale-transactions";
 	this.token = token;
+	
+};
+
+const sleep = (seconds) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(resolve, (seconds * 1000));
+    });
 };
 
 
@@ -208,6 +215,43 @@ salesAPI.prototype.montarVendaCQL = function(resultado){
 	}
 	var item = {"id": resultado._id,"id_pagarme": resultado.pagarme_id, "tipo_pagamento": resultado.payment_type, "data":resultado.created_at, "valor":resultado.price, "token":resultado.token, "status": resultado.status_pagarme, "produtos": produtos};
 	return item;
+}
+
+salesAPI.prototype.fazerDelay = function(id_transacao){
+	 return sleep(5).then((data, res) => {
+		var mall = "mall {_id,slug,domain, name, zipcode, address, number,neighborhood, city,description,created_at,updated_at,removed_at}";
+		var store = " store {_id, cnpj, slug, fantasy_name, real_name, title,responsible_name, responsible_email, responsible_phone, on_stores_status, send_email, phone,description, suc, floor, tax, bank, agency,account, name, pagarme_id, accepted_at, created_at, updated_at, removed_at, category{slug name}}";
+		var imagens = "images{path, type, order}";
+		var product = " product {_id, sku, slug, name, standalone, short_description, long_description, start_at, end_at, approved_status, active, promotion, price, price_start, price_final, current_price, stock, color, size, created_at, updated_at, removed_at," + store + "," + mall + ", " + imagens + "}";
+		var salesItens  = "sale_transaction_products {_id, token, token_pagarme, status_pagarme, status_clearsale, chargeback_details, status, quantity, unity_price, total_price,  brought_at, delivered_at, approved_at, reversed_at, created_at, updated_at,removed_at," + product + "}";
+		var sales = 'saleTransactions (transaction_id: "' + id_transacao  + '") {_id,bought_at,delivered_at, transaction_id, source, price, token, details, payment_type, pagarme_id, clearsale_id, token_pagarme, status_pagarme, status_clearsale,chargeback_details,created_at, updated_at, removed_at,  total_price, total_products total_reversed,' + salesItens + '}';
+		
+		var query = 'query={' + sales + '}';
+		var resposta = "";
+		var opcoes = {  
+			method: 'GET',
+			uri: this.url + "/graphql?" + query,
+			headers: {
+			 'Content-Type': 'application/json'
+			}
+		}
+		
+		return rp(opcoes).then((data2, res2) => {
+			console.log(data2);
+			var tmp = JSON.parse(data2);
+			resposta = {"resultado":"OK", "dados": tmp.data.saleTransactions[0], "status": "OK"};	
+			return resposta;
+		}).catch((err2) => {
+			console.log(err2.stack);
+			resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+			return resposta;
+		});
+	}).catch((err) => {
+		console.log(err.stack);
+		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+		return resposta;
+	});
+
 }
 
 

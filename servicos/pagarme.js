@@ -396,16 +396,22 @@ pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 	var total_ccp = 0;
 	var total_lojistas = 0;
 	for (index = 0; index < lojas.length; ++index) {
+		var tmp_lojista = lojas[index].total_price.toFixed(0);
 		//Reduzir total_price de acordo com percentual lojista
-		total_lojistas += parseFloat(lojas[index].total_price)
+		//total_lojistas += parseFloat(lojas[index].total_price);
+		total_lojistas += parseFloat(tmp_lojista);
 	}
-	total_ccp =  parseFloat(total_carrinho) - parseFloat(total_lojistas);
 	
+	var tmp_total_lojistas = parseFloat(total_lojistas).toFixed(0);
+	total_ccp =  parseFloat(total_carrinho) - parseFloat(total_lojistas);
+	//console.log(total_carrinho);
+	//console.log(total_lojistas);
+	//console.log(tmp_total_lojistas);
 	
 	//Total da CCP
 	var tmp_ccp = {
 		"recipient_id": "re_cj7j43wo70e834r6e7k3tjmgn", //FIXO somente para testes - legal name: CONTA BANCARIA DE TESTES
-		"amount": total_ccp,
+		"amount": total_ccp.toFixed(0),
 		"liable": true, //indica se o recebedor atrelado assumirá os riscos de chargeback da transação
 		"charge_processing_fee": true //Vai pagar as taxas
 	};
@@ -415,7 +421,7 @@ pagarmeAPI.prototype.montarSplitRules = function(carrinho){
 		var tmp_loja = lojas[index];
 		var tmp_pagarme = {
 			"recipient_id": tmp_loja.id_pagarme, //Vira do endpoitn do lojista e vai estar dentro de carrinho
-			"amount": tmp_loja.total_price, //Subtrair da taxa da loja!
+			"amount": tmp_loja.total_price.toFixed(0), //Subtrair da taxa da loja!
 			"liable": true, //indica se o recebedor atrelado assumirá os riscos de chargeback da transação
 			"charge_processing_fee": false //Vai pagar as taxas
 		};	
@@ -451,9 +457,11 @@ pagarmeAPI.prototype.enviarUltimoPostback = function(id_transacao, lista_postbac
 	var dados_da_captura = {};
 	dados_da_captura.api_key = this.api_key;
 	
+	var ultimo_postackblablabla;
 	var ultimo_postback = 0;
 	lista_postbacks.forEach(function(obj) {
 		ultimo_postback = obj.id;
+		ultimo_postackblablabla = obj
 	});
 	
 	var opcoes = {  

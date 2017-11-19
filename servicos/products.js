@@ -115,7 +115,7 @@ produtosAPI.prototype.listGQL = function(){
 	const q_store = `store{slug, real_name, fantasy_name, floor, title, pagarme_id, tax, on_stores_status, category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
 	const q_parent  = `parent{slug}`;
-	const q_cheapest =  `cheapest {_id,slug,name,price, stock,color, size,approved_status,active,images{path, type, order}}`;
+	const q_cheapest =  `cheapest {_id,slug,name,price, price_start price_final, stock,color, size,approved_status,active,images{path, type, order}}`;
 	
     // const q_group = `group{slug name}`;
 	const q_group = '';
@@ -401,7 +401,7 @@ produtosAPI.prototype.listGQLStore = function(store){
 	const q_store = `store{slug, real_name, fantasy_name, floor, title, pagarme_id, tax, on_stores_status, category{slug name}}`;
 	const q_mall  = `mall{_id, slug, domain, name}`;
 	const q_parent  = `parent{slug}`;
-	const q_cheapest =  `cheapest {_id,slug,name,price, stock,color, size,approved_status,active,images{path, type, order}}`;
+	const q_cheapest =  `cheapest {_id,slug,name,price, price_start price_final,stock,color, size,approved_status,active,images{path, type, order}}`;
     //const q_group = `group{slug name}`;
 	const q_group = '';
     const q_images= `images{path, type, order}`;

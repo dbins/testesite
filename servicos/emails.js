@@ -113,7 +113,8 @@ emailAPI.prototype.pagamentoBoleto = function(destinatario, dados){
 		var template = handlebars.compile(html);
 		var substituir = {
 			 nome: dados.nome,
-			 tabela: dados.tabela
+			 tabela: dados.tabela,
+			 total: dados.total
 		};
 		var htmlEmail = template(substituir);
 		var email = {
@@ -140,7 +141,8 @@ emailAPI.prototype.pagamentoCartaoAguardando = function(destinatario, dados){
 		var template = handlebars.compile(html);
 		var substituir = {
 			 nome: dados.nome,
-			 tabela: dados.tabela
+			 tabela: dados.tabela,
+			 total: dados.total
 		};
 		var htmlEmail = template(substituir);
 		var email = {
@@ -167,7 +169,8 @@ emailAPI.prototype.pagamentoCartaoCaptura = function(destinatario, dados){
 		var template = handlebars.compile(html);
 		var substituir = {
 			 nome: dados.nome,
-			 tabela: dados.tabela
+			 tabela: dados.tabela,
+			 total: dados.total
 		};
 		var htmlEmail = template(substituir);
 		var email = {
@@ -194,7 +197,8 @@ emailAPI.prototype.pagamentoCartaoReprovado = function(destinatario, dados){
 		var template = handlebars.compile(html);
 		var substituir = {
 			 nome: dados.nome,
-			 tabela: dados.tabela
+			 tabela: dados.tabela,
+			 total: dados.total
 		};
 		var htmlEmail = template(substituir);
 		var email = {

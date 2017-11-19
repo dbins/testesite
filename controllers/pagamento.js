@@ -305,52 +305,74 @@ module.exports = function (app){
 						//apiVendas.atualizar(req.session.id_marketplace, dados_atualizados);
 						
 						if (tmp_pedido.status.toUpperCase() == "PAID"){
-							//Vamos devolver para a ClearSale como APROVADO! 
-							//26 PAGAMENTO APROVADO
-							//27 PAGAMENTO REPROVADO
-							api_clearsale.UpdateOrderStatus(req.session.id_marketplace, 26, "");
-							//Retirar da fila!
-							api_clearsale.SetOrderAsReturned(req.session.id_marketplace);
+							
+							console.log('inicio parada...');
+							//Forcar uma parada para tentar pegar o token....
+							apiVendas.fazerDelay(req.session.id_marketplace).then(function (resultados3) {
+									console.log('fim parada...');
+									//Vamos devolver para a ClearSale como APROVADO! 
+									//26 PAGAMENTO APROVADO
+									//27 PAGAMENTO REPROVADO
+									api_clearsale.UpdateOrderStatus(req.session.id_marketplace, 26, "");
+									//Retirar da fila!
+									api_clearsale.SetOrderAsReturned(req.session.id_marketplace);
+										
+									//Apagando o carrinho!
+									var dados_carrinho = req.session.carrinho;
+									req.session.carrinho = "";
+									req.session.total_carrinho = 0; 
+									req.session.id_clearsale = "";
+									
+									
+									
+									//ESSE E O EMAIL PARA QUANDO HOUVER CAPTURA
+									var envioEmail = new servicoEmail();
+									var dados_email ={};
+									dados_email.nome = req.session.cliente.nome;
+									dados_email.tabela = montarTabelaPedido(dados_carrinho);
+									dados_email.pedido = "";
+									dados_email.token = "";
+									dados_email.data = "";
+									dados_email.hora = "";
+									dados_email.loja = "";
+									dados_email.shopping = "";
+									dados_email.total = "";
+									dados_email.QRCODE = "";
+									var tmp_total = 0;
+									for (index = 0; index < dados_carrinho.length; ++index) {
+										tmp_total += parseFloat((dados_carrinho[index].por) * parseFloat(dados_carrinho[index].qtde));
+									}
+									dados_email.total = tmp_total;
+									envioEmail.pagamentoCartaoCaptura(req.session.cliente.email,dados_email);
+									
+									
+									//Gerar o token, atualizar sales transaction....
+									//var token_sales = (Math.floor(Math.random()*900000) + 100000);
+									//req.session.token_sales = token_sales;
+									//var dados_atualizados = {};
+									//dados_atualizados.status_pagarme = "paid";
+									//dados_atualizados.clearsale_id = req.session.id_clearsale;
+									//dados_atualizados.status_clearsale = req.session.status_clearsale;
+									//var apiVendas = new servicoSales(app.locals.token_api);
+									//apiVendas.atualizar(req.session.id_marketplace, dados_atualizados);
+									
+									if (tmp_pedido.tipo=="Boleto"){
+										res.render("pagamento/boleto", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
+									} else {
+										res.render("pagamento/finalizar", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
+										//res.render("pagamento/aguardando", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
+									}		
+									
+									
+							}).catch(function (erro3){
+								console.log('*** 1 ****');
+								console.log(erro3.stack);
+								res.redirect("/erro/500");
+							});	
 								
-							//Apagando o carrinho!
-							var dados_carrinho = req.session.carrinho;
-							req.session.carrinho = "";
-							req.session.total_carrinho = 0; 
-							req.session.id_clearsale = "";
 							
 							
 							
-							//ESSE E O EMAIL PARA QUANDO HOUVER CAPTURA
-							var envioEmail = new servicoEmail();
-							var dados_email ={};
-							dados_email.nome = req.session.cliente.nome;
-							dados_email.tabela = montarTabelaPedido(dados_carrinho);
-							dados_email.pedido = "";
-							dados_email.token = "";
-							dados_email.data = "";
-							dados_email.hora = "";
-							dados_email.loja = "";
-							dados_email.shopping = "";
-							dados_email.QRCODE = "";
-							envioEmail.pagamentoCartaoCaptura(req.session.cliente.email,dados_email);
-							
-							
-							//Gerar o token, atualizar sales transaction....
-							//var token_sales = (Math.floor(Math.random()*900000) + 100000);
-							//req.session.token_sales = token_sales;
-							//var dados_atualizados = {};
-							//dados_atualizados.status_pagarme = "paid";
-							//dados_atualizados.clearsale_id = req.session.id_clearsale;
-							//dados_atualizados.status_clearsale = req.session.status_clearsale;
-							//var apiVendas = new servicoSales(app.locals.token_api);
-							//apiVendas.atualizar(req.session.id_marketplace, dados_atualizados);
-							
-							if (tmp_pedido.tipo=="Boleto"){
-								res.render("pagamento/boleto", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
-							} else {
-								res.render("pagamento/finalizar", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
-								//res.render("pagamento/aguardando", {pagarme: tmp_pedido, nome: req.session.cliente.nome, email: req.session.cliente.email, pedido: pedido, resultados: dados_carrinho,moment: moment});
-							}		
 							
 						} else {
 							//Se a transacao foi cartao, autorizou e nao retornou paid, algo ocorreu...
@@ -362,6 +384,11 @@ module.exports = function (app){
 								var dados_email ={};
 								dados_email.nome = req.session.cliente.nome;
 								dados_email.tabela = montarTabelaPedido(dados_carrinho);
+								var tmp_total = 0;
+								for (index = 0; index < dados_carrinho.length; ++index) {
+									tmp_total += parseFloat((dados_carrinho[index].por) * parseFloat(dados_carrinho[index].qtde));
+								}
+								dados_email.total = tmp_total;
 								envioEmail.pagamentoCartaoReprovado(req.session.cliente.email,dados_email);
 								res.render("pagamento/erro");
 							} else {
@@ -408,6 +435,11 @@ module.exports = function (app){
 					var dados_email ={};
 					dados_email.nome = req.session.cliente.nome;
 					dados_email.tabela = montarTabelaPedido(dados_carrinho);
+					var tmp_total = 0;
+					for (index = 0; index < dados_carrinho.length; ++index) {
+						tmp_total += parseFloat((dados_carrinho[index].por) * parseFloat(dados_carrinho[index].qtde));
+					}
+					dados_email.total = tmp_total;
 					envioEmail.pagamentoCartaoAguardando(req.session.cliente.email,dados_email);
 					
 					if (tmp_pedido.tipo=="Boleto"){
@@ -453,6 +485,12 @@ module.exports = function (app){
 				var dados_email ={};
 				dados_email.nome = req.session.cliente.nome;
 				dados_email.tabela = montarTabelaPedido(dados_carrinho);
+				var tmp_total = 0;
+				for (index = 0; index < dados_carrinho.length; ++index) {
+					tmp_total += parseFloat((dados_carrinho[index].por) * parseFloat(dados_carrinho[index].qtde));
+				}
+				dados_email.total = tmp_total;
+				console.log(dados_email);
 				envioEmail.pagamentoBoleto(req.session.cliente.email,dados_email);
 					
 				if (tmp_pedido.tipo=="Boleto"){
@@ -828,8 +866,10 @@ module.exports = function (app){
 	
 	app.get("/pagamento/teste1", function(req,res){
 		var apiPagarme = new servicoPagarme();
-		apiPagarme.listarPostbacks(2424079).then(function (resultados) {
-			apiPagarme.enviarUltimoPostback(2424079, resultados.dados).then(function (resultados2) {
+		//var numero = "2424079";
+		var id_pagarme = "2435103";
+		apiPagarme.listarPostbacks(id_pagarme).then(function (resultados) {
+			apiPagarme.enviarUltimoPostback(id_pagarme, resultados.dados).then(function (resultados2) {
 				console.log(resultados2);
 				console.log('sucesso');
 			}).catch((err2) => {
