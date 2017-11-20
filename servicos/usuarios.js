@@ -106,12 +106,12 @@ usuariosAPI.prototype.atualizar = function(dados_do_cliente){
 	console.log(dados_do_cliente);
 	return rp(opcoes).then((data, res) => {
 		var dados = data;
-		console.log('sucesso');
+		console.log('sucesso atualizar');
 		console.log(data);
 		resposta = {"resultado":"OK", "id": data._id};	
 		return resposta;
 	}).catch((err) => {
-		console.log('erro');
+		console.log('erro atualizar');
 		console.log(err.stack);
 		resposta = {"resultado":"ERRO", "id": "0"};	
 		return resposta;

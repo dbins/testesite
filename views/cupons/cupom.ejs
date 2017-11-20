@@ -62,6 +62,10 @@
 		 %>
          <input type="button" class="classe_botao_cupom"  onclick="window.open('<%=resultado.url%>', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');" value=" Gerar Cupom ">         
 		 <%
+		 } else {
+		 %>
+		 <input type="button" class="classe_botao_cupom"  onclick="document.location.href='/lojas/loja/<%=resultado.store%>'" value=" Ir para a loja ">
+		 <%
 		 }
 		 %>
    	</form>

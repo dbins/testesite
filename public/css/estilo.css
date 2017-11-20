@@ -1531,13 +1531,14 @@ nav{ width:100%; height:70px;}
 .log{ float: left;    margin-left:12%;  }
 label{ padding:0; height:40px;}
 .filtro{ padding:10px}
-.online div:nth-child(1){ width:100%; padding:0 15px;}
+.online div:nth-child(1){ width:100%; padding:0 15px; display:none}
 .online div:nth-child(2){ width:100%;}
 .online div:nth-child(3){ width:100%; padding: 0 10px;}
 .online div:nth-child(4){ width:100%;}
 .online input[type="text"]{ width:40%}
 select{ margin:0; width:100%}
-
+#ccp{ display:none}
+body{ padding:55px 0 0 0}
 .lojafilter div:nth-child(1), .lojafilter div:nth-child(2), .lojafilter div:nth-child(3){ width:100%; padding:0}
 .prods h3{ font-size:20px;}
 
@@ -1558,6 +1559,9 @@ ul.rodape li a{ padding:15px 10px; float:left; width:50%;}
 .order, .token{ width:100%; margin:5px 0}
 .carrinho{width:470px; }
 #erro{ width:100%;}
+
+
+
 
 }
 

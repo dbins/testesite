@@ -25,7 +25,11 @@ var xml2js = require('xml2js');
 //Aplicação:
 //https://aplicacao.clearsale.com.br/Login.aspx
 
-
+//Os valores estao vindo no formato Pagarme, converter para valores com 2 casas
+function formatarNumero(numero){
+	var formatado = parseFloat(numero)/100;
+	return formatado.toFixed(2);
+}
 
 var clearSaleAPI = function () {
 	this.url = "http://homologacao.clearsale.com.br/integracaov2/service.asmx?WSDL";
@@ -174,19 +178,19 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 	//7 - Aura
 	
 	var tipo_pagamento = 2;
-	if (dados_pedido.tipo_pagamento == "Cartão de Crédito"){
-		var tipo_pagamento = 1;	
+	if (dados_pedido.tipo_pagamento == "boleto"){
+		tipo_pagamento = 2;	
+	} else {
+		tipo_pagamento = 1;	
 	}
 	
 	var objetoDetalhesPagamento = {
 		//"Sequential": "", //Sequência de realização do pagamento
 		"Date": moment.utc().toISOString(), //Data do pagamento (yyyy-mm-ddThh:mm:ss)
-		"Amount": "10", //Valor cobrado neste pagamento
+		"Amount": formatarNumero(dados_pedido.total), //Valor cobrado neste pagamento
 		"PaymentTypeID": tipo_pagamento, //Tipo de Pagamento (Lista de Tipos de Pagamento) (PODE SER 2 PARA BOLETO E 1 PARA CARTAO)
 		
-		
-		
-		//"QtyInstallments": "", //Quantidade de Parcelas
+		"QtyInstallments": dados_pedido.parcelas, //Quantidade de Parcelas
 		//"Interest": "", //Taxa de Juros
 		//"InterestValue": "", //Valor dos Juros
 		//"CardNumber": "", //Número do Cartão
@@ -209,10 +213,13 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 	
 	//Gerar 1 para cada item do carrinho!
 	for (index = 0; index < dadosCompra.length; ++index) {
+		
+		var valor_unitario = parseFloat(dadosCompra[index].total_price) / parseFloat(dadosCompra[index].quantity);
 		var objetoItem = {
 			"ID": dadosCompra[index].slug, //Código do Produto
 			"Name": dadosCompra[index].product, //Nome do Produto
-			"ItemValue": dadosCompra[index].total_price, //Valor Unitário
+			//"ItemValue": formatarNumero(dadosCompra[index].total_price), //Valor Unitário
+			"ItemValue": formatarNumero(valor_unitario), //Valor Unitário
 			"Qty": dadosCompra[index].quantity, //Quantidade
 			//"Gift": "", //Presente
 			//"CategoryID": "", //Código da Categoria do Produto
@@ -281,13 +288,13 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 		"Date": moment.utc().toISOString(), //Data do pedido (yyyy-mm-ddThh:mm:ss)
 		"Email": dadosCliente.email, //Email do pedido
 		"B2B_B2C": "B2C", //Tipo do ecommerce
-		//"ShippingPrice": "", //Valor do Frete
+		"ShippingPrice": "0", //Valor do Frete
 
 		//Creio que estes dois devem ter o mesmo valor	
-		"TotalItems": dados_pedido.total, //Valor do Itens
-		"TotalOrder": dados_pedido.total, //Valor Total do Pedido
+		"TotalItems": formatarNumero(dados_pedido.total), //Valor do Itens
+		"TotalOrder": formatarNumero(dados_pedido.total), //Valor Total do Pedido
 
-		"QtyInstallments": "1", //Quantidade de Parcelas
+		"QtyInstallments": dados_pedido.parcelas, //Quantidade de Parcelas
 		//"DeliveryTimeCD": "", //Prazo de Entrega
 		//"QtyItems": "", //	Quantidade de Itens
 		//"QtyPaymentTypes": "", //Quantidade de Pagamentos
@@ -363,7 +370,7 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 			//console.log(body);
 			
 			//Descomente a linha abaixo para ver qual foi o XML enviado...
-			//console.log(client.lastRequest);
+			console.log(client.lastRequest);
 			//console.log(client.lastResponse);
 			if (err){
 				//console.log(err);

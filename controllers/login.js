@@ -178,7 +178,7 @@ module.exports = function (app){
 		//Gravando o cliente na sessao para gravar antes de finalizar a compra
 		var cliente = {};
 		var id = objectid(); //Nao gera id automatico ao gravar
-		cliente.id = id;
+		cliente.id = 0;
 		var CPF = req.body.CPF;
 		if (!CPF==""){
 			CPF = CPF.replace(".", "");
@@ -244,7 +244,8 @@ module.exports = function (app){
 			dados_do_cliente.opt_in = "true";	
 			var apiUsuario = new servicoUsuario(app.locals.token_api);
 			var consulta = apiUsuario.gravar(dados_do_cliente).then(function (resultados) {
-				
+			
+				req.session.cliente.id = resultados.id; //ID API USER
 				var tmp1 = dados_do_cliente.firstname;
 				var tmp2 = dados_do_cliente.lastname;
 				req.session.usuario = dados_do_cliente.firstname + ' ' +  dados_do_cliente.lastname;

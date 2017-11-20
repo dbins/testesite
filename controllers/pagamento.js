@@ -129,6 +129,8 @@ module.exports = function (app){
 		//dados_do_cliente.password = req.session.cliente.senha; // 
 		//Por enquanto gravar o usuário aqui
 		if (req.session.cliente.novo){
+			console.log('----- teste1 -----');
+			
 			if (app.locals.token_api == ""){
 				//Houve um erro, nao houve comunicacao para gerar token
 			} else {
@@ -150,18 +152,20 @@ module.exports = function (app){
 					//}).catch(function (erro2){
 						//ERRO
 					//});
+					console.log('--a1--');
 				}).catch(function (erro){
+					console.log('--e1---');
 					console.log(erro.stack);
 					//ERRO
 				});
 				
 			}
 		} else {
+			console.log('----- teste2 -----');
 			//Fazer o update
 			dados_do_cliente._id = req.session.cliente.id;
 			//dados_do_cliente.password = req.session.cliente.senha2;
-			//dados_do_cliente.password = req.session.cliente.senha;
-			
+			dados_do_cliente.password = req.session.cliente.senha;
 			dados_do_cliente.middlename = "";
 			dados_do_cliente.country =  "BR";
             dados_do_cliente.opt_in = req.session.cliente.opt_in;
@@ -170,10 +174,14 @@ module.exports = function (app){
             dados_do_cliente.favorite_products = req.session.cliente.favorite_products;
             dados_do_cliente.favorite_stores = req.session.cliente.favorite_stores;
 			
+			console.log(dados_do_cliente);
+			
 			var apiUsuario = new servicoUsuario(app.locals.token_api);
 			var consulta = apiUsuario.atualizar(dados_do_cliente).then(function (resultados) {
+				console.log('--a2--');
 				//Sucesso	
 			}).catch(function (erro){
+				console.log('--e2--');
 				console.log(erro.stack);
 				//ERRO
 			});

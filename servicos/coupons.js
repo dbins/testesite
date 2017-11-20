@@ -33,7 +33,7 @@ couponsAPI.prototype.config = function(){
 		this.total_registros = JSON.parse(data).total;
 		this.paginasAPI();
 	}).catch((err) => {
-		
+		console.log(err.stack);
 	});	
 }
 
@@ -57,6 +57,7 @@ couponsAPI.prototype.list = function(){
 		return resposta;
 		
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO DE COMUNICACAO 3", "dados":{}};	
 		return resposta;
 	});
@@ -87,6 +88,7 @@ couponsAPI.prototype.paginacao = function(pagina){
 		resposta = {"resultado":"OK", "dados": JSON.parse(data)};	
 		return resposta;
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO DE COMUNICACAO 2", "dados":{}};	
 		return resposta;
 	});
@@ -102,6 +104,7 @@ couponsAPI.prototype.view = function(registro){
 		resposta = {"resultado":"OK", "dados": JSON.parse(data), "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
 		return resposta;
 	});
@@ -135,6 +138,7 @@ couponsAPI.prototype.listGQL = function(){
 		resposta = {"resultado":"OK", "dados": resultados, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
 		return resposta;
 	});
@@ -161,6 +165,7 @@ couponsAPI.prototype.listGQLStore = function(loja){
 		resposta = {"resultado":"OK", "dados": resultados, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
 		return resposta;
 	});
@@ -183,6 +188,7 @@ couponsAPI.prototype.viewGQL = function(registro){
 		resposta = {"resultado":"OK", "dados": tmp.data.coupon, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
 		return resposta;
 	});
@@ -207,7 +213,7 @@ couponsAPI.prototype.montarGQL = function(resultados){
 			slug_Shopping = obj.mall.slug;
 		}
 		if (obj.store){
-			nome_da_Loja = obj.store.real_name||obj.store.title||obj.store.fantasy_name;
+			nome_da_Loja = obj.store.fantasy_name||obj.store.title||obj.store.real_name;
 			slug_Loja = obj.store.slug;
 		}
 		
@@ -232,10 +238,14 @@ couponsAPI.prototype.montarGQL = function(resultados){
 				categoria = obj.store.category.slug;
 			}
 		}
+		var url = "";
+		if (obj.url){
+			url = obj.url;
+		}
 		
 		var desconto = classe_atual.cupomDesconto(obj);
 		var favorito = "NAO";
-		var item = {"id": obj._id,"url_title": obj.slug, "promocao":obj.promotion, "desconto":desconto, "imagem":imagem, "cupom":obj.title, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "descricao": obj.detailed_descrition, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja,  "categoria": categoria, "favorito": favorito, "url": obj.url};
+		var item = {"id": obj._id,"url_title": obj.slug, "promocao":obj.promotion, "desconto":desconto, "imagem":imagem, "cupom":obj.title, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "descricao": obj.detailed_descrition, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja,  "categoria": categoria, "favorito": favorito, "url": url};
 		retorno.push(item);
 		
 	});
@@ -254,7 +264,7 @@ couponsAPI.prototype.montarCupomGQL = function(obj){
 		slug_Shopping = obj.mall.slug;
 	}
 	if (obj.store){
-		nome_da_Loja = obj.store.real_name||obj.store.title||obj.store.fantasy_name;
+		nome_da_Loja = obj.store.fantasy_name||obj.store.title||obj.store.real_name;
 		slug_Loja = obj.store.slug;
 	}
 			
@@ -282,9 +292,15 @@ couponsAPI.prototype.montarCupomGQL = function(obj){
 			categoria = obj.store.category.slug;
 		}
 	}
+	
+	var url = "";
+	if (obj.url){
+		url = obj.url;
+	}
+	
 	var desconto = this.cupomDesconto(obj);
 	var favorito = "NAO";
-	var item = {"id": obj._id,"url_title": obj.slug, "promocao":obj.promotion, "desconto":desconto, "imagem":imagem, "cupom":obj.title, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja, "descricao": obj.detailed_descrition, "categoria": categoria, "favorito": favorito, "url": obj.url};
+	var item = {"id": obj._id,"url_title": obj.slug, "promocao":obj.promotion, "desconto":desconto, "imagem":imagem, "cupom":obj.title, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja, "descricao": obj.detailed_descrition, "categoria": categoria, "favorito": favorito, "url": url};
 	return item;
 }
 
@@ -352,7 +368,7 @@ couponsAPI.prototype.listaLojas = function(resultados){
 			slug_Shopping = obj.mall.slug;
 		}
 		if (obj.store){
-			nome_da_Loja = obj.store.real_name||obj.store.title||obj.store.fantasy_name;
+			nome_da_Loja = obj.store.fantasy_name||obj.store.title||obj.store.real_name;
 			slug_Loja = obj.store.slug;
 		}
 		var adicionar = true;
@@ -393,6 +409,7 @@ couponsAPI.prototype.listGQLShopping = function(shopping){
 		resposta = {"resultado":"OK", "dados": resultados, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
 		return resposta;
 	});
