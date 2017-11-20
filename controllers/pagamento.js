@@ -95,6 +95,16 @@ module.exports = function (app){
 		endereco.cep = req.body.CEP;
 		req.session.endereco = endereco;
 		
+		//FERIADO
+		req.session.cliente.endereco = req.body.endereco;
+		req.session.cliente.bairro = req.body.bairro;
+		req.session.cliente.cidade = req.body.cidade;
+		req.session.cliente.estado = req.body.estado;
+		req.session.cliente.pais = "BR";
+		req.session.cliente.numero = req.body.numero;
+		req.session.cliente.cep = req.body.CEP;
+		req.session.cliente.complemento =  req.body.complemento;
+		
 		
 		var dados_do_cliente = {};
 		var id = objectid();
@@ -116,7 +126,7 @@ module.exports = function (app){
 		dados_do_cliente.phone = req.session.cliente.telefone;
 		dados_do_cliente.email = req.session.cliente.email;
 		//A senha é criptograda automaticamente pelo servico!
-		dados_do_cliente.password = req.session.cliente.senha;
+		//dados_do_cliente.password = req.session.cliente.senha; // 
 		//Por enquanto gravar o usuário aqui
 		if (req.session.cliente.novo){
 			if (app.locals.token_api == ""){
@@ -535,7 +545,7 @@ module.exports = function (app){
 		var fingerprint = req.session.fingerprint;
 		var dados_pedido = {};
 		dados_pedido.numero_pedido = req.session.id_marketplace; //ID SALESTRANSACTION
-		dados_pedido.total = req.session.total_carrinho;
+		dados_pedido.total = total_carrinho; //FERIADO
 		dados_pedido.parcelas = req.session.parcelas;
 		dados_pedido.tipo_pagamento = req.session.tipo_pagamento;
 		var dados_cliente = req.session.cliente;
@@ -569,7 +579,13 @@ module.exports = function (app){
 			dados_cliente.aniversario = "1970-01-01";
 		}
 		
+		console.log('dados do pedido clearsale!');
+		console.log(dados_pedido);
+		
 		api_clearsale.sendOrders(dados_cliente, dadosCompra, fingerprint, dados_pedido).then(function (resultados) {
+			
+			
+			console.log('voltando da clearsale...');
 			//Se for retorno APA, entao capturar...
 			//Precisa capturar o retorno....
 			//req.session.carrinho = "";
@@ -597,12 +613,17 @@ module.exports = function (app){
 				api_clearsale.GetOrderStatus(req.session.id_marketplace).then(function (resultados) {
 					console.log('segunda consulta ClearSale...');
 					//TUDO MUDOU PARA OUTRA ROTA!
+					console.log('saindo da rota...');
 					res.redirect("/pagamento/concluido");
 				}).catch(function (erro4){
 					console.log(erro4.stack);
 					res.redirect("/erro/500");
 				});						
 					
+			} else {
+				//FERIADO - Retornou algum status de problema, nao deve ter gravado... Prosseguir mesmo assim
+				console.log('saindo da rota 2...');
+				res.redirect("/pagamento/concluido");
 			}
 			
 			var min = 10000;

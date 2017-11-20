@@ -95,7 +95,7 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 	};
 	
 	var tmp_gender = "";
-	if (dadosCliente.genero=="MALE"){
+	if (dadosCliente.genero=="male"){
 		tmp_gender = "M";
 	} else {
 		tmp_gender = "F";
@@ -361,6 +361,8 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 			//Validar o XML gerado
 			//console.log('body');
 			//console.log(body);
+			
+			//Descomente a linha abaixo para ver qual foi o XML enviado...
 			//console.log(client.lastRequest);
 			//console.log(client.lastResponse);
 			if (err){
@@ -397,8 +399,19 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 			
 			//convertendo a string XML em JSON
 			parseString(result.SendOrdersResult, function (err, result) {
-				//console.log(result);
-				//var resultados = JSON.stringify(result);
+				if (err){
+					console.log('erro 2');
+					console.log(err.code);
+					console.log(err.message);
+					console.log(err.stack);
+					//Forcando uma resposta para nao travar o processo de compra...
+					var objeto_resposta = {"id": "0", "status": "ERR"};
+					resolve(objeto_resposta);
+				}
+				
+				console.log('sucesso 2');
+				console.log(result);
+				var resultados = JSON.stringify(result);
 				var resultados = result;
 				//Esses dados sao do PACOTE, que pode ter de 1 a 10 transacoes
 				//console.log(resultados.PackageStatus.TransactionID[0]);  //IMPORTANTE
@@ -423,13 +436,18 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 				//CAN - (Cancelado pelo Cliente) – Cancelado por solicitação do cliente ou duplicidade do pedido.
 				//FRD - (Fraude Confirmada) – Pedido imputado como Fraude Confirmada por contato com a administradora de cartão e/ou contato com titular do cartão ou CPF do cadastro que desconhecem a compra
 				
+				console.log('sucesso 3');
 				//Se ocorrer algum erro este campo nao vai existir
 				if (resultados.PackageStatus.Orders){
+					console.log('sucesso 4');
 					var orders = resultados.PackageStatus.Orders;
+					console.log('sucesso 5');
 					orders.forEach(function(order) { 
+							console.log('sucesso 6');
 							//console.log(order);
 							var tmp_order = order.Order;
 							tmp_order.forEach(function(item) { 
+								console.log('sucesso 7');
 								//console.log(item);
 								//console.log(item.ID[0]); //ID DA TRANSACAO EM NOSSO SISTEMA
 								//console.log(item.Status[0]);  //STATUS NO SISTEMA CLEARSALE
@@ -440,6 +458,25 @@ clearSaleAPI.prototype.sendOrders = function(dadosCliente, dadosCompra, fingerpr
 								resolve(objeto_resposta);
 						});
 					});
+				} else {
+					//Codigos de erro do PACOTE
+					//Codigo - Descricao - Reenviar
+					//00 - Transação Concluída N
+					//01 - Usuário Inexistente N
+					//02 - Erro na validação do XML - S
+					//03 - Erro ao transformar XML - S
+					//04 - Erro Inesperado - S
+					//05 - Pedido já enviado ou não está em reanalise - S
+					//06 - Erro no Plugin de Entrada - S
+					//07 - Erro no Plugin de Saída - N
+					
+					console.log('Houve retorno da ClearSale, mas acusou problema...');
+					console.log('codigo da transacao com problema:' + resultados.PackageStatus.TransactionID[0]);  //IMPORTANTE
+					console.log('status do pacote da transacao com problema:' + resultados.PackageStatus.StatusCode[0]); //IMPORTANTE
+					console.log('mensagem ClearSale ' + resultados.PackageStatus.Message[0]);
+					//Forcando uma resposta para nao travar o processo de compra...
+					var objeto_resposta = {"id": "0", "status": "ERR"};
+					resolve(objeto_resposta);
 				}
 			});
 			

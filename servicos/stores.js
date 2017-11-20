@@ -7,7 +7,7 @@ function storesAPI (shopping_selecionado) {
 	this.limite = 10;
 	this.total_registros = 0;
 	this.posicao = 0;
-	this.config();
+	//this.config();
 	this.metodo = "stores";
 	this.favoritos = [];
 	this.api_nome_do_shopping = '';
@@ -34,7 +34,7 @@ storesAPI.prototype.config = function(){
 		this.total_registros = JSON.parse(data).total;
 		this.paginasAPI();
 	}).catch((err) => {
-		
+		console.log(err.stack);
 	});	
 }
 
@@ -58,6 +58,7 @@ storesAPI.prototype.list = function(){
 		return resposta;
 		
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO DE COMUNICACAO 3", "dados":{}};	
 		return resposta;
 	});
@@ -88,6 +89,7 @@ storesAPI.prototype.paginacao = function(pagina){
 		resposta = {"resultado":"OK", "dados": JSON.parse(data)};	
 		return resposta;
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO DE COMUNICACAO 2", "dados":{}};	
 		return resposta;
 	});
@@ -103,6 +105,7 @@ storesAPI.prototype.view = function(registro){
 		resposta = {"resultado":"OK", "dados": JSON.parse(data), "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
 		return resposta;
 	});
@@ -118,7 +121,9 @@ storesAPI.prototype.listGQL = function(){
 	
 	
     const q_images= `images{path, type, order}`;
-	var query = `query={stores ${q_filtro_mall}{ _id slug real_name fantasy_name title phone description floor pagarme_id tax on_stores_status ${q_mall}  ${q_category} ${q_images} }}`;
+	const q_logo= `logo {path, type, order}`;
+	const q_image= `image {path, type, order}`;
+	var query = `query={stores ${q_filtro_mall}{ _id slug real_name fantasy_name title phone description floor pagarme_id tax on_stores_status ${q_mall}  ${q_category} ${q_images} ${q_image} ${q_logo}}}`;
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -135,6 +140,7 @@ storesAPI.prototype.listGQL = function(){
 		resposta = {"resultado":"OK", "dados": resultados, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
 		return resposta;
 	});
@@ -160,7 +166,7 @@ storesAPI.prototype.montarGQL = function(resultados){
 			nome_da_Loja = obj.fantasy_name||obj.title||obj.real_name;
 			slug_Loja = obj.slug;
 			
-			
+			var logo = "/imagens/lojas-padrao.jpg";
 			var imagem = "/imagens/lojas-padrao.jpg";
 			var img_principal = false;
 			for (i = 0; i < obj.images.length; i++) { 
@@ -177,12 +183,16 @@ storesAPI.prototype.montarGQL = function(resultados){
 				}	
 			}
 			
+			if (obj.logo){
+				logo = obj.logo.path;
+			}
+			
 			var categoria = "";
 			if (obj.category){
 				categoria = obj.category.slug;
 			}
 			var favorito = "NAO";
-			var item = {"id": obj._id,"url_title": obj.slug, "imagem":imagem,  "loja":nome_da_Loja, "shopping":nome_do_Shopping, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja, "categoria": categoria, "favorito": favorito};
+			var item = {"id": obj._id,"url_title": obj.slug, "imagem":imagem,  "loja":nome_da_Loja, "shopping":nome_do_Shopping, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja, "categoria": categoria, "favorito": favorito, "logo": logo};
 			retorno.push(item);
 		}	
 	});
@@ -191,7 +201,7 @@ storesAPI.prototype.montarGQL = function(resultados){
 
 storesAPI.prototype.viewGQL = function(registro){
 	
-	var query = 'query={store(id:"' + registro  + '"){ _id slug real_name fantasy_name title phone description floor pagarme_id tax on_stores_status category{slug,name} mall{_id, slug, domain, name} images{path, type, order}}}';
+	var query = 'query={store(id:"' + registro  + '"){ _id slug real_name fantasy_name title phone description floor pagarme_id tax on_stores_status category{slug,name} mall{_id, slug, domain, name} images{path, type, order} image{path, type, order} logo{path, type, order}}}';
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -206,6 +216,7 @@ storesAPI.prototype.viewGQL = function(registro){
 		resposta = {"resultado":"OK", "dados": tmp.data.store, "status": "OK"};	
 		return resposta;
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
 		return resposta;
 	});
@@ -226,6 +237,7 @@ storesAPI.prototype.montarLojaGQL = function(obj){
 	
 	
 	var imagem = "/imagens/lojas-padrao.jpg";
+	var logo = "/imagens/lojas-padrao.jpg";
 	var img_principal = false;
 	for (i = 0; i < obj.images.length; i++) { 
 		if (obj.images[i].type == "main"){
@@ -240,15 +252,23 @@ storesAPI.prototype.montarLojaGQL = function(obj){
 			}
 		}	
 	}
+	
+	if (obj.logo){
+		logo = obj.logo.path;
+	}
+	
 	var telefone = obj.phone;  
 	var piso = obj.floor;
-	var descricao = obj.description;
+	var descricao = "";
+	if (obj.description){
+		var descricao = obj.description;
+	}
 	var categoria = "";
 	if (obj.category){
 		categoria = obj.category.slug;
 	}
 	var favorito = this.lojaFavorito(obj.slug);
-	var item = {"id": obj._id,"url_title": obj.slug, "imagem":imagem,  "loja":nome_da_Loja, "shopping":nome_do_Shopping, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja, "categoria": categoria, "favorito": favorito, "telefone": telefone, "piso": piso, "descricao": descricao};
+	var item = {"id": obj._id,"url_title": obj.slug, "imagem":imagem,  "loja":nome_da_Loja, "shopping":nome_do_Shopping, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja, "categoria": categoria, "favorito": favorito, "telefone": telefone, "piso": piso, "descricao": descricao, "logo": logo};
 	return (item);
 }
 

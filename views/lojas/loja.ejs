@@ -6,7 +6,7 @@
         <aside class="bannerint">
         	<img src="/imagens/banner-loja.jpg" class="img" title="<%=resultados.loja%>">
            <!-- <section>Lojas</section>-->
-            <div class="thumb"><img src="/imagens/thumb-loja2.jpg" class="img"> </div>
+            <div class="thumb"><img src="<%=resultados.imagem%>" class="img"> </div>
         </aside> <!--banner-->
    
   <article id="conteudo" class="pad">
@@ -15,7 +15,7 @@
     <section id="sobre">
     	 <h2><img src="/imagens/icon-fone.jpg" width="39" height="39"> 011 <%=resultados.telefone%></h2>
          
-    		<img src=" <%=resultados.imagem%>" class="img" title=""> 
+    		<img src="<%=resultados.logo%>" class="img" title=""> 
     		<h3>Sobre a marca</h3>
             <%=resultados.descricao%>
             
@@ -138,7 +138,9 @@
    %>	
        
        <div class="clear"></div><br><br>
+	   <!---
        <a href="" class="botao">Carregar mais</a>
+	   --->
                
     <div class="clear"></div>
     </div><!--MORE-->

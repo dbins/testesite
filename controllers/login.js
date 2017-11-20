@@ -165,6 +165,7 @@ module.exports = function (app){
 				}
 				
 			}).catch(function (erro){
+				console.log(erro.stack);
 				res.render("login/index", {mensagem: "Houve um erro ao efetuar esta consulta"});
 			});
 			

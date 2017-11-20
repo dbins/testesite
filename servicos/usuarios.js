@@ -47,6 +47,7 @@ usuariosAPI.prototype.consultar = function(cpf){
 	}
 	
 	return rp(opcoes).then((data, res) => {
+		console.log('verificando se o usuario existe....');
 		console.log(data);
 		var dados = JSON.parse(data);
 		if (dados.data.length == 0){
@@ -56,6 +57,7 @@ usuariosAPI.prototype.consultar = function(cpf){
 		}
 		return resposta;
 	}).catch((err) => {
+		console.log(err.stack);
 		resposta = {"resultado":"ERRO", "dados": []};	
 		return resposta;
 	});
