@@ -1,5 +1,22 @@
 <% layout("../layout/index") -%>
 <% block("title", "ON Market Place | Cupons " + nome_do_shopping_barra_titulo + " | " + resultado.cupom); -%>
+<style type="text/css">
+.classe_botao_cupom {
+	background-color: #9966CC;
+    width: 80%;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-family: 'Lora', serif;
+    font-style: italic;
+    margin: 8% 10%;
+}
+	
+
+</style>
 <div class="full">
     
   <article id="conteudo">
@@ -26,9 +43,11 @@
      	<div class="preco">
 		    <%
 			if (resultado.de == resultado.por){
+				if (parseInt(resultado.por)>0) {
 			%>	
 				<span class="por">R$ <%=resultado.por%></span>
 			<%
+				}
 			} else {
 			%>
 				<span class="de">De R$ <%=resultado.de%></span>
@@ -38,7 +57,13 @@
 			%>
          </div> 
          <br><br>
-         <input type="submit" value=" Gerar Cupom ">         
+		 <%
+		 if (resultado.url != ""){
+		 %>
+         <input type="button" class="classe_botao_cupom"  onclick="window.open('<%=resultado.url%>', '_blank', 'location=yes,height=570,width=520,scrollbars=yes,status=yes');" value=" Gerar Cupom ">         
+		 <%
+		 }
+		 %>
    	</form>
    </div><!--info-->
     
@@ -48,8 +73,7 @@
      
      
      	<h2>Descrição do Cupom</h2>
-        <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.</p>
-        <p>Lorem Ipsum é simplesmente uma simulação de texto da indústria tipográfica e de impressos, e vem sendo utilizado desde o século XVI, quando um impressor desconhecido pegou uma bandeja de tipos e os embaralhou para fazer um livro de modelos de tipos. Lorem Ipsum sobreviveu não só a cinco séculos, como também ao salto para a editoração eletrônica, permanecendo essencialmente inalterado. Se popularizou na década de 60, quando a Letraset lançou decalques contendo passagens de Lorem Ipsum, e mais recentemente quando passou a ser integrado a softwares de editoração eletrônica como Aldus PageMaker.</p>
+        <%=resultado.descricao%>
   
         
      </section>
@@ -65,6 +89,7 @@
            <% 
 		   if (relacionados.length>0){
 				relacionados.forEach(function(produto) { 
+				if (produto.url_title != resultado.url_title){
 		   %> 
 		   <a href="/cupons/<%=produto.url_title%>" class="prods"  data-nome="<%=produto.cupom%>" data-categoria="<%=produto.categoria%>" data-valor="<%=produto.por%>" data-tipo="promocao" data-loja="<%=produto.store%>">
 				<section>
@@ -85,9 +110,11 @@
 					<div class="valor">
 						<%
 						if (produto.de == produto.por){
+							if (parseInt(produto.por)>0) {
 						%>
 						<span class="por">R$ <%=produto.por%></span>
 						<%
+							}
 						} else {
 						%>
 						<span class="de">De R$ <%=produto.de%></span>
@@ -100,10 +127,10 @@
 			   </section>  
 		   </a> 
 		   <%
+				}
 		   });
 		   } else {
 		   %>
-		   
 		   <h3>Não existem cupons!</h3>
 		   <%
 		   }

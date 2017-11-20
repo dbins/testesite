@@ -87,9 +87,11 @@
             <div class="valor">
 				<%
 				if (produto.de == produto.por){
+					if (parseInt(produto.por)>0) {
 				%>
 				<span class="por">R$ <%=produto.por%></span>
             	<%
+					}
 				} else {
 				%>
 				<span class="de">De R$ <%=produto.de%></span>

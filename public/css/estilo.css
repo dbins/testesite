@@ -318,7 +318,7 @@ ul.dropdown2 li:hover > ul { visibility: visible; }
 .mall:hover{ text-decoration:none}
 
 /*========================Lojas online=======================*/
-.filtro{ float:left; padding:50px 70px; width:100%; font-weight:bold; font-style:italic;}
+.filtro{ float:left; padding:50px 30px; width:100%; font-weight:bold; font-style:italic;}
 .fgrey{	background-color: #F1F1F1;}
 .online div{ padding:5px; float:left}
 .online input[type="text"]{	border: 1px solid #242424; width:95px;  padding:15px; float:left; 
@@ -688,8 +688,9 @@ margin:5px;  font-family: "Droid Sans";}
 
 .total{ float:left; padding:10px;  width:30%;}
 .total label{ float:left; width:50%; 	font-family: "Droid Sans"; color:#333;	font-weight: bold; padding:18px 0; 	font-size: 18px; text-align:center; cursor:default }
-.total input[type="text"]{	border: 1px solid #333333; 	background-color: #333333;  color:#fff; padding:15px 10px; text-align:center; 	font-family: Lora; font-weight: bold;font-style: italic; width:50%; 	font-size: 20px;}
-.total input[type="submit"]{	background-color: #9966CC; color:#fff; 	font-size: 20px; text-align:center; border:none; float:left; width:100%; padding:15px 10px; 	font-style: italic; 	font-weight: bold; font-family: 'Lora', serif; margin:50px 0 0 0; cursor:pointer; -webkit-appearance: none;}
+.total input[type="text"]{	border: 1px solid #333333; 	background-color: #333333;  color:#fff; padding:15px 10px; text-align:center; 	font-family: Lora; font-weight: bold;font-style: italic; width:50%; 	font-size: 20px; -webkit-appearance: none;}
+.total input[type="submit"]{	background-color: #9966CC; color:#fff; 	font-size: 20px; text-align:center; border:none; float:left; width:100%; padding:15px 10px; 	font-style: italic; 	font-weight: bold; font-family: 'Lora', serif; margin:50px 0 0 0; cursor:pointer; -webkit-appearance: none; -moz-appearance: none;
+appearance: none;}
 input {
 -webkit-appearance: none;
 -moz-appearance: none;
@@ -972,12 +973,11 @@ ul.rodape li:hover > ul { visibility: visible; }
 .cup div{ padding:5px; float:left}
 .cup input[type="text"]{	border: 1px solid #242424; width:95px;  padding:15px; float:left; 
 margin:5px;  font-family: "Droid Sans";}
-.cup div:nth-child(1){ width:12%; margin:18px 0 0 0}
-.cup div:nth-child(2){ width:12%; line-height:18px; margin:18px 0 0 0}
-.cup div:nth-child(3){ width:24%; line-height:55px;}
-.cup div:nth-child(4){ width:27%; line-height:55px;}
-.cup div:nth-child(5){ width:23%; line-height:55px;}
-
+.cup div:nth-child(1){ width:10%; margin:18px 0 0 0}
+.cup div:nth-child(2){ width:10%; line-height:18px; margin:18px 0 0 0}
+.cup div:nth-child(3){ width:23%; line-height:55px;}
+.cup div:nth-child(4){ width:26%; line-height:55px;}
+.cup div:nth-child(5){ width:31%; line-height:55px;}
 
 
 /*======================MICROINTERACTION=========================*/
@@ -1475,7 +1475,7 @@ nav{ width:80%; height:80px;}
 #titcar{ width:95%; text-align:right}
 
 .finaliza input[type="submit"]{ width:100%!important; margin:0!important}
-.finaliza input[type="text"]{ width:73%!important}
+.finaliza input[type="text"]{ width:100%!important;  -webkit-appearance: none; margin:5px 0 !important}
 
 .filmes{min-height: 330px;}
 
@@ -1498,7 +1498,6 @@ nav{ width:80%; height:80px;}
 .eventos{ width:50%}
 .rts{ font-size:15px;}
 .rts span{margin-left: 33%;}
-.finaliza input[type="text"]{ width:66%!important}
 
 .bannerevent .gif{ width:50%; padding:2px; margin:-5px 0 0 0}
 ul.rodape li a{ padding:0 10px;}
@@ -1524,13 +1523,17 @@ ul.rodape li a{ padding:0 10px;}
 .mall div p{ top:0; font-size: 30px;   line-height: 30px;}	
 .banner span:nth-child(2){ padding:10px; font-size:35px; line-height: 40px;}	
 .bannerint{ overflow:hidden;}
-.bannerint img{ width:140%}
+.bannerint img{ width:140%; display:none}
 .bannerint section{ top:20%; font-size:40px;}
-
+#on{ display:none}
+nav{ width:100%; height:70px;}
+.bt{padding: 15px 20px;}
+.log{ float: left;    margin-left:12%;  }
+label{ padding:0; height:40px;}
 .filtro{ padding:10px}
-.online div:nth-child(1){ width:100%;}
+.online div:nth-child(1){ width:100%; padding:0 15px;}
 .online div:nth-child(2){ width:100%;}
-.online div:nth-child(3){ width:100%;}
+.online div:nth-child(3){ width:100%; padding: 0 10px;}
 .online div:nth-child(4){ width:100%;}
 .online input[type="text"]{ width:40%}
 select{ margin:0; width:100%}
@@ -1554,6 +1557,7 @@ ul.rodape li a{ padding:15px 10px; float:left; width:50%;}
 .det{ width:200%}
 .order, .token{ width:100%; margin:5px 0}
 .carrinho{width:470px; }
+#erro{ width:100%;}
 
 }
 
@@ -1578,7 +1582,7 @@ ul.rodape li a{ padding:15px 10px; float:left; width:50%;}
 .config button {    margin-left: 5%;    width: 90%;}
 .bl{ margin:10px 40px}
 
-.carrinho{width:370px; }
+.carrinho{width:350px; }
 
 }
 @media only screen and  (max-width: 320px) {

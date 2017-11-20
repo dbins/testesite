@@ -119,7 +119,7 @@ couponsAPI.prototype.listGQL = function(){
 	
 	
     const q_images= `image{path, type, order}`;
-	var query = `query={coupons ${q_filtro_mall}{ _id slug title short_description detailed_descrition start_at stop_at approved_status active promotion price_start price_end price ${q_store} ${q_mall}  ${q_images} }}`;
+	var query = `query={coupons ${q_filtro_mall}{ _id slug title short_description detailed_descrition start_at stop_at approved_status active promotion price_start price_end price url ${q_store} ${q_mall}  ${q_images} }}`;
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -145,7 +145,7 @@ couponsAPI.prototype.listGQLStore = function(loja){
 	const q_mall  = `mall{_id, slug, domain, name}`;
     var q_filtro_store = '(store:"' + loja + '")';
     const q_images= `image{path, type, order}`;
-	var query = `query={coupons ${q_filtro_store}{ _id slug title short_description detailed_descrition start_at stop_at approved_status active promotion price_start price_end price ${q_store} ${q_mall}  ${q_images} }}`;
+	var query = `query={coupons ${q_filtro_store}{ _id slug title short_description detailed_descrition start_at stop_at approved_status active promotion price_start price_end price url ${q_store} ${q_mall}  ${q_images} }}`;
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -168,7 +168,7 @@ couponsAPI.prototype.listGQLStore = function(loja){
 
 couponsAPI.prototype.viewGQL = function(registro){
 	
-	var query = 'query={coupon(id:"' + registro  + '"){ _id slug title short_description detailed_descrition start_at stop_at approved_status active promotion price_start price_end price store{slug, real_name, fantasy_name, floor, title, category{slug,name}} mall{_id, slug, domain, name} image{path, type, order}}}';
+	var query = 'query={coupon(id:"' + registro  + '"){ _id slug title short_description detailed_descrition start_at stop_at approved_status active promotion price_start price_end price url store{slug, real_name, fantasy_name, floor, title, category{slug,name}} mall{_id, slug, domain, name} image{path, type, order}}}';
 	var resposta = "";
 	var opcoes = {  
 	    method: 'GET',
@@ -235,7 +235,7 @@ couponsAPI.prototype.montarGQL = function(resultados){
 		
 		var desconto = classe_atual.cupomDesconto(obj);
 		var favorito = "NAO";
-		var item = {"id": obj._id,"url_title": obj.slug, "promocao":obj.promotion, "desconto":desconto, "imagem":imagem, "cupom":obj.title, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja,  "categoria": categoria, "favorito": favorito};
+		var item = {"id": obj._id,"url_title": obj.slug, "promocao":obj.promotion, "desconto":desconto, "imagem":imagem, "cupom":obj.title, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "descricao": obj.detailed_descrition, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja,  "categoria": categoria, "favorito": favorito, "url": obj.url};
 		retorno.push(item);
 		
 	});
@@ -284,7 +284,7 @@ couponsAPI.prototype.montarCupomGQL = function(obj){
 	}
 	var desconto = this.cupomDesconto(obj);
 	var favorito = "NAO";
-	var item = {"id": obj._id,"url_title": obj.slug, "promocao":obj.promotion, "desconto":desconto, "imagem":imagem, "cupom":obj.title, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja, "descricao": obj.detailed_descrition, "categoria": categoria, "favorito": favorito};
+	var item = {"id": obj._id,"url_title": obj.slug, "promocao":obj.promotion, "desconto":desconto, "imagem":imagem, "cupom":obj.title, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja, "descricao": obj.detailed_descrition, "categoria": categoria, "favorito": favorito, "url": obj.url};
 	return item;
 }
 
@@ -372,7 +372,31 @@ couponsAPI.prototype.listaLojas = function(resultados){
 	return retorno;
 }
 
-
+couponsAPI.prototype.listGQLShopping = function(shopping){
+	const q_store = `store{slug, real_name, fantasy_name, floor, title,  category{slug name}}`;
+	const q_mall  = `mall{_id, slug, domain, name}`;
+    var q_filtro_store = '(mall:"' + shopping + '")';
+    const q_images= `image{path, type, order}`;
+	var query = `query={coupons ${q_filtro_store}{ _id slug title short_description detailed_descrition start_at stop_at approved_status active promotion price_start price_end price url ${q_store} ${q_mall}  ${q_images} }}`;
+	var resposta = "";
+	var opcoes = {  
+	    method: 'GET',
+		uri: this.url + "/graphql?" + query,
+		headers: {
+         'Content-Type': 'application/json'
+		}
+	}
+	
+	return rp(opcoes).then((data, res) => {
+		var tmp = JSON.parse(data);
+		var resultados = tmp.data.coupons;
+		resposta = {"resultado":"OK", "dados": resultados, "status": "OK"};	
+		return resposta;
+	}).catch((err) => {
+		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
+		return resposta;
+	});
+}
 
 module.exports = couponsAPI;
 
