@@ -932,4 +932,9 @@ module.exports = function (app){
 			console.log(err.stack);
 		});	
 	});	
+	
+	app.get("/pagamento/teste4", function(req,res){
+		var api_clearsale = new servicoClearSale();
+		api_clearsale.GetOrderStatus("010000000020");	
+	});	
 }

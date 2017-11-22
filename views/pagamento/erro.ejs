@@ -1,23 +1,14 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0,  user-scalable=0">
-<meta http-equiv="X-UA-Compatible" content="IE=5; IE=8; IE=7; IE=9; IE=10; IE=11" >
-<title>ON STORES | Carrinho | Erro carrinho</title>
-<link href="/css/estilo.css" rel="stylesheet" type="text/css" />
-</head>
+<% layout("../layout/index") -%>
+<% block("title", "ON STORES |  Minhas Sacola | Pagamento não realizado"); -%>
+
 
 <body id="login">
 
 <div class="full">      
 
-    <header>
+    <div>
 
-
-    <!---mosrar o passo a passo quando estiver comprando--->
-
-    	<nav class="rota"  class="rts ativo">
+    	<nav class="rota"  class="rts">
         	<a href="" class="rts">
             	<span>1</span><br>
                 Minha Sacola
@@ -33,22 +24,18 @@
                 Pagamento
             </a>
 
-            <a href="" class="rts">
+            <a href="" class="rts" ativo>
             	<span>4</span><br>
-                Confirmação
+                Cancelado
             </a>            
 
         </nav>
 
         
 
-    </header>
+    </div>
 
-    
-
-	<div class="clear"></div>
-
-
+ 	<div class="clear"></div>
 
   <div class="confirmacao">
 
@@ -63,14 +50,5 @@
 
   </div><!--sou cliente-->
 
-    
-
-    
-
-    
 
 </div><!--full-->
-
-</body>
-
-</html>

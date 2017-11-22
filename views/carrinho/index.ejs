@@ -1,19 +1,7 @@
-<!doctype html>
-<html lang="pt-BR">
-<head>
+<% layout("../layout/index") -%>
+<% block("title", "ON STORES | Minha Sacola"); -%>
 
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0,  user-scalable=0">
-<meta http-equiv="X-UA-Compatible" content="IE=5; IE=8; IE=7; IE=9; IE=10; IE=11" >
-<title>ON STORES | Carrinho </title>
-<meta name="description" content="ON STORES - O Market Place da CCP para você!"/>
-<meta name="keywords" content="" />
-<link rel="shortcut icon" href="favicon.ico">
-<link rel=canonical href="http://www.onstores.com.br/"/>
-<script src="/js/jquery.min.js"></script>	
-
-<link href="/css/estilo.css" rel="stylesheet" type="text/css" />
-	<script type="text/javascript">
+<script type="text/javascript">
 		function confirmarClique() {
 			if(confirm("Você deseja excluir este produto?")) {
 				return true;
@@ -26,19 +14,14 @@
 <style type="text/css">
 .adicionar_carrinho {	background-color: #9966CC; padding:2px 2px;   margin-top:5%; float:right; color:#fff; border:none; 	font-size: 18px; width:220px;  height:60px;	font-style: italic; 	font-weight: bold; 	font-family: Lora;}
 </style>
-</head>
-
 
 
 <body id="carrinho">
 
-
-
 	<div class="full">
 
-    	
-
-        <header> 
+  
+        <div> 
 		<%	if (total_carrinho > 0){ %>
 		<div id="titcar">Minha sacola <img src="/imagens/bag.png" width="60" height="35"></div>
 		<%	}	%>
@@ -70,7 +53,7 @@
 			<%	}	%>
                 
 
-    	</header>
+    	</div>
 
 
 <form action="/carrinho" method="POST" autocomplete="off">
@@ -257,7 +240,3 @@ csdm('mode', 'manual');
 csdm('send', 'cart');
 </script>
 
-
-</body>
-
-</html>

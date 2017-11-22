@@ -1,8 +1,3 @@
-<link rel="stylesheet" type="text/css" href="/source/jquery.fancybox.css" media="screen" />
-<style type="text/css">
-.fancybox-overlay {    z-index: 1000 !important;}
-</style>
-
 	<header>
 
     	<div class="full">
@@ -38,13 +33,11 @@
                         <ul class="submenu">
 							<% 
 							if (shoppings.length>0){
-							
 							shoppings.sort(function(a, b) {
 								var x = a["title"]; 
 								var y = b["title"];
 								return ((x < y) ? -1 : ((x > y) ? 1 : 0));
 							});
-							
 							shoppings.forEach(function(resultado) { %>
                             <li><a href="/home/<%=resultado.url_title%>"><%=resultado.title%></a></li>
 							<% 
@@ -204,12 +197,12 @@
 				   <a href="" class="lupa" id="lupa"><img src="/imagens/lupa.png" width="25" height="25" title="Busca"></a>
 				                  
 				   <!--Mostrar logado-->
-				   <a class="bt fancybox fancybox.iframe" id="btn_carrinho" href="/carrinho"><img src="/imagens/bag.png" width="20" height="20" title="Sacola"> <%=total_carrinho%></a>
+				   <a class="bt" href="/carrinho"><img src="/imagens/bag.png" width="20" height="20" title="Sacola"> <%=total_carrinho%></a>
 				<%
 				if(usuario == '') {
 				%> 
-                  <!----mostrar deslogado----->
-                  <a class="bt fancybox fancybox.iframe" id="btn_login" href="/login">MINHA CONTA </a>
+                  <!----mostrar deslogado----->           
+				   <a href="/login" class="bt">MINHA CONTA </a>
 				<%
 				}
 				%>
@@ -279,5 +272,4 @@
            <div class="clear"></div>
 
           </div><!--full-->	
-	
  </header>
