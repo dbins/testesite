@@ -104,10 +104,9 @@ module.exports = function (app){
 				console.log(total_paginas);
 				
 				var teste = api_produtos.retornarPaginaGQL(lista_produtos, pagina_atual, tamanho_pagina, total_paginas);
-				console.log(teste);
-				res.render("home/teste", {banners:[], shopping:'', produtos:teste, eventos: [], imagens_shopping: imagens_shopping});
+				res.render("home/teste", {banners:[], shopping:'', produtos:teste, eventos: [], imagens_shopping: imagens_shopping, total_paginas: total_paginas});
 		}).catch(function (erro){
-			res.render("home/teste", {banners:[], shopping:'', produtos: [], eventos: [], imagens_shopping: imagens_shopping});
+			res.render("home/teste", {banners:[], shopping:'', produtos: [], eventos: [], imagens_shopping: imagens_shopping, total_paginas: 0});
 		});		
 	});
 	

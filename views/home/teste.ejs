@@ -261,7 +261,7 @@ $(document).ready(function() {
 
 	$("#botao_teste").click(function(event) {
 		event.preventDefault();
-		retornar_pagina()
+		retornar_pagina();
 	});
 			
 	function retornar_pagina(){
@@ -312,6 +312,10 @@ $(document).ready(function() {
                 retorno += '   </a>';
 				
 			});
+			
+			if (parseInt(pagina) > parseInt(<%=total_paginas%>)){
+				$("#botao_teste").hide();
+			}
 			
 			if (retorno == ""){
 				//Nao faz nada
