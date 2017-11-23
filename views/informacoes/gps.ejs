@@ -5,15 +5,7 @@
          
        	  	<img src="/imagens/sho-gps.jpg" class="img">
             
-            <h2>História do Grand Plaza Shopping </h2>
-             <p>O Grand Plaza Shopping é o principal centro de compras do Grande ABC e figura entre os maiores do país em ABL (Área Bruta Locável), 
-			 com 72 mil metros quadrados. Inaugurado em 23 de setembro de 1997, em Santo André, reúne parte das marcas mais sólidas do varejo nacional, com 340 Operações, 
-			 Boulevard Gastronômico, Estacionamento com vagas cobertas, Hipermercado, Home Center e Academia.</p>
-         
-		 </section><!--history-->
-        
-        <div class="funcionamento">
-        	<h3>Horários de Funcionamento</h3>
+			<h3>Horários de Funcionamento</h3>
            
            <!--esta tabela é fixa e nao se repete--->
             <table class="fnc">
@@ -30,6 +22,33 @@
                 <td>14:00 - 20:00 hrs</td>
               </tr>
             </table>
+            
+         
+		 </section><!--history-->
+        
+        <div class="funcionamento">
+        
+			<h2>História do Grand Plaza Shopping </h2>
+             <p>O Grand Plaza Shopping é o principal centro de compras do Grande ABC e figura entre os maiores do país em ABL (Área Bruta Locável), 
+			 com 72 mil metros quadrados. Inaugurado em 23 de setembro de 1997, em Santo André, reúne parte das marcas mais sólidas do varejo nacional, com 340 Operações, 
+			 Boulevard Gastronômico, Estacionamento com vagas cobertas, Hipermercado, Home Center e Academia.</p>
+			 <h2>Sobre a CCP Shoppings</h2>
+
+			<p>A CCP (Cyrela Commercial Properties S.A) é uma das principais empresas de desenvolvimento, aquisição, locação, venda e administração de imóveis comerciais do Brasil. Atualmente, tem em seu portfólio de shoppings oito empreendimentos no país, localizados nos estados de São Paulo, Rio de Janeiro, Minas Gerais, Goiás e Pará. Somados, abrigam mais de 1,5 mil varejistas em ABL (Área Bruta Locável) total superior a 289 mil m², dados que colocam a CCP entre as maiores administradoras de shoppings do Brasil. Desenvolvidos dentro dos mais avançados padrões construtivos, esses empreendimentos se destacam pela arquitetura moderna e funcional, localização privilegiada, potencial de retorno e permanentes práticas de sustentabilidade relacionadas à segurança, saúde e meio ambiente.
+			Portfólio CCP</p>
+
+			<p>Além do Grand Plaza Shopping, conheça os Shopping Centers administrados pela CCP.</p>
+
+			<p>
+			Em operação:<br>
+			Shopping Center D - SP<br>
+			Tietê Plaza Shopping - SP<br>
+			Shopping Cidade de São Paulo - SP<br>
+			Shopping Metropolitano Barra - RJ<br>
+			Parque Shopping Belém - PA<br>
+			Shopping Estação BH - MG<br>
+			Shopping Cerrado - GO
+			</p>	
 
         </div><!--funcionamento-->
         
@@ -51,44 +70,47 @@
 		
 		 <div class="clear"></div>
         
-        <div class="contato">   
-       	<h2>Fale Conosco</h2> 
-       <p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
-			que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>onstores@grandplazashopping.com.br</strong></p>   
-		<form method="POST" action=""  onSubmit="return checkform_informacoes(this);">
-          <div class="ctc">
-                <div class="campos100">
-                    <input name="nome" type="text" value="" placeholder=" Nome ">
-                </div>
-                
-                <div class="campos100">
-                    <input name="email" type="text" value="" placeholder=" E-mail ">
-                </div>
-                
-                <div class="campos100">
-                    <input name="telefone" type="text" value="" placeholder=" Telefone ">
-                </div>
-                
-                <div class="campos100">
-                    <input name="tipo" type="text" value="" placeholder=" Tipo de Atendimento ">
-                </div>
-            
-          </div><!--ctc-->
-          
-          <div class="ctc">
-                <div class="campos100">
-                   <textarea name="mensagem" rows="4" cols="50" placeholder=" Mensagem "></textarea>
-                </div>
-              
-               <input type="submit" value=" Enviar ">
-			   <input type="hidden" name="_csrf" value="<%= csrfToken %>">	
-          
-          </div><!--ctc-->
-   
-   		<div class="linkcont">
-        	<a href="http://vagas.intranetmall.com.br/grandplazashopping/" target="_blank">Trabalhe Conosco</a>
-            <a href="https://im.intranetmall.com.br/grandplazashopping/" target="_blank">Portal do Lojista</a>
-        </div>
+<!--      
+	  <div class="contato">   
+			<h2>Fale Conosco</h2> 
+			   <p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
+					que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>onstores@grandplazashopping.com.br</strong></p>   
+				<form method="POST" action=""  onSubmit="return checkform_informacoes(this);">
+				  <div class="ctc">
+						<div class="campos100">
+							<input name="nome" type="text" value="" placeholder=" Nome ">
+						</div>
+						
+						<div class="campos100">
+							<input name="email" type="text" value="" placeholder=" E-mail ">
+						</div>
+						
+						<div class="campos100">
+							<input name="telefone" type="text" value="" placeholder=" Telefone ">
+						</div>
+						
+						<div class="campos100">
+							<input name="tipo" type="text" value="" placeholder=" Tipo de Atendimento ">
+						</div>
+					
+				  </div>
+				  
+				  <div class="ctc">
+						<div class="campos100">
+						   <textarea name="mensagem" rows="4" cols="50" placeholder=" Mensagem "></textarea>
+						</div>
+					  
+					   <input type="submit" value=" Enviar ">
+					   <input type="hidden" name="_csrf" value="<%= csrfToken %>">	
+				  
+				  </div>
+		   
+				<div class="linkcont">
+					<a href="http://vagas.intranetmall.com.br/grandplazashopping/" target="_blank">Trabalhe Conosco</a>
+					<a href="https://im.intranetmall.com.br/grandplazashopping/" target="_blank">Portal do Lojista</a>
+				</div>		
+		</div>
+		-->
 		
 		</form>
         

@@ -16,14 +16,14 @@
     <form method="POST" action=""  onSubmit="return checkform_contato(this);">	
    <div class="contato">   
        	<h2>Fale Conosco</h2> 
-		        <%	
-		if (shopping == ''){ 
-		%>
-       	<p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
-		que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>onstores@ccpsa.com.br</strong></p>
-		<%
-		} else{
-		%>
+		    <%	
+			if (shopping == ''){ 
+			%>
+			<p>Precisa tirar alguma dúvida específica ou possui alguma sugestão? Envie sua mensagem para a central de relacionamento do ON.STORES 
+			que nossa equipe entrará em contato rapidamente com você. Ou se quiser entre em contato <strong>onstores@ccpsa.com.br</strong></p>
+			<%
+			} else{
+			%>
 			<%
 			if (shopping == "grand_plaza_shopping"){ 
 			%>
@@ -94,6 +94,50 @@
           <input type="submit" value=" Enviar ">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           </div><!--ctc-->
+   
+	   		<div class="linkcont">
+        	
+
+			<%
+			if (shopping == "grand_plaza_shopping"){ 
+			%>
+				<a href="http://vagas.intranetmall.com.br/grandplazashopping/" target="_blank">Trabalhe Conosco</a>
+			<%
+			}		
+			if (shopping == "tiete_plaza_shopping"){ 
+			%>
+				<a href="http://vagas.intranetmall.com.br/tieteplazashopping/" target="_blank">Trabalhe Conosco</a>
+			<%
+			}
+			if (shopping == "shopping_cerrado"){ 
+			%>
+				<a href="http://vagas.intranetmall.com.br/shoppingcerrado/" target="_blank">Trabalhe Conosco</a>
+			<%
+			}
+			if (shopping == "shopping_metropolitano_barra"){ 
+			%>
+				<a href="http://vagas.intranetmall.com.br/shoppingcerrado/" target="_blank">Trabalhe Conosco</a>
+			<%
+			}
+			if (shopping ==  "shopping_cidade_sao_paulo"){ 
+			%>
+				<a href="http://vagas.intranetmall.com.br/shoppingcidadesp/" target="_blank">Trabalhe Conosco</a>
+			<%
+			}
+			if (shopping == "shopping_d"){ 
+			%>
+				<a href="http://vagas.intranetmall.com.br/tieteplazashopping/" target="_blank">Trabalhe Conosco</a>
+			<%
+			}
+			%>
+
+			
+			
+			
+			
+			
+            <!--a href="http://www.intranetmall.com.br/shoppingcerrado/" target="_blank">Portal do Lojista</a>-->
+        </div>
    
    <div class="clear"></div>
    </div><!--contato--> 

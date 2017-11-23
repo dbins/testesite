@@ -8,6 +8,7 @@ var couponsAPI = function (shopping_selecionado) {
 	this.total_registros = 0;
 	this.posicao = 0;
 	//this.config();
+	this.favoritos = [];
 	this.metodo = "coupons";
 	this.api_nome_do_shopping = '';
 	if (shopping_selecionado !== undefined){
@@ -244,7 +245,7 @@ couponsAPI.prototype.montarGQL = function(resultados){
 		}
 		
 		var desconto = classe_atual.cupomDesconto(obj);
-		var favorito = "NAO";
+		var favorito = classe_atual.cupomFavorito(obj.slug);
 		var item = {"id": obj._id,"url_title": obj.slug, "promocao":obj.promotion, "desconto":desconto, "imagem":imagem, "cupom":obj.title, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "descricao": obj.detailed_descrition, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja,  "categoria": categoria, "favorito": favorito, "url": url};
 		retorno.push(item);
 		
@@ -299,7 +300,7 @@ couponsAPI.prototype.montarCupomGQL = function(obj){
 	}
 	
 	var desconto = this.cupomDesconto(obj);
-	var favorito = "NAO";
+	var favorito = this.cupomFavorito(obj.slug);
 	var item = {"id": obj._id,"url_title": obj.slug, "promocao":obj.promotion, "desconto":desconto, "imagem":imagem, "cupom":obj.title, "de":preco_inicial, "por": preco_final, "shopping":nome_do_Shopping, "mall": slug_Shopping, "loja": nome_da_Loja, "store": slug_Loja, "descricao": obj.detailed_descrition, "categoria": categoria, "favorito": favorito, "url": url};
 	return item;
 }
@@ -413,6 +414,22 @@ couponsAPI.prototype.listGQLShopping = function(shopping){
 		resposta = {"resultado":"ERRO DE COMUNICACAO 1", "dados":{}};	
 		return resposta;
 	});
+}
+
+couponsAPI.prototype.guardarFavoritos = function(favoritos){
+	this.favoritos = favoritos;
+}
+
+couponsAPI.prototype.cupomFavorito = function(produto){
+	var retorno = "NAO";
+	if (this.favoritos){
+		for (index = 0; index < this.favoritos.length; ++index) {
+			if (this.favoritos[index].url_title == produto){
+				retorno = "SIM";	
+			}	
+		}
+	}
+	return retorno;
 }
 
 module.exports = couponsAPI;

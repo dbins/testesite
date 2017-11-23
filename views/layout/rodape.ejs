@@ -1,13 +1,13 @@
 <footer>
 <div class="full">
-	<!--
+	<%	if (shopping != ''){   %>
 	<p class="icons">
       <a href="" target="_blank" title="Facebook"><img src="/imagens/facebook.png" class="img" title="Facebook"></a>
       <a href="" target="_blank" title="Instagram"><img src="/imagens/instagram.png" class="img" title="Instagram"></a>
       <a href="" target="_blank" title="You Tube"><img src="/imagens/youtube.png" class="img" title="You Tube"></a>      
     </p>
-	-->
-    <p><a href="" target="_blank"><img src="/imagens/CCP.png" width="91" height="25"></a></p>
+	<%  } %>
+    <!--<p><a href="" target="_blank"><img src="/imagens/CCP.png" width="91" height="25"></a></p>-->
     <div class="newsletter">
     	<h6>Inscreva-se para saber das novidades</h6>
          <form method="POST" action="/newsletter"  onSubmit="return checkform_cadastro_newsletter(this);"  autocomplete="off">
@@ -28,10 +28,12 @@
 					<li><a href="http://adlibdigital.zendesk.com/hc/pt-br" target="_blank">Perguntas frequentes</a> </li>
 					<li><a href="/contato">Contato</a></li>
 				<%	} 	else {	%>
-					<li><a href="/informacoes">Informações  </a></li>
+					<li><a href="/informacoes">O Shopping </a></li>
+					<li><a href="" title="Em Breve">Imprensa </a></li>
 					<li><a href="/termos">Termos e condições  </a></li>
 					<li><a href="http://adlibdigital.zendesk.com/hc/pt-br" target="_blank">Perguntas frequentes</a> </li>
 					<li><a href="/contato">Contato</a></li>
+					<li><a href="" title="Em Breve">Porta do Lojista </a></li>
 				<%  } %>
           </ul>
           
@@ -101,7 +103,6 @@ function favoritar_produto(produto, event){
 		   });
 		}	
 		
-
 
 $(document).ready(function() {
 	

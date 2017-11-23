@@ -1,33 +1,55 @@
 	<header>
 
     	<div class="full">
-			<div id="ccp"><a href="http://www.ccpsa.com.br/pb/" target="_blank"><img src="/imagens/CCP.png" class="img" title="CCP - Cirella"></a></div>
-        	<div id="on"><a href="/"><img src="/imagens/onstores-white.png" class="img" title="ON Stores"></a></div>
+			<div id="ccp">
+			<a href="http://www.ccpsa.com.br/pb/" target="_blank"><img src="/imagens/CCP.png" class="img"></a>
+				<%	if (shopping != ''){  %>
+					<ul class="shop"> 	
+						<li><a href="">SHOPPINGS <span class="seta-baixo-branca"></span></a>
+							<ul class="submenu">						
+								<li><a href="/home/grand_plaza_shopping">Grand Plaza Shopping</a></li>							
+								<li><a href="/home/shopping_cerrado">Shopping Cerrado</a></li>							
+								<li><a href="/home/shopping_cidade_sao_paulo">Shopping Cidade São Paulo</a></li>							
+								<li><a href="/home/shopping_d">Shopping D</a></li>							
+								<li><a href="/home/shopping_metropolitano_barra">Shopping Metropolitano Barra</a></li>							
+								<li><a href="/home/tiete_plaza_shopping">Tiete Plaza Shopping</a></li>	
+							</ul>
+						</li>
+					</ul>
+					<%	} else {	%>
+							
+							
+					<%  } %>
+						
+                   			
+			</div>
+        	
+			<%	if (shopping == ''){ %>
+			<div id="on"><a href="/"><img src="/imagens/onstores-white.png" class="img" title="ON Stores"></a></div>
+			<%	} else {	%>
+			
+			
+			<div id="on"><img src="/imagens/onstores-alone.png" class="img" title="ON Stores"></div>
+			
+			
 
+			<%  } %>
             
 
 			<nav id="menu">
 
-					<%	
-					if (shopping == ''){ 
-					%>
+					<%	if (shopping == ''){ %>
 						<ul class="dropdown"> 					
 					<%	} else {	%>					
 						<ul class="dropshp"> 
 					<%  } %>
 				   
-				    <%
-					if (shopping != ''){
-				    %>				  
+				    <%	if (shopping != ''){   %>				  
 				   <!------- Mostrar no shopping---->
-                   <li id="shp"><a href=""><img src="/imagens/<%=shopping%>.png" width="90" height="69" title="<%=nome_shopping(shopping)%>"></a></li>
-				   <%
-				   }
-				   %>
+                   <li id="shp"><a href=""><img src="/imagens/<%=shopping%>.png" class="img" title="<%=nome_shopping(shopping)%>"></a></li>
+				   <%   }   %>
 
-				   <%
-				   if (shopping == ''){
-				   %>
+				   <%   if (shopping == ''){   %>
 				   <!------- Mostrar na visão geral---->
                    <li><a>SHOPPINGS <span class="seta-baixo"></span></a>
                         <ul class="submenu">

@@ -6,6 +6,9 @@ var api = new webservice();
 module.exports = function (app){
 	app.get("/cupons", function(req,res){
 		var api = new webservice(req.session.shopping);
+		if (req.session.favoritos_cupons){
+			api.guardarFavoritos(req.session.favoritos_cupons);
+		}
 		var consulta = api.listGQL().then(function (resultados) {
 			var api_categorias = new webservice_categorias();
 			var categorias = api_categorias.All().then(function (resultados2) {
@@ -41,4 +44,53 @@ module.exports = function (app){
 		
 		
 	});
+	
+	app.post("/cupons/favoritar", function(req,res){
+		var nomedoproduto = req.body.produto;
+		
+		var adicionar = true;
+		if (req.session.favoritos_cupons){
+			for (index = 0; index < req.session.favoritos_cupons.length; ++index) {
+				if (req.session.favoritos_cupons[index].id == nomedoproduto){
+					adicionar = false;	
+				}	
+			}
+		}
+		var retorno = 0;
+		if (adicionar){
+			if(!req.session.favoritos_cupons){
+				req.session.favoritos_cupons = [];
+			}
+			var consulta = api.viewGQL(nomedoproduto).then(function (resultados) {	
+				
+				var tmp_dados = resultados.dados;
+				var tmp = api.montarCupomGQL(tmp_dados);
+				var tmp2 = req.session.favoritos_cupons;
+				tmp2.push(tmp);
+				req.session.favoritos_cupons = tmp2;
+				retorno = 1;
+				req.session.save(function (err) {
+					if (err) return next(err)
+				});			
+			}).catch(function (erro){
+				retorno = 2;
+			});
+		}
+		res.json({resultado:retorno});
+	});
+	
+	app.post("/cupons/desfavoritar", function(req,res){
+		var nomedoproduto = req.body.produto;
+		var retorno = 0;
+		if(req.session.favoritos_cupons){
+			for (index = 0; index < req.session.favoritos_cupons.length; ++index) {
+				if (req.session.favoritos_cupons[index].id == nomedoproduto){
+					req.session.favoritos_cupons.splice(index, 1);
+					retorno = 1;
+				}
+			}
+		}
+		res.json({resultado:retorno});
+	});
+	
 }

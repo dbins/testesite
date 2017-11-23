@@ -15,17 +15,19 @@
         	<label>Nome da Loja</label> 
             <input type="text" name="nomeloja" id="nomeloja" value="" placeholder="">            
         </div>
-        <div>
-        	<label>Tipo</label>
-            <select class="minimal">
-            	<option>Produtos</option>
-                <option>Produtos 1</option>
-                <option>Produtos 2</option>
-                <option>Produtos 3</option>
-            </select>
-        </div>  
+       <!-- 
+		   <div>
+				<label>Tipo</label>
+				<select class="minimal">
+					<option>Produtos</option>
+					<option>Produtos 1</option>
+					<option>Produtos 2</option>
+					<option>Produtos 3</option>
+				</select>
+			</div>
+		-->
          <div>
-        	<label>Categoria</label>
+        	<label>Segmento</label>
             <select class="minimal" name="categoria" id="categoria">
             	<option value="">Todas</option>
 				<% 
@@ -39,12 +41,14 @@
 				%>
             </select>
         </div>
-      <div>
+      <!--
+	  <div>
        	<button>Perto de você
         <img src="/imagens/location.png" width="25" height="34">
         </button>
 		<input type="hidden" name="_csrf" value="<%= csrfToken %>">	
       </div>
+	  -->
 
     </form>
    </div>     
@@ -81,6 +85,12 @@
 	
 	
 $(document).ready(function(){
+	 $("#nomeloja").keypress(function (e) {
+        var code = null;
+        code = (e.keyCode ? e.keyCode : e.which);                
+        return (code == 13) ? false : true;
+   });
+
 	$("#nomeloja").keyup(function(e){
 	  //var selectSize = $(this).val();
 	  //filter(selectSize);

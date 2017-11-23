@@ -33,7 +33,7 @@
      <!---infos cores, tamanho, shopping---->
     <div id="infocupon">
      <form action="">
-       	<div class="compartilha"><img src="/imagens/compartilha.png" width="30" height="30"></div> 
+       	<div class="compartilha"><a href=""><img src="/imagens/compartilha.png" width="30" height="30" title="Em Breve"></a></div> 
         <p><%=resultado.loja%></p>
         <p><%=resultado.shopping%></p>
         <br> <br>
@@ -104,8 +104,18 @@
 						<span> <%=produto.desconto%> %</span>
 						<%
 						}
+						if(usuario != '') {
+						if (produto.favorito == "NAO"){
+						%> 
+						<button type="button" title="Favoritar Cupom" id="" onclick="favoritar_cupom('<%=produto.url_title%>', event)" ></button>
+						<%
+						} else {
 						%>
-						<button value="" id=""></button>
+						<button type="button" title="Desfavoritar Cupom" id="" onclick="remover_cupom('<%=produto.url_title%>', event)"></button>
+						<%
+						}
+						}
+						%>
 					</div>
 					<img src="<%=produto.imagem%>" title="<%=produto.cupom%>" class="img">
 					<h2><%=produto.loja%></h2>
@@ -150,5 +160,45 @@
   </article> <!--conteudo-->
 
  </div><!--full-->
-
+<script type="text/javascript">
+	function favoritar_cupom(produto, event){
+		event.preventDefault();
+		$.ajax({
+		  type: 'POST',
+		  url: '/cupons/favoritar/',
+		  dataType : 'json',
+		  data: { 
+			'produto': produto, 
+			'_csrf': '<%= csrfToken %>'
+		  },
+		  success: function (response) {
+			alert('Cupom selecionado com sucesso!');
+			return false;
+		  },
+		  error: function () {
+			//
+		  }
+	   });
+	}
+		
+	function remover_cupom(produto, event){
+		event.preventDefault();
+		$.ajax({
+		  type: 'POST',
+		  url: '/cupons/desfavoritar/',
+		  dataType : 'json',
+		  data: { 
+			'produto': produto, 
+			'_csrf': '<%= csrfToken %>'
+		  },
+		  success: function (response) {
+			$("#lk" +  produto).remove();
+			alert('Cupom removido com sucesso!');
+		  },
+		  error: function () {
+			//
+		  }
+	   });
+	}	
+</script>
 

@@ -86,4 +86,41 @@ module.exports = function (app){
 	});
 	
 	
+	app.get("/home_teste", function(req,res){
+		var tamanho_pagina = 12;
+		var pagina_atual = 1;
+		var lista_produtos = [];
+		var api_produtos = new webservice_produtos('');
+		if (req.session.favoritos_produtos){
+			api_produtos.guardarFavoritos(req.session.favoritos_produtos);
+		}
+		
+		var consulta = api_produtos.listGQL().then(function (resultados) {
+			var lista_produtos = api_produtos.montarGQL(resultados);
+				req.session.lista_produtos =  lista_produtos;
+				console.log(lista_produtos.length);
+				var total_registros = lista_produtos.length;
+				var total_paginas = Math.ceil(parseInt(total_registros) / parseInt(tamanho_pagina));
+				console.log(total_paginas);
+				
+				var teste = api_produtos.retornarPaginaGQL(lista_produtos, pagina_atual, tamanho_pagina, total_paginas);
+				console.log(teste);
+				res.render("home/teste", {banners:[], shopping:'', produtos:teste, eventos: [], imagens_shopping: imagens_shopping});
+		}).catch(function (erro){
+			res.render("home/teste", {banners:[], shopping:'', produtos: [], eventos: [], imagens_shopping: imagens_shopping});
+		});		
+	});
+	
+	app.post("/home_pagina", function(req,res){
+		var tamanho_pagina = 12;
+		var pagina_atual = req.body.pagina;;
+		var lista_produtos = req.session.lista_produtos;
+		var api_produtos = new webservice_produtos('');
+		var total_registros = lista_produtos.length;
+		var total_paginas = Math.ceil(parseInt(total_registros) / parseInt(tamanho_pagina));
+		var teste = api_produtos.retornarPaginaGQL(lista_produtos, pagina_atual, tamanho_pagina, total_paginas);
+		res.json(teste);
+	});
+	
+	
 }

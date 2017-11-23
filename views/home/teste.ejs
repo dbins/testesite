@@ -1,5 +1,5 @@
 <% layout("../layout/index") -%>
-<% block("title", "ON STORES | O Market Place da CCP para vocÃª!"); -%>
+<% block("title", "ON STORES | O Market Place da CCP para você!"); -%>
 
     <div class="full">
     
@@ -104,7 +104,7 @@
 	}); 
 	} else {
    %>	
-   <h3>NÃ£o existem produtos para exibiÃ§Ã£o</h3>
+   <h3>Não existem produtos para exibição</h3>
    
    <%
    }
@@ -112,6 +112,11 @@
    
    
    </div><!--produtos--> 
+   
+   <hr/>
+   <a id="botao_teste" class="botao">Ver mais....</a>
+   <hr/>
+   
  </div><!--full-->
 
 <!------------------Fim produtos---------------------->
@@ -248,6 +253,79 @@
          
     </div><!--full-->
 </article>
+<script type="text/javascript">
+
+var pagina = 2;
+
+$(document).ready(function() {
+
+	$("#botao_teste").click(function(event) {
+		event.preventDefault();
+		retornar_pagina()
+	});
+			
+	function retornar_pagina(){
+		$.ajax({
+		  type: 'POST',
+		  url: '/home_pagina',
+		  dataType : 'json',
+		  data: { 
+			'pagina': pagina, 
+			'_csrf': '<%= csrfToken %>'
+		  },
+		  
+		  success: function (response) {
+		    var retorno = "";
+			pagina++;
+			$.each(response, function( index, value ) {
+				var item = value;
+			    retorno += '<a href="/produtos/' + item.url_title + '" class="prods">';
+                retorno += '        <section>';
+				
+				<%
+				if(usuario != '') {
+				%>
+				
+                retorno += '            <div class="favs">';
+                retorno += '                <span>' + item.desconto + ' %</span>';
+                retorno += '                <button value="" id=""></button>';
+                retorno += '            </div>';
+				
+				<%
+				} 
+				%>
+				
+                retorno += '            <img src="' + item.imagem + ' " title="' +   item.produto + '" class="img">';
+                retorno += '            <h2>' + item.loja + '</h2>';
+                retorno += '            <h3>' + item.produto + '</h3>';
+                retorno += '            <div class="valor">';
+				
+				if (item.de == item.por) {
+					retorno += '                <span>R$ ' + item.por + '</span>';
+				} else {
+					retorno += '                <span>De R$ ' + item.de + '</span>';
+					retorno += '                <span>Por R$ ' + item.por + '</span>';
+				}
+				
+                retorno += '            </div>';
+                retorno += '       </section>';
+                retorno += '   </a>';
+				
+			});
+			
+			if (retorno == ""){
+				//Nao faz nada
+			}
+			$("#produtos").append(retorno);
+		  },
+		  error: function () {
+				//Nao faz nada....
+		  }
+	   });
+	}	
+	
+});	
+</script>
 <script> (function (a, b, c, d, e, f, g) { a['CsdmObject'] = e; a[e] = a[e] || function () { (a[e].q = a[e].q || []).push(arguments) }, a[e].l = 1 * new Date(); f = b.createElement(c), g = b.getElementsByTagName(c)[0]; f.async = 1; f.src = d; g.parentNode.insertBefore(f, g) })(window, document, 'script', '//device.clearsale.com.br/m/cs.js', 'csdm'); 
 csdm('app', '9d416234de'); 
 csdm('mode', 'manual');

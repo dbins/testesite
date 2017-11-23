@@ -168,6 +168,24 @@ ul.conta li:hover	{  color:#9d69aa; border-bottom:2px #9d69aa solid }
 .icon{ float:left; padding:9px; color:#fff; text-align:center; 	background-color: #9429FF; 	font-family: "Droid Sans"; 	font-size: 18px; width:40px; height:40px; border-radius:50%; margin:-10px 10px 0 -10px; }
 
 .fach{	background-color: #F1F1F1; float:left; border-bottom:1px #9429FF solid; padding:20px; width:100%; position:relative}
+/*====================menu shopping====================*/
+
+/* 	LEVEL ONE*/
+ul.shop { position: relative; margin:0; padding:0; 	color: #fff; font-family: 'Droid Sans', sans-serif; font-size:12px; float:right; z-index:10000 }
+ul.shop li { list-style:none; position:relative; display: inline; float:left;  }
+ul.shop li a { text-decoration:none; color:#fff;  padding:5px 22px; font-size:12px;   }
+ul.shop a:hover	{ color:#fff;  }
+
+/* 	LEVEL TWO*/
+ul.shop ul { visibility: hidden; position: absolute; top: 100%; left: -100%; display: block; width:250px; padding:1px 10px; background:#fff;  }
+ul.shop ul li { float:none;  padding:0;  }
+ul.shop ul li a { display:block;   text-align:left; padding:15px 10px;  border-bottom:1px #e0e0e0 solid; color:#444; font-size:12px;   } 
+ul.shop ul li a:hover {  color:#9d69aa; border-bottom:2px #9d69aa solid  }
+
+/* 	LEVEL THREE*/
+ul.shop ul ul { left: 80%; top: 0;  width:200px; z-index:1000  }
+ul.shop li:hover > ul { visibility: visible; }
+
 
 /**=============================*menu*===========================***/
 /* 	LEVEL ONE*/
@@ -222,6 +240,13 @@ ul.dropdown2 ul li a:hover {  color:#9d69aa; border-bottom:2px #9d69aa solid  }
 /* 	LEVEL THREE*/
 ul.dropdown2 ul ul { left: 80%; top: 0;  width:200px; z-index:1000  }
 ul.dropdown2 li:hover > ul { visibility: visible; }
+
+.seta-baixo-branca:before {  content: "";  display: inline-block;  vertical-align: middle;  margin-left: 5px;
+  width: 0;   height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 8px solid #fff;
+}
 
 .seta-baixo:before {  content: "";  display: inline-block;  vertical-align: middle;  margin-left: 5px;
   width: 0;   height: 0; 
@@ -392,12 +417,12 @@ margin:5px;  font-family: "Droid Sans";}
 /*===========================Lojas==========================*/
 .filtroloja{ float:left; padding:50px 100px; width:100%; font-weight:bold; font-style:italic;}
 .lojafilter div{ padding:5px; float:left}
-.lojafilter input[type="text"]{	border: 1px solid #242424; width:200px;  padding:15px; float:left; margin:5px;  font-family: "Droid Sans"; }
+.lojafilter input[type="text"]{	border: 1px solid #242424; width:75%;  padding:15px; float:left; margin:5px;  font-family: "Droid Sans"; }
 .lojafilter button{ background:none; border:none;  font-style: italic;  font-size:15px; font-family: 'Lora', serif;}
-.lojafilter select{ min-width:175px;}
-.lojafilter div:nth-child(1){ width:28%; line-height:55px;}
-.lojafilter div:nth-child(2){ width:23%; line-height:55px;}
-.lojafilter div:nth-child(3){ width:34%; line-height:55px;}
+.lojafilter select{ min-width:75%;}
+.lojafilter div:nth-child(1){ width:60%; line-height:55px;}
+.lojafilter div:nth-child(2){ width:40%; line-height:55px;}
+.lojafilter div:nth-child(3){ width:15%; line-height:55px;}
 .lojafilter div:nth-child(4){ width:15%; line-height:55px;}
 .lojafilter :nth-child(4) img{ float:right; margin:-7px 0 0 10px}
 
@@ -447,8 +472,8 @@ margin:5px;  font-family: "Droid Sans";}
 .btingresso{font-family: 'Lora', serif; font-weight:bold; font-style:italic; color:#a36bba;  padding:2px 10px;}
 .cinefilter select{ min-width:72%;}
 .cinefilter div:nth-child(1){ width:20%; line-height:55px;}
-.cinefilter div:nth-child(2){ width:30%; line-height:55px;}
-.cinefilter div:nth-child(3){ width:30%; line-height:55px;}
+.cinefilter div:nth-child(2){ width:45%; line-height:55px;}
+.cinefilter div:nth-child(3){ width:35%; line-height:55px;}
 .cinefilter div:nth-child(4){ width:20%; line-height:55px; text-align:center}
 .cinefilter :nth-child(4) img{ float:right; margin:-7px 0 0 10px}
 
@@ -525,7 +550,7 @@ margin:5px;  font-family: "Droid Sans";}
 .service div:nth-child(2){ width:350px; margin:18px 0 0 0; line-height:55px;}
 .aumenta{ width:250px;}
 
-.serv{float:left; width:300px;  margin:30px 0 0 80px; position:relative; 	font-size: 16px; 	color: #000000; text-align:left; height:390px;  }
+.serv{float:left; width:300px;  margin:30px 0 0 80px; position:relative; 	font-size: 14px; 	color: #000000; text-align:left; min-height:390px;  }
 .serv img{ width:100%}
 .serv h2{ font-size: 18px;	font-style: italic;	font-weight: bold;}
 .lineserv{	border-bottom: 1px solid #979797;  margin-left:0%; width:70%;  transition: 0.2s ease-in-out; -webkit-transition: 0.2s ease-in-out; }
@@ -883,7 +908,7 @@ appearance: none;
 
 /*========================INFORMAÇÕES===========================*/
 #informacoes{ float:left; width:100%; padding:10px 70px;  margin:30px 0 0 0}
-.history, .funcionamento{ float:left; width:50%; padding:10px;}
+.history, .funcionamento{ float:left; width:50%; padding:10px; font-size:16px;}
 .history h2, .funcionamento h3{ border-bottom: 1px #000 solid; padding:20px 0; font-size: 18px; 	font-style: italic; 	font-weight: bold;}
 .history p{font-family: "Droid Sans"; 	font-size: 16px; line-height:25px; text-align:justify}
 

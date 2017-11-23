@@ -768,5 +768,30 @@ produtosAPI.prototype.produtoDesconto = function(dados){
 	return retorno;
 }
 
+produtosAPI.prototype.retornarPaginaGQL = function(produtos, pagina, tamanho, total_paginas){
+	var posicao_inicial = 0;
+	var posicao_final = 0;
+	var contador = 0;
+	if (parseInt(total_paginas) >= parseInt(pagina)){
+		if (parseInt(pagina) ==1){
+			posicao_inicial = 0;	
+		} else {
+			posicao_inicial = (parseInt(tamanho) * (parseInt(pagina)-1))-1;
+		}
+	}
+	posicao_final = parseInt(posicao_inicial) + parseInt(tamanho-1);
+	
+	
+	var retorno = [];
+	produtos.forEach(function(obj) {
+		if (parseInt(contador) >= parseInt(posicao_inicial) && parseInt(contador) <= parseInt(posicao_final)){
+			retorno.push(obj);
+		}
+		contador++
+	});
+	return retorno;
+	
+}
+
 module.exports = produtosAPI;
 
